@@ -1,15 +1,20 @@
 ﻿using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
+using System.ComponentModel.DataAnnotations;
 
-namespace DataLayer.Models;
+namespace DataLayer.Models.MusicalInstruments;
 
 public class Guitar : Goods
 {
-    // probably GUID
+    #warning probably GUID
     public int GuitarId { get; set; }
-    // > 1
+
+#warning > 1
+    [Required]
     public int StringsNumber { get; set; }
-    // enable casting to string in db
+
+    #warning enable casting to string in db
+    [Required]
     public GuitarType GuitarType { get; set; }
 
 }

@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Models;
-public class Trombone : Goods
+namespace DataLayer.Models.Accessories;
+internal class Chair : Goods
 {
-    public int TromboneId { get; set; }
-    public bool SlidePresence { get; set; }
+
 }
