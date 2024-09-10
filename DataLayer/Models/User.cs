@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Models.Users;
+namespace DataLayer.Models;
 internal class User
 {
     public int UserId { get; set; }
