@@ -13,6 +13,7 @@ namespace DataLayer.NotMapped;
 public class Goods : ISoftDeletable
 {
     public bool SoftDeleted { get; set; }
-#warning > 0
+#warning workaround
+    [Range(0, 10_000_000)]
     public int Price { get; set; }
 }

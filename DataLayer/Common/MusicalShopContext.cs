@@ -1,6 +1,8 @@
 ﻿using DataLayer.Models;
 using DataLayer.Models.Accessories;
+using DataLayer.Models.AudioEquipment;
 using DataLayer.Models.MusicalInstruments;
+using DataLayer.Models.Souvenirs;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +23,17 @@ internal class MusicalShopContext : DbContext
     public virtual DbSet<Violin> Violins { get; set; }
     // accessories
     public virtual DbSet<MusicStand> MusicStands { get; set; }
-    public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
+    public virtual DbSet<Tuner> Tuners { get; set; }
     public virtual DbSet<Chair> Chairs { get; set; }
 
+    // audio equipment
+    public virtual DbSet<Headphones> Headphones { get; set; }
+    public virtual DbSet<Microphone> Microphones { get; set; }
+    // souvenirs
+    public virtual DbSet<TableBell> TableBells { get; set; }
+    public virtual DbSet<Keychain> Keychains { get; set; }
+
+    public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
     public virtual DbSet<User> Users { get; set; }
 
     public MusicalShopContext() : base()
@@ -33,6 +43,7 @@ internal class MusicalShopContext : DbContext
 
     public MusicalShopContext(DbContextOptions options) : base(options)
     {
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,7 +62,8 @@ internal class MusicalShopContext : DbContext
             var priceProperty = entity.GetProperty(nameof(Goods.Price));
             if (priceProperty != null)
             {
-                entity.SetAnnotation();
+#warning how to do it
+                //priceProperty.;
             }
         }
     }

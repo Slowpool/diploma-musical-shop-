@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Models.Accessories;
+namespace DataLayer.Models;
 internal class SheetMusicEdition : Goods
 {
     public int SheetMusicEditionId { get; set; }
