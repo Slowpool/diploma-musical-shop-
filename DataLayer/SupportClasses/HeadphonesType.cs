@@ -1,5 +1,5 @@
 ﻿namespace DataLayer.SupportClasses;
-internal enum HeadphonesType
+public enum HeadphonesType
 {
     /// <summary>
     /// Big headphones which cover whole the ears. (own idea)

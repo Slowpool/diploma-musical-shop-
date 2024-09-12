@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.NotMapped;
-internal class UserPrivileges
+public class UserPrivileges
 {
     public int UserPrivilegesId { get; set; }
     public string Name { get; set; }

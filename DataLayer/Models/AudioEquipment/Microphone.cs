@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.AudioEquipment;
-internal class Microphone : Goods
+public class Microphone : Goods
 {
     public int MicrophoneId { get; set; }
     [MaxLength(255)]

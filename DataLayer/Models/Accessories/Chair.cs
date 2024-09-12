@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.Accessories;
-internal class Chair : Goods
+public class Chair : Goods
 {
-
+    public int ChairId { get; set; }
 }

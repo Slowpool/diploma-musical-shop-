@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models;
-internal class User
+public class User
 {
     public int UserId { get; set; }
     public string Login { get; set; }

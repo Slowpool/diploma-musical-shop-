@@ -1,6 +1,6 @@
 ﻿
 namespace DataLayer.SupportClasses;
-internal enum TypeOfViolinStrings
+public enum TypeOfViolinStrings
 {
     Steel,
     Gut

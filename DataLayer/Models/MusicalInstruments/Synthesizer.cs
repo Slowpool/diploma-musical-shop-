@@ -3,7 +3,7 @@ using DataLayer.SupportClasses;
 using System.ComponentModel.DataAnnotations;
 
 namespace DataLayer.Models.MusicalInstruments;
-internal class Synthesizer : Goods
+public class Synthesizer : Goods
 {
     public int SynthesizerId { get; set; }
 

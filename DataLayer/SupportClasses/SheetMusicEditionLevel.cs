@@ -1,5 +1,5 @@
 ﻿namespace DataLayer.SupportClasses;
-internal enum SheetMusicEditionLevel
+public enum SheetMusicEditionLevel
 {
     Beginner,
     Average,

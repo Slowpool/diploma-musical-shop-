@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.Souvenirs;
-internal class TableBell : Goods
+public class TableBell : Goods
 {
     public int TableBellId { get; set; }
 }

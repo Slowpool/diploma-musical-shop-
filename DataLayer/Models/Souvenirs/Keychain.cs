@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.Souvenirs;
-internal class Keychain : Goods
+public class Keychain : Goods
 {
     public int KeychainId { get; set; }
 }

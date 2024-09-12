@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.NotMapped;
 
-[NotMapped]
+[NotMapped] // Apparently ef core ignores types which are inhereted by other types and doesn't model them even without this attribute. But I wrote it here just for clarity.
 public class Goods : ISoftDeletable
 {
     public bool SoftDeleted { get; set; }

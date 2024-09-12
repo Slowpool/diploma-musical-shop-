@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models;
-internal class SheetMusicEdition : Goods
+public class SheetMusicEdition : Goods
 {
     public int SheetMusicEditionId { get; set; }
     public SheetMusicEditionLevel SheetMusicEditionLevel { get; set; }

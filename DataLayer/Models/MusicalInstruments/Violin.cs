@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.MusicalInstruments;
-internal class Violin : MusicalInstrument
+public class Violin : MusicalInstrument
 {
     public int ViolinId { get; set; }
 

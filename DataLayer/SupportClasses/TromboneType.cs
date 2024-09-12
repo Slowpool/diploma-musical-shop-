@@ -1,5 +1,5 @@
 ﻿namespace DataLayer.SupportClasses;
-internal enum TromboneType
+public enum TromboneType
 {
     Tenor,
     Alto,
