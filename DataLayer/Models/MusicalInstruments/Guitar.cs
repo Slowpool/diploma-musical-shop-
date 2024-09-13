@@ -13,7 +13,6 @@ public class Guitar : Goods
     [Required]
     public int StringsNumber { get; set; }
 
-    #warning enable casting to string in db
     [Required]
     public GuitarType GuitarType { get; set; }
 

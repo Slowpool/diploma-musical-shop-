@@ -1,6 +1,7 @@
 ﻿using DataLayer.Models;
 using DataLayer.Models.Accessories;
 using DataLayer.Models.AudioEquipment;
+using DataLayer.Models.Miscellaneous;
 using DataLayer.Models.MusicalInstruments;
 using DataLayer.Models.Souvenirs;
 using DataLayer.NotMapped;
@@ -23,18 +24,22 @@ public class MusicalShopContext : DbContext
     public virtual DbSet<Trombone> Trombones { get; set; }
     public virtual DbSet<Synthesizer> Synthesizers { get; set; }
     public virtual DbSet<Violin> Violins { get; set; }
-
     // accessories
     public virtual DbSet<MusicStand> MusicStands { get; set; }
     public virtual DbSet<Tuner> Tuners { get; set; }
     public virtual DbSet<Chair> Chairs { get; set; }
-
     // audio equipment
     public virtual DbSet<Headphones> Headphones { get; set; }
     public virtual DbSet<Microphone> Microphones { get; set; }
     // souvenirs
     public virtual DbSet<TableBell> TableBells { get; set; }
     public virtual DbSet<Keychain> Keychains { get; set; }
+    // different types
+    public virtual DbSet<GuitarType> GuitarTypes { get; set; }
+    public virtual DbSet<TromboneType> TromboneTypes { get; set; }
+    public virtual DbSet<HeadphonesType> HeadphonesTypes { get; set; }
+    public virtual DbSet<TypeOfViolinStrings> TypesOfViolinStrings { get; set; }
+    public virtual DbSet<SheetMusicEditionLevel> SheetMusicEditionLevels { get; set; }
     //
     public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
     // technical data
@@ -44,22 +49,22 @@ public class MusicalShopContext : DbContext
 
     public MusicalShopContext() : base()
     {
+        Database.EnsureDeleted();
         Database.EnsureCreated();
-        //Database.EnsureDeleted();
-
+        //InsertTypeNames();
     }
 
     public MusicalShopContext(DbContextOptions options) : base(options)
     {
+        Database.EnsureDeleted();
         Database.EnsureCreated();
-        //Database.EnsureDeleted();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #warning and how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
-        //optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
-        optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MusicalShop;Trusted_Connection=True;");
+        optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
+        //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MusicalShop;Trusted_Connection=True;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,4 +1,5 @@
 ﻿using DataLayer.NotMapped;
+using DataLayer.SupportClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,4 +14,7 @@ public class Trombone : Goods
 
     [Required]
     public bool SlidePresence { get; set; }
+
+    [Required]
+    public TromboneType TromboneType { get; set; }
 }
