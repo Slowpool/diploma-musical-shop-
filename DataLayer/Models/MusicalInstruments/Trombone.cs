@@ -14,7 +14,4 @@ public class Trombone : Goods
 
     [Required]
     public bool SlidePresence { get; set; }
-
-    [Required]
-    public TromboneType TromboneType { get; set; }
 }

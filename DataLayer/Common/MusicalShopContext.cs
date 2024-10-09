@@ -37,7 +37,7 @@ public class MusicalShopContext : DbContext
     // different types
     public virtual DbSet<GuitarType> GuitarTypes { get; set; }
     public virtual DbSet<TromboneType> TromboneTypes { get; set; }
-    public virtual DbSet<HeadphonesType> HeadphonesTypes { get; set; }
+    public virtual DbSet<SpecificType> HeadphonesTypes { get; set; }
     public virtual DbSet<TypeOfViolinStrings> TypesOfViolinStrings { get; set; }
     public virtual DbSet<SheetMusicEditionLevel> SheetMusicEditionLevels { get; set; }
     //

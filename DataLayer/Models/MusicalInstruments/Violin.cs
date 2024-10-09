@@ -11,7 +11,4 @@ namespace DataLayer.Models.MusicalInstruments;
 public class Violin : MusicalInstrument
 {
     public int ViolinId { get; set; }
-
-    [Required]
-    public TypeOfViolinStrings TypeOfViolinStrings { get; set; }
 }

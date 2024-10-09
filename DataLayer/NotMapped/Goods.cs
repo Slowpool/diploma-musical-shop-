@@ -14,10 +14,16 @@ namespace DataLayer.NotMapped;
 public class Goods : ISoftDeletable
 {
     public bool SoftDeleted { get; set; }
-
 #warning workaround
     [Range(0, 10_000_000)]
     public int Price { get; set; }
-
+    public GoodsStatus Status { get; set; }
+    [MaxLength(500)]
+    public string Description { get; set; }
+    // relationships
+    public int? SaleId { get; set; }
     public Sale? Sale { get; set; }
+    public int? TypeId { get; set; }
+    public SpecificType? Type { get; set; }
+
 }

@@ -12,8 +12,4 @@ public class Guitar : Goods
 #warning > 1
     [Required]
     public int StringsNumber { get; set; }
-
-    [Required]
-    public GuitarType GuitarType { get; set; }
-
 }
