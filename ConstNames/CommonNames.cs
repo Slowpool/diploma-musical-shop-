@@ -3,5 +3,5 @@
 public static class CommonNames
 {
     public const string AdminRole = "Administrator";
-    public const string DefaultAdminRole = "admin@todo.local";
+    public const string AdminRoleProfile = "admin@todo.local";
 }

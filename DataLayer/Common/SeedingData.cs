@@ -30,7 +30,7 @@ public class SeedingData
 
     private static async Task EnsureTestAdminAsync(UserManager<IdentityUser> userManager)
     {
-        var user = userManager.FindByNameAsync();
+        var user = userManager.FindByNameAsync(CommonNames.AdminRoleProfile);
         if ()
 
     }

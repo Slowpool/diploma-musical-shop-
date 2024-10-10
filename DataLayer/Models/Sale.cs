@@ -21,4 +21,6 @@ public class Sale
     public int Total { get; set; }
 
 #warning how to add refers to several tables like ICollection<Goods>
+    [Required]
+    public SaleStatus Status { get; set; }
 }
