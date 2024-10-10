@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Models.Miscellaneous;
+namespace DataLayer.Models;
 [Table("sheet_music_editions")]
 public class SheetMusicEdition : Goods
 {

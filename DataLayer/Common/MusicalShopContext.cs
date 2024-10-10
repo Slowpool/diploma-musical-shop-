@@ -1,13 +1,13 @@
 ﻿using DataLayer.Models;
 using DataLayer.Models.Accessories;
 using DataLayer.Models.AudioEquipment;
-using DataLayer.Models.Miscellaneous;
 using DataLayer.Models.MusicalInstruments;
 using DataLayer.Models.Souvenirs;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,32 +19,13 @@ using System.Threading.Tasks;
 namespace DataLayer.Common;
 public class MusicalShopContext : DbContext
 {
-    // musical instruments
-    public virtual DbSet<Guitar> Guitars { get; set; }
-    public virtual DbSet<Trombone> Trombones { get; set; }
-    public virtual DbSet<Synthesizer> Synthesizers { get; set; }
-    public virtual DbSet<Violin> Violins { get; set; }
-    // accessories
-    public virtual DbSet<MusicStand> MusicStands { get; set; }
-    public virtual DbSet<Tuner> Tuners { get; set; }
-    public virtual DbSet<Chair> Chairs { get; set; }
-    // audio equipment
-    public virtual DbSet<Headphones> Headphones { get; set; }
-    public virtual DbSet<Microphone> Microphones { get; set; }
-    // souvenirs
-    public virtual DbSet<TableBell> TableBells { get; set; }
-    public virtual DbSet<Keychain> Keychains { get; set; }
-    // different types
-    public virtual DbSet<GuitarType> GuitarTypes { get; set; }
-    public virtual DbSet<TromboneType> TromboneTypes { get; set; }
-    public virtual DbSet<SpecificType> HeadphonesTypes { get; set; }
-    public virtual DbSet<TypeOfViolinStrings> TypesOfViolinStrings { get; set; }
-    public virtual DbSet<SheetMusicEditionLevel> SheetMusicEditionLevels { get; set; }
-    //
+    public virtual DbSet<MusicalInstrument> MusicalInstruments { get; set; }
+    public virtual DbSet<Accessory> Accessories { get; set; }
+    public virtual DbSet<AudioEquipmentUnit> AudioEquipmentUnits { get; set; }
     public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
-    // technical data
-    public virtual DbSet<User> Users { get; set; }
-    public virtual DbSet<UserPrivileges> UserPrivileges { get; set; }
+    public virtual DbSet<SpecificType> SpecificTypes { get; set; }
+    public virtual DbSet<Sale> Sales { get; set; }
+    
 
 
     public MusicalShopContext() : base()
