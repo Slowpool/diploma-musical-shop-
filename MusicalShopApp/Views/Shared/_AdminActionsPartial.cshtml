@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ConstNames
+
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
+
+@if (signInManager.IsSignedIn(User))
+{
+	var currentUser = await userManager.GetUserAsync(User);
+	var isAdmin = currentUser != null && await userManager.IsInRoleAsync(currentUser, CommonNames.AdminRole);
+	if (isAdmin)
+	{
+		<li>
+			<a asp-controller="Users" asp-action="Index">
+				Users
+			</a>
+		</li>
+	}
+}

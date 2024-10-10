@@ -1,9 +1,12 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicalShopApp.Models;
+using MusicalShopApp.Models.Home;
 
 namespace MusicalShopApp.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -27,5 +30,12 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpGet(template: "/search")]
+    public async Task<IActionResult> Search([FromQuery] string q)
+    {
+        var goodsSearchModel = new GoodsSearchModel { Q = q };
+        return View(goodsSearchModel);
     }
 }
