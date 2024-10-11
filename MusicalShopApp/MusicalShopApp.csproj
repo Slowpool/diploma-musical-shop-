@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-MusicalShopApp-7670dc0a-1227-43b4-b699-033cd2ae5a06</UserSecretsId>
@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConstNames\ConstNames.csproj" />
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
   </ItemGroup>
 
 </Project>

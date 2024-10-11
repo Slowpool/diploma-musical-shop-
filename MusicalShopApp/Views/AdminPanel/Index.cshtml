@@ -1,0 +1,9 @@
+﻿@{
+	ViewBag.Title = "Пользователи";
+}
+
+<form asp-controller="Home" asp-action="Backup" method="POST">
+    <input id="backup-path" style="width: 350px;" type="text" name="backupPath" placeholder="Путь для резервной копии" />
+    <br>
+    <input type="button" value="Сделать резервную копию" />
+</form>

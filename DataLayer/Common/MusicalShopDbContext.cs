@@ -1,13 +1,9 @@
 ﻿using DataLayer.Models;
-using DataLayer.Models.Accessories;
-using DataLayer.Models.AudioEquipment;
-using DataLayer.Models.MusicalInstruments;
-using DataLayer.Models.Souvenirs;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Common;
-public class MusicalShopContext : DbContext
+public class MusicalShopDbContext : IdentityDbContext
 {
     public virtual DbSet<MusicalInstrument> MusicalInstruments { get; set; }
     public virtual DbSet<Accessory> Accessories { get; set; }
@@ -25,17 +21,23 @@ public class MusicalShopContext : DbContext
     public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
     public virtual DbSet<SpecificType> SpecificTypes { get; set; }
     public virtual DbSet<Sale> Sales { get; set; }
-    
 
-
-    public MusicalShopContext() : base()
+    public MusicalShopDbContext(DbContextOptions<MusicalShopDbContext> options)
+        : base(options)
     {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
-        //InsertTypeNames();
     }
 
-    public MusicalShopContext(DbContextOptions options) : base(options)
+    public MusicalShopDbContext() : base()
+    {
+        //RebuildDb();
+    }
+
+    //public MusicalShopDbContext(DbContextOptions options) : base(options)
+    //{
+    //    //RebuildDb();
+    //}
+
+    private void RebuildDb()
     {
         Database.EnsureDeleted();
         Database.EnsureCreated();
@@ -44,15 +46,12 @@ public class MusicalShopContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #warning and how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
-        optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
+        //optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
         //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MusicalShop;Trusted_Connection=True;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //modelBuilder.Ignore<Goods>();
-        //modelBuilder.Ignore<MusicalInstrument>();
-
         var entities = modelBuilder.Model.GetEntityTypes();
         foreach (var entity in entities)
         {
@@ -71,7 +70,7 @@ public class MusicalShopContext : DbContext
                 case nameof(ISoftDeletable.SoftDeleted):
                     {
 #warning i'm not sure it's working
-                        var methodToCall = typeof(MusicalShopContext)
+                        var methodToCall = typeof(MusicalShopDbContext)
                                                .GetMethod("GetSoftDeletedFilter", BindingFlags.NonPublic | BindingFlags.Static)!
                                                .MakeGenericMethod(entity.ClrType);
                         var filter = methodToCall.Invoke(null, []);

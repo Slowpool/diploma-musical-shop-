@@ -5,12 +5,12 @@ namespace DataLayerTests;
 [TestClass]
 public class UnitTest1
 {
-    public MusicalShopContext context;
+    public MusicalShopDbContext context;
 
     [TestInitialize]
     public void SetUp()
     {
-        context = new MusicalShopContext();
+        context = new MusicalShopDbContext();
     }
 
     [TestMethod]

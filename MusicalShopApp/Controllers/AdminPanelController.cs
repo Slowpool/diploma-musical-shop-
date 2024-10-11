@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MusicalShopApp.Controllers
 {
-	[Authorize(Roles = ConstNames.CommonNames.AdminRole)]
-	public class UsersController : Controller
+	[Authorize(Roles = CommonNames.AdminRole)]
+	public class AdminPanelController : Controller
 	{
 		public IActionResult Index()
 		{

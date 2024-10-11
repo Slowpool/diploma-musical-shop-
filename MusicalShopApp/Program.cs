@@ -1,21 +1,27 @@
+using DataLayer.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MusicalShopApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+builder.Services.AddDbContext<MusicalShopDbContext>(options =>
+    options.UseMySql(connectionString, ));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddRoleManager<RoleManager<IdentityRole>>()
+    .AddEntityFrameworkStores<MusicalShopDbContext>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateAsyncScope())
+{
+    await SeedingData.SeedAsync(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
