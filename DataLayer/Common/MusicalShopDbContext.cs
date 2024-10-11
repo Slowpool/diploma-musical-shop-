@@ -25,17 +25,14 @@ public class MusicalShopDbContext : IdentityDbContext
     public MusicalShopDbContext(DbContextOptions<MusicalShopDbContext> options)
         : base(options)
     {
+        Database.EnsureCreated();
     }
 
     public MusicalShopDbContext() : base()
     {
+        Database.EnsureCreated();
         //RebuildDb();
     }
-
-    //public MusicalShopDbContext(DbContextOptions options) : base(options)
-    //{
-    //    //RebuildDb();
-    //}
 
     private void RebuildDb()
     {
@@ -46,17 +43,21 @@ public class MusicalShopDbContext : IdentityDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #warning and how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
-        //optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
-        //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MusicalShop;Trusted_Connection=True;");
+        if (!optionsBuilder.IsConfigured)
+        {
+#error what do isConfigured do?
+            optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
+
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var entities = modelBuilder.Model.GetEntityTypes();
-        foreach (var entity in entities)
-        {
-            ConfigurePropertiesViaFluentApi(entity);
-        }
+        //var entities = modelBuilder.Model.GetEntityTypes();
+        //foreach (var entity in entities)
+        //{
+        //    ConfigurePropertiesViaFluentApi(entity);
+        //}
     }
 
     private void ConfigurePropertiesViaFluentApi(IMutableEntityType entity)
@@ -91,7 +92,7 @@ public class MusicalShopDbContext : IdentityDbContext
     }
 
     private static Expression<Func<TEntity, bool>> GetSoftDeletedFilter<TEntity>()
-        where TEntity: class, ISoftDeletable
+        where TEntity : class, ISoftDeletable
     {
         Expression<Func<TEntity, bool>> filter = e => !e.SoftDeleted;
         return filter;
