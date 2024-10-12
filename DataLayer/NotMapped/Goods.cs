@@ -13,6 +13,7 @@ namespace DataLayer.NotMapped;
 //[NotMapped] // Apparently ef core ignores types which are inhereted by other types and doesn't model them even without this attribute. But I wrote it here just for clarity.
 public class Goods : ISoftDeletable
 {
+    [Column("soft_deleted")]
     public bool SoftDeleted { get; set; }
 #warning workaround
     [Range(0, 10_000_000)]
@@ -21,8 +22,10 @@ public class Goods : ISoftDeletable
     [MaxLength(500)]
     public string Description { get; set; }
     // relationships
+    [Column("sale_id")]
     public int? SaleId { get; set; }
     public Sale? Sale { get; set; }
+    [Column("type_id")]
     public int? TypeId { get; set; }
     public SpecificType? Type { get; set; }
 

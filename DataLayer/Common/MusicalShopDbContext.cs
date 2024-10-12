@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Common;
-public class MusicalShopDbContext : IdentityDbContext
+public partial class MusicalShopDbContext : IdentityDbContext
 {
     public virtual DbSet<MusicalInstrument> MusicalInstruments { get; set; }
     public virtual DbSet<Accessory> Accessories { get; set; }
@@ -26,12 +26,12 @@ public class MusicalShopDbContext : IdentityDbContext
     public MusicalShopDbContext(DbContextOptions<MusicalShopDbContext> options)
         : base(options)
     {
-        Database.EnsureCreated();
+        //Database.EnsureCreated();
     }
 
     public MusicalShopDbContext() : base()
     {
-        Database.EnsureCreated();
+        //Database.EnsureCreated();
         //RebuildDb();
     }
 
@@ -51,6 +51,9 @@ public class MusicalShopDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+#warning if i don't have a personal life, i could rename all the stuff like here
+        //modelBuilder.Entity<IdentityUser>().ToTable("identity_users").Property(u => u.UserId).HasColumnName("user_id");
+
         base.OnModelCreating(modelBuilder);
         //var entities = modelBuilder.Model.GetEntityTypes();
         //foreach (var entity in entities)

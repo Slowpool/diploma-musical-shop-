@@ -7,9 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models;
-[NotMapped] // Apparently ef core ignores types which are inhereted by other types and doesn't model them even without this attribute. But I wrote it here just for clarity.
+[Table("musical_instruments")]
 public class MusicalInstrument : Goods
 {
+    [Column("musical_instrument_id")]
+    public int MusicalInstrumentId { get; set; }
 #warning [Range(0, )] // postponed to business logic
+    [Column("release_year")]
     public int ReleaseYear { get; set; }
 }

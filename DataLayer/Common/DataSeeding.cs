@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Common;
-public class SeedingData
+public class DataSeeding
 {
 #warning seed another data like types of musical instruments like guitars
     public static async Task SeedAsync(IServiceProvider services)
