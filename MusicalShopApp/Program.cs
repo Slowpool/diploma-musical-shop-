@@ -5,8 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 #warning rub it off
-const bool USE_MYSQL = false;
-const bool USE_SQL_SERVER = true;
+const bool USE_MYSQL = true;
+const bool USE_SQL_SERVER = false;
 const bool USE_SQLITE = false;
 
 var builder = WebApplication.CreateBuilder(args);

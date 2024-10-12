@@ -1,6 +1,7 @@
 ﻿using DataLayer.Models;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -43,16 +44,14 @@ public class MusicalShopDbContext : IdentityDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #warning and how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
-        if (!optionsBuilder.IsConfigured)
-        {
-#error what do isConfigured do?
-            optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
-
-        }
+        if (optionsBuilder.IsConfigured)
+            return;
+        optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         //var entities = modelBuilder.Model.GetEntityTypes();
         //foreach (var entity in entities)
         //{
