@@ -24,3 +24,24 @@ body {
 input.goods-search, form.goods-search {
     margin: auto;
 }
+
+table.all-users {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse
+}
+
+/*table.all-users ~ tr ~ td {
+    padding-inline: 10px;
+}*/
+
+tr:nth-child(even) {
+    background-color: cyan;
+}
+
+table.all-users tr {
+    cursor: pointer;
+}

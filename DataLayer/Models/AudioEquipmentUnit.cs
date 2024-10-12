@@ -14,5 +14,4 @@ public class AudioEquipmentUnit : Goods
 {
     [Column("audio_equipment_unit_id")]
     public int AudioEquipmentUnitId { get; set; }
-    public SpecificType Type { get; set; }
 }

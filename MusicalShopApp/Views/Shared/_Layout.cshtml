@@ -1,14 +1,15 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using DataLayer.Models
+@using Microsoft.AspNetCore.Identity
 @using ConstNames
 
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<AppUser> userManager
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - MusicalShopApp</title>
+	<title>@ViewData["Title"]</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/MusicalShopApp.styles.css" asp-append-version="true" />
@@ -40,12 +41,7 @@
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Политика конфиденциальности</a>
 						</li>
 						<partial name="_AdminActionsPartial" />
-						@* @if (await userManager.IsInRoleAsync(await userManager.GetUserAsync(User), ConstNames.AdminRole))
-						{
-						<li class="nav-item">
-						<a asp-controller="Users" asp-action=""
-						</li>
-						} *@
+
 					</ul>
 					<partial name="_LoginPartial" />
 				</div>

@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DataLayer.Models
+@inject UserManager<AppUser> userManager
+@inject LinkGenerator linkGenerator
+
+<div style="overflow-x:auto;">
+    <table class="all-users">
+        <thead>
+            <tr>
+                <th>Идентификатор</th>
+                <th>Имя</th>
+                <th>Эл. почта</th>
+                <th>Роли</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in userManager.Users.ToList())
+            {
+                <tr href="@linkGenerator.GetPathByAction(controller: "AdminPanel", action: "Users", values: new {userId = user.Id})">
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    @{
+                        var roles = await userManager.GetRolesAsync(user);
+                        if (roles.Count == 0)
+                        {
+                            <td>-</td>
+                        }
+                        else
+                        {
+                            <td>@string.Join(", ", roles)</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

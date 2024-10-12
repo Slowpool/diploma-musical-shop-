@@ -14,8 +14,4 @@ public class Accessory : Goods
 {
     [Column("accessory_id")]
     public int AccessoryId { get; set; }
-    [Column("type_id")]
-    public int TypeId { get; set; }
-    public SpecificType Type { get; set; }
-
 }

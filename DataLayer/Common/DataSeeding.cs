@@ -1,4 +1,5 @@
 ﻿using ConstNames;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ public class DataSeeding
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         await EnsureRolesAsync(roleManager);
 
-        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
         await EnsureUsersAsync(userManager, services);
     }
 
@@ -35,7 +36,7 @@ public class DataSeeding
         }
     }
 
-    private static async Task EnsureUsersAsync(UserManager<IdentityUser> userManager, IServiceProvider services)
+    private static async Task EnsureUsersAsync(UserManager<AppUser> userManager, IServiceProvider services)
     {
         var configuration = services.GetRequiredService<IConfiguration>();
         var passwordsSection = configuration.GetSection("DefaultPasswords");
@@ -50,7 +51,7 @@ public class DataSeeding
                 .SingleOrDefaultAsync();
             if (defaultUser == null)
             {
-                var user = new IdentityUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
+                var user = new AppUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
                 await userManager.CreateAsync(user, passwords[i]);
                 await userManager.AddToRoleAsync(user, roleNames[i]);
             }

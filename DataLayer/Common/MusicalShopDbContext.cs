@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Common;
-public partial class MusicalShopDbContext : IdentityDbContext
+public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
 {
     public virtual DbSet<MusicalInstrument> MusicalInstruments { get; set; }
     public virtual DbSet<Accessory> Accessories { get; set; }
@@ -23,15 +23,16 @@ public partial class MusicalShopDbContext : IdentityDbContext
     public virtual DbSet<SpecificType> SpecificTypes { get; set; }
     public virtual DbSet<Sale> Sales { get; set; }
 
+    //public virtual DbSet<AppUser> Users { get; set; }
+
     public MusicalShopDbContext(DbContextOptions<MusicalShopDbContext> options)
         : base(options)
     {
-        //Database.EnsureCreated();
+        //RebuildDb();
     }
 
     public MusicalShopDbContext() : base()
     {
-        //Database.EnsureCreated();
         //RebuildDb();
     }
 
@@ -43,7 +44,7 @@ public partial class MusicalShopDbContext : IdentityDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-#warning and how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
+#warning how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
         if (optionsBuilder.IsConfigured)
             return;
         optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));

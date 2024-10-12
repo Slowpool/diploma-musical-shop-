@@ -1,0 +1,61 @@
+﻿@using DataLayer.Models
+
+@model AppUser
+@{
+    ViewBag.Title = "Пользователь " + Model.UserName;
+}
+
+<table>
+    <tr>
+        <td>Идентификатор</td>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <td>Имя</td>
+        <td>@Model.UserName</td>
+    </tr>
+    <tr>
+        <td>Нормализованное имя</td>
+        <td>@Model.NormalizedUserName</td>
+    </tr>
+    <tr>
+        <td>Эл. почта подтверждена</td>
+        <td>@Model.EmailConfirmed</td>
+    </tr>
+    <tr>
+        <td>Хэш пароля</td>
+        <td>@Model.PasswordHash</td>
+    </tr>
+    <tr>
+        <td>Штамп безопасности</td>
+        <td>@Model.SecurityStamp</td>
+    </tr>
+    <tr>
+        <td>Штамп параллельного доступа</td>
+        <td>@Model.ConcurrencyStamp</td>
+    </tr>
+    <tr>
+        <td>Номер телефона</td>
+        <td>@Model.PhoneNumber</td>
+    </tr>
+    <tr>
+        <td>Номер телефона подтвержден</td>
+        <td>@Model.PhoneNumberConfirmed</td>
+    </tr>
+    <tr>
+        <td>Двухфакторная аутентификация включена</td>
+        <td>@Model.TwoFactorEnabled</td>
+    </tr>
+    <tr>
+        <td>Заблокирован до</td>
+        <td>@Model.LockoutEnd</td>
+    </tr>
+    <tr>
+        <td>Заблокирован</td>
+        <td>@Model.LockoutEnabled</td>
+    </tr>
+    <tr>
+        <td>Недуачных попыток входа</td>
+        <td>@Model.AccessFailedCount</td>
+    </tr>
+</table>

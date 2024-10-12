@@ -1,9 +1,14 @@
 ﻿@{
-	ViewBag.Title = "Пользователи";
+	ViewBag.Title = "Панель администратора";
 }
 
 <form asp-controller="Home" asp-action="Backup" method="POST">
-    <input id="backup-path" style="width: 350px;" type="text" name="backupPath" placeholder="Путь для резервной копии" />
+    <label for="backupPath">Укажите путь (опционально):</label>
+    <input name="backupPath" id="backup-path" style="width:350px;" placeholder="Путь для резервной копии" />
     <br>
-    <input type="button" value="Сделать резервную копию" />
+    <button type="submit">Сделать резервную копию</button>
 </form>
+<br>
+<br>
+
+<partial name="_UsersListWithActions" />

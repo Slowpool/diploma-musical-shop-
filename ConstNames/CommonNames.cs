@@ -2,13 +2,13 @@
 
 public static class CommonNames
 {
-    public const string DefaultAdminEmail = "admin@msshop.local";
-    public const string DefaultSellerEmail = "seller@msshop.local";
-    public const string DefaultConsultantEmail = "consultant@msshop.local";
-    public const string DefaultStockManagerEmail = "stockmanager@msshop.local";
+    public const string DefaultAdminEmail = "admin@koshka.prosrochka";
+    public const string DefaultSellerEmail = "seller@koshka.prosrochka";
+    public const string DefaultConsultantEmail = "consultant@koshka.prosrochka";
+    public const string DefaultStockManagerEmail = "stockmanager@koshka.prosrochka";
 
-    public const string AdminRole = "Administrator";
-    public const string SellerRole = "Seller";
-    public const string ConsultantRole = "Consultant";
-    public const string StockManagerRole = "StockManager";
+    public const string AdminRole = "Администратор";
+    public const string SellerRole = "Продавец";
+    public const string ConsultantRole = "Консультант";
+    public const string StockManagerRole = "Менеджер складского учета";
 }
