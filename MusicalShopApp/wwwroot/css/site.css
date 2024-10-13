@@ -45,3 +45,7 @@ tr:nth-child(even) {
 table.all-users tr {
     cursor: pointer;
 }
+
+input {
+    autocomplete: false;
+}

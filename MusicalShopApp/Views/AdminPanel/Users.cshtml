@@ -1,61 +1,92 @@
 ﻿@using DataLayer.Models
+@using Common
 
-@model AppUser
+@model AppUser?
 @{
-    ViewBag.Title = "Пользователь " + Model.UserName;
+    ViewBag.Title = "Пользователь " + (Model?.UserName ?? "не найден");
 }
 
-<table>
-    <tr>
-        <td>Идентификатор</td>
-        <td>@Model.Id</td>
-    </tr>
-    <tr>
-        <td>Имя</td>
-        <td>@Model.UserName</td>
-    </tr>
-    <tr>
-        <td>Нормализованное имя</td>
-        <td>@Model.NormalizedUserName</td>
-    </tr>
-    <tr>
-        <td>Эл. почта подтверждена</td>
-        <td>@Model.EmailConfirmed</td>
-    </tr>
-    <tr>
-        <td>Хэш пароля</td>
-        <td>@Model.PasswordHash</td>
-    </tr>
-    <tr>
-        <td>Штамп безопасности</td>
-        <td>@Model.SecurityStamp</td>
-    </tr>
-    <tr>
-        <td>Штамп параллельного доступа</td>
-        <td>@Model.ConcurrencyStamp</td>
-    </tr>
-    <tr>
-        <td>Номер телефона</td>
-        <td>@Model.PhoneNumber</td>
-    </tr>
-    <tr>
-        <td>Номер телефона подтвержден</td>
-        <td>@Model.PhoneNumberConfirmed</td>
-    </tr>
-    <tr>
-        <td>Двухфакторная аутентификация включена</td>
-        <td>@Model.TwoFactorEnabled</td>
-    </tr>
-    <tr>
-        <td>Заблокирован до</td>
-        <td>@Model.LockoutEnd</td>
-    </tr>
-    <tr>
-        <td>Заблокирован</td>
-        <td>@Model.LockoutEnabled</td>
-    </tr>
-    <tr>
-        <td>Недуачных попыток входа</td>
-        <td>@Model.AccessFailedCount</td>
-    </tr>
-</table>
+@if (Model == null)
+{
+    <div>
+        Данный пользователь не найден
+    </div>
+    return;
+}
+
+<form asp-controller="AdminPanel" asp-action="Edit" method="POST">
+    <input name="Id" type="hidden" value="@Model.Id" />
+    <table class="specific-user">
+        <tr>
+            <th>Название атрибута</th>
+            <th>Значение атрибута</th>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td>
+                <input asp-for="UserName" value="@Model.UserName" />
+            </td>
+        </tr>
+        <tr>
+            <td>Нормализованное имя</td>
+            <td>@Model.NormalizedUserName.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Эл. почта подтверждена</td>
+            <td name="EmailConfirmed" class="checkable">
+                <input type="checkbox" @(Model.EmailConfirmed ? " checked" : string.Empty) />
+            </td>
+        </tr>
+        <tr>
+            <td>Эл. почта</td>
+            <td name="Email" class="editable">@Model.Email.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Нормализованная эл. почта</td>
+            <td>@Model.NormalizedEmail.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Хэш пароля</td>
+            <td>@Model.PasswordHash.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Штамп безопасности</td>
+            <td>@Model.SecurityStamp.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Штамп параллельного доступа</td>
+            <td>@Model.ConcurrencyStamp.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Номер телефона</td>
+            <td name="PhoneNumber" class="editable">@Model.PhoneNumber.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Номер телефона подтвержден</td>
+            <td name="PhoneNumberConfirmed" class="checkable">
+                <input type="checkbox" @(Model.PhoneNumberConfirmed ? "checked" : string.Empty) />
+            </td>
+        </tr>
+        <tr>
+            <td>Двухфакторная аутентификация включена</td>
+            <td name="TwoFactorEnabled" class="checkable">
+                <input type="checkbox" @(Model.TwoFactorEnabled ? " checked" : string.Empty) />
+            </td>
+        </tr>
+        <tr>
+            <td>Заблокирован до</td>
+            <td name="LockoutEnd" class="data-editable">@Model.LockoutEnd.ToStringOrDefaultValue()</td>
+        </tr>
+        <tr>
+            <td>Заблокирован</td>
+            <td name="LockoutEnabled" class="checkable">
+                <input type="checkbox" @(Model.LockoutEnabled ? "checked" : string.Empty) />
+            </td>
+        </tr>
+        <tr>
+            <td>Недуачных попыток входа</td>
+            <td>@Model.AccessFailedCount</td>
+        </tr>
+    </table>
+    <input type="submit" value="Сохранить изменения" />
+</form>

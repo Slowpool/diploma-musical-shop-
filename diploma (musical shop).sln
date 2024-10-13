@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayerTests", "DataLayer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicalShopApp", "musicalshopapp\MusicalShopApp.csproj", "{8BEEA2E2-2718-40FD-B23B-790C7232EDED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstNames", "ConstNames\ConstNames.csproj", "{0A77C4EE-2BDD-40A6-9198-12E2C6635054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "ConstNames\Common.csproj", "{0A77C4EE-2BDD-40A6-9198-12E2C6635054}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{1A4A120F-744F-4073-8FDE-8154596CD907}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0A77C4EE-2BDD-40A6-9198-12E2C6635054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A77C4EE-2BDD-40A6-9198-12E2C6635054}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A77C4EE-2BDD-40A6-9198-12E2C6635054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A4A120F-744F-4073-8FDE-8154596CD907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A4A120F-744F-4073-8FDE-8154596CD907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A4A120F-744F-4073-8FDE-8154596CD907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A4A120F-744F-4073-8FDE-8154596CD907}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

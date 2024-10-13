@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using DataLayer.Models
+
+#warning it is wrong to use these injections instead of special model
 @inject UserManager<AppUser> userManager
 @inject LinkGenerator linkGenerator
 

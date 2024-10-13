@@ -11,4 +11,5 @@ public static class CommonNames
     public const string SellerRole = "Продавец";
     public const string ConsultantRole = "Консультант";
     public const string StockManagerRole = "Менеджер складского учета";
+
 }

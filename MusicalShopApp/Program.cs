@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceLayer.AdminServices;
 
 #warning rub it off
 const bool USE_MYSQL = true;
@@ -25,12 +26,14 @@ builder.Services.AddDbContext<MusicalShopDbContext>(options =>
         //options.UseSql();
 });
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<MusicalShopDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IUserService, UserService>();
+
 
 var app = builder.Build();
 

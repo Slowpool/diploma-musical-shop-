@@ -20,8 +20,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ConstNames\ConstNames.csproj" />
+		<ProjectReference Include="..\ConstNames\Common.csproj" />
 		<ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+		<ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
