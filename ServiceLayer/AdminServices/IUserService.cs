@@ -1,5 +1,5 @@
-﻿using DataLayer.Models;
-using ServiceLayer.AdminServices.Dto;
+﻿using BusinessLogic.AdminPanel.Dto;
+using DataLayer.Models;
 
 namespace ServiceLayer.AdminServices;
 public interface IUserService

@@ -1,10 +1,10 @@
-﻿using ConstNames;
+﻿using BusinessLogic.AdminPanel.Dto;
+using ConstNames;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.AdminServices;
-using ServiceLayer.AdminServices.Dto;
 
 namespace MusicalShopApp.Controllers
 {
@@ -34,11 +34,6 @@ namespace MusicalShopApp.Controllers
 		public async Task<IActionResult> Users(Guid userId, [FromServices] IUserService service)
 		{
 			var user = await service.GetUserInfo(userId);
-			//// user-unfriendly way
-			//if (user == null)
-			//{
-			//	return BadRequest("User with such an id was not found");
-			//}
 			return View(user);
 		}
 

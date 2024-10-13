@@ -1,7 +1,7 @@
-﻿using DataLayer.Common;
+﻿using BusinessLogic.AdminPanel.Dto;
+using DataLayer.Common;
 using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using ServiceLayer.AdminServices.Dto;
 
 namespace ServiceLayer.AdminServices;
 

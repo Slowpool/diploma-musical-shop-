@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ConstNames\Common.csproj" />
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
-    <ProjectReference Include="..\BusinessLogic\BusinessLogicLayer.csproj" />
   </ItemGroup>
 
 </Project>
