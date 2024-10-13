@@ -32,7 +32,7 @@ public class UserService : IUserService
         user.PhoneNumber = dto.PhoneNumber;
         user.PhoneNumberConfirmed = dto.PhoneNumberConfirmed;
         user.TwoFactorEnabled = dto.TwoFactorEnabled;
-        user.LockoutEnd = dto.LockoutEnd;
+        user.LockoutEnd = dto.LockoutEnd != null ? ((DateTime)dto.LockoutEnd).ToUniversalTime() : null;
         user.LockoutEnabled = dto.LockoutEnabled;
 
         context.Update(user);
