@@ -33,8 +33,9 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddEntityFrameworkStores<MusicalShopDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<IGetUserService, GetUserService>();
-builder.Services.AddTransient<IUserDbAccess, UserDbAccess>();
+builder.Services.AddScoped<UserDbAccess>();
+builder.Services.AddScoped<GetUserService>();
+builder.Services.AddScoped<UpdateUserService>();
 
 
 var app = builder.Build();

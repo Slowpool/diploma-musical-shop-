@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DbAccessLayer.AdminPanel;
-public interface IUserDbAccess
-{
-    Task<AppUser?> GetUserInfo(Guid userId);
-    Task<bool> IsSingleNormalizedEmail(string normalizedEmail);
-    Task<bool> IsSingleNormalizedUserName(string userName);
-}
+//public interface IUserDbAccess
+//{
+//    Task<AppUser?> GetUserInfo(Guid userId);
+//    Task<bool> IsSingleNormalizedEmail(string normalizedEmail);
+//    Task<bool> IsSingleNormalizedUserName(string userName);
+//}
 
-public class UserDbAccess(MusicalShopDbContext context) : IUserDbAccess
+public class UserDbAccess(MusicalShopDbContext context)// : IUserDbAccess
 {
     public async Task<AppUser?> GetUserInfo(Guid userId)
     {
@@ -23,13 +23,15 @@ public class UserDbAccess(MusicalShopDbContext context) : IUserDbAccess
                                   .SingleOrDefaultAsync();
     }
 
-    public async Task<bool> IsSingleNormalizedUserName(string normalizedUserName)
+    public async Task<bool> IsUniqueNormalizedUserName(string normalizedUserName, string userId)
     {
-        return await context.Users.AnyAsync(u => u.NormalizedUserName == normalizedUserName);
+        return !await context.Users.AnyAsync(u => u.NormalizedUserName == normalizedUserName
+                                                 && u.Id != userId);
     }
 
-    public async Task<bool> IsSingleNormalizedEmail(string normalizedEmail)
+    public async Task<bool> IsUniqueNormalizedEmail(string normalizedEmail, string userId)
     {
-        return await context.Users.AnyAsync(u => u.NormalizedEmail == normalizedEmail);
+        return !await context.Users.AnyAsync(u => u.NormalizedEmail == normalizedEmail
+                                                 && u.Id != userId);
     }
 }

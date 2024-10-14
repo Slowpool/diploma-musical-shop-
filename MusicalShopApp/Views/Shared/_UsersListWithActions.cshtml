@@ -18,8 +18,12 @@
         <tbody>
             @foreach (var user in userManager.Users.ToList())
             {
-                <tr href="@linkGenerator.GetPathByAction(controller: "AdminPanel", action: "Users", values: new {userId = user.Id})">
-                    <td>@user.Id</td>
+                <tr>
+                    <td>
+                        <a href="@linkGenerator.GetPathByName("SpecificUser", values: new {userId = user.Id})">
+                            @user.Id
+                        </a>
+                        </td>
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
                     @{

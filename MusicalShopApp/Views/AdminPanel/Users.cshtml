@@ -13,9 +13,16 @@
     </div>
     return;
 }
+
+@* <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+<script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ *@
+
 @{
 #pragma warning disable 8602
 }
+
+
 <form asp-controller="AdminPanel" asp-action="Edit" method="POST">
     <input name="Id" type="hidden" value="@Model.Id" />
     <table class="specific-user">
@@ -64,7 +71,7 @@
         <tr>
             <td>Номер телефона</td>
             <td class="editable">
-                <input asp-for="PhoneNumber" />
+                <input class="mask-phone" type="number" min="10000000000" max="99999999999" asp-for="PhoneNumber" />
             </td>
         </tr>
         <tr>
@@ -97,4 +104,14 @@
         </tr>
     </table>
     <input type="submit" value="Сохранить изменения" />
+    @if (!string.IsNullOrEmpty(ViewBag.Errors))
+    {
+        <div class="update-user-errors">
+            @foreach (string error in ViewBag.Errors.Split("SEP"))
+            {
+                @error;
+                <br />
+            }
+        </div>
+    }
 </form>

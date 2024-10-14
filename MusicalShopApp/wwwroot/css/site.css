@@ -43,9 +43,10 @@ tr:nth-child(even) {
 }
 
 table.all-users tr {
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
-input {
-    autocomplete: false;
+div.update-user-errors {
+    color: red;
+
 }

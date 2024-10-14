@@ -30,22 +30,22 @@ namespace MusicalShopApp.Controllers
 			return RedirectToAction("Index");
 		}
 
-		[HttpGet(template: "/AdminPanel/Users/{userId:Guid}")]
-		public async Task<IActionResult> Users(Guid userId, [FromServices] IGetUserService service)
+		[HttpGet(template: "/AdminPanel/Users/{userId:Guid}", Name = "SpecificUser")]
+		public async Task<IActionResult> Users(Guid userId, [FromServices] GetUserService service, [FromQuery] string? errors)
 		{
 			var user = await service.GetUserInfo(userId);
+			ViewBag.Errors = errors;
 			return View(user);
 		}
 
 		[HttpPost()]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(UpdateUserDto dto, [FromServices] IGetUserService service)
+		public async Task<IActionResult> Edit(UpdateUserDto dto, [FromServices] UpdateUserService service)
 		{
-			if (!await service.UpdateUser(dto))
-			{
-				return BadRequest("something went wrong");
-			}
-			return RedirectToAction("Users", new { userId = dto.Id });
+			await service.UpdateUser(dto);
+			return RedirectToAction("Users", new RouteValueDictionary(
+#warning workaround
+				new { userId = dto.Id, errors = string.Join("SEP", service.Errors)}));
 		}
     }
 }
