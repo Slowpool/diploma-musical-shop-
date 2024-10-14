@@ -1,5 +1,5 @@
-﻿using BusinessLogic.AdminPanel.Dto;
-using ConstNames;
+﻿using BusinessLogicLayer.AdminPanel.Dto;
+using Common;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +31,7 @@ namespace MusicalShopApp.Controllers
 		}
 
 		[HttpGet(template: "/AdminPanel/Users/{userId:Guid}")]
-		public async Task<IActionResult> Users(Guid userId, [FromServices] IUserService service)
+		public async Task<IActionResult> Users(Guid userId, [FromServices] IGetUserService service)
 		{
 			var user = await service.GetUserInfo(userId);
 			return View(user);
@@ -39,7 +39,7 @@ namespace MusicalShopApp.Controllers
 
 		[HttpPost()]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(UpdateUserDto dto, [FromServices] IUserService service)
+		public async Task<IActionResult> Edit(UpdateUserDto dto, [FromServices] IGetUserService service)
 		{
 			if (!await service.UpdateUser(dto))
 			{

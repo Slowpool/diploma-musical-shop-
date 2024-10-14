@@ -1,4 +1,4 @@
-﻿using ConstNames;
+﻿using Common;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

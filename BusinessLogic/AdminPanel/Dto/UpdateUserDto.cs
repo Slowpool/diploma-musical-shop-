@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.AdminPanel.Dto;
+namespace BusinessLogicLayer.AdminPanel.Dto;
 public class UpdateUserDto
 {
     public Guid Id { get; set; }

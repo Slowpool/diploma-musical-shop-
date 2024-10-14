@@ -2,8 +2,7 @@
 using DataLayer.Models;
 
 namespace ServiceLayer.AdminServices;
-public interface IUserService
+public interface IGetUserService
 {
     Task<AppUser?> GetUserInfo(Guid userId);
-    Task<bool> UpdateUser(UpdateUserDto dto);
 }

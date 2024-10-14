@@ -1,5 +1,6 @@
 using DataLayer.Common;
 using DataLayer.Models;
+using DbAccessLayer.AdminPanel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +33,8 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddEntityFrameworkStores<MusicalShopDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IGetUserService, GetUserService>();
+builder.Services.AddTransient<IUserDbAccess, UserDbAccess>();
 
 
 var app = builder.Build();

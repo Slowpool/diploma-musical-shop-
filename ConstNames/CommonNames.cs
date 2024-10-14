@@ -1,4 +1,4 @@
-﻿namespace ConstNames;
+﻿namespace Common;
 
 public static class CommonNames
 {
