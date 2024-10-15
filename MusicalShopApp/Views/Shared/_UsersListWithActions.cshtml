@@ -1,9 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using DataLayer.Models
 
+@{
 #warning it is wrong to use these injections instead of special model
+}
 @inject UserManager<AppUser> userManager
+@inject RoleManager<IdentityRole> roleManager
 @inject LinkGenerator linkGenerator
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <div style="overflow-x:auto;">
     <table class="all-users">
@@ -23,7 +28,7 @@
                         <a href="@linkGenerator.GetPathByName("SpecificUser", values: new {userId = user.Id})">
                             @user.Id
                         </a>
-                        </td>
+                    </td>
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
                     @{
@@ -34,7 +39,15 @@
                         }
                         else
                         {
-                            <td>@string.Join(", ", roles)</td>
+                            <td>
+                                <select class="dropdown-list" type="checkbox">
+                                    @foreach(var role in roles)
+                                    {
+                                        @{#error}
+                                        <option value="@(await roleManager.GetRoleIdAsync(new IdentityRole(role)))">@role</option>
+                                    }
+                                </select>
+                            </td>
                         }
                     }
                 </tr>
