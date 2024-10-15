@@ -2,19 +2,20 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicalShopApp.Models;
-using MusicalShopApp.Models.Home;
+using MusicalShopApp.Models.Goods;
 
 namespace MusicalShopApp.Controllers;
 
 [Authorize]
-public class HomeController : Controller
+public class GoodsController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<GoodsController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public GoodsController(ILogger<GoodsController> logger)
     {
         _logger = logger;
     }
+    
 
     public IActionResult Index()
     {

@@ -1,4 +1,4 @@
-﻿namespace MusicalShopApp.Models.Home;
+﻿namespace MusicalShopApp.Models.Goods;
 
 public class GoodsSearchModel
 {

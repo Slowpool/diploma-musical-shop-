@@ -2,7 +2,7 @@
 	ViewBag.Title = "Панель администратора";
 }
 
-<form asp-controller="Home" asp-action="Backup" method="POST">
+<form asp-controller="Goods" asp-action="Backup" method="POST">
     <label for="backupPath">Укажите путь (опционально):</label>
     <input name="backupPath" id="backup-path" style="width:350px;" placeholder="Путь для резервной копии" />
     <br>
@@ -11,4 +11,6 @@
 <br>
 <br>
 
-<partial name="_UsersListWithActions" />
+@{
+    await Html.RenderPartialAsync("_UsersListWithActions");
+}

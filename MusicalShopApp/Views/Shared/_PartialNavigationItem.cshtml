@@ -1,0 +1,19 @@
+﻿@using DataLayer.Models
+@using Microsoft.AspNetCore.Identity
+@using MusicalShopApp.Views.Shared
+
+@model PartialNavigationItemModel
+
+@inject UserManager<AppUser> userManager
+@inject SignInManager<AppUser> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    var currentUser = await userManager.GetUserAsync(User);
+    if (currentUser != null && await userManager.IsInRoleAsync(currentUser, Model.Role))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="@Model.Controller" asp-action="Index">@Model.Title</a>
+        </li>
+    }
+}

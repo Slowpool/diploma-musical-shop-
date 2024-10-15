@@ -40,13 +40,23 @@
                         else
                         {
                             <td>
-                                <select class="dropdown-list" type="checkbox">
-                                    @foreach(var role in roles)
-                                    {
-                                        @{#error}
-                                        <option value="@(await roleManager.GetRoleIdAsync(new IdentityRole(role)))">@role</option>
-                                    }
-                                </select>
+                                <div class="dropdown-check-list">
+                                    <span class="anchor">Select roles</span>
+                                    <ul class="items">
+                                        @foreach (IdentityRole role in roleManager.Roles.ToList())
+                                        {
+                                            <li>
+                                                <input value="@role.Id" type="checkbox"
+                                                @if (await userManager.IsInRoleAsync(user, role.Name!))
+                                                {
+                                                    @Html.Raw("checked")
+                                                    ;
+                                                }
+                                                />@role
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </td>
                         }
                     }
