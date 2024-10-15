@@ -32,5 +32,6 @@ public class UpdateUserService : ErrorStorage//, IUpdateUserService
         runner = new RunnerWriteDb<UpdateUserDto, Task<string?>>(context, action);
     }
 
+#warning actually here must not be dto
     public async Task<string?> UpdateUser(UpdateUserDto dto) => await runner.Run(dto);
 }

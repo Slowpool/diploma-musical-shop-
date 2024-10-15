@@ -40,10 +40,9 @@ public class DataSeeding
     {
         var configuration = services.GetRequiredService<IConfiguration>();
         var passwordsSection = configuration.GetSection("DefaultPasswords");
-
+#warning it could have been implemented more, more simply.
         string[] emails = [CommonNames.DefaultAdminEmail, CommonNames.DefaultSellerEmail, CommonNames.DefaultConsultantEmail, CommonNames.DefaultStockManagerEmail];
         string[] roleNames = [CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole];
-        string[] passwords = [passwordsSection.GetValue<string>("Admin")!, passwordsSection.GetValue<string>("Seller")!, passwordsSection.GetValue<string>("Consultant")!, passwordsSection.GetValue<string>("StockManager")!];
         for (int i = 0; i < emails.Length; i++)
         {
             var defaultUser = await userManager.Users
@@ -52,7 +51,7 @@ public class DataSeeding
             if (defaultUser == null)
             {
                 var user = new AppUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
-                await userManager.CreateAsync(user, passwords[i]);
+                await userManager.CreateAsync(user, passwordsSection.GetValue<string>(roleNames[i])!);
                 await userManager.AddToRoleAsync(user, roleNames[i]);
             }
         }

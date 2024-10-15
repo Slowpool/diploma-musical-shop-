@@ -233,13 +233,13 @@ namespace DataLayer.Migrations
                 {
                     accessory_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    type_id = table.Column<int>(type: "int", nullable: false),
                     soft_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    sale_id = table.Column<int>(type: "int", nullable: true)
+                    sale_id = table.Column<int>(type: "int", nullable: true),
+                    type_id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -253,8 +253,7 @@ namespace DataLayer.Migrations
                         name: "FK_accessories_specific_type_type_id",
                         column: x => x.type_id,
                         principalTable: "specific_type",
-                        principalColumn: "specific_type_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "specific_type_id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

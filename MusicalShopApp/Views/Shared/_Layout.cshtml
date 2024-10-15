@@ -28,8 +28,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @{
-
-                            await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.ConsultantRole, "Goods", "Товары"));
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Goods" asp-action="Index">Товары</a>
+                            </li>
+                            // await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.ConsultantRole, "Goods", "Товары"));
                             @* <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Оформление продажи</a>
                         </li>

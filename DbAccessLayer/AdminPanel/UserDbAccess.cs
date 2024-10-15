@@ -1,4 +1,5 @@
-﻿using DataLayer.Common;
+﻿using Common;
+using DataLayer.Common;
 using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,11 +24,12 @@ public class UserDbAccess(MusicalShopDbContext context)// : IUserDbAccess
                                   .SingleOrDefaultAsync();
     }
 
-    public async Task<bool> IsUniqueNormalizedUserName(string normalizedUserName, string userId)
-    {
-        return !await context.Users.AnyAsync(u => u.NormalizedUserName == normalizedUserName
-                                                 && u.Id != userId);
-    }
+    public async Task<bool> IsUniqueNormalizedUserName(string normalizedUserName, string userId) =>
+        !await context.Users.AnyAsync(u => u.NormalizedUserName == normalizedUserName
+            && u.Id != userId);
+
+    public async Task<bool> IsUniqueNormalizedUserName(string normalizedUserName) =>
+        await IsUniqueNormalizedUserName(normalizedUserName, CommonNames.NotExistingGuid);
 
     public async Task<bool> IsUniqueNormalizedEmail(string normalizedEmail, string userId)
     {
