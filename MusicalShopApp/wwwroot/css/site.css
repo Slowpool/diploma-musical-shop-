@@ -22,7 +22,7 @@ body {
 }
 
 input.goods-search, form.goods-search {
-    margin: auto;
+    /*margin: auto;*/
 }
 
 table.all-users {

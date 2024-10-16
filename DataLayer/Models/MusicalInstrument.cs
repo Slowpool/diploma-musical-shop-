@@ -1,4 +1,5 @@
-﻿using DataLayer.NotMapped;
+﻿using DataLayer.Models.SupportClasses;
+using DataLayer.NotMapped;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,8 +12,11 @@ namespace DataLayer.Models;
 public class MusicalInstrument : Goods
 {
     [Column("musical_instrument_id")]
-    public int MusicalInstrumentId { get; set; }
+    public Guid MusicalInstrumentId { get; set; }
 #warning [Range(0, )] // postponed to business logic
     [Column("release_year")]
     public int ReleaseYear { get; set; }
+    public string Manufacturer { get; set; }
+    [Column("manufacturer_type")]
+    public ManufacturerType ManufacturerType { get; set; }
 }

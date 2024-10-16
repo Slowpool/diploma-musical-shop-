@@ -8,9 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using ServiceLayer.AdminServices;
 
 #warning rub it off
-const bool USE_MYSQL = true;
+const bool USE_MYSQL = false;
 const bool USE_SQL_SERVER = false;
-const bool USE_SQLITE = false;
+const bool USE_SQLITE = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +23,8 @@ builder.Services.AddDbContext<MusicalShopDbContext>(options =>
         options.UseMySql(connectionString, ServerVersion.Parse("8.0.39"));
     else if (USE_SQL_SERVER)
         options.UseSqlServer(connectionString);
+    else
+        options.UseSqlite(connectionString);
     //else
         //options.UseSql();
 });

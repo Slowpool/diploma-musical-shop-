@@ -13,5 +13,8 @@ namespace DataLayer.Models;
 public class SheetMusicEdition : Goods
 {
     [Column("sheet_music_edition_id")]
-    public int SheetMusicEditionId { get; set; }
+    public Guid SheetMusicEditionId { get; set; }
+    public string? Author { get; set; }
+    [Column("release_year")]
+    public int ReleaseYear { get; set; }
 }

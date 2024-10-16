@@ -13,5 +13,7 @@ namespace DataLayer.Models;
 public class Accessory : Goods
 {
     [Column("accessory_id")]
-    public int AccessoryId { get; set; }
+    public Guid AccessoryId { get; set; }
+    public string Color { get; set; }
+    public string Size { get; set; }
 }
