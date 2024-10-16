@@ -26,7 +26,9 @@ public class Goods : ISoftDeletable
     public int? SaleId { get; set; }
     public Sale? Sale { get; set; }
     [Column("type_id")]
-    public int? TypeId { get; set; }
-    public SpecificType? Type { get; set; }
+    public int TypeId { get; set; }
+    public SpecificType Type { get; set; }
+    [Column("receipt_date")]
+    public DateTimeOffset? ReceiptDate { get; set; }
 
 }

@@ -10,5 +10,5 @@ public class SpecificType
     public int SpecificTypeId { get; set; }
 
     [Required]
-    public string Type { get; set; }
+    public string Name { get; set; }
 }

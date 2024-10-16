@@ -10,6 +10,8 @@ public enum GoodsFilter
 {
     None,
     Type,
-    AddingDate,
-    ReleaseDate
+    ReceiptDate,
+    Price,
+    Status
+    //ReleaseDate
 }

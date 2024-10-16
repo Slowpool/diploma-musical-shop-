@@ -4,6 +4,7 @@ using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    partial class MusicalShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241016155804_v0.5")]
+    partial class v05
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,10 +43,6 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("ReceiptDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("receipt_date");
 
                     b.Property<int?>("SaleId")
                         .HasColumnType("int")
@@ -152,10 +151,6 @@ namespace DataLayer.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("ReceiptDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("receipt_date");
-
                     b.Property<int?>("SaleId")
                         .HasColumnType("int")
                         .HasColumnName("sale_id");
@@ -202,10 +197,6 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("ReceiptDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("receipt_date");
 
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int")
@@ -275,10 +266,6 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("ReceiptDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("receipt_date");
 
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int")
