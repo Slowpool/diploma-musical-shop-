@@ -1,6 +1,7 @@
 ﻿using Common;
 using DataLayer.Common;
 using DataLayer.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace DbAccessLayer.AdminPanel;
 //    Task<bool> IsSingleNormalizedUserName(string userName);
 //}
 
-public class UserDbAccess(MusicalShopDbContext context)// : IUserDbAccess
+public class UserDbAccess(MusicalShopDbContext context, UserManager<AppUser> userManager)// : IUserDbAccess
 {
     public async Task<AppUser?> GetUserInfo(Guid userId)
     {
@@ -35,5 +36,14 @@ public class UserDbAccess(MusicalShopDbContext context)// : IUserDbAccess
     {
         return !await context.Users.AnyAsync(u => u.NormalizedEmail == normalizedEmail
                                                  && u.Id != userId);
+    }
+
+    public async Task<string?> AddUser(AppUser newUser, string password)
+    {
+        var result = await userManager.CreateAsync(newUser, password);
+        if (result.Errors.Any())
+            return newUser.Id;
+        else
+            return null;
     }
 }

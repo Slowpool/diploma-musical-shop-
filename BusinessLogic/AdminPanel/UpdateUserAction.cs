@@ -24,7 +24,7 @@ public class UpdateUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<Up
             return null;
         }
 
-        if (string.IsNullOrEmpty(user.UserName))
+        if (string.IsNullOrWhiteSpace(user.UserName))
             AddError("Имя пользователя не может быть пустым", nameof(user.UserName));
         else
         {
@@ -38,10 +38,10 @@ public class UpdateUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<Up
             }
         }
 
-        if (dto.EmailConfirmed && string.IsNullOrEmpty(dto.Email))
+        if (dto.EmailConfirmed && string.IsNullOrWhiteSpace(dto.Email))
             AddError("Электронная почта указана как подтврежденная, но ее значение отсутствует", nameof(user.EmailConfirmed), nameof(user.Email));
 
-        if (!string.IsNullOrEmpty(dto.Email))
+        if (!string.IsNullOrWhiteSpace(dto.Email))
         {
             var normalizedEmail = dto.Email.ToUpper();
             if (!await dbAccess.IsUniqueNormalizedEmail(normalizedEmail, user.Id))
@@ -75,7 +75,7 @@ public class UpdateUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<Up
         user.TwoFactorEnabled = dto.TwoFactorEnabled;
         user.LockoutEnd = dto.LockoutEnd != null ? ((DateTime)dto.LockoutEnd).ToUniversalTime() : null;
         user.LockoutEnabled = dto.LockoutEnabled;
-
+#error how it's working?
         return user.Id;
     }
 }

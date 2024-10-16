@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using BizLogicBase.Common;
 using BusinessLogicLayer.AdminPanel.Dto;
 using BusinessLogicLayer.AdminPanel;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace ServiceLayer.AdminServices;
@@ -21,17 +22,11 @@ namespace ServiceLayer.AdminServices;
 //    Task<string?> UpdateUser(UpdateUserDto dto);
 //}
 
-public class UpdateUserService : ErrorStorage//, IUpdateUserService
+public class UpdateUserService(MusicalShopDbContext context, UserManager<AppUser> userManager) : ErrorStorage//, IUpdateUserService
 {
-    private readonly RunnerWriteDb<UpdateUserDto, Task<string?>> runner;
-    public override IImmutableList<ValidationResult> Errors => runner.Errors;
-    public override bool HasErrors => runner.HasErrors;
-    public UpdateUserService(MusicalShopDbContext context)
-    {
-        var action = new UpdateUserAction(new(context));
-        runner = new RunnerWriteDb<UpdateUserDto, Task<string?>>(context, action);
-    }
+    private readonly RunnerWriteDb<UpdateUserDto, Task<string?>> _runner = new(context, new UpdateUserAction(new(context, userManager)));
+    public override IImmutableList<ValidationResult> Errors => _runner.Errors;
 
 #warning actually here must not be dto
-    public async Task<string?> UpdateUser(UpdateUserDto dto) => await runner.Run(dto);
+    public async Task<string?> UpdateUser(UpdateUserDto dto) => await _runner.Run(dto);
 }
