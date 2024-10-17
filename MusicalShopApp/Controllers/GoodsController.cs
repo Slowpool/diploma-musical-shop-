@@ -50,7 +50,7 @@ public class GoodsController : Controller
         {
             var goodsUnitSearchDto = await service.GetReadableGoodsInfo(id, type);
             if (goodsUnitSearchDto != null)
-                goodsUnitModels.Add(goodsUnitSearchDto);û
+                goodsUnitModels.Add(goodsUnitSearchDto);
         }
 
         var goodsSearchModel = new GoodsSearchModel

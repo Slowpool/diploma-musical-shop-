@@ -24,10 +24,47 @@ public class DataSeeding
 
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
         await EnsureUsersAsync(userManager, services);
-
+        // Unneccesary stuff for app, but it provides visibility for test-review
         var context = services.GetRequiredService<MusicalShopDbContext>();
         await EnsureMusicalInstrumentsAndTheirTypes(context);
         await EnsureAccessoriesAndTheirTypes(context);
+        await EnsureAudioEquipmentUnitsAndTheirTypes(context);
+        await EnsureSheetMusicEditionsAndTheirTypes(context);
+    }
+
+    private async static Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)
+    {
+        string[] roles = { CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole };
+        for (int i = 0; i < 4; i++)
+        {
+            var roleExists = await roleManager.RoleExistsAsync(roles[i]);
+            if (!roleExists)
+            {
+                await roleManager.CreateAsync(new IdentityRole { Name = roles[i] });
+            }
+        }
+    }
+
+    private async static Task EnsureUsersAsync(UserManager<AppUser> userManager, IServiceProvider services)
+    {
+        var configuration = services.GetRequiredService<IConfiguration>();
+        var passwordsSection = configuration.GetSection("DefaultPasswords");
+#warning it could have been implemented more, more simply.
+        string[] emails = [CommonNames.DefaultAdminEmail, CommonNames.DefaultSellerEmail, CommonNames.DefaultConsultantEmail, CommonNames.DefaultStockManagerEmail];
+        string[] roleNames = [CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole];
+        for (int i = 0; i < emails.Length; i++)
+        {
+            var defaultUser = await userManager.Users
+                .Where(x => x.UserName == emails[i])
+                .SingleOrDefaultAsync();
+            if (defaultUser == null)
+            {
+                var user = new AppUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
+                await userManager.CreateAsync(user, passwordsSection.GetValue<string>(roleNames[i])!);
+                await userManager.AddToRoleAsync(user, roleNames[i]);
+            }
+        }
+        return;
     }
 
     private async static Task EnsureMusicalInstrumentsAndTheirTypes(MusicalShopDbContext context)
@@ -186,7 +223,7 @@ public class DataSeeding
 
     private async static Task EnsureAccessoriesAndTheirTypes(MusicalShopDbContext context)
     {
-        if (context.MusicalInstruments.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
+        if (context.Accessories.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
         {
             var chairType = new SpecificType { Name = "Табуретка регулируемая" };
             var keychainType = new SpecificType { Name = "Брелок" };
@@ -214,7 +251,7 @@ public class DataSeeding
                 new()
                 {
                     GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
-                    Description = "Набор 3 в 1: пюпитр, каподастр",
+                    Description = "Набор 3 в 1: пюпитр и каподастр",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 699,
                     Status = GoodsStatus.Sold,
@@ -225,42 +262,17 @@ public class DataSeeding
             context.AddRange(accessories);
             context.SaveChanges();
         }
-
-
     }
 
-    private async static Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)
+    private static async Task EnsureAudioEquipmentUnitsAndTheirTypes(MusicalShopDbContext context)
     {
-        string[] roles = { CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole };
-        for (int i = 0; i < 4; i++)
-        {
-            var roleExists = await roleManager.RoleExistsAsync(roles[i]);
-            if (!roleExists)
-            {
-                await roleManager.CreateAsync(new IdentityRole { Name = roles[i] });
-            }
-        }
+#warning not implemented
+        return;
     }
 
-    private async static Task EnsureUsersAsync(UserManager<AppUser> userManager, IServiceProvider services)
+    private static async Task EnsureSheetMusicEditionsAndTheirTypes(MusicalShopDbContext context)
     {
-        var configuration = services.GetRequiredService<IConfiguration>();
-        var passwordsSection = configuration.GetSection("DefaultPasswords");
-#warning it could have been implemented more, more simply.
-        string[] emails = [CommonNames.DefaultAdminEmail, CommonNames.DefaultSellerEmail, CommonNames.DefaultConsultantEmail, CommonNames.DefaultStockManagerEmail];
-        string[] roleNames = [CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole];
-        for (int i = 0; i < emails.Length; i++)
-        {
-            var defaultUser = await userManager.Users
-                .Where(x => x.UserName == emails[i])
-                .SingleOrDefaultAsync();
-            if (defaultUser == null)
-            {
-                var user = new AppUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
-                await userManager.CreateAsync(user, passwordsSection.GetValue<string>(roleNames[i])!);
-                await userManager.AddToRoleAsync(user, roleNames[i]);
-            }
-        }
+#warning not implemented
         return;
     }
 }

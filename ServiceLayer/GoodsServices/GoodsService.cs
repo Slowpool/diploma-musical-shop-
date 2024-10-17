@@ -92,6 +92,8 @@ public class GoodsService(MusicalShopDbContext context)
 
 
     // Kinda complex task to implement.
+    // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
+    // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
     public async Task<List<KeyValuePair<string, Type>>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderBy orderByEnum, int page, int pageSize)
     {
         var suitableGoods = new List<Goods>();
