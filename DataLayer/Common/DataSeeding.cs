@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -173,18 +174,58 @@ public class DataSeeding
                 Type = synthesizerType
             },
         };
-            context.Add(acousticGuitarType);
-            context.Add(drumsType);
-            context.Add(fluteType);
-            context.Add(xylophoneType);
-            context.Add(synthesizerType);
+            //context.Add(acousticGuitarType);
+            //context.Add(drumsType);
+            //context.Add(fluteType);
+            //context.Add(xylophoneType);
+            //context.Add(synthesizerType);
             context.AddRange(instruments);
             context.SaveChanges();
         }
     }
 
-    private async static  Task EnsureAccessoriesAndTheirTypes(MusicalShopDbContext context)
+    private async static Task EnsureAccessoriesAndTheirTypes(MusicalShopDbContext context)
     {
+        if (context.MusicalInstruments.SingleOrDefault(mi => mi.MusicalInstrumentId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
+        {
+            var chairType = new SpecificType { Name = "Табуретка регулируемая" };
+            var keychainType = new SpecificType { Name = "Брелок" };
+            var sale = new Sale { Status = SaleStatus.Sold, Total = 699, Date = new DateTime(2023, 10, 19, 10, 20, 35) };
+            var accessories = new List<Accessory>
+            {
+                new()
+                {
+                    AccessoryId = Guid.Parse("05812ce5-61c0-4eaf-1937-aeeb653b2191"),
+                    Description = "Круглая табуретка, регулировка от 10 до 100 см высоты",
+                    ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
+                    Price = 599,
+                    Status = GoodsStatus.InStock,
+                    Type = chairType
+                },
+                new()
+                {
+                    AccessoryId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
+                    Description = "Брелок с граммофоном",
+                    ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
+                    Price = 99,
+                    Status = GoodsStatus.Reserved,
+                    Type = keychainType
+                },
+                new()
+                {
+                    AccessoryId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
+                    Description = "Набор 3 в 1: пюпитр, каподастр",
+                    ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
+                    Price = 699,
+                    Status = GoodsStatus.Sold,
+                    Type = keychainType,
+                    Sale = sale
+                },
+            };
+            context.AddRange(accessories);
+            context.SaveChanges();
+        }
+
 
     }
 
