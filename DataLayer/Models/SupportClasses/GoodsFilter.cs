@@ -11,7 +11,5 @@ public enum GoodsFilter
     None,
     Type,
     ReceiptDate,
-    Price,
-    Status
-    //ReleaseDate
+    ReleaseYear
 }

@@ -11,8 +11,8 @@ namespace DataLayer.Models;
 [Table("musical_instruments")]
 public class MusicalInstrument : Goods
 {
-    [Column("musical_instrument_id")]
-    public Guid MusicalInstrumentId { get; set; }
+    //[Column("musical_instrument_id")]
+    //public Guid MusicalInstrumentId { get; set; }
 #warning [Range(0, )] // postponed to business logic
     [Column("release_year")]
     public int ReleaseYear { get; set; }

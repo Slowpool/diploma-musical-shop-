@@ -12,6 +12,6 @@ namespace DataLayer.Models;
 [Table("audio_equipment_units")]
 public class AudioEquipmentUnit : Goods
 {
-    [Column("audio_equipment_unit_id")]
-    public Guid AudioEquipmentUnitId { get; set; }
+    //[Column("audio_equipment_unit_id")]
+    //public Guid AudioEquipmentUnitId { get; set; }
 }

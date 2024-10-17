@@ -11,13 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicalShopApp", "musicalsh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "ConstNames\Common.csproj", "{0A77C4EE-2BDD-40A6-9198-12E2C6635054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{1A4A120F-744F-4073-8FDE-8154596CD907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{1A4A120F-744F-4073-8FDE-8154596CD907}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayer", "BusinessLogic\BusinessLogicLayer.csproj", "{676E1B57-9592-4007-9737-CC4FE6F33B44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogic\BusinessLogicLayer.csproj", "{676E1B57-9592-4007-9737-CC4FE6F33B44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizLogicBase", "BizLogicBase\BizLogicBase.csproj", "{8B1506DC-EA7F-4B0B-9B3C-F03989F00DCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BizLogicBase", "BizLogicBase\BizLogicBase.csproj", "{8B1506DC-EA7F-4B0B-9B3C-F03989F00DCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbAccessLayer", "DbAccessLayer\DbAccessLayer.csproj", "{DE4EA3AE-E3FB-4811-A3BC-1DB95AE5569D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccessLayer", "DbAccessLayer\DbAccessLayer.csproj", "{DE4EA3AE-E3FB-4811-A3BC-1DB95AE5569D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayerTests", "ServiceLayerTests\ServiceLayerTests.csproj", "{3562583E-335E-4246-A989-12B7CA836CFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{DE4EA3AE-E3FB-4811-A3BC-1DB95AE5569D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE4EA3AE-E3FB-4811-A3BC-1DB95AE5569D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE4EA3AE-E3FB-4811-A3BC-1DB95AE5569D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3562583E-335E-4246-A989-12B7CA836CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3562583E-335E-4246-A989-12B7CA836CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3562583E-335E-4246-A989-12B7CA836CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3562583E-335E-4246-A989-12B7CA836CFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

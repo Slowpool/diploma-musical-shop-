@@ -27,12 +27,12 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Accessory", b =>
                 {
-                    b.Property<int>("AccessoryId")
+                    b.Property<int>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("accessory_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("AccessoryId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -57,7 +57,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("AccessoryId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 
@@ -132,12 +132,12 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.AudioEquipmentUnit", b =>
                 {
-                    b.Property<int>("AudioEquipmentUnitId")
+                    b.Property<int>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("audio_equipment_unit_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("AudioEquipmentUnitId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -162,7 +162,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("AudioEquipmentUnitId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 
@@ -173,12 +173,12 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
                 {
-                    b.Property<int>("MusicalInstrumentId")
+                    b.Property<int>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("musical_instrument_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("MusicalInstrumentId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -207,7 +207,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("MusicalInstrumentId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 
@@ -241,12 +241,12 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.SheetMusicEdition", b =>
                 {
-                    b.Property<int>("SheetMusicEditionId")
+                    b.Property<int>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("sheet_music_edition_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SheetMusicEditionId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -271,7 +271,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("SheetMusicEditionId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 

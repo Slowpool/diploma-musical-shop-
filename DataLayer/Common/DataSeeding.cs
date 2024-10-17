@@ -32,7 +32,7 @@ public class DataSeeding
 
     private async static Task EnsureMusicalInstrumentsAndTheirTypes(MusicalShopDbContext context)
     {
-        if (context.MusicalInstruments.SingleOrDefault(mi => mi.MusicalInstrumentId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
+        if (context.MusicalInstruments.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
         {
             var acousticGuitarType = new SpecificType { Name = "Акустическая гитара" };
             var drumsType = new SpecificType { Name = "Барабанная установка" };
@@ -43,7 +43,7 @@ public class DataSeeding
         {
             new()
             {
-                MusicalInstrumentId = Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191"),
+                GoodsId = Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191"),
                 Description = "FFG-3860C-SB Акустическая гитара, с вырезом, санберст, Foix",
                 ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                 Manufacturer = "John Spelberg",
@@ -55,7 +55,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("9384b7c1-6727-4dd0-88cc-7e1a1d9062cb"),
+                GoodsId = Guid.Parse("9384b7c1-6727-4dd0-88cc-7e1a1d9062cb"),
                 Description = "FFG-3860C-SB Акустическая гитара, без выреза, санберст, Hoix",
                 ReceiptDate = new DateTimeOffset(new DateTime(2024, 10, 12, 10, 20, 35)),
                 Manufacturer = "John Spelberg",
@@ -67,7 +67,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("148b3083-f123-44df-8fce-af4c7014ac31"),
+                GoodsId = Guid.Parse("148b3083-f123-44df-8fce-af4c7014ac31"),
                 Description = "L529-9X8823L Акустическая гитара, без порожков, Nice",
                 ReceiptDate = new DateTimeOffset(new DateTime(2022, 1, 10, 1, 20, 35)),
                 Manufacturer = "Завод гитар №1",
@@ -79,7 +79,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("0e05ca0d-7e34-4b65-a5fc-3e7b69194390"),
+                GoodsId = Guid.Parse("0e05ca0d-7e34-4b65-a5fc-3e7b69194390"),
                 Description = "APPOLON-19 Акустическая гитара, без розетки, санберстс отсутствует.",
                 ReceiptDate = null,
                 Manufacturer = "Завод гитар для котов",
@@ -91,7 +91,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("32eb21b6-6d88-42aa-9326-114297689a59"),
+                GoodsId = Guid.Parse("32eb21b6-6d88-42aa-9326-114297689a59"),
                 Description = "LDPWD Акустическая гитара, без выреза, артишок, Belucci",
                 ReceiptDate = null,
                 Manufacturer = "Завод собачьих гитар",
@@ -103,7 +103,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("6f5c6af2-6fb7-4cf2-8730-5e365d2c1032"),
+                GoodsId = Guid.Parse("6f5c6af2-6fb7-4cf2-8730-5e365d2c1032"),
                 Description = "Акустическая гитара, без выреза, но с вырезом, проивзедено в США",
                 ReceiptDate = new DateTimeOffset(new DateTime(2022, 1, 10, 1, 20, 35)),
                 Manufacturer = "John Maloe",
@@ -115,7 +115,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("2b14e3ec-6af4-4094-ba4b-255933603cc9"),
+                GoodsId = Guid.Parse("2b14e3ec-6af4-4094-ba4b-255933603cc9"),
                 Description = "*Барабанная дробь*... Барабанная установка \"Барабанная мечта\" - барабанный рай барабанного любителя.",
                 ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
                 Manufacturer = "Барабанный лидер",
@@ -127,7 +127,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("a07319f6-4944-4f06-bb1c-b77c27e73b1d"),
+                GoodsId = Guid.Parse("a07319f6-4944-4f06-bb1c-b77c27e73b1d"),
                 Description = "Многослойные барабаны позволят слышать себя непревзойденно.",
                 ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
                 Manufacturer = "Барабань-ка",
@@ -139,7 +139,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("ee1c5679-2018-4192-8e02-6efed0ef8c5a"),
+                GoodsId = Guid.Parse("ee1c5679-2018-4192-8e02-6efed0ef8c5a"),
                 Description = "Народный духовой инструмент",
                 ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
                 Manufacturer = "Завод барабанных флейт имени Дыхалова",
@@ -151,7 +151,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a"),
+                GoodsId = Guid.Parse("9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a"),
                 Description = "Компактное пианино, 3 режима, подсветка, присутствует нейросеть, позволяющая схватывать колебания головного мозга с целью воспроизведения желаемой мелодии. Сделано в СССР",
                 ReceiptDate = new DateTimeOffset(new DateTime(2023, 1, 10, 1, 20, 35)),
                 Manufacturer = "Steve Pianoe",
@@ -163,7 +163,7 @@ public class DataSeeding
             },
             new()
             {
-                MusicalInstrumentId = Guid.Parse("d7b2ff21-cc80-41fa-bef5-3ca93c5ec4fa"),
+                GoodsId = Guid.Parse("d7b2ff21-cc80-41fa-bef5-3ca93c5ec4fa"),
                 Description = "Данный синтезатор изготовлен из нержавеющего пластика, слоновьего зуба и экранированного хлеба. Корпус выполнен в командной строке.",
                 ReceiptDate = new DateTimeOffset(new DateTime(2023, 1, 10, 1, 20, 35)),
                 Manufacturer = "Синтезаторы? Производим.",
@@ -186,7 +186,7 @@ public class DataSeeding
 
     private async static Task EnsureAccessoriesAndTheirTypes(MusicalShopDbContext context)
     {
-        if (context.MusicalInstruments.SingleOrDefault(mi => mi.MusicalInstrumentId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
+        if (context.MusicalInstruments.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
         {
             var chairType = new SpecificType { Name = "Табуретка регулируемая" };
             var keychainType = new SpecificType { Name = "Брелок" };
@@ -195,7 +195,7 @@ public class DataSeeding
             {
                 new()
                 {
-                    AccessoryId = Guid.Parse("05812ce5-61c0-4eaf-1937-aeeb653b2191"),
+                    GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1937-aeeb653b2191"),
                     Description = "Круглая табуретка, регулировка от 10 до 100 см высоты",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 599,
@@ -204,7 +204,7 @@ public class DataSeeding
                 },
                 new()
                 {
-                    AccessoryId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
+                    GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
                     Description = "Брелок с граммофоном",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 99,
@@ -213,7 +213,7 @@ public class DataSeeding
                 },
                 new()
                 {
-                    AccessoryId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
+                    GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
                     Description = "Набор 3 в 1: пюпитр, каподастр",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 699,

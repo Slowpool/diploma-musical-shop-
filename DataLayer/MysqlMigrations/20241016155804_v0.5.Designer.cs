@@ -27,7 +27,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Accessory", b =>
                 {
-                    b.Property<Guid>("AccessoryId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
                         .HasColumnName("accessory_id");
@@ -63,7 +63,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("AccessoryId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 
@@ -138,7 +138,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.AudioEquipmentUnit", b =>
                 {
-                    b.Property<Guid>("AudioEquipmentUnitId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
                         .HasColumnName("audio_equipment_unit_id");
@@ -166,7 +166,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("AudioEquipmentUnitId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 
@@ -177,7 +177,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
                 {
-                    b.Property<Guid>("MusicalInstrumentId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
                         .HasColumnName("musical_instrument_id");
@@ -217,7 +217,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("MusicalInstrumentId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 
@@ -251,7 +251,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.SheetMusicEdition", b =>
                 {
-                    b.Property<Guid>("SheetMusicEditionId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
                         .HasColumnName("sheet_music_edition_id");
@@ -286,7 +286,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
-                    b.HasKey("SheetMusicEditionId");
+                    b.HasKey("GoodsId");
 
                     b.HasIndex("SaleId");
 

@@ -8,5 +8,12 @@ namespace DataLayer.Models.SupportClasses;
 
 public enum GoodsOrderBy
 {
-    Relevance
+    /// <summary>
+    /// Random sorting, strictly speaking.
+    /// </summary>
+    Relevance,
+    PriceAscending,
+    PriceDescending,
+    ReceiptDateAscending,
+    ReceiptDateDescending
 }
