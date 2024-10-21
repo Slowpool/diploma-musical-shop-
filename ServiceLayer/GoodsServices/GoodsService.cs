@@ -26,14 +26,19 @@ public class GoodsService(MusicalShopDbContext context)
 #warning i don't like this method. strictly speaking, i see this> (T?)(Goods?) cast for oithe first time
     public async Task<T?> GetGoodsInfo<T>(string id)
         where T : Goods
-        => typeof(T).Name switch
+    {
+        IQueryable<Goods>? targetGoods = typeof(T).Name switch
         {
-            "MusicalInstrument" => (T?)(Goods?)await context.MusicalInstruments.SingleOrDefaultAsync(e => e.GoodsId.ToString() == id),
-            "Accessory" => (T?)(Goods?)await context.Accessories.SingleOrDefaultAsync(e => e.GoodsId.ToString() == id)!,
-            "AudioEquipmentUnit" => (T?)(Goods?)await context.AudioEquipmentUnits.SingleOrDefaultAsync(e => e.GoodsId.ToString() == id)!,
-            "SheetMusicEdition" => (T?)(Goods?)await context.SheetMusicEditions.SingleOrDefaultAsync(e => e.GoodsId.ToString() == id)!,
+            "MusicalInstrument" =>  context.MusicalInstruments,
+            "Accessory" => context.Accessories,
+            "AudioEquipmentUnit" => context.AudioEquipmentUnits,
+            "SheetMusicEdition" => context.SheetMusicEditions,
             _ => null,
         };
+        return (T?)await targetGoods
+            .Include(g => g.Type)
+            .SingleOrDefaultAsync(e => e.GoodsId.ToString() == id)!;
+    }
 
     public async Task<GoodsUnitSearchDto?> GetReadableGoodsInfo<T>(string id)
         where T : Goods
@@ -58,7 +63,11 @@ public class GoodsService(MusicalShopDbContext context)
                 string from = typeof(T).Name == "MusicalInstrument" ? specificGoods.Manufacturer : specificGoods.Author;
                 dto.Name = $"{specificGoods.Type.Name} от {from}";
                 string description = $"Год выпуска: {specificGoods.ReleaseYear}.";
-                description = description + specificGoods.Description[..(MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION - description.Length)];
+                int remainedLength = MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION - description.Length;
+                int takeDescriptionLength = specificGoods.Description.Length <= remainedLength ? specificGoods.Description.Length : remainedLength;
+                description = description + specificGoods.Description.Substring(0, takeDescriptionLength);
+                if (takeDescriptionLength > specificGoods.Description.Length)
+                    description += "...";
                 dto.Description = description;
                 break;
             case "Accessory":
@@ -83,11 +92,10 @@ public class GoodsService(MusicalShopDbContext context)
 
     public async Task<GoodsUnitSearchDto?> GetReadableGoodsInfo(string id, Type type)
     {
-        MethodInfo methodInfo = typeof(GoodsService).GetMethod("", BindingFlags.Public, [typeof(string)])!;
+        MethodInfo methodInfo = typeof(GoodsService).GetMethod("GetReadableGoodsInfo", BindingFlags.IgnoreReturn | BindingFlags.Public | BindingFlags.Instance, [typeof(string)])!;
         methodInfo = methodInfo.MakeGenericMethod(type);
 
-        var del = methodInfo.CreateDelegate<Func<string, Task<GoodsUnitSearchDto?>>>();
-        return await del(id);
+        return await (Task<GoodsUnitSearchDto?>)(methodInfo.Invoke(this, [id]));
     }
 
     // Kinda complex task to implement.

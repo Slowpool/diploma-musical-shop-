@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using BusinessLogicLayer.Goods.Dto;
 using DataLayer.Models;
@@ -39,15 +40,19 @@ public class GoodsController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    [HttpGet(template: "/search")]
+    [HttpPost(template: "/goods/search")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Search([FromServices] GoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromDate, [FromQuery] string? toDate, [FromQuery] string kindOfGoods=nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy=nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder=true, [FromQuery] int page=1, [FromQuery] int pageSize=15, [FromQuery] string status=nameof(GoodsStatus.InStock))
     {
         var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
-        var statusEnum = Enum.Parse<GoodsStatus>(kindOfGoods, ignoreCase: true);
+        var statusEnum = Enum.Parse<GoodsStatus>(status, ignoreCase: true);
 #warning what about null here
-        var fromDateTime = DateTime.Parse(fromDate);
-        var toDateTime = DateTime.Parse(toDate);
+        DateTime? fromDateTime = null;
+        DateTime? toDateTime = null;
+        if (DateTime.TryParse(fromDate, out DateTime temp))
+            fromDateTime = temp;
+        if (DateTime.TryParse(toDate, out temp))
+            toDateTime = temp;
         var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromDateTime, toDateTime, kindOfGoodsEnum, statusEnum);
         var orderByEnum = Enum.Parse<GoodsOrderBy>(orderBy, ignoreCase: true);
         var orderByOptions = new GoodsOrderByOptions(orderByEnum, ascendingOrder);

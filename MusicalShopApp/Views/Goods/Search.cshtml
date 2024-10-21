@@ -3,23 +3,64 @@
 @model GoodsSearchModel
 
 <div>
-	<form asp-controller="Goods" asp-action="Search" methd="POST">
-		<input asp-for="ResearchText" />
-		<span>
-			Вид товара <input asp-for="" />
-			цена от <input asp-for="MinPrice" />
-			до <input asp-for="MaxPrice" />
-		</span>
-		<span>
-			Дата получения от <input asp-for="fromDate" />
-			до <input asp-for="toDate" />
-		</span>
-		<span>
-			Сортировать по
-			<input type="radio" value="Цена" name="PriceOrderBy" />
-			<input type="radio" value="Дата поставки на склад" name="ReceiptDate"/>
-			<input type="radio" value="Тип" name="type"
-		</span>
-
-	</form>
+    <form asp-controller="Goods" asp-action="Search" methd="POST">
+        <div>
+            <input asp-for="ResearchText" placeholder="Поиск..." />
+        </div>
+        <div>
+            <label for="kind-of-goods">Вид товара</label>
+            <span id="kind-of-goods">
+                <input id="radio-musical-instrument" type="radio" asp-for="Filter.KindOfGoods" value="MusicalInstruments" />
+                <label for="radio-musical-instrument">Музыкальный инструмент</label>
+                <input id="radio-accessory" type="radio" asp-for="Filter.KindOfGoods" value="Accessories" />
+                <label for="radio-accessory">Аксессуар</label>
+                <input id="radio-sheet-music-edition" type="radio" asp-for="Filter.KindOfGoods" value="SheetMusicEditions" />
+                <label for="radio-sheet-music-edition">Нотное издание</label>
+                <input id="radio-audio-equipment-unit" type="radio" asp-for="Filter.KindOfGoods" value="AudioEquipmentUnits" />
+                <label for="radio-audio-equipment-unit">Аудиоаппаратура</label>
+            </span>
+        </div>
+        <div>
+            <label for="goods-price">Цена</label>
+            <span id="goods-price">
+                <label for="number-min-price"> от</label>
+                <input id="number-min-price" asp-for="Filter.MinPrice" min="0" max="4294967295" />
+                <label for="number-max-price">до</label>
+                <input id="number-max-price" asp-for="Filter.MaxPrice" min="0" max="4294967295" />
+            </span>
+        </div>
+        <div>
+            <label for="date-receipt-date">Дата получения</label>
+            <span id="date-receipt-date">
+                <label for="date-from-receipt-date">от</label>
+                <input type="datetime-local" id="date-from-receipt-date" asp-for="Filter.FromReceiptDate" />
+                <label for="date-to-receipt-date">до</label>
+                <input type="datetime-local" id="date-to-receipt-date" asp-for="Filter.ToReceiptDate" />
+            </span>
+        </div>
+        <div>
+            <label for="order-goods-by">Сортировать по</label>
+            <span id="order-goods-by">
+                <input id="order-goods-by-price" type="radio" value="Price" name="OrderBy.OrderBy" />
+                <label for="order-goods-by-price">Цена</label>
+                <input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" name="OrderBy.OrderBy" />
+                <label for="order-goods-by-receipt-date">Дата поставки на склад</label>
+                <input id="order-goods-by-type" type="radio" value="Type" name="OrderBy.OrderBy" />
+                <label for="order-goods-by-type">Тип</label>
+            </span>
+        </div>
+        <div>
+            <label for="goods-status">Статус</label>
+            <span id="goods-status">
+                <input id="radio-in-stock" type="radio" value="InStock" asp-for="Filter.Status" />
+                <label for="radio-in-stock">На складе</label>
+                <input id="radio-awaiting-delivery" type="radio" value="AwaitingDelivery" asp-for="Filter.Status" />
+                <label for="radio-awaiting-delivery">Ожидает поставки</label>
+                <input id="radio-reserved" type="radio" value="Reserved" asp-for="Filter.Status" />
+                <label for="radio-reserved">Зарезервировано</label>
+                <input id="radio-sold" type="radio" value="Sold" asp-for="Filter.Status" />
+                <label for="radio-sold">Продано</label>
+            </span>
+        </div>
+    </form>
 </div>

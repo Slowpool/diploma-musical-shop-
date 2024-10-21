@@ -223,7 +223,7 @@ public class DataSeeding
 
     private async static Task EnsureAccessoriesAndTheirTypes(MusicalShopDbContext context)
     {
-        if (context.Accessories.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
+        if (context.Accessories.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-1937-aeeb653b2191")) == null)
         {
             var chairType = new SpecificType { Name = "Табуретка регулируемая" };
             var keychainType = new SpecificType { Name = "Брелок" };
@@ -233,11 +233,13 @@ public class DataSeeding
                 new()
                 {
                     GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1937-aeeb653b2191"),
-                    Description = "Круглая табуретка, регулировка от 10 до 100 см высоты",
+                    Description = "Круглая табуретка",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 599,
                     Status = GoodsStatus.InStock,
-                    Type = chairType
+                    Type = chairType,
+                    Color = "Прозрачный",
+                    Size = "регулировка высоты от 10 до 100 см, 50см радиус седла"
                 },
                 new()
                 {
@@ -246,17 +248,21 @@ public class DataSeeding
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 99,
                     Status = GoodsStatus.Reserved,
-                    Type = keychainType
+                    Type = keychainType,
+                    Color = "Черно-желтый",
+                    Size = "20см x 0.5см x 3см"
                 },
                 new()
                 {
-                    GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
+                    GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1939-aeeb653b2191"),
                     Description = "Набор 3 в 1: пюпитр и каподастр",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 699,
                     Status = GoodsStatus.Sold,
                     Type = keychainType,
-                    Sale = sale
+                    Sale = sale,
+                    Color = "Черно-рыжий",
+                    Size = "Высота пюпитра: 30-200см. Каподастр 13см x 1см x 12 см"
                 },
             };
             context.AddRange(accessories);

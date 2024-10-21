@@ -15,18 +15,18 @@ namespace ServiceLayer.GoodsServices.Support;
 public static class GoodsExtensions
 {
 #warning i'm not sure about it
-    public static IQueryable<T> OrderGoodsBy<T>(this IQueryable<T> goods, GoodsOrderBy goodsOrderBy)
+    public static /*IQueryable<T>*/ void OrderGoodsBy<T>(this IQueryable<T> goods, GoodsOrderByOptions goodsOrderByOptions)
         where T : Goods
     {
-        return goodsOrderBy switch
-        {
-            GoodsOrderBy.Relevance => goods,
-            GoodsOrderBy.PriceAscending => goods.OrderBy(g => g.Price),
-            GoodsOrderBy.PriceDescending => goods.OrderByDescending(g => g.Price),
-            GoodsOrderBy.ReceiptDateAscending => goods.OrderBy(g => g.ReceiptDate),
-            GoodsOrderBy.ReceiptDateDescending => goods.OrderByDescending(g => g.ReceiptDate),
-            _ => throw new ArgumentOutOfRangeException(
-                            nameof(GoodsOrderBy), goodsOrderBy, null),
-        };
+        //return goodsOrderBy switch
+        //{
+        //    GoodsOrderBy.Relevance => goods,
+        //    GoodsOrderBy.PriceAscending => goods.OrderBy(g => g.Price),
+        //    GoodsOrderBy.PriceDescending => goods.OrderByDescending(g => g.Price),
+        //    GoodsOrderBy.ReceiptDateAscending => goods.OrderBy(g => g.ReceiptDate),
+        //    GoodsOrderBy.ReceiptDateDescending => goods.OrderByDescending(g => g.ReceiptDate),
+        //    _ => throw new ArgumentOutOfRangeException(
+        //                    nameof(GoodsOrderBy), goodsOrderBy, null),
+        //};
     }
 }

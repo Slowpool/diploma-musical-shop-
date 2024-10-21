@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceLayer.AdminServices;
+using ServiceLayer.GoodsServices;
 
 #warning rub it off
-const bool USE_MYSQL = false;
+const bool USE_MYSQL = true;
 const bool USE_SQL_SERVER = false;
-const bool USE_SQLITE = true;
+const bool USE_SQLITE = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 var connectionString = builder.Configuration.GetConnectionString(USE_MYSQL ? "MySql" : USE_SQL_SERVER ? "SqlServer" : USE_SQLITE ? "Sqlite" : "") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<MusicalShopDbContext>(options =>
 {
@@ -38,6 +38,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<UserDbAccess>();
 builder.Services.AddScoped<GetUserService>();
 builder.Services.AddScoped<UpdateUserService>();
+builder.Services.AddScoped<GoodsService>();
 
 
 var app = builder.Build();
