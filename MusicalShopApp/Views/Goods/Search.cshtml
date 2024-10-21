@@ -2,4 +2,24 @@
 
 @model GoodsSearchModel
 
-search for @Model.ResearchText
+<div>
+	<form asp-controller="Goods" asp-action="Search" methd="POST">
+		<input asp-for="ResearchText" />
+		<span>
+			Вид товара <input asp-for="" />
+			цена от <input asp-for="MinPrice" />
+			до <input asp-for="MaxPrice" />
+		</span>
+		<span>
+			Дата получения от <input asp-for="fromDate" />
+			до <input asp-for="toDate" />
+		</span>
+		<span>
+			Сортировать по
+			<input type="radio" value="Цена" name="PriceOrderBy" />
+			<input type="radio" value="Дата поставки на склад" name="ReceiptDate"/>
+			<input type="radio" value="Тип" name="type"
+		</span>
+
+	</form>
+</div>

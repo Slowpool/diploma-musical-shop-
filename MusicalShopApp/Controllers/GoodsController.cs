@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using BusinessLogicLayer.Goods.Dto;
+using DataLayer.Models;
 using DataLayer.Models.SupportClasses;
+using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicalShopApp.Models;
@@ -39,14 +41,25 @@ public class GoodsController : Controller
 
     [HttpGet(template: "/search")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Search([FromServices] GoodsService service, [FromQuery] string q, [FromQuery] string filter=nameof(GoodsFilter.None), [FromQuery] string filterValue="", [FromQuery] string orderBy=nameof(GoodsOrderBy.Relevance), [FromQuery] int page=1, [FromQuery] int pageSize=15)
+    public async Task<IActionResult> Search([FromServices] GoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromDate, [FromQuery] string? toDate, [FromQuery] string kindOfGoods=nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy=nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder=true, [FromQuery] int page=1, [FromQuery] int pageSize=15, [FromQuery] string status=nameof(GoodsStatus.InStock))
     {
-        var filterEnum = Enum.Parse<GoodsFilter>(value: filter, ignoreCase: true);
-        var orderByEnum = Enum.Parse<GoodsOrderBy>(value: orderBy, ignoreCase: true);
+        var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
+        var statusEnum = Enum.Parse<GoodsStatus>(kindOfGoods, ignoreCase: true);
+#warning what about null here
+        var fromDateTime = DateTime.Parse(fromDate);
+        var toDateTime = DateTime.Parse(toDate);
+        var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromDateTime, toDateTime, kindOfGoodsEnum, statusEnum);
+        var orderByEnum = Enum.Parse<GoodsOrderBy>(orderBy, ignoreCase: true);
+        var orderByOptions = new GoodsOrderByOptions(orderByEnum, ascendingOrder);
 #warning what about query object pattern here?
-        var goodsIdsAndTypes = await service.GetRelevantGoodsIds(q, new GoodsFilterOptions(filterEnum, filterValue), orderByEnum, page, pageSize);
+        var goodsIds = await service.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
+#warning i don't like it
+        var type = kindOfGoodsEnum == KindOfGoods.Accessories ? typeof(Accessory) :
+            kindOfGoodsEnum == KindOfGoods.AudioEquipmentUnits ? typeof(AudioEquipmentUnit) :
+            kindOfGoodsEnum == KindOfGoods.MusicalInstruments ? typeof(MusicalInstrument) :
+            typeof(SheetMusicEdition);
         List<GoodsUnitSearchDto> goodsUnitModels = new();
-        foreach (var (id, type) in goodsIdsAndTypes)
+        foreach (var id in goodsIds)
         {
             var goodsUnitSearchDto = await service.GetReadableGoodsInfo(id, type);
             if (goodsUnitSearchDto != null)
@@ -56,8 +69,8 @@ public class GoodsController : Controller
         var goodsSearchModel = new GoodsSearchModel
         {
             ResearchText = q,
-            Filter = filterEnum,
-            OrderBy = orderByEnum,
+            Filter = filterOptions,
+            OrderBy = orderByOptions,
             GoodsUnitModels = goodsUnitModels
         };
         return View(goodsSearchModel);

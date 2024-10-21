@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Goods.Dto;
 using DataLayer.Models.SupportClasses;
+using ServiceLayer.GoodsServices.Support;
 
 namespace MusicalShopApp.Models.Goods;
 
@@ -7,7 +8,6 @@ public class GoodsSearchModel
 {
 	public string ResearchText { get; set; }
 	public List<GoodsUnitSearchDto> GoodsUnitModels { get; set; }
-	public GoodsOrderBy OrderBy { get; set; }
-	public GoodsFilter Filter { get; set; }
-
+	public GoodsOrderByOptions OrderBy { get; set; }
+	public GoodsFilterOptions Filter { get; set; }
 }

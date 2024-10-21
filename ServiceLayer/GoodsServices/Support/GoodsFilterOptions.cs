@@ -1,4 +1,5 @@
 ﻿using DataLayer.Models.SupportClasses;
+using DataLayer.SupportClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,4 +14,4 @@ namespace ServiceLayer.GoodsServices.Support;
 /// </summary>
 /// <param name="GoodsFilter"></param>
 /// <param name="FilterValue"></param>
-public record class GoodsFilterOptions(GoodsFilter GoodsFilter, string FilterValue);
+public record class GoodsFilterOptions(int? MinPrice, int? MaxPrice, DateTimeOffset? FromReceiptDate, DateTimeOffset? ToReceiptDate, KindOfGoods KindOfGoods, GoodsStatus Status);

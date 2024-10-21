@@ -5,11 +5,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.SupportClasses;
-
-public enum GoodsFilter
-{
-    None,
-    Type,
-    ReceiptDate,
-    ReleaseYear
-}
+public record class GoodsOrderByOptions(GoodsOrderBy OrderBy, bool AscendingOrder);
