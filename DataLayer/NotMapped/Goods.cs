@@ -19,11 +19,13 @@ public class Goods : ISoftDeletable
     [Column("soft_deleted")]
     public bool SoftDeleted { get; set; }
 #warning workaround
-    [Range(0, 10_000_000)]
+    [Range(0, 4_294_967_295)]
     public int Price { get; set; }
     public GoodsStatus Status { get; set; }
     [MaxLength(500)]
     public string Description { get; set; }
+    [MaxLength(200)]
+    public string Name { get; set; }
     // relationships
     [Column("sale_id")]
     public int? SaleId { get; set; }

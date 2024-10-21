@@ -50,3 +50,6 @@ div.update-user-errors {
     color: red;
 }
 
+hr.narrow {
+    height: 1px;
+}

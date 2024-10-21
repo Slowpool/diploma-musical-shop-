@@ -1,11 +1,12 @@
 ﻿@using MusicalShopApp.Models.Goods
+@using DataLayer.SupportClasses
 
 @model GoodsSearchModel
 
 <div>
-    <form asp-controller="Goods" asp-action="Search" methd="POST">
+    <form asp-controller="Goods" asp-action="Search" method="get">
         <div>
-            <input asp-for="ResearchText" placeholder="Поиск..." />
+            <input asp-for="ResearchText" name="q" placeholder="Поиск..." />
         </div>
         <div>
             <label for="kind-of-goods">Вид товара</label>
@@ -41,12 +42,12 @@
         <div>
             <label for="order-goods-by">Сортировать по</label>
             <span id="order-goods-by">
-                <input id="order-goods-by-price" type="radio" value="Price" name="OrderBy.OrderBy" />
+                <input id="order-goods-by-relevance" type="radio" value="Relevance" name="OrderBy.OrderBy" asp-for="OrderBy.OrderBy"/>
+                <label for="order-goods-by-relevance">Релевантность</label>
+                <input id="order-goods-by-price" type="radio" value="Price" name="OrderBy.OrderBy" asp-for="OrderBy.OrderBy"/>
                 <label for="order-goods-by-price">Цена</label>
-                <input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" name="OrderBy.OrderBy" />
+                <input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" name="OrderBy.OrderBy" asp-for="OrderBy.OrderBy"/>
                 <label for="order-goods-by-receipt-date">Дата поставки на склад</label>
-                <input id="order-goods-by-type" type="radio" value="Type" name="OrderBy.OrderBy" />
-                <label for="order-goods-by-type">Тип</label>
             </span>
         </div>
         <div>
@@ -62,5 +63,31 @@
                 <label for="radio-sold">Продано</label>
             </span>
         </div>
+        <input type="submit" value="Поиск (удалить)" />
     </form>
+    <div class="goods-search-results">
+        @foreach (var goods in Model.GoodsUnitModels)
+        {
+            <div goods-mini-card>
+                <a href="@goods.Id">
+                    <h4 class="goods-mini-card-name">@goods.Name</h4>
+                </a>
+                <div class="goods-mini-card-type">
+                    @goods.Type
+                </div>
+                <div class="goods-mini-card-description">
+                    @goods.Description
+                </div>
+                <div>
+                    <span class="goods-mini-card-price">
+                        @goods.Price
+                    </span>
+                    <span class="goods-mini-card-status">
+                        @goods.Status.ToFormattedText()
+                    </span>
+                </div>
+            </div>
+            <hr class="narrow"/>
+        }
+    </div>
 </div>

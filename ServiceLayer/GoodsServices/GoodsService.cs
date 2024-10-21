@@ -61,12 +61,12 @@ public class GoodsService(MusicalShopDbContext context)
             case "SheetMusicEdition":
                 dynamic specificGoods = goods;
                 string from = typeof(T).Name == "MusicalInstrument" ? specificGoods.Manufacturer : specificGoods.Author;
-                dto.Name = $"{specificGoods.Type.Name} от {from}";
-                string description = $"Год выпуска: {specificGoods.ReleaseYear}.";
+                dto.Name = $"{specificGoods.Name} от \"{from}\"";
+                string description = $"Год выпуска: {specificGoods.ReleaseYear}. ";
                 int remainedLength = MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION - description.Length;
                 int takeDescriptionLength = specificGoods.Description.Length <= remainedLength ? specificGoods.Description.Length : remainedLength;
-                description = description + specificGoods.Description.Substring(0, takeDescriptionLength);
-                if (takeDescriptionLength > specificGoods.Description.Length)
+                description += specificGoods.Description.Substring(0, takeDescriptionLength);
+                if (takeDescriptionLength < specificGoods.Description.Length)
                     description += "...";
                 dto.Description = description;
                 break;
@@ -74,12 +74,12 @@ public class GoodsService(MusicalShopDbContext context)
                 var accessory = (Accessory)goods;
                 string color = accessory.Color.ToLower();
                 string size = accessory.Size.ToLower();
-                dto.Name = $"{accessory.Type.Name}, {color}, {size}";
+                dto.Name = $"{accessory.Name}, {color}, {size}";
                 dto.Description = accessory.Description[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
                 break;
             case "AudioEquipmentUnit":
                 var audioEquipmentUnit = (AudioEquipmentUnit)goods;
-                dto.Name = $"{audioEquipmentUnit.Type.Name}";
+                dto.Name = $"{audioEquipmentUnit.Name}";
                 dto.Description = audioEquipmentUnit.Description[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
                 break;
 #warning Unreachable code

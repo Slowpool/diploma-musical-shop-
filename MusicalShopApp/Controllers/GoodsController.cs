@@ -40,8 +40,22 @@ public class GoodsController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    [HttpPost(template: "/goods/search")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Search(GoodsSearchModel model)
+    {
+        //GoodsSearchModel model = new()
+        //{
+        //    Filter = new GoodsFilterOptions(null, null, null, null, KindOfGoods: KindOfGoods.MusicalInstruments,
+        //        Status: GoodsStatus.InStock),
+        //    GoodsUnitModels = [],
+        //    OrderBy = new GoodsOrderByOptions(GoodsOrderBy.Relevance, true),
+        //    ResearchText = string.Empty
+        //};
+        return View(model);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Search([FromServices] GoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromDate, [FromQuery] string? toDate, [FromQuery] string kindOfGoods=nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy=nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder=true, [FromQuery] int page=1, [FromQuery] int pageSize=15, [FromQuery] string status=nameof(GoodsStatus.InStock))
     {
         var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
