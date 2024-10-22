@@ -125,6 +125,7 @@ public class GoodsService(MusicalShopDbContext context)
         goods = goods.AsNoTracking();
         goods = goods.Include(g => g.Type);
         goods = goods.Where(g => g.Status == filterOptions.Status);
+        goods = goods.Where(g => g.Description.Contains(researchText) || g.Name.Contains(researchText) || g.Type.Name.Contains(researchText));
         if (filterOptions.MinPrice != null)
             goods = goods.Where(g => g.Price >= filterOptions.MinPrice);
         if (filterOptions.MaxPrice != null)
@@ -133,6 +134,7 @@ public class GoodsService(MusicalShopDbContext context)
             goods = goods.Where(g => g.ReceiptDate >= filterOptions.FromReceiptDate);
         if (filterOptions.ToReceiptDate != null)
             goods = goods.Where(g => g.ReceiptDate <= filterOptions.ToReceiptDate);
+
         switch(orderByOptions.OrderBy)
         {
             case GoodsOrderBy.Relevance:
