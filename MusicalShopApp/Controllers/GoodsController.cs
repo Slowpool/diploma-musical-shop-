@@ -40,34 +40,33 @@ public class GoodsController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Search(GoodsSearchModel model)
-    {
-        //GoodsSearchModel model = new()
-        //{
-        //    Filter = new GoodsFilterOptions(null, null, null, null, KindOfGoods: KindOfGoods.MusicalInstruments,
-        //        Status: GoodsStatus.InStock),
-        //    GoodsUnitModels = [],
-        //    OrderBy = new GoodsOrderByOptions(GoodsOrderBy.Relevance, true),
-        //    ResearchText = string.Empty
-        //};
-        return View(model);
-    }
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public async Task<IActionResult> Search(GoodsSearchModel model)
+    //{
+    //    //GoodsSearchModel model = new()
+    //    //{
+    //    //    Filter = new GoodsFilterOptions(null, null, null, null, KindOfGoods: KindOfGoods.MusicalInstruments,
+    //    //        Status: GoodsStatus.InStock),
+    //    //    GoodsUnitModels = [],
+    //    //    OrderBy = new GoodsOrderByOptions(GoodsOrderBy.Relevance, true),
+    //    //    ResearchText = string.Empty
+    //    //};
+    //    return View(model);
+    //}
 
     [HttpGet]
-    public async Task<IActionResult> Search([FromServices] GoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromDate, [FromQuery] string? toDate, [FromQuery] string kindOfGoods=nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy=nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder=true, [FromQuery] int page=1, [FromQuery] int pageSize=15, [FromQuery] string status=nameof(GoodsStatus.InStock))
+    public async Task<IActionResult> Search([FromServices] GoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromReceiptDate, [FromQuery] string? toReceiptDate, [FromQuery] string kindOfGoods=nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy=nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder=true, [FromQuery] int page=1, [FromQuery] int pageSize=15, [FromQuery] string status=nameof(GoodsStatus.InStock))
     {
         var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
         var statusEnum = Enum.Parse<GoodsStatus>(status, ignoreCase: true);
-#warning what about null here
-        DateTime? fromDateTime = null;
-        DateTime? toDateTime = null;
-        if (DateTime.TryParse(fromDate, out DateTime temp))
-            fromDateTime = temp;
-        if (DateTime.TryParse(toDate, out temp))
-            toDateTime = temp;
-        var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromDateTime, toDateTime, kindOfGoodsEnum, statusEnum);
+        DateTime? fromReceiptDateTime = null;
+        DateTime? toReceiptDateTime = null;
+        if (DateTime.TryParse(fromReceiptDate, out DateTime temp))
+            fromReceiptDateTime = temp;
+        if (DateTime.TryParse(toReceiptDate, out temp))
+            toReceiptDateTime = temp;
+        var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromReceiptDateTime, toReceiptDateTime, kindOfGoodsEnum, statusEnum);
         var orderByEnum = Enum.Parse<GoodsOrderBy>(orderBy, ignoreCase: true);
         var orderByOptions = new GoodsOrderByOptions(orderByEnum, ascendingOrder);
 #warning what about query object pattern here?
@@ -90,7 +89,8 @@ public class GoodsController : Controller
             ResearchText = q,
             Filter = filterOptions,
             OrderBy = orderByOptions,
-            GoodsUnitModels = goodsUnitModels
+            GoodsUnitModels = goodsUnitModels,
+            ResultsCount = goodsUnitModels.Count()
         };
         return View(goodsSearchModel);
     }

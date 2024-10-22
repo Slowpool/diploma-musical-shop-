@@ -11,13 +11,13 @@
         <div>
             <label for="kind-of-goods">Вид товара</label>
             <span id="kind-of-goods">
-                <input id="radio-musical-instrument" type="radio" asp-for="Filter.KindOfGoods" value="MusicalInstruments" />
+                <input id="radio-musical-instrument" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="MusicalInstruments" />
                 <label for="radio-musical-instrument">Музыкальный инструмент</label>
-                <input id="radio-accessory" type="radio" asp-for="Filter.KindOfGoods" value="Accessories" />
+                <input id="radio-accessory" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="Accessories" />
                 <label for="radio-accessory">Аксессуар</label>
-                <input id="radio-sheet-music-edition" type="radio" asp-for="Filter.KindOfGoods" value="SheetMusicEditions" />
+                <input id="radio-sheet-music-edition" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="SheetMusicEditions" />
                 <label for="radio-sheet-music-edition">Нотное издание</label>
-                <input id="radio-audio-equipment-unit" type="radio" asp-for="Filter.KindOfGoods" value="AudioEquipmentUnits" />
+                <input id="radio-audio-equipment-unit" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="AudioEquipmentUnits" />
                 <label for="radio-audio-equipment-unit">Аудиоаппаратура</label>
             </span>
         </div>
@@ -25,41 +25,41 @@
             <label for="goods-price">Цена</label>
             <span id="goods-price">
                 <label for="number-min-price"> от</label>
-                <input id="number-min-price" asp-for="Filter.MinPrice" min="0" max="4294967295" />
+                <input id="number-min-price"  name="minPrice" min="0" max="4294967295" />
                 <label for="number-max-price">до</label>
-                <input id="number-max-price" asp-for="Filter.MaxPrice" min="0" max="4294967295" />
+                <input id="number-max-price" asp-for="Filter.MaxPrice" name="maxPrice" min="0" max="4294967295" />
             </span>
         </div>
         <div>
             <label for="date-receipt-date">Дата получения</label>
             <span id="date-receipt-date">
                 <label for="date-from-receipt-date">от</label>
-                <input type="datetime-local" id="date-from-receipt-date" asp-for="Filter.FromReceiptDate" />
+                <input type="datetime-local" id="date-from-receipt-date" asp-for="Filter.FromReceiptDate" name="fromReceiptDate" />
                 <label for="date-to-receipt-date">до</label>
-                <input type="datetime-local" id="date-to-receipt-date" asp-for="Filter.ToReceiptDate" />
+                <input type="datetime-local" id="date-to-receipt-date" asp-for="Filter.ToReceiptDate" name="toReceiptDate" />
             </span>
         </div>
         <div>
             <label for="order-goods-by">Сортировать по</label>
             <span id="order-goods-by">
-                <input id="order-goods-by-relevance" type="radio" value="Relevance" name="OrderBy.OrderBy" asp-for="OrderBy.OrderBy" />
+                <input id="order-goods-by-relevance" type="radio" value="Relevance" asp-for="OrderBy.OrderBy" name="orderBy" />
                 <label for="order-goods-by-relevance">Релевантность</label>
-                <input id="order-goods-by-price" type="radio" value="Price" name="OrderBy.OrderBy" asp-for="OrderBy.OrderBy"/>
+                <input id="order-goods-by-price" type="radio" value="Price" asp-for="OrderBy.OrderBy" name="orderBy" />
                 <label for="order-goods-by-price">Цена</label>
-                <input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" name="OrderBy.OrderBy" asp-for="OrderBy.OrderBy"/>
+                <input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" asp-for="OrderBy.OrderBy" name="orderBy" />
                 <label for="order-goods-by-receipt-date">Дата поставки на склад</label>
             </span>
         </div>
         <div>
             <label for="goods-status">Статус</label>
             <span id="goods-status">
-                <input id="radio-in-stock" type="radio" value="InStock" asp-for="Filter.Status" />
+                <input id="radio-in-stock" type="radio" value="InStock" asp-for="Filter.Status" name="status"/>
                 <label for="radio-in-stock">На складе</label>
-                <input id="radio-awaiting-delivery" type="radio" value="AwaitingDelivery" asp-for="Filter.Status" />
+                <input id="radio-awaiting-delivery" type="radio" value="AwaitingDelivery" asp-for="Filter.Status" name="status"/>
                 <label for="radio-awaiting-delivery">Ожидает поставки</label>
-                <input id="radio-reserved" type="radio" value="Reserved" asp-for="Filter.Status" />
+                <input id="radio-reserved" type="radio" value="Reserved" asp-for="Filter.Status" name="status"/>
                 <label for="radio-reserved">Зарезервировано</label>
-                <input id="radio-sold" type="radio" value="Sold" asp-for="Filter.Status" />
+                <input id="radio-sold" type="radio" value="Sold" asp-for="Filter.Status" name="status"/>
                 <label for="radio-sold">Продано</label>
             </span>
         </div>
