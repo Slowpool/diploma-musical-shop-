@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using BusinessLogicLayer.Goods.Dto;
+using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.Models.SupportClasses;
 using DataLayer.SupportClasses;
@@ -21,11 +22,13 @@ public class GoodsController : Controller
     public GoodsController(ILogger<GoodsController> logger)
     {
         _logger = logger;
+        //HttpContext.Session.SetString("age", "20");
     }
     
 
     public IActionResult Index()
     {
+
         return View();
     }
 
