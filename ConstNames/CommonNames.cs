@@ -13,4 +13,7 @@ public static class CommonNames
     public const string StockManagerRole = "Менеджер складского учета";
 
     public const string NotExistingGuid = "";
+
+    public const string SeparatedGoodsIdsInCart = "cart-with-goods";
+	public const char GoodsIdSeparator = ',';
 }

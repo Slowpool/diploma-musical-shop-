@@ -25,3 +25,15 @@ for (checkList of checkLists) {
         }
     }
 }
+
+$(document).ready(function () {
+    $('.add-remove-cart-button').on('click', function (e) {
+        markSwitched(e.target);
+    });
+});
+
+function markSwitched(button) {
+    button.value = button.value == '+' ? '-' : '+';
+    form = button.closest('form');
+    form.submit();
+}

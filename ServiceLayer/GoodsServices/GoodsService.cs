@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 using System.Reflection;
 using ServiceLayer.GoodsServices.Support;
 using DataLayer.SupportClasses;
+using System.Net.Http;
+using System.Collections;
 
 namespace ServiceLayer.GoodsServices;
 
@@ -24,7 +26,7 @@ namespace ServiceLayer.GoodsServices;
 public class GoodsService(MusicalShopDbContext context)
 {
 #warning i don't like this method. strictly speaking, i see this> (T?)(Goods?) cast for oithe first time
-    public async Task<T?> GetGoodsInfo<T>(string id)
+	public async Task<T?> GetGoodsInfo<T>(string id)
         where T : Goods
     {
         IQueryable<Goods>? targetGoods = typeof(T).Name switch
@@ -95,7 +97,7 @@ public class GoodsService(MusicalShopDbContext context)
         MethodInfo methodInfo = typeof(GoodsService).GetMethod("GetReadableGoodsInfo", BindingFlags.IgnoreReturn | BindingFlags.Public | BindingFlags.Instance, [typeof(string)])!;
         methodInfo = methodInfo.MakeGenericMethod(type);
 
-        return await (Task<GoodsUnitSearchDto?>)(methodInfo.Invoke(this, [id]));
+        return await (Task<GoodsUnitSearchDto?>)methodInfo.Invoke(this, [id])!;
     }
 
     // Kinda complex task to implement.
@@ -338,4 +340,32 @@ public class GoodsService(MusicalShopDbContext context)
         //        return result; 
         #endregion
     }
+
+#warning neat stuff
+    public string? AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIds)
+    {
+		string[] ids = goodsIds?.Split(CommonNames.GoodsIdSeparator) ?? [];
+		var idsList = ids.ToList();
+		List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, idsList) : AddInCart(goodsId, idsList);
+        if (updatedGoodsIdsList == null)
+            return null;
+        else
+            return string.Join(CommonNames.GoodsIdSeparator, updatedGoodsIdsList);
+    }
+
+	private List<string>? RemoveFromCart(string goodsId, List<string> idsList)
+	{
+        if (!idsList.Contains(goodsId))
+            return null;
+        idsList.Remove(goodsId);
+        return idsList;
+	}
+
+	private List<string>? AddInCart(string goodsId, List<string> idsList)
+	{
+		if (idsList.Contains(goodsId))
+			return null;
+		idsList.Add(goodsId);
+		return idsList;
+	}
 }

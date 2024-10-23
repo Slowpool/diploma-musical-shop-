@@ -80,9 +80,13 @@ input.add-remove-cart-button {
 
 div.goods-search-results {
 }
-
+ 
 form.goods-mini-card-add-remove {
-    height: 100%;
+    height: 80%;
+}
+
+div.adding-removing-results {
+    height: 20%;
 }
 
 hr.narrow {
