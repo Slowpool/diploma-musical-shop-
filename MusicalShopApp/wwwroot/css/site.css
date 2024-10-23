@@ -50,6 +50,21 @@ div.update-user-errors {
     color: red;
 }
 
+div.goods-mini-card-left {
+    float: left;
+    width: 80%;
+}   
+
+div.goods-mini-card-right {
+    float: right;
+    width: 20%;
+}
+
+div.add-remove-cart-button {
+    width: 100%;
+    height: 100%;
+}
+
 hr.narrow {
     height: 1px;
 }

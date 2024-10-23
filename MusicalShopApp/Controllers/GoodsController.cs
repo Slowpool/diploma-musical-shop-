@@ -22,13 +22,10 @@ public class GoodsController : Controller
     public GoodsController(ILogger<GoodsController> logger)
     {
         _logger = logger;
-        //HttpContext.Session.SetString("age", "20");
     }
-    
 
     public IActionResult Index()
     {
-
         return View();
     }
 
@@ -74,7 +71,7 @@ public class GoodsController : Controller
         var orderByOptions = new GoodsOrderByOptions(orderByEnum, ascendingOrder);
 #warning what about query object pattern here?
         var goodsIds = await service.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
-#warning i don't like it
+#warning it could be simpler
         var type = kindOfGoodsEnum == KindOfGoods.Accessories ? typeof(Accessory) :
             kindOfGoodsEnum == KindOfGoods.AudioEquipmentUnits ? typeof(AudioEquipmentUnit) :
             kindOfGoodsEnum == KindOfGoods.MusicalInstruments ? typeof(MusicalInstrument) :
@@ -85,6 +82,7 @@ public class GoodsController : Controller
             var goodsUnitSearchDto = await service.GetReadableGoodsInfo(id, type);
             if (goodsUnitSearchDto != null)
                 goodsUnitModels.Add(goodsUnitSearchDto);
+#warning define whether the goods is in cart or it isn't
         }
 
         var goodsSearchModel = new GoodsSearchModel
@@ -96,5 +94,12 @@ public class GoodsController : Controller
             ResultsCount = goodsUnitModels.Count()
         };
         return View(goodsSearchModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddToOrRemoveFromCart(Guid goodsId, bool addToCart)
+    {
+        return RedirectToAction("Search");
     }
 }
