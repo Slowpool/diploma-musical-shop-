@@ -114,10 +114,9 @@ public class GoodsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<ContentResult> AddToOrRemoveFromCart(string goodsId, bool isInCart, [FromServices] GoodsService service)
     {
-        string? goodsIdsAndTypes = GoodsIdsInCart;
-        string? newGoodsIdsAndTypes = await service.AddToOrRemoveFromCart(goodsId, isInCart, goodsIdsAndTypes);
+        string? newGoodsIdsAndTypes = await service.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsInCart);
         if (newGoodsIdsAndTypes == null)
-            return Content("goods id or request were strange");
+            return Content("failed");
         HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, newGoodsIdsAndTypes);
         return Content("success");
     }
