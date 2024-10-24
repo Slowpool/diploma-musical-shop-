@@ -73,8 +73,6 @@
 	<div class="results-count">
 		Results: @Model.ResultsCount
 	</div>
-	@{
-		await Html.PartialAsync("_PartialGoodsList", Model.GoodsUnitModels);
-	}
+	@await Html.PartialAsync("_PartialGoodsList", Model.GoodsUnitModels)
 </div>
 

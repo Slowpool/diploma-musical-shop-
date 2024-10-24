@@ -10,6 +10,7 @@ using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using MusicalShopApp.Models;
 using MusicalShopApp.Models.Goods;
 using NuGet.Packaging.Signing;
@@ -24,6 +25,12 @@ public class GoodsController : Controller
     private readonly ILogger<GoodsController> _logger;
 
     private string? GoodsIdsInCart => HttpContext.Session.GetString(CommonNames.SeparatedGoodsIdsInCart);
+    private string[]? GoodsIdsAndTypes => GoodsIdsInCart?.Split(CommonNames.GoodsIdSeparator);
+    private static string GetGoodsId(string goodsIdAndType) => goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[0];
+    private bool IsInCart(string goodsId) => GoodsIdsInCart != null && GoodsIdsAndTypes!.Any(s => s.Contains(goodsId));
+
+#warning it could have been
+    //private static string GetType(string goodsIdAndType) => goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[1];
 
     public GoodsController(ILogger<GoodsController> logger)
     {
@@ -83,13 +90,12 @@ public class GoodsController : Controller
             kindOfGoodsEnum == KindOfGoods.MusicalInstruments ? typeof(MusicalInstrument) :
             typeof(SheetMusicEdition);
         List<GoodsUnitSearchDto> goodsUnitModels = new();
-        foreach (var id in goodsIds)
+        foreach (var goodsId in goodsIds)
         {
-            var goodsUnitSearchDto = await service.GetReadableGoodsInfo(id, type);
+            var goodsUnitSearchDto = await service.GetReadableGoodsInfo(goodsId, type);
             if (goodsUnitSearchDto != null)
             {
-                var goodsIdsInCart = HttpContext.Session.GetString(CommonNames.SeparatedGoodsIdsInCart);
-                goodsUnitSearchDto.IsInCart = goodsIdsInCart != null && goodsIdsInCart.Split(CommonNames.GoodsIdSeparator).Contains(id);
+                goodsUnitSearchDto.IsInCart = IsInCart(goodsId);
                 goodsUnitModels.Add(goodsUnitSearchDto);
             }
         }
@@ -108,11 +114,11 @@ public class GoodsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<ContentResult> AddToOrRemoveFromCart(string goodsId, bool isInCart, [FromServices] GoodsService service)
     {
-        string? goodsIds = GoodsIdsInCart;
-        string? updatedgoodsIds = await service.AddToOrRemoveFromCart(goodsId, isInCart, goodsIds);
-        if (updatedgoodsIds == null)
+        string? goodsIdsAndTypes = GoodsIdsInCart;
+        string? newGoodsIdsAndTypes = await service.AddToOrRemoveFromCart(goodsId, isInCart, goodsIdsAndTypes);
+        if (newGoodsIdsAndTypes == null)
             return Content("goods id or request were strange");
-        HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, updatedgoodsIds);
+        HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, newGoodsIdsAndTypes);
         return Content("success");
     }
 
@@ -127,14 +133,18 @@ public class GoodsController : Controller
     {
 #warning probably the same code as in search
         List<GoodsUnitSearchDto> GoodsUnitModels = new();
-        var goodsIds = GoodsIdsInCart;
-        if (!string.IsNullOrEmpty(goodsIds))
+        if (!string.IsNullOrEmpty(GoodsIdsInCart))
         {
-            foreach(var goodsId in goodsIds.Split(','))
+            foreach (var goodsIdAndType in GoodsIdsAndTypes!)
             {
-                var goodsInfo = await service.GetReadableGoodsInfo(goodsId, await service.GetGoodsType(goodsId));
+#warning use GetType 
+                string goodsId = GetGoodsId(goodsIdAndType);
+                var goodsInfo = await service.GetReadableGoodsInfo(goodsId, await service.GetGoodsType(goodsIdAndType));
                 if (goodsInfo != null)
+                {
+                    goodsInfo.IsInCart = IsInCart(goodsId);
                     GoodsUnitModels.Add(goodsInfo);
+                }
             }
         }
         return View(GoodsUnitModels);

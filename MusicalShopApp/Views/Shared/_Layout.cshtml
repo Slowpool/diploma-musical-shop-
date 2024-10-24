@@ -41,11 +41,11 @@
                         <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="PurchaseReturn" asp-action="Index">Возврат покупки</a>
                         </li> *@
-                            await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "Sales", "Оформление продажи"));
-                            await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "PurchaseReturn", "Возврат покупки"));
-                            await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Reports", "Отчеты"));
-                            await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "AdminPanel", "Панель администратора"));
                         }
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "Goods", "Cart", "Корзина"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "PurchaseReturn", "Index", "Возврат покупки"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Reports", "Index", "Отчеты"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "AdminPanel", "Index", "Панель администратора"))
 
                         @* @Html.RenderPartialAsync("_AdminActionsPartial") *@
                         @* <li class="nav-item">
@@ -57,7 +57,9 @@
                         </li>
 
                     </ul>
-                    @{await Html.RenderPartialAsync("_LoginPartial");}
+                    @{
+                        await Html.RenderPartialAsync("_LoginPartial");
+                    }
                 </div>
             </div>
         </nav>

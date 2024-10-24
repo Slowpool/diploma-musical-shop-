@@ -343,25 +343,26 @@ public class GoodsService(MusicalShopDbContext context)
 
     public async Task<Type> GetGoodsType(string goodsId)
     {
-        Guid guid = Guid.Parse(goodsId);
-        if (context.Accessories.Contains(new Accessory() { GoodsId = guid }))
+        Guid guid = Guid.Parse(goodsId.Split(CommonNames.GoodsIdTypeSeparator)[0]);
+#warning why dijkstra said that function should have only one output
+        if (await context.Accessories.ContainsAsync(new Accessory() { GoodsId = guid }))
             return typeof(Accessory);
-        else if (context.MusicalInstruments.Contains(new MusicalInstrument() { GoodsId = guid }))
+        else if (await context.MusicalInstruments.ContainsAsync(new MusicalInstrument() { GoodsId = guid }))
             return typeof(MusicalInstrument);
-        else if (context.AudioEquipmentUnits.Contains(new AudioEquipmentUnit() { GoodsId = guid }))
+        else if (await context.AudioEquipmentUnits.ContainsAsync(new AudioEquipmentUnit() { GoodsId = guid }))
             return typeof(AudioEquipmentUnit);
-        else if (context.SheetMusicEditions.Contains(new SheetMusicEdition() { GoodsId = guid }))
+        else if (await context.SheetMusicEditions.ContainsAsync(new SheetMusicEdition() { GoodsId = guid }))
             return typeof(SheetMusicEdition);
         else
             throw new Exception();
     }
 
 #warning neat stuff
-    public async Task<string?> AddToOrRemoveFromCart(string goodsIdAndType, bool isInCart, string? goodsIds)
+    public async Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes)
     {
-        string[] ids = goodsIds?.Split(CommonNames.GoodsIdSeparator) ?? [];
-        var idsList = ids.ToList();
-        List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsIdAndType, idsList) : await AddInCart(goodsIdAndType, idsList);
+        List<string> goodsIdsAndTypesList = goodsIdsAndTypes?.Split(CommonNames.GoodsIdSeparator)
+                                                   ?.ToList() ?? [];
+        List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, goodsIdsAndTypesList) : await AddInCart(goodsId, goodsIdsAndTypesList);
         if (updatedGoodsIdsList == null)
             return null;
         else
@@ -388,8 +389,8 @@ public class GoodsService(MusicalShopDbContext context)
             if (idType.Contains(goodsId))
                 return null;
         }
-        string type = (await GetGoodsType(goodsId)).Name;
-        idsList.Add($"{goodsId}{CommonNames.GoodsIdTypeSeparator}{type}");
+        string typeName = (await GetGoodsType(goodsId)).Name;
+        idsList.Add($"{goodsId}{CommonNames.GoodsIdTypeSeparator}{typeName}");
         return idsList;
     }
 }
