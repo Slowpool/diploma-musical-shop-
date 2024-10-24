@@ -343,6 +343,7 @@ public class GoodsService(MusicalShopDbContext context)
 
     public async Task<Type> GetGoodsType(string goodsId)
     {
+#error still isn't fixed
         Guid guid = Guid.Parse(goodsId.Split(CommonNames.GoodsIdTypeSeparator)[0]);
 #warning why dijkstra said that function should have only one output
         if (await context.Accessories.ContainsAsync(new Accessory() { GoodsId = guid }))
