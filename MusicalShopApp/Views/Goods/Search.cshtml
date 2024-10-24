@@ -4,121 +4,77 @@
 @model GoodsSearchModel
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
 }
 
 <form asp-controller="Goods" asp-action="Search" method="get">
-    <div>
-        <input asp-for="ResearchText" name="q" placeholder="Поиск..." />
-    </div>
-    <div>
-        <label for="kind-of-goods">Вид товара</label>
-        <span id="kind-of-goods">
-            <input id="radio-musical-instrument" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="MusicalInstruments" />
-            <label for="radio-musical-instrument">Музыкальный инструмент</label>
-            <input id="radio-accessory" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="Accessories" />
-            <label for="radio-accessory">Аксессуар</label>
-            <input id="radio-sheet-music-edition" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="SheetMusicEditions" />
-            <label for="radio-sheet-music-edition">Нотное издание</label>
-            <input id="radio-audio-equipment-unit" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="AudioEquipmentUnits" />
-            <label for="radio-audio-equipment-unit">Аудиоаппаратура</label>
-        </span>
-    </div>
-    <div>
-        <label for="goods-price">Цена</label>
-        <span id="goods-price">
-            <label for="number-min-price"> от</label>
-            <input id="number-min-price" asp-for="Filter.MinPrice" name="minPrice" min="0" max="4294967295" />
-            <label for="number-max-price">до</label>
-            <input id="number-max-price" asp-for="Filter.MaxPrice" name="maxPrice" min="0" max="4294967295" />
-        </span>
-    </div>
-    <div>
-        <label for="date-receipt-date">Дата получения</label>
-        <span id="date-receipt-date">
-            <label for="date-from-receipt-date">от</label>
-            <input type="datetime-local" id="date-from-receipt-date" asp-for="Filter.FromReceiptDate" name="fromReceiptDate" />
-            <label for="date-to-receipt-date">до</label>
-            <input type="datetime-local" id="date-to-receipt-date" asp-for="Filter.ToReceiptDate" name="toReceiptDate" />
-        </span>
-    </div>
-    <div>
-        <label for="order-goods-by">Сортировать по</label>
-        <span id="order-goods-by">
-            <input id="order-goods-by-relevance" type="radio" value="Relevance" asp-for="OrderBy.OrderBy" name="orderBy" />
-            <label for="order-goods-by-relevance">Релевантность</label>
-            <input id="order-goods-by-price" type="radio" value="Price" asp-for="OrderBy.OrderBy" name="orderBy" />
-            <label for="order-goods-by-price">Цена</label>
-            <input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" asp-for="OrderBy.OrderBy" name="orderBy" />
-            <label for="order-goods-by-receipt-date">Дата поставки на склад</label>
-        </span>
-    </div>
-    <div>
-        <label for="goods-status">Статус</label>
-        <span id="goods-status">
-            <input id="radio-in-stock" type="radio" value="InStock" asp-for="Filter.Status" name="status" />
-            <label for="radio-in-stock">На складе</label>
-            <input id="radio-awaiting-delivery" type="radio" value="AwaitingDelivery" asp-for="Filter.Status" name="status" />
-            <label for="radio-awaiting-delivery">Ожидает поставки</label>
-            <input id="radio-reserved" type="radio" value="Reserved" asp-for="Filter.Status" name="status" />
-            <label for="radio-reserved">Зарезервировано</label>
-            <input id="radio-sold" type="radio" value="Sold" asp-for="Filter.Status" name="status" />
-            <label for="radio-sold">Продано</label>
-        </span>
-    </div>
-    <input type="submit" value="Поиск (удалить)" />
+	<div>
+		<input asp-for="ResearchText" name="q" placeholder="Поиск..." />
+	</div>
+	<div>
+		<label for="kind-of-goods">Вид товара</label>
+		<span id="kind-of-goods">
+			<input id="radio-musical-instrument" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="MusicalInstruments" />
+			<label for="radio-musical-instrument">Музыкальный инструмент</label>
+			<input id="radio-accessory" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="Accessories" />
+			<label for="radio-accessory">Аксессуар</label>
+			<input id="radio-sheet-music-edition" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="SheetMusicEditions" />
+			<label for="radio-sheet-music-edition">Нотное издание</label>
+			<input id="radio-audio-equipment-unit" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="AudioEquipmentUnits" />
+			<label for="radio-audio-equipment-unit">Аудиоаппаратура</label>
+		</span>
+	</div>
+	<div>
+		<label for="goods-price">Цена</label>
+		<span id="goods-price">
+			<label for="number-min-price"> от</label>
+			<input id="number-min-price" asp-for="Filter.MinPrice" name="minPrice" min="0" max="4294967295" />
+			<label for="number-max-price">до</label>
+			<input id="number-max-price" asp-for="Filter.MaxPrice" name="maxPrice" min="0" max="4294967295" />
+		</span>
+	</div>
+	<div>
+		<label for="date-receipt-date">Дата получения</label>
+		<span id="date-receipt-date">
+			<label for="date-from-receipt-date">от</label>
+			<input type="datetime-local" id="date-from-receipt-date" asp-for="Filter.FromReceiptDate" name="fromReceiptDate" />
+			<label for="date-to-receipt-date">до</label>
+			<input type="datetime-local" id="date-to-receipt-date" asp-for="Filter.ToReceiptDate" name="toReceiptDate" />
+		</span>
+	</div>
+	<div>
+		<label for="order-goods-by">Сортировать по</label>
+		<span id="order-goods-by">
+			<input id="order-goods-by-relevance" type="radio" value="Relevance" asp-for="OrderBy.OrderBy" name="orderBy" />
+			<label for="order-goods-by-relevance">Релевантность</label>
+			<input id="order-goods-by-price" type="radio" value="Price" asp-for="OrderBy.OrderBy" name="orderBy" />
+			<label for="order-goods-by-price">Цена</label>
+			<input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" asp-for="OrderBy.OrderBy" name="orderBy" />
+			<label for="order-goods-by-receipt-date">Дата поставки на склад</label>
+		</span>
+	</div>
+	<div>
+		<label for="goods-status">Статус</label>
+		<span id="goods-status">
+			<input id="radio-in-stock" type="radio" value="InStock" asp-for="Filter.Status" name="status" />
+			<label for="radio-in-stock">На складе</label>
+			<input id="radio-awaiting-delivery" type="radio" value="AwaitingDelivery" asp-for="Filter.Status" name="status" />
+			<label for="radio-awaiting-delivery">Ожидает поставки</label>
+			<input id="radio-reserved" type="radio" value="Reserved" asp-for="Filter.Status" name="status" />
+			<label for="radio-reserved">Зарезервировано</label>
+			<input id="radio-sold" type="radio" value="Sold" asp-for="Filter.Status" name="status" />
+			<label for="radio-sold">Продано</label>
+		</span>
+	</div>
+	<input type="submit" value="Поиск (удалить)" />
 </form>
 <div class="goods-search-results">
-    <div class="results-count">
-        Results: @Model.ResultsCount
-    </div>
-    <div class="cards-with-results">
-        <hr class="narrow" />
-        @for (int i = 0; i < Model.GoodsUnitModels.Count; i++)
-        {
-            <div class="goods-mini-card">
-                <div class="goods-mini-card-left">
-                    <a href="@Model.GoodsUnitModels[i].Id">
-                        <h4 class="goods-mini-card-name">@Model.GoodsUnitModels[i].Name</h4>
-                    </a>
-                    <div class="goods-mini-card-type">
-                        @Model.GoodsUnitModels[i].Type
-                    </div>
-                    <div class="goods-mini-card-description">
-                        @Model.GoodsUnitModels[i].Description
-                    </div>
-                    <div>
-                        <span class="Model.GoodsUnitModels[i]-mini-card-price">
-                            @Model.GoodsUnitModels[i].Price
-                        </span>
-                        <span class="Model.GoodsUnitModels[i]-mini-card-status">
-                            @Model.GoodsUnitModels[i].Status.ToFormattedText()
-                        </span>
-                    </div>
-                </div>
-                <div class="goods-mini-card-right">
-                    <!-- asp-action="Search"  -->
-                    <form class="goods-mini-card-add-remove"
-                          data-ajax="true"
-                          data-ajax-method="post"
-                          data-ajax-url="/Goods/AddToOrRemoveFromCart"
-                          data-ajax-loading="#loading"
-                          data-ajax-mode="replace"
-                          data-ajax-update="#adding-removing-results@(i)">
-                        @* @Html.AntiForgeryToken() *@
-                        <input class="add-remove-cart-button" type="button" action="submit" value="@(Model.GoodsUnitModels[i].IsInCart ? "-" : "+")" />
-                        <input type="hidden" value="@Model.GoodsUnitModels[i].Id" name="goodsId" />
-                        <input type="hidden" asp-for="GoodsUnitModels[i].IsInCart" name="addToCart" />
-                    </form>
-                    <span id="loading" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
-                    <div class="adding-removing-results" id="adding-removing-results@(i)">
-
-                    </div>
-                </div>
-            </div>
-            <hr class="narrow" />
-        }
-    </div>
+	<div class="results-count">
+		Results: @Model.ResultsCount
+	</div>
+	@{
+		await Html.PartialAsync("_PartialGoodsList", Model.GoodsUnitModels);
+	}
 </div>
 

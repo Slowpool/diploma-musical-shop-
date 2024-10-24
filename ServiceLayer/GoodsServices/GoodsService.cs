@@ -26,12 +26,12 @@ namespace ServiceLayer.GoodsServices;
 public class GoodsService(MusicalShopDbContext context)
 {
 #warning i don't like this method. strictly speaking, i see this> (T?)(Goods?) cast for oithe first time
-	public async Task<T?> GetGoodsInfo<T>(string id)
+    public async Task<T?> GetGoodsInfo<T>(string id)
         where T : Goods
     {
         IQueryable<Goods>? targetGoods = typeof(T).Name switch
         {
-            "MusicalInstrument" =>  context.MusicalInstruments,
+            "MusicalInstrument" => context.MusicalInstruments,
             "Accessory" => context.Accessories,
             "AudioEquipmentUnit" => context.AudioEquipmentUnits,
             "SheetMusicEdition" => context.SheetMusicEditions,
@@ -137,7 +137,7 @@ public class GoodsService(MusicalShopDbContext context)
         if (filterOptions.ToReceiptDate != null)
             goods = goods.Where(g => g.ReceiptDate <= filterOptions.ToReceiptDate);
 
-        switch(orderByOptions.OrderBy)
+        switch (orderByOptions.OrderBy)
         {
             case GoodsOrderBy.Relevance:
                 goods = orderByOptions.AscendingOrder
@@ -341,31 +341,55 @@ public class GoodsService(MusicalShopDbContext context)
         #endregion
     }
 
-#warning neat stuff
-    public string? AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIds)
+    public async Task<Type> GetGoodsType(string goodsId)
     {
-		string[] ids = goodsIds?.Split(CommonNames.GoodsIdSeparator) ?? [];
-		var idsList = ids.ToList();
-		List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, idsList) : AddInCart(goodsId, idsList);
+        Guid guid = Guid.Parse(goodsId);
+        if (context.Accessories.Contains(new Accessory() { GoodsId = guid }))
+            return typeof(Accessory);
+        else if (context.MusicalInstruments.Contains(new MusicalInstrument() { GoodsId = guid }))
+            return typeof(MusicalInstrument);
+        else if (context.AudioEquipmentUnits.Contains(new AudioEquipmentUnit() { GoodsId = guid }))
+            return typeof(AudioEquipmentUnit);
+        else if (context.SheetMusicEditions.Contains(new SheetMusicEdition() { GoodsId = guid }))
+            return typeof(SheetMusicEdition);
+        else
+            throw new Exception();
+    }
+
+#warning neat stuff
+    public async Task<string?> AddToOrRemoveFromCart(string goodsIdAndType, bool isInCart, string? goodsIds)
+    {
+        string[] ids = goodsIds?.Split(CommonNames.GoodsIdSeparator) ?? [];
+        var idsList = ids.ToList();
+        List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsIdAndType, idsList) : await AddInCart(goodsIdAndType, idsList);
         if (updatedGoodsIdsList == null)
             return null;
         else
             return string.Join(CommonNames.GoodsIdSeparator, updatedGoodsIdsList);
     }
 
-	private List<string>? RemoveFromCart(string goodsId, List<string> idsList)
-	{
-        if (!idsList.Contains(goodsId))
-            return null;
-        idsList.Remove(goodsId);
-        return idsList;
-	}
+    private List<string>? RemoveFromCart(string goodsId, List<string> idsList)
+    {
+        foreach (var id in idsList)
+        {
+            if (id.Contains(goodsId))
+            {
+                idsList.Remove(id);
+                return idsList;
+            }
+        }
+        return null;
+    }
 
-	private List<string>? AddInCart(string goodsId, List<string> idsList)
-	{
-		if (idsList.Contains(goodsId))
-			return null;
-		idsList.Add(goodsId);
-		return idsList;
-	}
+    private async Task<List<string>?> AddInCart(string goodsId, List<string> idsList)
+    {
+        foreach(var idType in idsList)
+        {
+            if (idType.Contains(goodsId))
+                return null;
+        }
+        string type = (await GetGoodsType(goodsId)).Name;
+        idsList.Add($"{goodsId}{CommonNames.GoodsIdTypeSeparator}{type}");
+        return idsList;
+    }
 }

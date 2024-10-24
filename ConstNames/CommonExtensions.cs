@@ -35,5 +35,8 @@ public static class CommonExtensions
         return query.Take(pageSize);
     }
 
+    public static string ToMoney(this int number) =>
+        number.ToString() + " руб.";
+
     
 }

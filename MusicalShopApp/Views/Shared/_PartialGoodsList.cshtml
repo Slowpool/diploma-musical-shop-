@@ -1,0 +1,50 @@
+﻿@using BusinessLogicLayer.Goods.Dto
+@using DataLayer.SupportClasses
+
+@model List<GoodsUnitSearchDto>
+
+<div class="cards-with-results">
+	<hr class="narrow" />
+	@for (int i = 0; i < Model.Count; i++)
+	{
+		<div class="goods-mini-card">
+			<div class="goods-mini-card-left">
+				<a href="@Model[i].Id">
+					<h4 class="goods-mini-card-name">@Model[i].Name</h4>
+				</a>
+				<div class="goods-mini-card-type">
+					@Model[i].Type
+				</div>
+				<div class="goods-mini-card-description">
+					@Model[i].Description
+				</div>
+				<div>
+					<span class="Model[i]-mini-card-price">
+						@Model[i].Price
+					</span>
+					<span class="Model[i]-mini-card-status">
+						@Model[i].Status.ToFormattedText()
+					</span>
+				</div>
+			</div>
+			<div class="goods-mini-card-right">
+				<!-- asp-action="Search"  data-ajax="true"
+					  data-ajax-method="post"
+					  data-ajax-url="/Goods/AddToOrRemoveFromCart"
+					  data-ajax-loading="#loading"
+					  data-ajax-mode="replace"
+					  data-ajax-update="#adding-removing-results@(i)"-->
+				<form class="goods-mini-card-add-remove" method="post" asp-action="AddToOrRemoveFromCart">
+					@* @Html.AntiForgeryToken() *@
+					<input class="add-remove-cart-button" type="button" action="submit" value="@(Model[i].IsInCart ? "-" : "+")" />
+					<input type="hidden" value="@Model[i].Id" name="goodsId" />
+					<input type="hidden" asp-for="@Model[i].IsInCart" name="isInCart" />
+				</form>
+				<span id="loading" style="display:none;"> <i class="fas fa-spinner fa-spin"></i></span>
+				<div class="adding-removing-results" id="adding-removing-results@(i)">
+				</div>
+			</div>
+		</div>
+		<hr class="narrow" />
+	}
+</div>

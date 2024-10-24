@@ -1,0 +1,10 @@
+﻿@using BusinessLogicLayer.Goods.Dto
+
+@model List<GoodsUnitSearchDto>
+
+<div class="total-cart-price">
+	Total: @Model.Aggregate(0, (total, dto) => total += dto.Price)
+</div>
+@{
+	await Html.PartialAsync("_PartialGoodsList", Model);
+}
