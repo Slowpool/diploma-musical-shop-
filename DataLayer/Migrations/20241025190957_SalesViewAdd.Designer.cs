@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    [Migration("20241025074440_AddSaleView")]
-    partial class AddSaleView
+    [Migration("20241025190957_SalesViewAdd")]
+    partial class SalesViewAdd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,9 +266,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Total")
                         .HasColumnType("int");
 
                     b.HasKey("SaleId");

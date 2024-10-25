@@ -21,8 +21,8 @@ public class SaleView
 #warning is it working correctly?
     public DateTime LocalDate => Date.LocalDateTime;
 
-    [Required]
-    public int Total { get; set; }
+    //[Required]
+    //public int Total { get; set; }
 
 #warning how to add refers to several tables like ICollection<Goods> Answer: view
     [Required]
