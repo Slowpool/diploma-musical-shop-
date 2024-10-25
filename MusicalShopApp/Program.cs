@@ -10,6 +10,8 @@ using ServiceLayer.AdminServices;
 using ServiceLayer.GoodsServices;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
+using DbAccessLayer;
+using ServiceLayer;
 
 #warning rub it off
 const bool USE_MYSQL = true;
@@ -38,6 +40,8 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddEntityFrameworkStores<MusicalShopDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.RegisterServiceLayer();
+builder.Services.RegisterDbAccessLayer();
 
 builder.Services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetAssembly(typeof(UserDbAccess)), Assembly.GetAssembly(typeof(GetUserService)))
     .Where(@class => @class.Name.EndsWith("Service") || @class.Name.EndsWith("DbAccess"))

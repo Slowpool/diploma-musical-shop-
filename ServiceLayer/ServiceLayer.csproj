@@ -13,4 +13,8 @@
     <ProjectReference Include="..\BusinessLogic\BusinessLogicLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="2.2.1" />
+  </ItemGroup>
+
 </Project>
