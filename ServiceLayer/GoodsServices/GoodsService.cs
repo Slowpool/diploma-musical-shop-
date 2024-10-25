@@ -343,8 +343,7 @@ public class GoodsService(MusicalShopDbContext context)
 
     public async Task<Type> GetGoodsType(string goodsId)
     {
-#error still isn't fixed
-        Guid guid = Guid.Parse(goodsId.Split(CommonNames.GoodsIdTypeSeparator)[0]);
+        Guid guid = Guid.Parse(goodsId);
 #warning why dijkstra said that function should have only one output
         if (await context.Accessories.ContainsAsync(new Accessory() { GoodsId = guid }))
             return typeof(Accessory);
@@ -358,40 +357,40 @@ public class GoodsService(MusicalShopDbContext context)
             throw new Exception();
     }
 
-#warning neat stuff
+    // neat stuff
     public async Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes)
     {
-        List<string> goodsIdsAndTypesList = goodsIdsAndTypes?.Split(CommonNames.GoodsIdSeparator)
-                                                   ?.ToList() ?? [];
-        List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, goodsIdsAndTypesList) : await AddInCart(goodsId, goodsIdsAndTypesList);
+        List<string> goodsIdsTypesList = goodsIdsAndTypes?.Split(CommonNames.GoodsIdSeparator)
+                                                         ?.ToList() ?? [];
+        List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, goodsIdsTypesList) : await AddInCart(goodsId, goodsIdsTypesList);
         if (updatedGoodsIdsList == null)
             return null;
         else
             return string.Join(CommonNames.GoodsIdSeparator, updatedGoodsIdsList);
     }
 
-    private List<string>? RemoveFromCart(string goodsId, List<string> idsList)
+    private List<string>? RemoveFromCart(string goodsId, List<string> goodsIdsTypesList)
     {
-        foreach (var id in idsList)
+        foreach (var goodsIdType in goodsIdsTypesList)
         {
-            if (id.Contains(goodsId))
+            if (goodsIdType.Contains(goodsId))
             {
-                idsList.Remove(id);
-                return idsList;
+                goodsIdsTypesList.Remove(goodsIdType);
+                return goodsIdsTypesList;
             }
         }
         return null;
     }
 
-    private async Task<List<string>?> AddInCart(string goodsId, List<string> idsList)
+    private async Task<List<string>?> AddInCart(string goodsId, List<string> goodsIdsTypesList)
     {
-        foreach(var idType in idsList)
+        foreach (var idType in goodsIdsTypesList)
         {
             if (idType.Contains(goodsId))
                 return null;
         }
         string typeName = (await GetGoodsType(goodsId)).Name;
-        idsList.Add($"{goodsId}{CommonNames.GoodsIdTypeSeparator}{typeName}");
-        return idsList;
+        goodsIdsTypesList.Add($"{goodsId}{CommonNames.GoodsIdTypeSeparator}{typeName}");
+        return goodsIdsTypesList;
     }
 }

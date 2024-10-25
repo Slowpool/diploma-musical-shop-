@@ -30,7 +30,7 @@ public class GoodsController : Controller
     private bool IsInCart(string goodsId) => GoodsIdsInCart != null && GoodsIdsAndTypes!.Any(s => s.Contains(goodsId));
 
 #warning it could have been
-    //private static string GetType(string goodsIdAndType) => goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[1];
+    private static Type GetType(string goodsIdAndType) => Type.GetType($"DataLayer.Models.{goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[1], }");
 
     public GoodsController(ILogger<GoodsController> logger)
     {
@@ -138,7 +138,7 @@ public class GoodsController : Controller
             {
 #warning use GetType 
                 string goodsId = GetGoodsId(goodsIdAndType);
-                var goodsInfo = await service.GetReadableGoodsInfo(goodsId, await service.GetGoodsType(goodsIdAndType));
+                var goodsInfo = await service.GetReadableGoodsInfo(goodsId, GetType(goodsIdAndType));
                 if (goodsInfo != null)
                 {
                     goodsInfo.IsInCart = IsInCart(goodsId);
