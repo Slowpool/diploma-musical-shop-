@@ -360,7 +360,7 @@ public class GoodsService(MusicalShopDbContext context)
     // neat stuff
     public async Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes)
     {
-        List<string> goodsIdsTypesList = goodsIdsAndTypes?.Split(CommonNames.GoodsIdSeparator)
+        List<string> goodsIdsTypesList = goodsIdsAndTypes?.Split(CommonNames.GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries)
                                                          ?.ToList() ?? [];
         List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, goodsIdsTypesList) : await AddInCart(goodsId, goodsIdsTypesList);
         if (updatedGoodsIdsList == null)

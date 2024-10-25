@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using BusinessLogicLayer.Goods.Dto;
 using Common;
@@ -25,12 +26,11 @@ public class GoodsController : Controller
     private readonly ILogger<GoodsController> _logger;
 
     private string? GoodsIdsInCart => HttpContext.Session.GetString(CommonNames.SeparatedGoodsIdsInCart);
-    private string[]? GoodsIdsAndTypes => GoodsIdsInCart?.Split(CommonNames.GoodsIdSeparator);
+    private string[]? GoodsIdsAndTypes => GoodsIdsInCart?.Split(CommonNames.GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries);
     private static string GetGoodsId(string goodsIdAndType) => goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[0];
     private bool IsInCart(string goodsId) => GoodsIdsInCart != null && GoodsIdsAndTypes!.Any(s => s.Contains(goodsId));
 
-#warning it could have been
-    private static Type GetType(string goodsIdAndType) => Type.GetType($"DataLayer.Models.{goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[1], }");
+    private static Type GetType(string goodsIdAndType) => Type.GetType($"DataLayer.Models.{goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[1]}, DataLayer")!;
 
     public GoodsController(ILogger<GoodsController> logger)
     {
@@ -108,27 +108,31 @@ public class GoodsController : Controller
             GoodsUnitModels = goodsUnitModels,
             ResultsCount = goodsUnitModels.Count()
         };
+		ViewBag.Session = GoodsIdsInCart;
         return View(goodsSearchModel);
-    }
+	}
 
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = CommonNames.SellerRole)]
     public async Task<ContentResult> AddToOrRemoveFromCart(string goodsId, bool isInCart, [FromServices] GoodsService service)
     {
         string? newGoodsIdsAndTypes = await service.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsInCart);
         if (newGoodsIdsAndTypes == null)
             return Content("failed");
         HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, newGoodsIdsAndTypes);
-        return Content("success");
+		ViewBag.Session = GoodsIdsInCart;
+		return Content("success");
     }
 
-    //[HttpPost]
-    //[ValidateAntiForgeryToken]
-    //public async Task<IActionResult> AddToOrRemoveFromCart(Guid goodsId, bool addToCart)
-    //{
-    //    return RedirectToAction("Search");
-    //}
+	//[HttpPost]
+	//[ValidateAntiForgeryToken]
+	//public async Task<IActionResult> AddToOrRemoveFromCart(Guid goodsId, bool addToCart)
+	//{
+	//    return RedirectToAction("Search");
+	//}
 
-    public async Task<IActionResult> Cart([FromServices] GoodsService service)
+	[Authorize(Roles = CommonNames.SellerRole)]
+	public async Task<IActionResult> Cart([FromServices] GoodsService service)
     {
 #warning probably the same code as in search
         List<GoodsUnitSearchDto> GoodsUnitModels = new();
@@ -146,6 +150,7 @@ public class GoodsController : Controller
                 }
             }
         }
-        return View(GoodsUnitModels);
+        ViewBag.Session = GoodsIdsInCart;
+		return View(GoodsUnitModels);
     }
 }

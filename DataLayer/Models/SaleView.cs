@@ -1,15 +1,16 @@
-﻿using System;
+﻿using DataLayer.SupportClasses;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataLayer.SupportClasses;
 
 namespace DataLayer.Models;
-[Table("sales")]
-public class Sale
+
+[Table("sale_view")]
+public class SaleView
 {
     [Column("sale_id")]
     public int SaleId { get; set; }
@@ -19,6 +20,9 @@ public class Sale
 
 #warning is it working correctly?
     public DateTime LocalDate => Date.LocalDateTime;
+
+    [Required]
+    public int Total { get; set; }
 
 #warning how to add refers to several tables like ICollection<Goods> Answer: view
     [Required]
