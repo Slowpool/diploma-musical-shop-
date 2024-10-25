@@ -22,8 +22,28 @@ using System.Collections;
 
 namespace ServiceLayer.GoodsServices;
 
+public interface IGoodsService
+{
+    Task<T?> GetGoodsInfo<T>(string id)
+        where T : Goods;
+
+    Task<GoodsUnitSearchDto?> GetReadableGoodsInfo<T>(string id)
+        where T : Goods;
+
+    Task<GoodsUnitSearchDto?> GetReadableGoodsInfo(string id, Type type);
+
+    // Kinda complex task to implement.
+    // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
+    // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
+    Task<List<string>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize);
+
+    Task<Type> GetGoodsType(string goodsId);
+
+    Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes);
+}
+
 #warning i ain't wanna create service for each action
-public class GoodsService(MusicalShopDbContext context)
+public class GoodsService(MusicalShopDbContext context) : IGoodsService
 {
 #warning i don't like this method. strictly speaking, i see this> (T?)(Goods?) cast for oithe first time
     public async Task<T?> GetGoodsInfo<T>(string id)
@@ -58,7 +78,7 @@ public class GoodsService(MusicalShopDbContext context)
 
         switch (typeof(T).Name)
         {
-            // I know that to handle it in such a way is little wrong, but come+on. they are so similar-alike.
+            // I know that handling these things this way is a bit wrong, but come+on. they are so similar-alike.
             case "MusicalInstrument":
             case "SheetMusicEdition":
                 dynamic specificGoods = goods;
@@ -92,6 +112,12 @@ public class GoodsService(MusicalShopDbContext context)
 
     }
 
+    /// <summary>
+    /// This method redirect to <see cref="GetReadableGoodsInfo{T}"/>
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public async Task<GoodsUnitSearchDto?> GetReadableGoodsInfo(string id, Type type)
     {
         MethodInfo methodInfo = typeof(GoodsService).GetMethod("GetReadableGoodsInfo", BindingFlags.IgnoreReturn | BindingFlags.Public | BindingFlags.Instance, [typeof(string)])!;

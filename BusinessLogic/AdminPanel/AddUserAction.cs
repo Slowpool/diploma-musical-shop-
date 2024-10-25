@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.AdminPanel;
+#warning this is a CRUD, so it should be in service layer
 public class AddUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<NewUserDto, Task<string?>>
 {
     public async Task<string?> Action(NewUserDto dto)
@@ -17,16 +18,18 @@ public class AddUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<NewUs
         var newUser = new AppUser();
 
         if (string.IsNullOrWhiteSpace(dto.UserName))
+            AddError("Имя пользователя не может быть пустым");
+        else
         {
             var normalizedUserName = dto.UserName.ToUpper();
             if (!await dbAccess.IsUniqueNormalizedUserName(normalizedUserName))
-#warning why do i add property of error if i don't use it?
                 AddError("Данное имя пользователя уже используется", nameof(AppUser.UserName));
             else
+            {
                 newUser.UserName = dto.UserName;
+                newUser.NormalizedUserName = normalizedUserName;
+            }
         }
-        else
-            AddError("Имя пользователя не может быть пустым");
 
         if (string.IsNullOrWhiteSpace(dto.Password))
             AddError("Пароль не может быть пустым");
@@ -36,5 +39,5 @@ public class AddUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<NewUs
         newUser.PhoneNumber = dto.PhoneNumber;
         newUser.PhoneNumberConfirmed = dto.PhoneNumberConfirmed;
         return await dbAccess.AddUser(newUser, dto.Password);
-    }
+    }   
 }

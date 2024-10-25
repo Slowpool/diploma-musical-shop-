@@ -6,7 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServiceLayer.AdminServices;
 
-public class GetUserService(MusicalShopDbContext context, UserManager<AppUser> userManager)
+public interface IGetUserService
+{
+    Task<AppUser?> GetUserInfo(Guid userId);
+}
+
+public class GetUserService(MusicalShopDbContext context, UserManager<AppUser> userManager) : IGetUserService
 {
     private readonly UserDbAccess dbAccess = new(context, userManager);
     public async Task<AppUser?> GetUserInfo(Guid userId)

@@ -239,7 +239,7 @@ public class DataSeeding
         {
             var chairType = new SpecificType { Name = "Табуретка регулируемая" };
             var keychainType = new SpecificType { Name = "Брелок" };
-            var sale = new Sale { Status = SaleStatus.Sold, Total = 699, Date = new DateTime(2023, 10, 19, 10, 20, 35) };
+            var sale = new Sale { Status = SaleStatus.Sold, /*Total = 699,*/ Date = new DateTime(2023, 10, 19, 10, 20, 35) };
             var accessories = new List<Accessory>
             {
                 new()
@@ -263,6 +263,7 @@ public class DataSeeding
                     Price = 99,
                     Status = GoodsStatus.Reserved,
                     Type = keychainType,
+                    Sale = sale,
                     Color = "Черно-желтый",
                     Size = "20см x 0.5см x 3см"
                 },

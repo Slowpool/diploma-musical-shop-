@@ -31,7 +31,7 @@ namespace MusicalShopApp.Controllers
 		}
 
 		[HttpGet(template: "/AdminPanel/Users/{userId:Guid}", Name = "SpecificUser")]
-		public async Task<IActionResult> Users(Guid userId, [FromServices] GetUserService service, [FromQuery] string? errors)
+		public async Task<IActionResult> Users(Guid userId, [FromServices] IGetUserService service, [FromQuery] string? errors)
 		{
 			var user = await service.GetUserInfo(userId);
 			ViewBag.Errors = errors;
@@ -40,7 +40,7 @@ namespace MusicalShopApp.Controllers
 
 		[HttpPost()]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(UpdateUserDto dto, [FromServices] UpdateUserService service)
+		public async Task<IActionResult> Edit(UpdateUserDto dto, [FromServices] IUpdateUserService service)
 		{
 			await service.UpdateUser(dto);
 			return RedirectToAction("Users", new RouteValueDictionary(

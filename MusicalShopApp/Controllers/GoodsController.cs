@@ -69,7 +69,7 @@ public class GoodsController : Controller
     //}
 
     [HttpGet]
-    public async Task<IActionResult> Search([FromServices] GoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromReceiptDate, [FromQuery] string? toReceiptDate, [FromQuery] string kindOfGoods = nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy = nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder = true, [FromQuery] int page = 1, [FromQuery] int pageSize = 15, [FromQuery] string status = nameof(GoodsStatus.InStock))
+    public async Task<IActionResult> Search([FromServices] IGoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromReceiptDate, [FromQuery] string? toReceiptDate, [FromQuery] string kindOfGoods = nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy = nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder = true, [FromQuery] int page = 1, [FromQuery] int pageSize = 15, [FromQuery] string status = nameof(GoodsStatus.InStock))
     {
         var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
         var statusEnum = Enum.Parse<GoodsStatus>(status, ignoreCase: true);
@@ -114,7 +114,7 @@ public class GoodsController : Controller
 
     [ValidateAntiForgeryToken]
     [Authorize(Roles = CommonNames.SellerRole)]
-    public async Task<ContentResult> AddToOrRemoveFromCart(string goodsId, bool isInCart, [FromServices] GoodsService service)
+    public async Task<ContentResult> AddToOrRemoveFromCart(string goodsId, bool isInCart, [FromServices] IGoodsService service)
     {
         string? newGoodsIdsAndTypes = await service.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsInCart);
         if (newGoodsIdsAndTypes == null)
@@ -132,7 +132,7 @@ public class GoodsController : Controller
 	//}
 
 	[Authorize(Roles = CommonNames.SellerRole)]
-	public async Task<IActionResult> Cart([FromServices] GoodsService service)
+	public async Task<IActionResult> Cart([FromServices] IGoodsService service)
     {
 #warning probably the same code as in search
         List<GoodsUnitSearchDto> GoodsUnitModels = new();
@@ -140,8 +140,8 @@ public class GoodsController : Controller
         {
             foreach (var goodsIdAndType in GoodsIdsAndTypes!)
             {
-#warning use GetType 
                 string goodsId = GetGoodsId(goodsIdAndType);
+#warning "don't return null" violation
                 var goodsInfo = await service.GetReadableGoodsInfo(goodsId, GetType(goodsIdAndType));
                 if (goodsInfo != null)
                 {

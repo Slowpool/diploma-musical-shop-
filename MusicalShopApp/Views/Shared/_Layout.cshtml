@@ -46,7 +46,7 @@
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "PurchaseReturn", "Index", "Возврат покупки"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Reports", "Index", "Отчеты"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "AdminPanel", "Index", "Панель администратора"))
-                        @(string.IsNullOrWhiteSpace(ViewBag.Session) ? "null" : ViewBag.Session)
+                        @* @(string.IsNullOrWhiteSpace(ViewBag.Session) ? "null" : ViewBag.Session) *@
                         @* @Html.RenderPartialAsync("_AdminActionsPartial") *@
                         @* <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">Отчеты</a>

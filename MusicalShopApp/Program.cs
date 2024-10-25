@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceLayer.AdminServices;
 using ServiceLayer.GoodsServices;
+using NetCore.AutoRegisterDi;
+using System.Reflection;
 
 #warning rub it off
 const bool USE_MYSQL = true;
@@ -36,10 +38,15 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddEntityFrameworkStores<MusicalShopDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<UserDbAccess>();
-builder.Services.AddScoped<GetUserService>();
-builder.Services.AddScoped<UpdateUserService>();
-builder.Services.AddScoped<GoodsService>();
+
+builder.Services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetAssembly(typeof(UserDbAccess)), Assembly.GetAssembly(typeof(GetUserService)))
+    .Where(@class => @class.Name.EndsWith("Service") || @class.Name.EndsWith("DbAccess"))
+    .AsPublicImplementedInterfaces();
+
+//builder.Services.AddScoped<UserDbAccess>();
+//builder.Services.AddTransient<GetUserService>();
+//builder.Services.AddTransient<UpdateUserService>();
+//builder.Services.AddTransient<GoodsService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

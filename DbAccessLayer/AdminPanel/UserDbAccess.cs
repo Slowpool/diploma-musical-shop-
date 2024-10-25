@@ -10,15 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DbAccessLayer.AdminPanel;
-//public interface IUserDbAccess
-//{
-//    Task<AppUser?> GetUserInfo(Guid userId);
-//    Task<bool> IsSingleNormalizedEmail(string normalizedEmail);
-//    Task<bool> IsSingleNormalizedUserName(string userName);
-//}
-
-public class UserDbAccess(MusicalShopDbContext context, UserManager<AppUser> userManager)// : IUserDbAccess
+public interface IUserDbAccess
 {
+    Task<AppUser?> GetUserInfo(Guid userId);
+    Task<bool> IsUniqueNormalizedUserName(string normalizedUserName, string userId);
+    Task<bool> IsUniqueNormalizedUserName(string normalizedUserName);
+    Task<bool> IsUniqueNormalizedEmail(string normalizedEmail, string userId);
+    Task<string?> AddUser(AppUser newUser, string password); 
+}
+
+public class UserDbAccess(MusicalShopDbContext context, UserManager<AppUser> userManager) : IUserDbAccess
+{
+#warning don't return null...
     public async Task<AppUser?> GetUserInfo(Guid userId)
     {
         return await context.Users.Where(u => u.Id == userId.ToString())
@@ -34,8 +37,7 @@ public class UserDbAccess(MusicalShopDbContext context, UserManager<AppUser> use
 
     public async Task<bool> IsUniqueNormalizedEmail(string normalizedEmail, string userId)
     {
-        return !await context.Users.AnyAsync(u => u.NormalizedEmail == normalizedEmail
-                                                 && u.Id != userId);
+        return !await context.Users.AnyAsync(u => u.NormalizedEmail == normalizedEmail && u.Id != userId);
     }
 
     public async Task<string?> AddUser(AppUser newUser, string password)
