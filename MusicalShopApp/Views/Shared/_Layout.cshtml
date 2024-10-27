@@ -43,6 +43,7 @@
                         </li> *@
                         }
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "Goods", "Cart", "Корзина"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "Sales", "Search", "Продажи"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "PurchaseReturn", "Index", "Возврат покупки"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Reports", "Index", "Отчеты"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "AdminPanel", "Index", "Панель администратора"))

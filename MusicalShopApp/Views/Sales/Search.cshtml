@@ -1,0 +1,42 @@
+﻿@model ViewModelsLayer.Sales.SalesSearchModel
+
+@{
+    ViewBag.Title = "Продажи";
+}
+
+<form asp-action="Search" method="get">
+    <input asp-for="ResearchText" name="q" placeholder="Поиск..." />
+    <span>
+        <label for="min-date">Продано в промежутке с</label>
+        <input id="min-date" asp-for="Filter.MinDate" name="minDate" type="datetime-local" />
+        <label for="max-date">по</label>
+        <input id="max-date" asp-for="Filter.MaxDate" name="maxDate" type="datetime-local" />
+    </span>
+    @{
+#warning probably use <fieldset> tag here
+    }
+    <div>
+        <label for="sale-type">Тип продажи</label>
+        <span id="sale-type">
+            <input id="status-sold" type="radio" asp-for="Filter.Status" name="status" value="Sold" />
+            <label for="status-sold">Продано</label>
+            <input id="status-reserved" type="radio" asp-for="Filter.Status" name="status" value="Reserved" />
+            <label for="status-reserved">Зарезервировано</label>
+            <input id="status-returned" type="radio" asp-for="Filter.Status" name="status" value="Returned" />
+            <label for="status-returned">Возвращено</label>
+        </span>
+    </div>
+</form>
+
+<div class="results-count">
+    Найдено: @Model.ResultsCount
+</div>
+@foreach (var sale in Model.Sales)
+{
+    <div class="mini-card">
+        <div class="mini-card-left">
+        </div>
+        <div class="mini-card-right">
+        </div>
+    </div>
+}

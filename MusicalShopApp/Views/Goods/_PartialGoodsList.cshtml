@@ -1,4 +1,4 @@
-﻿@using BusinessLogicLayer.Goods.Dto
+﻿@using ViewModelsLayer.Goods
 @using DataLayer.SupportClasses
 
 @model List<GoodsUnitSearchDto>
@@ -7,15 +7,15 @@
     <hr class="narrow" />
     @for (int i = 0; i < Model.Count; i++)
     {
-        <div class="goods-mini-card">
-            <div class="goods-mini-card-left">
+        <div class="mini-card">
+            <div class="mini-card-left">
                 <a href="@Model[i].Id">
-                    <h4 class="goods-mini-card-name">@Model[i].Name</h4>
+                    <h4 class="mini-card-name">@Model[i].Name</h4>
                 </a>
-                <div class="goods-mini-card-type">
+                <div class="mini-card-type">
                     @Model[i].Type
                 </div>
-                <div class="goods-mini-card-description">
+                <div class="mini-card-description">
                     @Model[i].Description
                 </div>
                 <div>
@@ -27,14 +27,14 @@
                     </span>
                 </div>
             </div>
-            <div class="goods-mini-card-right">
+            <div class="mini-card-right">
                 <!-- asp-action="AddToOrRemoveFromCart" asp-controller="Goods" data-ajax="true"
                       data-ajax="true"
                       data-ajax-method="post"
                       data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"
                       data-ajax-mode="replace"
                       data-ajax-update="#adding-removing-results@(i)"-->
-                <form class="goods-mini-card-add-remove" method="post"
+                <form class="mini-card-add-remove" method="post"
                       data-ajax="true"
                       data-ajax-method="post"
                       data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"

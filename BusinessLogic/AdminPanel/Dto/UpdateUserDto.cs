@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace BusinessLogicLayer.AdminPanel.Dto;
+#warning i think this is inappropriate place for dto
 public class UpdateUserDto
 {
     public Guid Id { get; set; }

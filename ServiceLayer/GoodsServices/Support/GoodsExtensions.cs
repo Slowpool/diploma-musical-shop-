@@ -1,5 +1,4 @@
-﻿using DataLayer.Models.SupportClasses;
-using DataLayer.NotMapped;
+﻿using DataLayer.NotMapped;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,6 +7,7 @@ using System.Reflection;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.Goods;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ServiceLayer.GoodsServices.Support;

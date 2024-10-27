@@ -1,15 +1,9 @@
-﻿using DataLayer.Models.SupportClasses;
-using DataLayer.SupportClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataLayer.SupportClasses;
 
-namespace ServiceLayer.GoodsServices.Support;
+namespace ViewModelsLayer.Goods;
 
 /// <summary>
-/// Filters goods, where <paramref name="FilterValue"/> is a value or comma-separated values (depends upon <paramref name="GoodsFilter"/> value).
+/// It filters goods, where <paramref name="FilterValue"/> is a value or comma-separated values (depends upon <paramref name="GoodsFilter"/> value).
 /// Pass <paramref="FilterValue"/> as something like a string.Join([nameof(type1), nameof(typen)], ',').
 /// </summary>
 /// <param name="GoodsFilter"></param>

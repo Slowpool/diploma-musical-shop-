@@ -50,24 +50,24 @@ div.update-user-errors {
     color: red;
 }
 
-div.goods-mini-card {
+div.mini-card {
     clear: both;
     height: 150px;
 }
 
-    div.goods-mini-card:after {
+    div.mini-card:after {
         content: "";
         display: table;
         clear: both;
     }
 
-div.goods-mini-card-left {
+div.mini-card-left {
     float: left;
     width: 80%;
     height: 100%;
 }
 
-div.goods-mini-card-right {
+div.mini-card-right {
     float: right;
     width: 20%;
     height: 100%;
@@ -78,10 +78,10 @@ input.add-remove-cart-button {
     height: 100%;
 }
 
-div.goods-search-results {
+div.search-results {
 }
  
-form.goods-mini-card-add-remove {
+form.mini-card-add-remove {
     height: 80%;
 }
 

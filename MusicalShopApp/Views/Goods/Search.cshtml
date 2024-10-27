@@ -1,4 +1,4 @@
-﻿@using MusicalShopApp.Models.Goods
+﻿@using ViewModelsLayer.Goods
 @using DataLayer.SupportClasses
 
 @model GoodsSearchModel
@@ -64,9 +64,9 @@
 	</div>
 	<input type="submit" value="Поиск (удалить)" />
 </form>
-<div class="goods-search-results">
+<div class="search-results">
 	<div class="results-count">
-		Results: @Model.ResultsCount
+		Найдено: @Model.ResultsCount
 	</div>
 	@await Html.PartialAsync("_PartialGoodsList", Model.GoodsUnitModels)
 </div>

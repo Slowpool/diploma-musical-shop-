@@ -56,7 +56,9 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
 
         configurationBuilder.Properties<SaleStatus>()
                             .HaveConversion<string>();
-        //base.ConfigureConventions(configurationBuilder);
+
+        configurationBuilder.Properties<PaidBy>()
+                            .HaveConversion<string>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

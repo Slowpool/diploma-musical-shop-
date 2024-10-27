@@ -2,21 +2,20 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
-using BusinessLogicLayer.Goods.Dto;
 using Common;
 using DataLayer.Common;
 using DataLayer.Models;
-using DataLayer.Models.SupportClasses;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MusicalShopApp.Models;
-using MusicalShopApp.Models.Goods;
 using NuGet.Packaging.Signing;
 using ServiceLayer.GoodsServices;
 using ServiceLayer.GoodsServices.Support;
+using ViewModelsLayer;
+using ViewModelsLayer.Goods;
 
 namespace MusicalShopApp.Controllers;
 

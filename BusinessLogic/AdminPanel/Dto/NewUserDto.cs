@@ -5,5 +5,5 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.AdminPanel.Dto;
-
+#warning i think this is inappropriate place for dto
 public record class NewUserDto(string? UserName, string? Email, bool EmailConfirmed, string? PhoneNumber, bool PhoneNumberConfirmed, string Password);

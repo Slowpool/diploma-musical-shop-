@@ -21,13 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ConstNames\Common.csproj" />
-		<ProjectReference Include="..\DataLayer\DataLayer.csproj" />
 		<ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Models\AdminPanel\" />
 	</ItemGroup>
 
 </Project>

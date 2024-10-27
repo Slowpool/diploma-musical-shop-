@@ -4,10 +4,5 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Models.SupportClasses;
-
-public enum ManufacturerType
-{
-    Factory,
-    Master
-}
+namespace ViewModelsLayer.Sales;
+public class SaleOrderByOptions();

@@ -1,5 +1,5 @@
-﻿using DataLayer.Models.SupportClasses;
-using DataLayer.NotMapped;
+﻿using DataLayer.NotMapped;
+using DataLayer.SupportClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

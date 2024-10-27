@@ -1,6 +1,5 @@
 ﻿using Common;
 using DataLayer.Models;
-using DataLayer.Models.SupportClasses;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

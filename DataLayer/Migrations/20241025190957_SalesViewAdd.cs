@@ -24,7 +24,7 @@ namespace DataLayer.Migrations
           RETURN total;
       END;");
             migrationBuilder.Sql(@"CREATE VIEW sales_view AS
-                                   SELECT `sale_id`, `date`, `status`, total_price(sale_id) AS `total`
+                                   SELECT `sale_id`, `date`, `status`, total_price(sale_id) AS `total`, paid_by
                                    FROM `sales`;");
         }
 
