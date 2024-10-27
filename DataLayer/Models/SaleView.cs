@@ -1,4 +1,5 @@
 ﻿using DataLayer.SupportClasses;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models;
 
-[Table("sale_view")]
+[Table("sales_view")]
+[Keyless]
 public class SaleView
 {
     [Column("sale_id")]
-    public int SaleId { get; set; }
+    public Guid SaleId { get; set; }
 
     [Required]
     public DateTimeOffset Date { get; set; }
@@ -21,8 +23,8 @@ public class SaleView
 #warning is it working correctly?
     public DateTime LocalDate => Date.LocalDateTime;
 
-    //[Required]
-    //public int Total { get; set; }
+    [Required]
+    public int Total { get; set; }
 
 #warning how to add refers to several tables like ICollection<Goods> Answer: view
     [Required]

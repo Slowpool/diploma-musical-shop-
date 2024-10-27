@@ -12,7 +12,7 @@ namespace DataLayer.Models;
 public class Sale
 {
     [Column("sale_id")]
-    public int SaleId { get; set; }
+    public Guid SaleId { get; set; }
 
     [Required]
     public DateTimeOffset Date { get; set; }

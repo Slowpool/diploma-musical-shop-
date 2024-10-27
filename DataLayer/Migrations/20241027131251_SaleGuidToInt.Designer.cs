@@ -4,6 +4,7 @@ using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    partial class MusicalShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241027131251_SaleGuidToInt")]
+    partial class SaleGuidToInt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,8 +53,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("receipt_date");
 
-                    b.Property<Guid?>("SaleId")
-                        .HasColumnType("char(36)")
+                    b.Property<int?>("SaleId")
+                        .HasColumnType("int")
                         .HasColumnName("sale_id");
 
                     b.Property<string>("Size")
@@ -62,9 +65,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int")
@@ -167,17 +169,16 @@ namespace DataLayer.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("receipt_date");
 
-                    b.Property<Guid?>("SaleId")
-                        .HasColumnType("char(36)")
+                    b.Property<int?>("SaleId")
+                        .HasColumnType("int")
                         .HasColumnName("sale_id");
 
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int")
@@ -228,17 +229,16 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("release_year");
 
-                    b.Property<Guid?>("SaleId")
-                        .HasColumnType("char(36)")
+                    b.Property<int?>("SaleId")
+                        .HasColumnType("int")
                         .HasColumnName("sale_id");
 
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int")
@@ -255,17 +255,18 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Sale", b =>
                 {
-                    b.Property<Guid>("SaleId")
+                    b.Property<int>("SaleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
+                        .HasColumnType("int")
                         .HasColumnName("sale_id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SaleId"));
 
                     b.Property<DateTimeOffset>("Date")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("SaleId");
 
@@ -281,9 +282,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("sale_id");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("Total")
                         .HasColumnType("int");
@@ -324,17 +324,16 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("release_year");
 
-                    b.Property<Guid?>("SaleId")
-                        .HasColumnType("char(36)")
+                    b.Property<int?>("SaleId")
+                        .HasColumnType("int")
                         .HasColumnName("sale_id");
 
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int")

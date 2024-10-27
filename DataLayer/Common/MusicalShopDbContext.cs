@@ -22,8 +22,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
     public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
     public virtual DbSet<SpecificType> SpecificTypes { get; set; }
     public virtual DbSet<Sale> Sales { get; set; }
-
-    //public virtual DbSet<AppUser> Users { get; set; }
+    public virtual DbSet<SaleView> SalesView { get; set; }
 
     public MusicalShopDbContext(DbContextOptions<MusicalShopDbContext> options)
         : base(options)
@@ -50,10 +49,24 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
         optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
     }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<GoodsStatus>()
+                            .HaveConversion<string>();
+
+        configurationBuilder.Properties<SaleStatus>()
+                            .HaveConversion<string>();
+        //base.ConfigureConventions(configurationBuilder);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 #warning if i don't have a personal life, i could rename all the stuff like here
         //modelBuilder.Entity<IdentityUser>().ToTable("identity_users").Property(u => u.UserId).HasColumnName("user_id");
+        modelBuilder.Entity<SaleView>(e =>
+        {
+            e.ToView("sale_view");
+        });
 
         base.OnModelCreating(modelBuilder);
         //var entities = modelBuilder.Model.GetEntityTypes();

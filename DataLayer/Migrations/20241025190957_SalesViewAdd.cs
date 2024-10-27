@@ -23,15 +23,15 @@ namespace DataLayer.Migrations
           SET total = total + (SELECT SUM(aeu.price) FROM audio_equipment_units AS aeu WHERE aeu.sale_id = sale_id);
           RETURN total;
       END;");
-            migrationBuilder.Sql(@"CREATE VIEW sale_view AS
+            migrationBuilder.Sql(@"CREATE VIEW sales_view AS
                                    SELECT `sale_id`, `date`, `status`, total_price(sale_id) AS `total`
-                                   FROM `saleS`;");
+                                   FROM `sales`;");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"DROP VIEW `sale_view`;");
+            migrationBuilder.Sql(@"DROP VIEW `sales_view`;");
             migrationBuilder.Sql(@"DROP FUNCTION `total_price`;");
         }
     }

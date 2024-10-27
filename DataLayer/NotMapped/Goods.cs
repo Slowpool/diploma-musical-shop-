@@ -27,8 +27,10 @@ public class Goods : ISoftDeletable
     [MaxLength(200)]
     public string Name { get; set; }
     // relationships
+#warning actually must be as a list due to returned goods may be in several sales
     [Column("sale_id")]
-    public int? SaleId { get; set; }
+    [ForeignKey(nameof(Goods.Sale))]
+    public Guid? SaleId { get; set; }
     public Sale? Sale { get; set; }
     [Column("type_id")]
     public int TypeId { get; set; }

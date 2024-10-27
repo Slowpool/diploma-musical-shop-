@@ -16,6 +16,40 @@ using System.Threading.Tasks;
 namespace DataLayer.Common;
 public class DataSeeding
 {
+#warning probably use factory here
+    private static Sale[] Sales = [
+        new()
+        {
+            SaleId = Guid.Parse("01937ce5-61c0-4eaf-8580-aeeb653b2191"),
+            Status = SaleStatus.Sold,
+            Date = new DateTime(2023, 10, 1, 10, 49, 07)
+        },
+        new()
+        {
+            SaleId = Guid.Parse("01938ce5-61c0-4eaf-8580-aeeb653b2191"),
+            Status = SaleStatus.Sold,
+            Date = new DateTime(2023, 1, 19, 17, 19, 11)
+        },
+        new()
+        {
+            SaleId = Guid.Parse("01939ce5-61c0-4eaf-8580-aeeb653b2191"),
+            Status = SaleStatus.Sold,
+            Date = new DateTime(2023, 5, 28, 15, 50, 01)
+        },
+        new()
+        {
+            SaleId = Guid.Parse("01940ce5-61c0-4eaf-8580-aeeb653b2191"),
+            Status = SaleStatus.Returned,
+            Date = new DateTime(2023, 3, 1, 13, 20, 35)
+        },
+        new()
+        {
+            SaleId = Guid.Parse("01941ce5-61c0-4eaf-8580-aeeb653b2191"),
+            Status = SaleStatus.Reserved,
+            Date = new DateTime(2023, 7, 9, 10, 11, 35)
+        },
+        ];
+
 #warning seed another data like types of musical instruments like guitars
     public static async Task SeedAsync(IServiceProvider services)
     {
@@ -89,13 +123,14 @@ public class DataSeeding
                 Price = 9599,
                 ReleaseYear = 2023,
                 Status = GoodsStatus.InStock,
+                Sale = Sales[0],
                 Type = acousticGuitarType
             },
             new()
             {
                 GoodsId = Guid.Parse("9384b7c1-6727-4dd0-88cc-7e1a1d9062cb"),
-                Description = " Акустическая гитара, без выреза, санберст, Hoix",
-                Name = "Kolenval-SB-SUNBRESTS",
+                Description = " Акустическая гитара, без выреза, без санберста, Hoix",
+                Name = "Kolenval-SB-SUNBRESTLESS",
                 ReceiptDate = new DateTimeOffset(new DateTime(2024, 10, 12, 10, 20, 35)),
                 Manufacturer = "John Spelberg",
                 ManufacturerType = ManufacturerType.Master,
@@ -121,7 +156,7 @@ public class DataSeeding
             new()
             {
                 GoodsId = Guid.Parse("0e05ca0d-7e34-4b65-a5fc-3e7b69194390"),
-                Description = "Акустическая гитара, без розетки, санберст отсутствует.",
+                Description = "Акустическая гитара, без розетки, санберст отсутствует, полые порожки, струны из дерева, ж/б гриф, встроенная когтеточка, удобная лежанка и автокормушка с функцией будильника.",
                 Name = "APPOLON-19-SUNBURSTLESS",
                 ReceiptDate = null,
                 Manufacturer = "Завод гитар для котов",
@@ -194,6 +229,7 @@ public class DataSeeding
                 Price = 299,
                 ReleaseYear = 2023,
                 Status = GoodsStatus.InStock,
+                Sale = Sales[0],
                 Type = fluteType
             },
             new()
@@ -220,6 +256,7 @@ public class DataSeeding
                 Price = 2390,
                 ReleaseYear = 2022,
                 Status = GoodsStatus.AwaitingDelivery,
+                Sale = Sales[3],
                 Type = synthesizerType
             },
         };
@@ -239,7 +276,6 @@ public class DataSeeding
         {
             var chairType = new SpecificType { Name = "Табуретка регулируемая" };
             var keychainType = new SpecificType { Name = "Брелок" };
-            var sale = new Sale { Status = SaleStatus.Sold, /*Total = 699,*/ Date = new DateTime(2023, 10, 19, 10, 20, 35) };
             var accessories = new List<Accessory>
             {
                 new()
@@ -252,6 +288,7 @@ public class DataSeeding
                     Status = GoodsStatus.InStock,
                     Type = chairType,
                     Color = "Прозрачный",
+                    Sale = Sales[0],
                     Size = "регулировка высоты от 10 до 150 см, 50см радиус седла"
                 },
                 new()
@@ -263,7 +300,7 @@ public class DataSeeding
                     Price = 99,
                     Status = GoodsStatus.Reserved,
                     Type = keychainType,
-                    Sale = sale,
+                    Sale = Sales[3],
                     Color = "Черно-желтый",
                     Size = "20см x 0.5см x 3см"
                 },
@@ -276,7 +313,7 @@ public class DataSeeding
                     Price = 699,
                     Status = GoodsStatus.Sold,
                     Type = keychainType,
-                    Sale = sale,
+                    Sale = Sales[4],
                     Color = "Черно-рыжий",
                     Size = "Высота пюпитра: 30-200см. Каподастр 13см x 1см x 12 см"
                 },
