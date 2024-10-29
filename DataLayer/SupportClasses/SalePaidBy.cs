@@ -1,6 +1,6 @@
 ﻿
 namespace DataLayer.SupportClasses;
-public enum PaidBy
+public enum SalePaidBy
 {
 	Cash,
 	BankCard,

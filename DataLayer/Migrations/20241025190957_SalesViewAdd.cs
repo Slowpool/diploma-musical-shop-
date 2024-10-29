@@ -22,17 +22,17 @@ namespace DataLayer.Migrations
           SET total = total + (SELECT SUM(sme.price) FROM sheet_music_editions AS sme WHERE sme.sale_id = sale_id);
           SET total = total + (SELECT SUM(aeu.price) FROM audio_equipment_units AS aeu WHERE aeu.sale_id = sale_id);
           RETURN total;
-      END;");
-            migrationBuilder.Sql(@"CREATE VIEW sales_view AS
-                                   SELECT `sale_id`, `date`, `status`, total_price(sale_id) AS `total`, paid_by
-                                   FROM `sales`;");
+      END;
+      CREATE VIEW sales_view AS
+      SELECT `sale_id`, `date`, `status`, total_price(sale_id) AS `total`
+      FROM `sales`;");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"DROP VIEW `sales_view`;");
-            migrationBuilder.Sql(@"DROP FUNCTION `total_price`;");
+            migrationBuilder.Sql(@"DROP VIEW `sales_view`;
+                                   DROP FUNCTION `total_price`;");
         }
     }
 }

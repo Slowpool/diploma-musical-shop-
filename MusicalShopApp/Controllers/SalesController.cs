@@ -2,6 +2,7 @@
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.SalesServices;
 using ViewModelsLayer.Sales;
 
 namespace MusicalShopApp.Controllers
@@ -10,10 +11,12 @@ namespace MusicalShopApp.Controllers
     public class SalesController : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> Search(string q, DateTime? minDate, DateTime? maxDate, SaleStatus status=SaleStatus.Sold, PaidBy paidBy=PaidBy.Cash)
+        public async Task<IActionResult> Search(string q, [FromServices] GetRelevantSalesService service, DateTime? minDate, DateTime? maxDate, SaleStatus status=SaleStatus.Sold, SalePaidBy paidBy=SalePaidBy.Cash, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
         {
-            List<SaleSearchDto> list = [];
-            return View(new SalesSearchModel(q, list, list.Count, new SaleFilterOptions(minDate, maxDate, status, paidBy), new SaleOrderByOptions()));
+            var filterOptions = new SalesFilterOptions(minDate, maxDate, status, paidBy);
+            var orderByOptions = new SalesOrderByOptions(orderBy, orderByAscending);
+            List<SaleSearchDto> list = await service.GetRelevantSales(q, filterOptions, orderByOptions);
+            return View(new SalesSearchModel(q, list, list.Count, filterOptions, orderByOptions));
         }
 
 

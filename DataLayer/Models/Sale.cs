@@ -18,10 +18,9 @@ public class Sale
 #warning is it working correctly?
     [NotMapped]
     public DateTime LocalDate => Date.LocalDateTime;
-#warning how to add refers to several tables like ICollection<Goods> Answer: view. Upd: bad answer.
+#warning how to add references to several tables like ICollection<Goods> Answer: view. Upd: bad answer.
     [Required]
     public SaleStatus Status { get; set; }
     [Required]
-    [Column("paid_by")]
-    public PaidBy PaidBy { get; set; }
+    public SalePaidBy PaidBy { get; set; }
 }

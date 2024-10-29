@@ -282,6 +282,10 @@ namespace DataLayer.Migrations
                     b.Property<DateTimeOffset>("Date")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("PaidBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("SaleId")
                         .HasColumnType("char(36)")
                         .HasColumnName("sale_id");

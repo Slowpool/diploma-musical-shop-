@@ -29,4 +29,8 @@ public class SaleView
 #warning how to add refers to several tables like ICollection<Goods> Answer: view
     [Required]
     public SaleStatus Status { get; set; }
+    [Required]
+    public SalePaidBy PaidBy { get; set; }
+    [Required]
+    public int GoodsUnitsCount { get; set; }
 }

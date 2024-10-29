@@ -1,6 +1,7 @@
 ﻿namespace ViewModelsLayer.Sales;
-public enum SaleOrderBy
+public enum SalesOrderBy
 {
+    Relevance,
     Date,
     GoodsUnitsCount
 }

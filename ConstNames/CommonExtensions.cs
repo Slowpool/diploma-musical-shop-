@@ -24,17 +24,6 @@ public static class CommonExtensions
         return value?.ToString() ?? "-";
     }
 
-    public static IQueryable<T> Page<T>(this IQueryable<T> query, int pageNumber, int pageSize)
-    {
-        if (pageSize <= 0)
-            throw new ArgumentOutOfRangeException(nameof(pageSize), "pageSize cannot be zero or less than zero.");
-        if (pageNumber <= 0)
-            throw new ArgumentOutOfRangeException(nameof(pageSize), "pageNum cannot be zero or less than zero.");
-        if (pageNumber != 1)
-            query = query.Skip((pageNumber - 1) * pageSize);
-        return query.Take(pageSize);
-    }
-
     public static string ToMoney(this int number) =>
         number.ToString() + " руб.";
 

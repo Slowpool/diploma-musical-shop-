@@ -57,7 +57,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
         configurationBuilder.Properties<SaleStatus>()
                             .HaveConversion<string>();
 
-        configurationBuilder.Properties<PaidBy>()
+        configurationBuilder.Properties<SalePaidBy>()
                             .HaveConversion<string>();
     }
 

@@ -1,10 +1,8 @@
-﻿using Azure;
-using DataLayer.Common;
+﻿using DataLayer.Common;
 using static Common.ConstValues;
 using Common;
 using DataLayer.Models;
 using DataLayer.NotMapped;
-using DbAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +14,7 @@ using DataLayer.SupportClasses;
 using System.Net.Http;
 using System.Collections;
 using ViewModelsLayer.Goods;
+using ServiceLayer.SalesServices.QueryObjects;
 
 namespace ServiceLayer.GoodsServices;
 
