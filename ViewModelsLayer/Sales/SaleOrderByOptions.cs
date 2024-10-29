@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ViewModelsLayer.Sales;
-public class SaleOrderByOptions();
+public record class SaleOrderByOptions(SaleOrderBy OrderBy, bool AscendingOrder);
