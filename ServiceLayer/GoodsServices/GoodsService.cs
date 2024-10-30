@@ -45,13 +45,13 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
     public async Task<T?> GetGoodsInfo<T>(string id)
         where T : Goods
     {
-        IQueryable<Goods>? targetGoods = typeof(T).Name switch
+        IQueryable<Goods>? targetGoods = default(T) switch
         {
-            "MusicalInstrument" => context.MusicalInstruments,
-            "Accessory" => context.Accessories,
-            "AudioEquipmentUnit" => context.AudioEquipmentUnits,
-            "SheetMusicEdition" => context.SheetMusicEditions,
-            _ => null,
+            MusicalInstrument => context.MusicalInstruments,
+            Accessory => context.Accessories,
+            AudioEquipmentUnit => context.AudioEquipmentUnits,
+            SheetMusicEdition => context.SheetMusicEditions,
+            _ => throw new ArgumentException("unknown type")
         };
         return (T?)await targetGoods
             .Include(g => g.Type)
@@ -102,7 +102,7 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
                 break;
 #warning Unreachable code
             default:
-                return null;
+                throw new ArgumentException("unknown type");
         };
         return dto;
 
