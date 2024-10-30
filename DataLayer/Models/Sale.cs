@@ -22,5 +22,6 @@ public class Sale
     [Required]
     public SaleStatus Status { get; set; }
     [Required]
+    [Column("paid_by")]
     public SalePaidBy PaidBy { get; set; }
 }

@@ -11,7 +11,7 @@ namespace MusicalShopApp.Controllers
     public class SalesController : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> Search(string q, [FromServices] GetRelevantSalesService service, DateTime? minDate, DateTime? maxDate, SaleStatus status=SaleStatus.Sold, SalePaidBy paidBy=SalePaidBy.Cash, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
+        public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minDate, DateTime? maxDate, SaleStatus status=SaleStatus.Sold, SalePaidBy paidBy=SalePaidBy.Cash, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
         {
             var filterOptions = new SalesFilterOptions(minDate, maxDate, status, paidBy);
             var orderByOptions = new SalesOrderByOptions(orderBy, orderByAscending);

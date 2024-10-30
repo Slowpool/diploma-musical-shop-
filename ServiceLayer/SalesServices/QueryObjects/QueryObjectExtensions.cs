@@ -34,7 +34,7 @@ public static class QueryObjectExtensions
 
     public static IQueryable<SaleView> OrderBy(this IQueryable<SaleView> query, SalesOrderByOptions orderByOptions)
     {
-        Expression<Func<SaleView, dynamic>> selector;
+        Expression<Func<SaleView, object>> selector;
         switch(orderByOptions.OrderBy)
         {
             case SalesOrderBy.Relevance:
@@ -46,8 +46,13 @@ public static class QueryObjectExtensions
             case SalesOrderBy.GoodsUnitsCount:
                 selector = sale => sale.GoodsUnitsCount;
                 break;
-
+            default:
+                throw new Exception();
         }
+        if (orderByOptions.AscendingOrder)
+            return query.OrderBy(selector);
+        else
+            return query.OrderByDescending(selector);
     }
 
 

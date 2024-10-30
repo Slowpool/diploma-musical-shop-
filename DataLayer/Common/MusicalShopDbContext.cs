@@ -67,7 +67,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
         //modelBuilder.Entity<IdentityUser>().ToTable("identity_users").Property(u => u.UserId).HasColumnName("user_id");
         modelBuilder.Entity<SaleView>(e =>
         {
-            e.ToView("sale_view");
+            e.ToView("sales_view");
         });
 
         base.OnModelCreating(modelBuilder);
