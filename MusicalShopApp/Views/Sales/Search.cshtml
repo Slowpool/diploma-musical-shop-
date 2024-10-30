@@ -38,23 +38,57 @@
     <div>
         <label for="radio-sales-order-by">Сортировать по</label>
         <span id="radio-sales-order-by">
+            <input id="radio-sales-order-by-relevance" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="Relevance" />
+            <label for="radio-sales-order-by-relevance">Дате</label>
             <input id="radio-sales-order-by-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="Date" />
             <label for="radio-sales-order-by-date">Дате</label>
             <input id="radio-sales-order-by-goods-count" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="GoodsUnitsCount" />
             <label for="radio-sales-order-by-goods-count">Количеству единиц товара</label>
         </span>
     </div>
+    <input type="submit" value="Поиск (удалить)" />
 </form>
 
 <div class="results-count">
     Найдено: @Model.ResultsCount
 </div>
+<hr class="narrow" />
 @foreach (var sale in Model.Sales)
 {
     <div class="mini-card">
         <div class="mini-card-left">
+            <div class="sale-status">
+                Статус: @(sale.Status switch
+                {
+                    DataLayer.SupportClasses.SaleStatus.Sold => "Продано",
+                    DataLayer.SupportClasses.SaleStatus.Reserved => "Зарезервировано",
+                    DataLayer.SupportClasses.SaleStatus.Returned => "Возвращено"
+                })
+            </div>
+            <div class="sale-paid-by">
+                Оплачено: @(sale.PaidBy switch
+                {
+                    DataLayer.SupportClasses.SalePaidBy.Cash => "Наличными средствами",
+                    DataLayer.SupportClasses.SalePaidBy.BankCard => "Банковской картой"
+                })
+            </div>
+            <div class="sale-date">
+                @{
+#warning add several dates for reservation, returning and selling
+                }
+                Дата: @sale.Date
+            </div>
+            <div class="goods-related-to-sale">
+                @foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)
+                {
+                    <div class="goods-unit-related-to-sale">
+                        <a href="#">@briefGoodsUnitDescription</a>
+                    </div>
+                }
+            </div>
         </div>
         <div class="mini-card-right">
         </div>
     </div>
+    <hr class="narrow" />
 }

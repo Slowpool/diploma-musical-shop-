@@ -30,7 +30,9 @@ public class SaleView
     [Required]
     public SaleStatus Status { get; set; }
     [Required]
+    [Column("paid_by")]
     public SalePaidBy PaidBy { get; set; }
     [Required]
+    [Column("goods_units_count")]
     public int GoodsUnitsCount { get; set; }
 }

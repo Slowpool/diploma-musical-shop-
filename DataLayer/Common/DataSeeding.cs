@@ -21,35 +21,35 @@ public class DataSeeding
         {
             SaleId = Guid.Parse("01937ce5-61c0-4eaf-8580-aeeb653b2191"),
             Status = SaleStatus.Sold,
-            Date = new DateTime(2023, 10, 1, 10, 49, 07),
+            SaleDate = new DateTime(2023, 10, 1, 10, 49, 07),
             PaidBy = SalePaidBy.BankCard
         },
         new()
         {
             SaleId = Guid.Parse("01938ce5-61c0-4eaf-8580-aeeb653b2191"),
             Status = SaleStatus.Sold,
-            Date = new DateTime(2023, 1, 19, 17, 19, 11),
+            SaleDate = new DateTime(2023, 1, 19, 17, 19, 11),
             PaidBy = SalePaidBy.Cash
         },
         new()
         {
             SaleId = Guid.Parse("01939ce5-61c0-4eaf-8580-aeeb653b2191"),
             Status = SaleStatus.Sold,
-            Date = new DateTime(2023, 5, 28, 15, 50, 01),
+            SaleDate = new DateTime(2023, 5, 28, 15, 50, 01),
             PaidBy = SalePaidBy.BankCard
         },
         new()
         {
             SaleId = Guid.Parse("01940ce5-61c0-4eaf-8580-aeeb653b2191"),
             Status = SaleStatus.Returned,
-            Date = new DateTime(2023, 3, 1, 13, 20, 35),
+            SaleDate = new DateTime(2023, 3, 1, 13, 20, 35),
             PaidBy = SalePaidBy.Cash
         },
         new()
         {
             SaleId = Guid.Parse("01941ce5-61c0-4eaf-8580-aeeb653b2191"),
             Status = SaleStatus.Reserved,
-            Date = new DateTime(2023, 7, 9, 10, 11, 35),
+            SaleDate = new DateTime(2023, 7, 9, 10, 11, 35),
             PaidBy = SalePaidBy.BankCard
         },
         ];

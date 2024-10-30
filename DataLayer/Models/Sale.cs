@@ -13,11 +13,19 @@ public class Sale
 {
     [Column("sale_id")]
     public Guid SaleId { get; set; }
-    [Required]
-    public DateTimeOffset Date { get; set; }
+    [Column("sale_date")]
+    public DateTimeOffset? SaleDate { get; set; }
+    [Column("reservation_date")]
+    public DateTimeOffset? ReservationDate { get; set; }
+    [Column("returning_date")]
+    public DateTimeOffset? ReturningDate { get; set; }
 #warning is it working correctly?
     [NotMapped]
-    public DateTime LocalDate => Date.LocalDateTime;
+    public DateTime? LocalSaleDate => SaleDate?.LocalDateTime;
+    [NotMapped]
+    public DateTime? LocalReservationDate => ReservationDate?.LocalDateTime;
+    [NotMapped]
+    public DateTime? LocalReturningDate => ReturningDate?.LocalDateTime;
 #warning how to add references to several tables like ICollection<Goods> Answer: view. Upd: bad answer.
     [Required]
     public SaleStatus Status { get; set; }

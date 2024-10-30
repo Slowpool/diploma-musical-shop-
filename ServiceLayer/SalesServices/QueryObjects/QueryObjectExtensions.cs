@@ -34,25 +34,14 @@ public static class QueryObjectExtensions
 
     public static IQueryable<SaleView> OrderBy(this IQueryable<SaleView> query, SalesOrderByOptions orderByOptions)
     {
-        Expression<Func<SaleView, object>> selector;
-        switch(orderByOptions.OrderBy)
+        Expression<Func<SaleView, object>> selector = orderByOptions.OrderBy switch
         {
-            case SalesOrderBy.Relevance:
-                selector = sale => sale.SaleId;
-                break;
-            case SalesOrderBy.Date:
-                selector = sale => sale.LocalDate;
-                break;
-            case SalesOrderBy.GoodsUnitsCount:
-                selector = sale => sale.GoodsUnitsCount;
-                break;
-            default:
-                throw new Exception();
-        }
-        if (orderByOptions.AscendingOrder)
-            return query.OrderBy(selector);
-        else
-            return query.OrderByDescending(selector);
+            SalesOrderBy.Relevance => sale => sale.SaleId,
+            SalesOrderBy.Date => sale => sale.LocalDate,
+            SalesOrderBy.GoodsUnitsCount => sale => sale.GoodsUnitsCount,
+            _ => throw new Exception()
+        };
+        return orderByOptions.AscendingOrder ? query.OrderBy(selector) : query.OrderByDescending(selector);
     }
 
 

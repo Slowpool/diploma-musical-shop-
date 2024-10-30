@@ -4,6 +4,7 @@ using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    partial class MusicalShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030141526_SaleViewGoodsCountRename")]
+    partial class SaleViewGoodsCountRename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,22 +263,13 @@ namespace DataLayer.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("sale_id");
 
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("PaidBy")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("paid_by");
-
-                    b.Property<DateTimeOffset?>("ReservationDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("reservation_date");
-
-                    b.Property<DateTimeOffset?>("ReturningDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("returning_date");
-
-                    b.Property<DateTimeOffset?>("SaleDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("sale_date");
 
                     b.Property<string>("Status")
                         .IsRequired()

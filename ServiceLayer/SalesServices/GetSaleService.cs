@@ -25,7 +25,7 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
     public async Task<SaleView> GetSaleView(Guid saleId)
     {
 #warning how to throw exception here
-        return await context.FindAsync<SaleView>(saleId);
+        return context.SalesView.Single(saleView => saleView.SaleId == saleId);
     }
 
 #warning under question
