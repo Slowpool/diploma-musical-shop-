@@ -32,4 +32,7 @@ public class Sale
     [Required]
     [Column("paid_by")]
     public SalePaidBy PaidBy { get; set; }
+    [Required]
+    [Column("is_paid")]
+    public bool IsPaid { get; set; }
 }

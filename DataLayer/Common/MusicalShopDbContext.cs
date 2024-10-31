@@ -63,11 +63,45 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-#warning if i don't have a personal life, i could rename all the stuff like here
+#warning if i don't have a personal life, i could rename all stuff like here
         //modelBuilder.Entity<IdentityUser>().ToTable("identity_users").Property(u => u.UserId).HasColumnName("user_id");
-        modelBuilder.Entity<SaleView>(e =>
+        modelBuilder.Entity<SaleView>(entity =>
         {
-            e.ToView("sales_view");
+            entity.ToView("sales_view");
+        });
+
+        modelBuilder.Entity<MusicalInstrument>(entity =>
+        {
+            entity.HasOne(mi => mi.Sale)
+                  .WithMany()
+#warning do i need it?
+                  //.IsRequired(false)
+                  .OnDelete(DeleteBehavior.SetNull)
+                  .HasForeignKey(mi => mi.SaleId);
+        });
+
+        modelBuilder.Entity<Accessory>(entity =>
+        {
+            entity.HasOne(a => a.Sale)
+                  .WithMany()
+                  .OnDelete(DeleteBehavior.SetNull)
+                  .HasForeignKey(a => a.SaleId);
+        });
+
+        modelBuilder.Entity<AudioEquipmentUnit>(entity =>
+        {
+            entity.HasOne(aeu => aeu.Sale)
+                  .WithMany()
+                  .OnDelete(DeleteBehavior.SetNull)
+                  .HasForeignKey(aeu => aeu.SaleId);
+        });
+
+        modelBuilder.Entity<SheetMusicEdition>(entity =>
+        {
+            entity.HasOne(sme => sme.Sale)
+                  .WithMany()
+                  .OnDelete(DeleteBehavior.SetNull)
+                  .HasForeignKey(sme => sme.SaleId);
         });
 
         base.OnModelCreating(modelBuilder);

@@ -32,10 +32,10 @@ public class SqlStatements
           ALTER TABLE `sheet_music_editions` DROP FOREIGN KEY `FK_sheet_music_editions_sales_sale_id`;
           ALTER TABLE `audio_equipment_units` DROP FOREIGN KEY `FK_audio_equipment_units_sales_sale_id`;";
     public const string RestoreGoodsForeignKeys =
-        @"ALTER TABLE `accessories` ADD FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
-          ALTER TABLE `musical_instruments` ADD FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
-          ALTER TABLE `sheet_music_editions` ADD FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
-          ALTER TABLE `audio_equipment_units` ADD FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);";
+        @"ALTER TABLE `accessories` ADD CONSTRAINT `FK_accessories_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
+          ALTER TABLE `musical_instruments` ADD CONSTRAINT `FK_musical_instruments_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
+          ALTER TABLE `sheet_music_editions` ADD CONSTRAINT `FK_sheet_music_editions_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
+          ALTER TABLE `audio_equipment_units` ADD CONSTRAINT `FK_audio_equipment_units_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);";
     public const string CreateTotalPriceV2 =
         @"CREATE FUNCTION total_price(sale_id char(36))
           RETURNS INT
@@ -83,5 +83,9 @@ public class SqlStatements
     public const string CreateSalesViewV3 =
         @"CREATE VIEW sales_view AS
           SELECT `sale_id`, `sale_date`, `reservation_date`, `returning_date`, `status`, total_price(sale_id) AS `total`, paid_by, total_goods_units_count(sale_id) as `goods_units_count`
+          FROM `sales`;";
+    public const string CreateSalesViewV4 =
+        @"CREATE VIEW sales_view AS
+          SELECT `sale_id`, `sale_date`, `reservation_date`, `returning_date`, `status`, total_price(sale_id) AS `total`, paid_by, total_goods_units_count(sale_id) as `goods_units_count`, is_paid
           FROM `sales`;";
 }

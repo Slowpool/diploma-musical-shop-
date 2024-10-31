@@ -15,7 +15,7 @@ namespace DataLayer.Migrations
                 name: "PaidBy",
                 table: "sales",
                 newName: "paid_by");
-            migrationBuilder.Sql($"{DropSalesView}{DropTotalPriceFunction}{CreateTotalPriceV2}{CreateTotalGoodsUnitsCountV1}");
+            migrationBuilder.Sql($"{DropSalesView}{DropTotalPriceFunction}{CreateTotalPriceV2}{CreateTotalGoodsUnitsCountV1}{CreateSalesViewV2}");
         }
 
         /// <inheritdoc />

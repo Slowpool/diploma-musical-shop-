@@ -20,7 +20,7 @@ namespace ServiceLayer.GoodsServices;
 
 public interface IGoodsService
 {
-    Task<T> GetGoodsInfo<T>(string id)
+    Task<Goods> GetGoodsInfo<T>(string id)
         where T : Goods, new();
 
     Task<Goods> GetGoodsInfo(string id, Type type);
@@ -43,7 +43,7 @@ public interface IGoodsService
 public class GoodsService(MusicalShopDbContext context) : IGoodsService
 {
 #warning i don't like this method. strictly speaking, i see this> (T?)(Goods?) cast for oithe first time
-    public async Task<T> GetGoodsInfo<T>(string id)
+    public async Task<Goods> GetGoodsInfo<T>(string id)
         where T : Goods, new()
     {
         IQueryable<Goods>? targetGoods = new T() switch

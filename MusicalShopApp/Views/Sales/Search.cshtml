@@ -62,14 +62,16 @@
                 {
                     DataLayer.SupportClasses.SaleStatus.Sold => "Продано",
                     DataLayer.SupportClasses.SaleStatus.Reserved => "Зарезервировано",
-                    DataLayer.SupportClasses.SaleStatus.Returned => "Возвращено"
+                    DataLayer.SupportClasses.SaleStatus.Returned => "Возвращено",
+                    _ => throw new ArgumentException()
                 })
             </div>
             <div class="sale-paid-by">
                 Оплачено: @(sale.PaidBy switch
                 {
                     DataLayer.SupportClasses.SalePaidBy.Cash => "Наличными средствами",
-                    DataLayer.SupportClasses.SalePaidBy.BankCard => "Банковской картой"
+                    DataLayer.SupportClasses.SalePaidBy.BankCard => "Банковской картой",
+                    _ => throw new ArgumentException()
                 })
             </div>
             <div class="sale-date">

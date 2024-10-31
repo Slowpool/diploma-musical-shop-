@@ -38,10 +38,30 @@ public class SalesController : CartViewerBaseController
             return RedirectToAction("Cart", "Goods", new SaleErrorModel(service.Errors));
     }
 
-    public async Task<IActionResult> PayForSale()
+    public async Task<IActionResult> PayForSale(Guid saleId)
     {
-        return View();
+        return View(saleId);
     }
 
+    /// <summary>
+    /// Payment was successful.
+    /// </summary>
+    /// <param name="saleId"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ContentResult> RegistrationOfSaleAsSold(Guid saleId, [FromServices] ISaleManagementService service)
+    {
 
+    }
+
+    /// <summary>
+    /// Something went wrong during the payment.
+    /// </summary>
+    /// <param name="saleId"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ContentResult> SaleCancelling(Guid saleId, [FromServices] ISaleManagementService service)
+    {
+        return await service.CancelSale(saleId) ? Content("Successfully cancelled") : Content("Failed to cancel");
+    }
 }

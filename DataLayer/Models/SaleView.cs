@@ -35,4 +35,7 @@ public class SaleView
     [Required]
     [Column("goods_units_count")]
     public int GoodsUnitsCount { get; set; }
+    [Required]
+    [Column("is_paid")]
+    public bool IsPaid { get; set; }
 }
