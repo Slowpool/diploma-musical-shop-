@@ -10,6 +10,7 @@ using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MusicalShopApp.Controllers.BaseControllers;
 using MusicalShopApp.Models;
 using NuGet.Packaging.Signing;
 using ServiceLayer.GoodsServices;
@@ -19,17 +20,10 @@ using ViewModelsLayer.Goods;
 
 namespace MusicalShopApp.Controllers;
 
-[Authorize]
-public class GoodsController : Controller
+[Authorize(Roles = $"{CommonNames.AdminRole},{CommonNames.StockManagerRole},{CommonNames.SellerRole},{CommonNames.ConsultantRole}")]
+public class GoodsController : CartViewerBaseController
 {
     private readonly ILogger<GoodsController> _logger;
-
-    private string? GoodsIdsInCart => HttpContext.Session.GetString(CommonNames.SeparatedGoodsIdsInCart);
-    private string[]? GoodsIdsAndTypes => GoodsIdsInCart?.Split(CommonNames.GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries);
-    private static string GetGoodsId(string goodsIdAndType) => goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[0];
-    private bool IsInCart(string goodsId) => GoodsIdsInCart != null && GoodsIdsAndTypes!.Any(s => s.Contains(goodsId));
-
-    private static Type GetType(string goodsIdAndType) => Type.GetType($"DataLayer.Models.{goodsIdAndType.Split(CommonNames.GoodsIdTypeSeparator)[1]}, DataLayer")!;
 
     public GoodsController(ILogger<GoodsController> logger)
     {
@@ -91,11 +85,15 @@ public class GoodsController : Controller
         List<GoodsUnitSearchDto> goodsUnitModels = new();
         foreach (var goodsId in goodsIds)
         {
-            var goodsUnitSearchDto = await service.GetReadableGoodsInfo(goodsId, type);
-            if (goodsUnitSearchDto != null)
+            try
             {
+                var goodsUnitSearchDto = await service.GetReadableGoodsInfo(goodsId, type);
                 goodsUnitSearchDto.IsInCart = IsInCart(goodsId);
                 goodsUnitModels.Add(goodsUnitSearchDto);
+            }
+            catch
+            {
+                _logger.LogWarning("unknown goods id in cart: {goodsId}", goodsId);
             }
         }
 
@@ -107,9 +105,9 @@ public class GoodsController : Controller
             GoodsUnitModels = goodsUnitModels,
             ResultsCount = goodsUnitModels.Count()
         };
-		ViewBag.Session = GoodsIdsInCart;
+        ViewBag.Session = GoodsIdsInCart;
         return View(goodsSearchModel);
-	}
+    }
 
     [ValidateAntiForgeryToken]
     [Authorize(Roles = CommonNames.SellerRole)]
@@ -119,19 +117,19 @@ public class GoodsController : Controller
         if (newGoodsIdsAndTypes == null)
             return Content("failed");
         HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, newGoodsIdsAndTypes);
-		ViewBag.Session = GoodsIdsInCart;
-		return Content("success");
+        ViewBag.Session = GoodsIdsInCart;
+        return Content("success");
     }
 
-	//[HttpPost]
-	//[ValidateAntiForgeryToken]
-	//public async Task<IActionResult> AddToOrRemoveFromCart(Guid goodsId, bool addToCart)
-	//{
-	//    return RedirectToAction("Search");
-	//}
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public async Task<IActionResult> AddToOrRemoveFromCart(Guid goodsId, bool addToCart)
+    //{
+    //    return RedirectToAction("Search");
+    //}
 
-	[Authorize(Roles = CommonNames.SellerRole)]
-	public async Task<IActionResult> Cart([FromServices] IGoodsService service)
+    [Authorize(Roles = CommonNames.SellerRole)]
+    public async Task<IActionResult> Cart([FromServices] IGoodsService service)
     {
 #warning probably the same code as in search
         List<GoodsUnitSearchDto> GoodsUnitModels = new();
@@ -140,16 +138,19 @@ public class GoodsController : Controller
             foreach (var goodsIdAndType in GoodsIdsAndTypes!)
             {
                 string goodsId = GetGoodsId(goodsIdAndType);
-#warning "don't return null" violation
-                var goodsInfo = await service.GetReadableGoodsInfo(goodsId, GetType(goodsIdAndType));
-                if (goodsInfo != null)
+                try
                 {
+                    var goodsInfo = await service.GetReadableGoodsInfo(goodsId, GetGoodsType(goodsIdAndType));
                     goodsInfo.IsInCart = IsInCart(goodsId);
                     GoodsUnitModels.Add(goodsInfo);
+                }
+                catch
+                {
+                    _logger.LogWarning("unknown goods id in cart: {goodsId}", goodsId);
                 }
             }
         }
         ViewBag.Session = GoodsIdsInCart;
-		return View(GoodsUnitModels);
+        return View(GoodsUnitModels);
     }
 }

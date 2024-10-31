@@ -13,6 +13,18 @@
         <h3>
             Итого: @Model.Aggregate(0, (total, dto) => total += dto.Price)
         </h3>
+        <form asp-controller="Sales" asp-action="ArrangeSale" method="post">
+            <span id="radio-paid-by-sale-arranging">
+                <input id="radio-paid-by-card-sale-arranging" type="radio" name="paidBy" value="Cash" />
+                <label for="radio-paid-by-card-sale-arranging">Наличными</label>
+                <input id="radio-paid-by-cash-sale-arranging" type="radio" name="paidBy" value="BankCard" />
+                <label for="radio-paid-by-cash-sale-arranging">Банковской картой</label>
+            </span>
+            <input type="submit" value="Оформить продажу" />
+        </form>
+        <form asp-controller="Sales" asp-action="ReserveSale" method="post">
+            <input type="submit" value="Зарезервировать продажу" />
+        </form>
     }
 </div>
 @if (Model.Count != 0)

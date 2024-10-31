@@ -20,13 +20,14 @@ namespace ServiceLayer.GoodsServices;
 
 public interface IGoodsService
 {
-    Task<T?> GetGoodsInfo<T>(string id)
+    Task<T> GetGoodsInfo<T>(string id)
         where T : Goods, new();
 
-    Task<GoodsUnitSearchDto?> GetReadableGoodsInfo<T>(string id)
+    Task<Goods> GetGoodsInfo(string id, Type type);
+    Task<GoodsUnitSearchDto> GetReadableGoodsInfo<T>(string id)
         where T : Goods, new();
 
-    Task<GoodsUnitSearchDto?> GetReadableGoodsInfo(string id, Type type);
+    Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, Type type);
 
     // Kinda complex task to implement.
     // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
@@ -42,7 +43,7 @@ public interface IGoodsService
 public class GoodsService(MusicalShopDbContext context) : IGoodsService
 {
 #warning i don't like this method. strictly speaking, i see this> (T?)(Goods?) cast for oithe first time
-    public async Task<T?> GetGoodsInfo<T>(string id)
+    public async Task<T> GetGoodsInfo<T>(string id)
         where T : Goods, new()
     {
         IQueryable<Goods>? targetGoods = new T() switch
@@ -53,17 +54,15 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
             SheetMusicEdition => context.SheetMusicEditions,
             _ => throw new ArgumentException("unknown type")
         };
-        return (T?)await targetGoods
+        return (T)await targetGoods
             .Include(g => g.Type)
-            .SingleOrDefaultAsync(e => e.GoodsId.ToString() == id)!;
+            .SingleAsync(e => e.GoodsId.ToString() == id)!;
     }
 
-    public async Task<GoodsUnitSearchDto?> GetReadableGoodsInfo<T>(string id)
+    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo<T>(string id)
         where T : Goods, new()
     {
-        Goods? goods = await GetGoodsInfo<T>(id);
-        if (goods == null)
-            return null;
+        Goods goods = await GetGoodsInfo<T>(id);
 
         GoodsUnitSearchDto dto = new()
         {
@@ -114,12 +113,12 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
     /// <param name="id"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public async Task<GoodsUnitSearchDto?> GetReadableGoodsInfo(string id, Type type)
+    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, Type type)
     {
         MethodInfo methodInfo = typeof(GoodsService).GetMethod("GetReadableGoodsInfo", BindingFlags.IgnoreReturn | BindingFlags.Public | BindingFlags.Instance, [typeof(string)])!;
         methodInfo = methodInfo.MakeGenericMethod(type);
 
-        return await (Task<GoodsUnitSearchDto?>)methodInfo.Invoke(this, [id])!;
+        return await (Task<GoodsUnitSearchDto>)methodInfo.Invoke(this, [id])!;
     }
 
     // Kinda complex task to implement.
@@ -414,5 +413,11 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
         string typeName = (await GetGoodsType(goodsId)).Name;
         goodsIdsTypesList.Add($"{goodsId}{CommonNames.GoodsIdTypeSeparator}{typeName}");
         return goodsIdsTypesList;
+    }
+
+    public async Task<Goods> GetGoodsInfo(string id, Type type)
+    {
+        var methodInfo = typeof(GoodsService).GetMethod("GetGoodsInfo", BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreReturn, [typeof(string)]);
+        return await (Task<Goods>)methodInfo.MakeGenericMethod(type).Invoke(this, [id]);
     }
 }
