@@ -42,7 +42,7 @@ public class GetRelevantSalesService(MusicalShopDbContext context, IGetSaleServi
             {
                 briefGoodsDescriptions.Add($"{goodsUnit.Name} {goodsUnit.Description}");
             }
-            SaleSearchDto dto = new(saleView.SaleId, saleView.LocalDate, saleView.Status, saleView.Total, saleView.PaidBy, briefGoodsDescriptions);
+            SaleSearchDto dto = new(saleView.SaleId, saleView.LocalReservationDate, saleView.LocalSaleDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, saleView.PaidBy, briefGoodsDescriptions);
             result.Add(dto);
         }
         return result;

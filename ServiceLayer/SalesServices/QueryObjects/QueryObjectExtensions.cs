@@ -24,11 +24,23 @@ public static class QueryObjectExtensions
 
     public static IQueryable<SaleView> FilterBy(this IQueryable<SaleView> query, SalesFilterOptions filterOptions)
     {
-        if (filterOptions.MinDate != null)
-            query = query.Where(sale => sale.LocalDate >= filterOptions.MinDate);
-        if (filterOptions.MaxDate != null)
-            query = query.Where(sale => sale.LocalDate <= filterOptions.MaxDate);
-        return query.Where(sale => sale.Status == filterOptions.Status
+#warning awful
+        if (filterOptions.MinSaleDate != null)
+            query = query.Where(sale => sale.LocalSaleDate >= filterOptions.MinSaleDate);
+        if (filterOptions.MaxSaleDate != null)
+            query = query.Where(sale => sale.LocalSaleDate <= filterOptions.MaxSaleDate);
+
+		if (filterOptions.MinReturningDate != null)
+			query = query.Where(sale => sale.LocalReturningDate >= filterOptions.MinReturningDate);
+		if (filterOptions.MaxReturningDate != null)
+			query = query.Where(sale => sale.LocalReturningDate <= filterOptions.MaxReturningDate);
+
+		if (filterOptions.MinReservationDate != null)
+			query = query.Where(sale => sale.LocalReservationDate >= filterOptions.MinReservationDate);
+		if (filterOptions.MaxReservationDate != null)
+			query = query.Where(sale => sale.LocalReservationDate <= filterOptions.MaxReservationDate);
+
+		return query.Where(sale => sale.Status == filterOptions.Status
                                 && sale.PaidBy == filterOptions.PaidBy);
     }
 
@@ -37,7 +49,9 @@ public static class QueryObjectExtensions
         Expression<Func<SaleView, object>> selector = orderByOptions.OrderBy switch
         {
             SalesOrderBy.Relevance => sale => sale.SaleId,
-            SalesOrderBy.Date => sale => sale.LocalDate,
+            SalesOrderBy.SaleDate => sale => sale.SaleDate,
+            SalesOrderBy.ReservationDate => sale => sale.ReservationDate,
+            SalesOrderBy.ReturningDate => sale => sale.ReturningDate,
             SalesOrderBy.GoodsUnitsCount => sale => sale.GoodsUnitsCount,
             _ => throw new Exception()
         };

@@ -13,9 +13,9 @@ namespace MusicalShopApp.Controllers;
 public class SalesController : CartViewerBaseController
 {
     [HttpGet]
-    public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minDate, DateTime? maxDate, SaleStatus status=SaleStatus.Sold, SalePaidBy paidBy=SalePaidBy.Cash, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
+    public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minSaleDate, DateTime? maxSaleDate, SaleStatus status=SaleStatus.Sold, SalePaidBy paidBy=SalePaidBy.Cash, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
     {
-        var filterOptions = new SalesFilterOptions(minDate, maxDate, status, paidBy);
+        var filterOptions = new SalesFilterOptions(minSaleDate, maxSaleDate, minReservationDate, maxReservationDate, DateTime ? minReturningDate, DateTime ? maxReturningDate status, paidBy);
         var orderByOptions = new SalesOrderByOptions(orderBy, orderByAscending);
         List<SaleSearchDto> list = await service.GetRelevantSales(q, filterOptions, orderByOptions);
         return View(new SalesSearchModel(q, list, list.Count, filterOptions, orderByOptions));
@@ -33,12 +33,12 @@ public class SalesController : CartViewerBaseController
         Guid? saleId = await service.ArrangeSale(goods, paidBy);
         if (!service.HasErrors)
 #warning redirect to payment and then to successfully sold sale
-            return RedirectToAction("PayForSale", saleId);
+            return RedirectToAction("PayForSale", new { saleId });
         else
-            return RedirectToAction("Cart", "Goods", new SaleErrorModel(service.Errors));
+            return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
-    public async Task<IActionResult> PayForSale(Guid saleId)
+    public async Task<IActionResult> PayForSale([FromQuery] Guid saleId)
     {
         return View(saleId);
     }
@@ -49,9 +49,10 @@ public class SalesController : CartViewerBaseController
     /// <param name="saleId"></param>
     /// <returns></returns>
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<ContentResult> RegistrationOfSaleAsSold(Guid saleId, [FromServices] ISaleManagementService service)
     {
-
+        return await service.RegisterSaleAsSold(saleId) ? Content("Successfully registered") : Content("failed to register");
     }
 
     /// <summary>
@@ -60,7 +61,8 @@ public class SalesController : CartViewerBaseController
     /// <param name="saleId"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ContentResult> SaleCancelling(Guid saleId, [FromServices] ISaleManagementService service)
+    [ValidateAntiForgeryToken]
+    public async Task<ContentResult> SaleCancelling(/*[FromQuery]*/ Guid saleId, [FromServices] ISaleManagementService service)
     {
         return await service.CancelSale(saleId) ? Content("Successfully cancelled") : Content("Failed to cancel");
     }

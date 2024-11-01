@@ -15,6 +15,7 @@ public interface ISaleManagementService
     Task<bool> CancelSale(Guid saleId);
 }
 
+#warning i'm not sure about this method doesn't have a bizRunner
 public class SaleManagementService(MusicalShopDbContext context) : ISaleManagementService
 {
     public async Task<bool> CancelSale(Guid saleId)

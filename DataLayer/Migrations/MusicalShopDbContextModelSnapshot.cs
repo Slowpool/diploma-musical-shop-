@@ -292,17 +292,30 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.SaleView", b =>
                 {
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("GoodsUnitsCount")
                         .HasColumnType("int")
                         .HasColumnName("goods_units_count");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_paid");
 
                     b.Property<string>("PaidBy")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("paid_by");
+
+                    b.Property<DateTimeOffset?>("ReservationDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("reservation_date");
+
+                    b.Property<DateTimeOffset?>("ReturningDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("returning_date");
+
+                    b.Property<DateTimeOffset?>("SaleDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("sale_date");
 
                     b.Property<Guid>("SaleId")
                         .HasColumnType("char(36)")

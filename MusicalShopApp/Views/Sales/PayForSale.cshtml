@@ -1,5 +1,13 @@
-﻿Здесь специалисты по интеграции кассовых аппаратов должны интегрировать кассовый аппарат.
-<br />
-<form method="post">
+﻿@model Guid
 
-</form>
+Здесь специалисты по интеграции кассовых аппаратов должны интегрировать кассовый аппарат.
+<div>
+	<form asp-controller="Sales" asp-action="RegistrationOfSaleAsSold" method="post">
+		<input type="submit" value="Успешно оплачено" />
+		<input type="hidden" name="saleId" value="@Model" />
+	</form>
+	<form asp-controller="Sales" asp-action="SaleCancelling" method="post">
+		<input type="submit" value="Отмена" />
+		<input type="hidden" name="saleId" value="@Model" />
+	</form>
+</div>

@@ -6,12 +6,24 @@
 
 <form asp-action="Search" method="get">
     <input asp-for="ResearchText" name="q" placeholder="Поиск..." />
-    <span>
-        <label for="min-date">Продано в промежутке с</label>
-        <input id="min-date" asp-for="Filter.MinDate" name="minDate" type="datetime-local" />
-        <label for="max-date">по</label>
-        <input id="max-date" asp-for="Filter.MaxDate" name="maxDate" type="datetime-local" />
-    </span>
+    <div>
+        <label for="min-sale-date">Продано в промежутке с</label>
+        <input id="min-sale-date" asp-for="Filter.MinSaleDate" name="minSaleDate" type="datetime-local" />
+        <label for="max-sale-date">по</label>
+        <input id="max-sale-date" asp-for="Filter.MaxSaleDate" name="maxSaleDate" type="datetime-local" />
+    </div>
+    <div>
+        <label for="min-reservation-date">Зарезервировано в промежутке с</label>
+        <input id="min-reservation-date" asp-for="Filter.MinReservationDate" name="minReservationDate" type="datetime-local" />
+        <label for="max-reservation-date">по</label>
+        <input id="max-reservation-date" asp-for="Filter.MaxReservationDate" name="maxReservationDate" type="datetime-local" />
+    </div>
+    <div>
+        <label for="min-returning-date">Продано в промежутке с</label>
+        <input id="min-returning-date" asp-for="Filter.MinReturningDate" name="minReturningDate" type="datetime-local" />
+        <label for="max-returning-date">по</label>
+        <input id="max-returning-date" asp-for="Filter.MaxReturningDate" name="maxReturningDate" type="datetime-local" />
+    </div>
     @{
 #warning probably use <fieldset> tag here
     }
@@ -75,10 +87,11 @@
                 })
             </div>
             <div class="sale-date">
-                @{
-#warning add several dates for reservation, returning and selling
-                }
-                Дата: @sale.Date
+                Дата оформления: @sale.SaleDate
+                <br />
+                Дата возврата: @sale.ReturningDate
+                <br />
+                Дата резервирования: @sale.ReservationDate
             </div>
             <div class="goods-related-to-sale">
                 @foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)

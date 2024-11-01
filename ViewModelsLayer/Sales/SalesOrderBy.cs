@@ -2,6 +2,8 @@
 public enum SalesOrderBy
 {
     Relevance,
-    Date,
+    SaleDate,
+    ReservationDate,
+    ReturningDate,
     GoodsUnitsCount
 }
