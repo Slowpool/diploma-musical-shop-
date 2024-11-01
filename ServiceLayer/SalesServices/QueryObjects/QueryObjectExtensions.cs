@@ -45,30 +45,12 @@ public static class QueryObjectExtensions
                     
                 }
             }
-//#warning awful. I see solution with reflexion.
-//        if (filterOptions.MinSaleDate != null)
-//        {
-//            var newDateTimeOffset = filterOptions.MinSaleDate.LocalToUniversal();
-//            query = query.Where(sale => sale.SaleDate >= newDateTimeOffset);
-//        }
-//        if (filterOptions.MaxSaleDate != null)
-//        {
-//            var newDateTimeOffset = filterOptions.MaxSaleDate.LocalToUniversal();
-//            query = query.Where(sale => sale.SaleDate <= newDateTimeOffset);
-//        }
 
-//		if (filterOptions.MinReturningDate != null)
-//			query = query.Where(sale => sale.LocalReturningDate >= filterOptions.MinReturningDate);
-//		if (filterOptions.MaxReturningDate != null)
-//			query = query.Where(sale => sale.LocalReturningDate <= filterOptions.MaxReturningDate);
-
-//		if (filterOptions.MinReservationDate != null)
-//			query = query.Where(sale => sale.LocalReservationDate >= filterOptions.MinReservationDate);
-//		if (filterOptions.MaxReservationDate != null)
-//			query = query.Where(sale => sale.LocalReservationDate <= filterOptions.MaxReservationDate);
-
-		return query.Where(sale => sale.Status == filterOptions.Status
-                                && sale.PaidBy == filterOptions.PaidBy);
+        if (filterOptions.Status is not null)
+            query = query.Where(sale => sale.Status == filterOptions.Status);
+        if (filterOptions.PaidBy is not null)
+            query = query.Where(sale => sale.PaidBy == filterOptions.PaidBy);
+        return query;
     }
 
     public static IQueryable<SaleView> OrderBy(this IQueryable<SaleView> query, SalesOrderByOptions orderByOptions)

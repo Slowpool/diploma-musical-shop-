@@ -36,6 +36,8 @@
             <label for="radio-status-reserved">Зарезервировано</label>
             <input id="radio-status-returned" type="radio" asp-for="Filter.Status" name="status" value="Returned" />
             <label for="radio-status-returned">Возвращено</label>
+            <input id="radio-status-any" type="radio" name="status" value="null" @(Model.Filter.Status is null ? "checked" : string.Empty) />
+            <label for="radio-status-any">Без фильтра</label>
         </span>
     </div>
     <div>
@@ -45,15 +47,21 @@
             <label for="radio-paid-by-card">Наличными</label>
             <input id="radio-paid-by-cash" type="radio" asp-for="Filter.PaidBy" name="paidBy" value="BankCard" />
             <label for="radio-paid-by-cash">Банковской картой</label>
+            <input id="radio-paid-by-any" type="radio" name="paidBy" value="null" @(Model.Filter.PaidBy is null ? "checked" : string.Empty) />
+            <label for="radio-paid-by-any">Без фильтра</label>
         </span>
     </div>
     <div>
         <label for="radio-sales-order-by">Сортировать по</label>
         <span id="radio-sales-order-by">
             <input id="radio-sales-order-by-relevance" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="Relevance" />
-            <label for="radio-sales-order-by-relevance">Дате</label>
-            <input id="radio-sales-order-by-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="Date" />
-            <label for="radio-sales-order-by-date">Дате</label>
+            <label for="radio-sales-order-by-relevance">Релевантности</label>
+            <input id="radio-sales-order-by-reservation-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="ReservationDate" />
+            <label for="radio-sales-order-by-reservation-date">Дате резервирования</label>
+            <input id="radio-sales-order-by-sale-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="SaleDate" />
+            <label for="radio-sales-order-by-sale-date">Дате продажи</label>
+            <input id="radio-sales-order-by-returning-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="ReturningDate" />
+            <label for="radio-sales-order-by-returning-date">Дате возврата</label>
             <input id="radio-sales-order-by-goods-count" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="GoodsUnitsCount" />
             <label for="radio-sales-order-by-goods-count">Количеству единиц товара</label>
         </span>
@@ -94,11 +102,21 @@
                 Дата резервирования: @(sale?.ReservationDate?.ToString() ?? "-")
             </div>
             <div class="goods-related-to-sale">
-                @foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)
-                {
-                    <div class="goods-unit-related-to-sale">
-                        <a href="#">@briefGoodsUnitDescription</a>
-                    </div>
+                @{
+                    int goodsDisplayed = 0;
+                    foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)
+                    {
+                        <div class="goods-unit-related-to-sale">
+                            <a href="#">@briefGoodsUnitDescription</a>
+                        </div>
+                        if (++goodsDisplayed == 3)
+                        {
+                            <div>
+                            ...
+                            </div>
+                            break;
+                        }
+                    }
                 }
             </div>
         </div>
