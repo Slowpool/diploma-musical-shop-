@@ -13,9 +13,9 @@ namespace MusicalShopApp.Controllers;
 public class SalesController : CartViewerBaseController
 {
     [HttpGet]
-    public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minSaleDate, DateTime? maxSaleDate, SaleStatus status=SaleStatus.Sold, SalePaidBy paidBy=SalePaidBy.Cash, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
+    public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minSaleDate, DateTime? maxSaleDate, DateTime? minReservationDate, DateTime? maxReservationDate, DateTime? minReturningDate, DateTime? maxReturningDate, SaleStatus status=SaleStatus.Sold, SalePaidBy paidBy=SalePaidBy.Cash, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
     {
-        var filterOptions = new SalesFilterOptions(minSaleDate, maxSaleDate, minReservationDate, maxReservationDate, DateTime ? minReturningDate, DateTime ? maxReturningDate status, paidBy);
+        var filterOptions = new SalesFilterOptions(minSaleDate, maxSaleDate, minReservationDate, maxReservationDate, minReturningDate, maxReturningDate, status, paidBy);
         var orderByOptions = new SalesOrderByOptions(orderBy, orderByAscending);
         List<SaleSearchDto> list = await service.GetRelevantSales(q, filterOptions, orderByOptions);
         return View(new SalesSearchModel(q, list, list.Count, filterOptions, orderByOptions));

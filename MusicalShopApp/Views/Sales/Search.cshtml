@@ -87,11 +87,11 @@
                 })
             </div>
             <div class="sale-date">
-                Дата оформления: @sale.SaleDate
+                Дата оформления: @(sale?.SaleDate?.ToString() ?? "-")
                 <br />
-                Дата возврата: @sale.ReturningDate
+                Дата возврата: @(sale?.ReturningDate?.ToString() ?? "-")
                 <br />
-                Дата резервирования: @sale.ReservationDate
+                Дата резервирования: @(sale?.ReservationDate?.ToString() ?? "-")
             </div>
             <div class="goods-related-to-sale">
                 @foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)

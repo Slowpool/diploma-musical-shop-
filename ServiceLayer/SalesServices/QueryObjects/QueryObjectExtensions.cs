@@ -1,9 +1,11 @@
-﻿using DataLayer.Models;
+﻿using Common;
+using DataLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModelsLayer.Sales;
@@ -24,21 +26,46 @@ public static class QueryObjectExtensions
 
     public static IQueryable<SaleView> FilterBy(this IQueryable<SaleView> query, SalesFilterOptions filterOptions)
     {
-#warning awful
-        if (filterOptions.MinSaleDate != null)
-            query = query.Where(sale => sale.LocalSaleDate >= filterOptions.MinSaleDate);
-        if (filterOptions.MaxSaleDate != null)
-            query = query.Where(sale => sale.LocalSaleDate <= filterOptions.MaxSaleDate);
+        string[] types = { "Sale", "Reservation", "Returning" };
+        string[] ranges = { "Min", "Max" };
+        foreach(string type in types)
+            foreach(string range in ranges)
+            {
+                PropertyInfo someDate = typeof(SalesFilterOptions).GetProperty($"{range}{type}Date")!;
+                var currentDate = (DateTime?)someDate.GetValue(filterOptions);
+                if (currentDate != null)
+                {
+                    DateTimeOffset? newDateTimeOffset = currentDate.LocalToUniversal();
+                    var parameter = Expression.Parameter(typeof(SaleView));
+                    var property = Expression.Property(parameter, $"{type}Date");
+                    var constantExpression = Expression.Constant(newDateTimeOffset, typeof(DateTimeOffset?));
+                    var equalityExpression = Expression.GreaterThanOrEqual(property, constantExpression);
+                    var predicate = (Expression<Func<SaleView, bool>>)Expression.Lambda(equalityExpression, parameter);
+                    query = query.Where(predicate);
+                    
+                }
+            }
+//#warning awful. I see solution with reflexion.
+//        if (filterOptions.MinSaleDate != null)
+//        {
+//            var newDateTimeOffset = filterOptions.MinSaleDate.LocalToUniversal();
+//            query = query.Where(sale => sale.SaleDate >= newDateTimeOffset);
+//        }
+//        if (filterOptions.MaxSaleDate != null)
+//        {
+//            var newDateTimeOffset = filterOptions.MaxSaleDate.LocalToUniversal();
+//            query = query.Where(sale => sale.SaleDate <= newDateTimeOffset);
+//        }
 
-		if (filterOptions.MinReturningDate != null)
-			query = query.Where(sale => sale.LocalReturningDate >= filterOptions.MinReturningDate);
-		if (filterOptions.MaxReturningDate != null)
-			query = query.Where(sale => sale.LocalReturningDate <= filterOptions.MaxReturningDate);
+//		if (filterOptions.MinReturningDate != null)
+//			query = query.Where(sale => sale.LocalReturningDate >= filterOptions.MinReturningDate);
+//		if (filterOptions.MaxReturningDate != null)
+//			query = query.Where(sale => sale.LocalReturningDate <= filterOptions.MaxReturningDate);
 
-		if (filterOptions.MinReservationDate != null)
-			query = query.Where(sale => sale.LocalReservationDate >= filterOptions.MinReservationDate);
-		if (filterOptions.MaxReservationDate != null)
-			query = query.Where(sale => sale.LocalReservationDate <= filterOptions.MaxReservationDate);
+//		if (filterOptions.MinReservationDate != null)
+//			query = query.Where(sale => sale.LocalReservationDate >= filterOptions.MinReservationDate);
+//		if (filterOptions.MaxReservationDate != null)
+//			query = query.Where(sale => sale.LocalReservationDate <= filterOptions.MaxReservationDate);
 
 		return query.Where(sale => sale.Status == filterOptions.Status
                                 && sale.PaidBy == filterOptions.PaidBy);

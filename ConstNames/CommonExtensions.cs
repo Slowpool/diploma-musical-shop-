@@ -27,5 +27,7 @@ public static class CommonExtensions
     public static string ToMoney(this int number) =>
         number.ToString() + " руб.";
 
-    
+    public static DateTimeOffset? LocalToUniversal(this DateTime? dateTime) => dateTime is null ? null : (DateTimeOffset?)new DateTimeOffset((DateTime)dateTime).ToUniversalTime();
+
+
 }
