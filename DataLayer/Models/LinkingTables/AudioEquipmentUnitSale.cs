@@ -7,13 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.LinkingTables;
-
 public class AudioEquipmentUnitSale
 {
     [Required]
     public Guid AudioEquipmentUnitId { get; set; }
-    public AudioEquipmentUnit AudioEquipmentUnit { get; set; }
+    public virtual AudioEquipmentUnit AudioEquipmentUnit { get; set; }
     [Required]
     public Guid SaleId { get; set; }
-    public Sale Sale { get; set; }
+    public virtual Sale Sale { get; set; }
 }

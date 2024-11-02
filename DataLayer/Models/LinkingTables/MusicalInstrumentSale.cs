@@ -11,8 +11,8 @@ public class MusicalInstrumentSale
 {
     [Required]
     public Guid MusicalInstrumentId { get; set; }
-    public MusicalInstrument MusicalInstrument { get; set; }
+    public virtual MusicalInstrument MusicalInstrument { get; set; }
     [Required]
     public Guid SaleId { get; set; }
-    public Sale Sale { get; set; }
+    public virtual Sale Sale { get; set; }
 }

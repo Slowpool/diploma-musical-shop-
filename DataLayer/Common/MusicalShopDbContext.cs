@@ -80,6 +80,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   .WithMany(sale => sale.MusicalInstruments)
                   .UsingEntity<MusicalInstrumentSale>(linkingTable =>
                   {
+                      linkingTable.HasKey(lt => new { lt.SaleId, lt.MusicalInstrumentId });
                       linkingTable.HasOne(e => e.MusicalInstrument)
                                   .WithMany()
                                   .HasForeignKey(e => e.MusicalInstrumentId)
@@ -97,6 +98,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   .WithMany(sale => sale.Accessories)
                   .UsingEntity<AccessorySale>(linkingTable =>
                   {
+                      linkingTable.HasKey(lt => new { lt.SaleId, lt.AccessoryId });
                       linkingTable.HasOne(e => e.Accessory)
                                   .WithMany()
                                   .HasForeignKey(e => e.AccessoryId)
@@ -114,6 +116,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   .WithMany(sale => sale.AudioEquipmentUnits)
                   .UsingEntity<AudioEquipmentUnitSale>(linkingTable =>
                   {
+                      linkingTable.HasKey(lt => new { lt.SaleId, lt.AudioEquipmentUnitId });
                       linkingTable.HasOne(e => e.AudioEquipmentUnit)
                                   .WithMany()
                                   .HasForeignKey(e => e.AudioEquipmentUnitId)
@@ -131,6 +134,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   .WithMany(sale => sale.SheetMusicEditions)
                   .UsingEntity<SheetMusicEditionSale>(linkingTable =>
                   {
+                      linkingTable.HasKey(lt => new { lt.SaleId, lt.SheetMusicEditionId });
                       linkingTable.HasOne(e => e.SheetMusicEdition)
                                   .WithMany()
                                   .HasForeignKey(e => e.SheetMusicEditionId)

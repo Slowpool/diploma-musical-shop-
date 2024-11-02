@@ -14,8 +14,8 @@ public class AccessorySale
 {
     [Required]
     public Guid AccessoryId { get; set; }
-    public Accessory Accessory { get; set; }
+    public virtual Accessory Accessory { get; set; }
     [Required]
     public Guid SaleId { get; set; }
-    public Sale Sale { get; set; }
+    public virtual Sale Sale { get; set; }
 }

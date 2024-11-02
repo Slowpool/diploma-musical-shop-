@@ -182,55 +182,55 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.AccessorySale", b =>
                 {
-                    b.Property<Guid>("AccessoryId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("SaleId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("AccessoryId", "SaleId");
+                    b.Property<Guid>("AccessoryId")
+                        .HasColumnType("char(36)");
 
-                    b.HasIndex("SaleId");
+                    b.HasKey("SaleId", "AccessoryId");
+
+                    b.HasIndex("AccessoryId");
 
                     b.ToTable("AccessorySale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.AudioEquipmentUnitSale", b =>
                 {
-                    b.Property<Guid>("AudioEquipmentUnitsGoodsId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("SaleId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("AudioEquipmentUnitId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("AudioEquipmentUnitsGoodsId", "SaleId");
+                    b.Property<Guid>("AudioEquipmentUnitsGoodsId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("SaleId", "AudioEquipmentUnitId");
 
                     b.HasIndex("AudioEquipmentUnitId");
 
-                    b.HasIndex("SaleId");
+                    b.HasIndex("AudioEquipmentUnitsGoodsId");
 
                     b.ToTable("AudioEquipmentUnitSale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.MusicalInstrumentSale", b =>
                 {
-                    b.Property<Guid>("MusicalInstrumentsGoodsId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("SaleId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("MusicalInstrumentId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("MusicalInstrumentsGoodsId", "SaleId");
+                    b.Property<Guid>("MusicalInstrumentsGoodsId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("SaleId", "MusicalInstrumentId");
 
                     b.HasIndex("MusicalInstrumentId");
 
-                    b.HasIndex("SaleId");
+                    b.HasIndex("MusicalInstrumentsGoodsId");
 
                     b.ToTable("MusicalInstrumentSale");
                 });
@@ -240,13 +240,13 @@ namespace DataLayer.Migrations
                     b.Property<Guid>("SaleId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("SheetMusicEditionsGoodsId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("SheetMusicEditionId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("SaleId", "SheetMusicEditionsGoodsId");
+                    b.Property<Guid>("SheetMusicEditionsGoodsId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("SaleId", "SheetMusicEditionId");
 
                     b.HasIndex("SheetMusicEditionId");
 

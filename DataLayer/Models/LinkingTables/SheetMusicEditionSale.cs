@@ -11,8 +11,8 @@ public class SheetMusicEditionSale
 {
     [Required]
     public Guid SheetMusicEditionId { get; set; }
-    public SheetMusicEdition SheetMusicEdition { get; set; }
+    public virtual SheetMusicEdition SheetMusicEdition { get; set; }
     [Required]
     public Guid SaleId { get; set; }
-    public Sale Sale { get; set; }
+    public virtual Sale Sale { get; set; }
 }
