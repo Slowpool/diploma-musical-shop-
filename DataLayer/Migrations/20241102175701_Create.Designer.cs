@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    [Migration("20241015182857_Create")]
+    [Migration("20241102175701_Create")]
     partial class Create
     {
         /// <inheritdoc />
@@ -27,39 +27,49 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Accessory", b =>
                 {
-                    b.Property<int>("GoodsId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("accessory_id");
+                        .HasColumnType("char(36)")
+                        .HasColumnName("goods_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SaleId")
-                        .HasColumnType("int")
-                        .HasColumnName("sale_id");
+                    b.Property<DateTimeOffset?>("ReceiptDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("receipt_date");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("TypeId")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
                     b.HasKey("GoodsId");
-
-                    b.HasIndex("SaleId");
 
                     b.HasIndex("TypeId");
 
@@ -132,84 +142,171 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.AudioEquipmentUnit", b =>
                 {
-                    b.Property<int>("GoodsId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("audio_equipment_unit_id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
+                        .HasColumnType("char(36)")
+                        .HasColumnName("goods_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SaleId")
-                        .HasColumnType("int")
-                        .HasColumnName("sale_id");
+                    b.Property<DateTimeOffset?>("ReceiptDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("receipt_date");
 
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("TypeId")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
                     b.HasKey("GoodsId");
-
-                    b.HasIndex("SaleId");
 
                     b.HasIndex("TypeId");
 
                     b.ToTable("audio_equipment_units");
                 });
 
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.AccessorySale", b =>
+                {
+                    b.Property<Guid>("AccessoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("SaleId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("AccessoryId", "SaleId");
+
+                    b.HasIndex("SaleId");
+
+                    b.ToTable("AccessorySale");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.AudioEquipmentUnitSale", b =>
+                {
+                    b.Property<Guid>("AudioEquipmentUnitsGoodsId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("SaleId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AudioEquipmentUnitId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("AudioEquipmentUnitsGoodsId", "SaleId");
+
+                    b.HasIndex("AudioEquipmentUnitId");
+
+                    b.HasIndex("SaleId");
+
+                    b.ToTable("AudioEquipmentUnitSale");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.MusicalInstrumentSale", b =>
+                {
+                    b.Property<Guid>("MusicalInstrumentsGoodsId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("SaleId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("MusicalInstrumentId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("MusicalInstrumentsGoodsId", "SaleId");
+
+                    b.HasIndex("MusicalInstrumentId");
+
+                    b.HasIndex("SaleId");
+
+                    b.ToTable("MusicalInstrumentSale");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.SheetMusicEditionSale", b =>
+                {
+                    b.Property<Guid>("SaleId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("SheetMusicEditionsGoodsId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("SheetMusicEditionId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("SaleId", "SheetMusicEditionsGoodsId");
+
+                    b.HasIndex("SheetMusicEditionId");
+
+                    b.HasIndex("SheetMusicEditionsGoodsId");
+
+                    b.ToTable("SheetMusicEditionSale");
+                });
+
             modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
                 {
-                    b.Property<int>("GoodsId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("musical_instrument_id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
+                        .HasColumnType("char(36)")
+                        .HasColumnName("goods_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ManufacturerType")
+                        .HasColumnType("int")
+                        .HasColumnName("manufacturer_type");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("ReceiptDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("receipt_date");
 
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int")
                         .HasColumnName("release_year");
 
-                    b.Property<int?>("SaleId")
-                        .HasColumnType("int")
-                        .HasColumnName("sale_id");
-
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("TypeId")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
                     b.HasKey("GoodsId");
-
-                    b.HasIndex("SaleId");
 
                     b.HasIndex("TypeId");
 
@@ -218,62 +315,128 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Sale", b =>
                 {
-                    b.Property<int>("SaleId")
+                    b.Property<Guid>("SaleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("char(36)")
                         .HasColumnName("sale_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SaleId"));
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_paid");
 
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("PaidBy")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("paid_by");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<DateTimeOffset?>("ReservationDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("reservation_date");
 
-                    b.Property<int>("Total")
-                        .HasColumnType("int");
+                    b.Property<DateTimeOffset?>("ReturningDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("returning_date");
+
+                    b.Property<DateTimeOffset?>("SaleDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("sale_date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("SaleId");
 
                     b.ToTable("sales");
                 });
 
+            modelBuilder.Entity("DataLayer.Models.SaleView", b =>
+                {
+                    b.Property<int>("GoodsUnitsCount")
+                        .HasColumnType("int")
+                        .HasColumnName("goods_units_count");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_paid");
+
+                    b.Property<string>("PaidBy")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("paid_by");
+
+                    b.Property<DateTimeOffset?>("ReservationDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("reservation_date");
+
+                    b.Property<DateTimeOffset?>("ReturningDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("returning_date");
+
+                    b.Property<DateTimeOffset?>("SaleDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("sale_date");
+
+                    b.Property<Guid>("SaleId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("sale_id");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Total")
+                        .HasColumnType("int");
+
+                    b.ToTable("sales_view");
+
+                    b.ToView("sales_view", (string)null);
+                });
+
             modelBuilder.Entity("DataLayer.Models.SheetMusicEdition", b =>
                 {
-                    b.Property<int>("GoodsId")
+                    b.Property<Guid>("GoodsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("sheet_music_edition_id");
+                        .HasColumnType("char(36)")
+                        .HasColumnName("goods_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("GoodsId"));
+                    b.Property<string>("Author")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SaleId")
+                    b.Property<DateTimeOffset?>("ReceiptDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("receipt_date");
+
+                    b.Property<int>("ReleaseYear")
                         .HasColumnType("int")
-                        .HasColumnName("sale_id");
+                        .HasColumnName("release_year");
 
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("TypeId")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int")
                         .HasColumnName("type_id");
 
                     b.HasKey("GoodsId");
-
-                    b.HasIndex("SaleId");
 
                     b.HasIndex("TypeId");
 
@@ -289,7 +452,7 @@ namespace DataLayer.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SpecificTypeId"));
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -432,60 +595,146 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Accessory", b =>
                 {
-                    b.HasOne("DataLayer.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId");
-
                     b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId");
-
-                    b.Navigation("Sale");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Type");
                 });
 
             modelBuilder.Entity("DataLayer.Models.AudioEquipmentUnit", b =>
                 {
-                    b.HasOne("DataLayer.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId");
-
                     b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId");
-
-                    b.Navigation("Sale");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.AccessorySale", b =>
+                {
+                    b.HasOne("DataLayer.Models.Accessory", "Accessory")
+                        .WithMany()
+                        .HasForeignKey("AccessoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_accessory_id");
+
+                    b.HasOne("DataLayer.Models.Sale", "Sale")
+                        .WithMany()
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_accessory_sale_id");
+
+                    b.Navigation("Accessory");
+
+                    b.Navigation("Sale");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.AudioEquipmentUnitSale", b =>
+                {
+                    b.HasOne("DataLayer.Models.AudioEquipmentUnit", "AudioEquipmentUnit")
+                        .WithMany()
+                        .HasForeignKey("AudioEquipmentUnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_aeu_id");
+
+                    b.HasOne("DataLayer.Models.AudioEquipmentUnit", null)
+                        .WithMany()
+                        .HasForeignKey("AudioEquipmentUnitsGoodsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Models.Sale", "Sale")
+                        .WithMany()
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_aeu_sale_id");
+
+                    b.Navigation("AudioEquipmentUnit");
+
+                    b.Navigation("Sale");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.MusicalInstrumentSale", b =>
+                {
+                    b.HasOne("DataLayer.Models.MusicalInstrument", "MusicalInstrument")
+                        .WithMany()
+                        .HasForeignKey("MusicalInstrumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_musical_instrument_id");
+
+                    b.HasOne("DataLayer.Models.MusicalInstrument", null)
+                        .WithMany()
+                        .HasForeignKey("MusicalInstrumentsGoodsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Models.Sale", "Sale")
+                        .WithMany()
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_musical_instrument_sale_id");
+
+                    b.Navigation("MusicalInstrument");
+
+                    b.Navigation("Sale");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.LinkingTables.SheetMusicEditionSale", b =>
                 {
                     b.HasOne("DataLayer.Models.Sale", "Sale")
                         .WithMany()
-                        .HasForeignKey("SaleId");
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_sme_sale_id");
 
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
+                    b.HasOne("DataLayer.Models.SheetMusicEdition", "SheetMusicEdition")
                         .WithMany()
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("SheetMusicEditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_sme_id");
+
+                    b.HasOne("DataLayer.Models.SheetMusicEdition", null)
+                        .WithMany()
+                        .HasForeignKey("SheetMusicEditionsGoodsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Sale");
+
+                    b.Navigation("SheetMusicEdition");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
+                {
+                    b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Type");
                 });
 
             modelBuilder.Entity("DataLayer.Models.SheetMusicEdition", b =>
                 {
-                    b.HasOne("DataLayer.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId");
-
                     b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId");
-
-                    b.Navigation("Sale");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Type");
                 });

@@ -30,7 +30,7 @@ public class Goods : ISoftDeletable
     //[Column("sale_id")]
     //[ForeignKey(nameof(Goods.Sale))]
     //public Guid? SaleId { get; set; }
-    public ICollection<Sale> Sales { get; set; } = [];
+    public virtual ICollection<Sale> Sales { get; set; } = [];
     [Column("type_id")]
     public int TypeId { get; set; }
     public SpecificType Type { get; set; }
