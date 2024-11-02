@@ -45,6 +45,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #warning how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
+        //optionsBuilder.UseSnakeCaseNamingConvention();
         if (optionsBuilder.IsConfigured)
             return;
         optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));
@@ -77,28 +78,60 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
         {
             entity.HasMany(mi => mi.Sales)
                   .WithMany(sale => sale.MusicalInstruments)
-                  .UsingEntity<MusicalInstrumentSale>();
+                  .UsingEntity<MusicalInstrumentSale>(linkingTable =>
+                  {
+                      linkingTable.HasOne(e => e.MusicalInstrument)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.MusicalInstrumentId);
+                      linkingTable.HasOne(e => e.Sale)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.SaleId);
+                  });
         });
 
         modelBuilder.Entity<Accessory>(entity =>
         {
             entity.HasMany(a => a.Sales)
                   .WithMany(sale => sale.Accessories)
-                  .UsingEntity<AccessorySale>();
+                  .UsingEntity<AccessorySale>(linkingTable =>
+                  {
+                      linkingTable.HasOne(e => e.Accessory)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.AccessoryId);
+                      linkingTable.HasOne(e => e.Sale)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.SaleId);
+                  });
         });
 
         modelBuilder.Entity<AudioEquipmentUnit>(entity =>
         {
             entity.HasMany(aeu => aeu.Sales)
                   .WithMany(sale => sale.AudioEquipmentUnits)
-                  .UsingEntity<AudioEquipmentUnitSale>();
+                  .UsingEntity<AudioEquipmentUnitSale>(linkingTable =>
+                  {
+                      linkingTable.HasOne(e => e.AudioEquipmentUnit)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.AudioEquipmentUnitId);
+                      linkingTable.HasOne(e => e.Sale)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.SaleId);
+                  });
         });
 
         modelBuilder.Entity<SheetMusicEdition>(entity =>
         {
             entity.HasMany(sme => sme.Sales)
                   .WithMany(sale => sale.SheetMusicEditions)
-                  .UsingEntity<SheetMusicEditionSale>();
+                  .UsingEntity<SheetMusicEditionSale>(linkingTable =>
+                  {
+                      linkingTable.HasOne(e => e.SheetMusicEdition)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.SheetMusicEditionId);
+                      linkingTable.HasOne(e => e.Sale)
+                                  .WithMany()
+                                  .HasForeignKey(e => e.SaleId);
+                  });
         });
         #endregion
 

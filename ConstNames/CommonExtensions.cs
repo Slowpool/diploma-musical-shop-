@@ -29,5 +29,17 @@ public static class CommonExtensions
 
     public static DateTimeOffset? LocalToUniversal(this DateTime? dateTime) => dateTime is null ? null : (DateTimeOffset?)new DateTimeOffset((DateTime)dateTime).ToUniversalTime();
 
-
+    public static string NameToLowerMysql(this Type type)
+    {
+        string typeName = type.Name;
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(char.ToLower(typeName[0]));
+        for(int i = 1; i < typeName.Length; i++)
+        {
+            if (char.IsUpper(typeName[i]))
+                stringBuilder.Append("_");
+            stringBuilder.Append(typeName[i]);
+        }
+        return stringBuilder.ToString();
+    }
 }
