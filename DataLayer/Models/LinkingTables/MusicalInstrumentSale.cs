@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 namespace DataLayer.Models.LinkingTables;
 public class MusicalInstrumentSale
 {
-    [ForeignKey(nameof(MusicalInstrumentSale.MusicalInstrument))]
     [Required]
     public Guid MusicalInstrumentId { get; set; }
     public MusicalInstrument MusicalInstrument { get; set; }
-    [ForeignKey(nameof(Sale))]
     [Required]
     public Guid SaleId { get; set; }
     public Sale Sale { get; set; }

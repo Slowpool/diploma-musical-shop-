@@ -10,11 +10,9 @@ namespace DataLayer.Models.LinkingTables;
 
 public class AudioEquipmentUnitSale
 {
-    [ForeignKey(nameof(AudioEquipmentUnitSale.AudioEquipmentUnit))]
     [Required]
     public Guid AudioEquipmentUnitId { get; set; }
     public AudioEquipmentUnit AudioEquipmentUnit { get; set; }
-    [ForeignKey(nameof(Sale))]
     [Required]
     public Guid SaleId { get; set; }
     public Sale Sale { get; set; }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    [Migration("20241102172357_SaleGoodsManyToManyAdd")]
+    [Migration("20241102174720_SaleGoodsManyToManyAdd")]
     partial class SaleGoodsManyToManyAdd
     {
         /// <inheritdoc />
@@ -621,13 +621,15 @@ namespace DataLayer.Migrations
                         .WithMany()
                         .HasForeignKey("AccessoryId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_accessory_id");
 
                     b.HasOne("DataLayer.Models.Sale", "Sale")
                         .WithMany()
                         .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_accessory_sale_id");
 
                     b.Navigation("Accessory");
 
@@ -640,20 +642,21 @@ namespace DataLayer.Migrations
                         .WithMany()
                         .HasForeignKey("AudioEquipmentUnitId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_aeu_id");
 
                     b.HasOne("DataLayer.Models.AudioEquipmentUnit", null)
                         .WithMany()
                         .HasForeignKey("AudioEquipmentUnitsGoodsId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_AudioEquipmentUnitSale_audio_equipment_units_AudioEquipment~1");
+                        .IsRequired();
 
                     b.HasOne("DataLayer.Models.Sale", "Sale")
                         .WithMany()
                         .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_aeu_sale_id");
 
                     b.Navigation("AudioEquipmentUnit");
 
@@ -666,7 +669,8 @@ namespace DataLayer.Migrations
                         .WithMany()
                         .HasForeignKey("MusicalInstrumentId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_musical_instrument_id");
 
                     b.HasOne("DataLayer.Models.MusicalInstrument", null)
                         .WithMany()
@@ -678,7 +682,8 @@ namespace DataLayer.Migrations
                         .WithMany()
                         .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_musical_instrument_sale_id");
 
                     b.Navigation("MusicalInstrument");
 
@@ -691,20 +696,21 @@ namespace DataLayer.Migrations
                         .WithMany()
                         .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_sme_sale_id");
 
                     b.HasOne("DataLayer.Models.SheetMusicEdition", "SheetMusicEdition")
                         .WithMany()
                         .HasForeignKey("SheetMusicEditionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_sale_sme_id");
 
                     b.HasOne("DataLayer.Models.SheetMusicEdition", null)
                         .WithMany()
                         .HasForeignKey("SheetMusicEditionsGoodsId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_SheetMusicEditionSale_sheet_music_editions_SheetMusicEditio~1");
+                        .IsRequired();
 
                     b.Navigation("Sale");
 

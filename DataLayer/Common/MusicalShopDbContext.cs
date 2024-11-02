@@ -82,10 +82,12 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   {
                       linkingTable.HasOne(e => e.MusicalInstrument)
                                   .WithMany()
-                                  .HasForeignKey(e => e.MusicalInstrumentId);
+                                  .HasForeignKey(e => e.MusicalInstrumentId)
+                                  .HasConstraintName("FK_sale_musical_instrument_id");
                       linkingTable.HasOne(e => e.Sale)
                                   .WithMany()
-                                  .HasForeignKey(e => e.SaleId);
+                                  .HasForeignKey(e => e.SaleId)
+                                  .HasConstraintName("FK_sale_musical_instrument_sale_id");
                   });
         });
 
@@ -97,10 +99,12 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   {
                       linkingTable.HasOne(e => e.Accessory)
                                   .WithMany()
-                                  .HasForeignKey(e => e.AccessoryId);
+                                  .HasForeignKey(e => e.AccessoryId)
+                                  .HasConstraintName("FK_sale_accessory_id");
                       linkingTable.HasOne(e => e.Sale)
                                   .WithMany()
-                                  .HasForeignKey(e => e.SaleId);
+                                  .HasForeignKey(e => e.SaleId)
+                                  .HasConstraintName("FK_sale_accessory_sale_id");
                   });
         });
 
@@ -112,10 +116,12 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   {
                       linkingTable.HasOne(e => e.AudioEquipmentUnit)
                                   .WithMany()
-                                  .HasForeignKey(e => e.AudioEquipmentUnitId);
+                                  .HasForeignKey(e => e.AudioEquipmentUnitId)
+                                  .HasConstraintName("FK_sale_aeu_id");
                       linkingTable.HasOne(e => e.Sale)
                                   .WithMany()
-                                  .HasForeignKey(e => e.SaleId);
+                                  .HasForeignKey(e => e.SaleId)
+                                  .HasConstraintName("FK_sale_aeu_sale_id");
                   });
         });
 
@@ -127,10 +133,12 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                   {
                       linkingTable.HasOne(e => e.SheetMusicEdition)
                                   .WithMany()
-                                  .HasForeignKey(e => e.SheetMusicEditionId);
+                                  .HasForeignKey(e => e.SheetMusicEditionId)
+                                  .HasConstraintName("FK_sale_sme_id");
                       linkingTable.HasOne(e => e.Sale)
                                   .WithMany()
-                                  .HasForeignKey(e => e.SaleId);
+                                  .HasForeignKey(e => e.SaleId)
+                                  .HasConstraintName("FK_sale_sme_sale_id");
                   });
         });
         #endregion

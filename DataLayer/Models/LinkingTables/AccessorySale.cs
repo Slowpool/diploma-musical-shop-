@@ -12,11 +12,9 @@ namespace DataLayer.Models.LinkingTables;
 //[Table(typeof(AccessorySale).NameToLowerMysql())]
 public class AccessorySale
 {
-    [ForeignKey(nameof(AccessorySale.Accessory))]
     [Required]
     public Guid AccessoryId { get; set; }
     public Accessory Accessory { get; set; }
-    [ForeignKey(nameof(Sale))]
     [Required]
     public Guid SaleId { get; set; }
     public Sale Sale { get; set; }
