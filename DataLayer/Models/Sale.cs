@@ -35,4 +35,9 @@ public class Sale
     [Required]
     [Column("is_paid")]
     public bool IsPaid { get; set; }
+    // relationships
+    public ICollection<MusicalInstrument> MusicalInstruments { get; set; } = [];
+    public ICollection<Accessory> Accessories { get; set; } = [];
+    public ICollection<AudioEquipmentUnit> AudioEquipmentUnits { get; set; } = [];
+    public ICollection<SheetMusicEdition> SheetMusicEditions { get; set; } = [];
 }

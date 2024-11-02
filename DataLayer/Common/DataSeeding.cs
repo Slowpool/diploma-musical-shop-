@@ -127,7 +127,7 @@ public class DataSeeding
                 Price = 9599,
                 ReleaseYear = 2023,
                 Status = GoodsStatus.InStock,
-                Sale = Sales[0],
+                Sales = [Sales[0]],
                 Type = acousticGuitarType
             },
             new()
@@ -233,7 +233,7 @@ public class DataSeeding
                 Price = 299,
                 ReleaseYear = 2023,
                 Status = GoodsStatus.InStock,
-                Sale = Sales[0],
+                Sales = [Sales[0]],
                 Type = fluteType
             },
             new()
@@ -260,7 +260,7 @@ public class DataSeeding
                 Price = 2390,
                 ReleaseYear = 2022,
                 Status = GoodsStatus.AwaitingDelivery,
-                Sale = Sales[3],
+                Sales = [Sales[3]],
                 Type = synthesizerType
             },
         };
@@ -292,7 +292,7 @@ public class DataSeeding
                     Status = GoodsStatus.InStock,
                     Type = chairType,
                     Color = "Прозрачный",
-                    Sale = Sales[0],
+                    Sales = [Sales[0]],
                     Size = "регулировка высоты от 10 до 150 см, 50см радиус седла"
                 },
                 new()
@@ -304,7 +304,7 @@ public class DataSeeding
                     Price = 99,
                     Status = GoodsStatus.Reserved,
                     Type = keychainType,
-                    Sale = Sales[3],
+                    Sales = [Sales[3]],
                     Color = "Черно-желтый",
                     Size = "20см x 0.5см x 3см"
                 },
@@ -317,7 +317,7 @@ public class DataSeeding
                     Price = 699,
                     Status = GoodsStatus.Sold,
                     Type = keychainType,
-                    Sale = Sales[4],
+                    Sales = [Sales[4]],
                     Color = "Черно-рыжий",
                     Size = "Высота пюпитра: 30-200см. Каподастр 13см x 1см x 12 см"
                 },

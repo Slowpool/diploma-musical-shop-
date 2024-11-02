@@ -1,6 +1,8 @@
 ﻿using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.NotMapped;
+using Microsoft.EntityFrameworkCore;
+using ServiceLayer.SalesServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +14,11 @@ public interface IGetGoodsUnitsRelatedToSaleService
 {
     Task<List<Goods>> GetGoodsUnitsRelatedToSale(Guid saleId);
 }
-public class GetGoodsUnitsRelatedToSaleService(MusicalShopDbContext context) : IGetGoodsUnitsRelatedToSaleService
+public class GetGoodsUnitsRelatedToSaleService(MusicalShopDbContext context, IGetSaleService saleService) : IGetGoodsUnitsRelatedToSaleService
 {
     public async Task<List<Goods>> GetGoodsUnitsRelatedToSale(Guid saleId)
     {
-        List<Goods> result = [];
-#warning i can do better
-        result.AddRange(context.MusicalInstruments.Where(mi => mi.SaleId == saleId));
-        result.AddRange(context.Accessories.Where(a => a.SaleId == saleId));
-        result.AddRange(context.SheetMusicEditions.Where(sme => sme.SaleId == saleId));
-        result.AddRange(context.AudioEquipmentUnits.Where(aeu => aeu.SaleId == saleId));
-        return result;
+        var sale = await saleService.GetOriginalSale(saleId);
+        return sale.MusicalInstruments.Concat<Goods>(sale.Accessories).Concat(sale.SheetMusicEditions).Concat(sale.AudioEquipmentUnits).ToList();
     }
 }

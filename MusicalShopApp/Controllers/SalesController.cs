@@ -61,13 +61,18 @@ public class SalesController : CartViewerBaseController
     {
         bool success = await saleService.RegisterSaleAsSold(saleId);
         if (!success)
-            RestoreCart(saleId, cartService);
+        {
+            await RestoreCart(saleId, cartService);
+            //await saleService.DeleteSale(saleId);
+#warning what if false?
+            await saleService.CancelSale(saleId);
+        }
         return success ? Content("Successfully registered") : Content("Failed to register");
     }
 
-    private void RestoreCart(Guid saleId, ICartService cartService)
+    private async Task RestoreCart(Guid saleId, ICartService cartService)
     {
-
+        string newCartContent = await cartService.MoveGoodsBackToCart(saleId);
     }
 
     /// <summary>

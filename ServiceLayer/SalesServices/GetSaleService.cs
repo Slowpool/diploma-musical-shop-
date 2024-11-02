@@ -1,5 +1,6 @@
 ﻿using DataLayer.Common;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,19 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
 {
     public async Task<Sale> GetOriginalSale(Guid saleId)
     {
-        return await context.FindAsync<Sale>(saleId);
+#warning is there any point to use find here?
+        return await context.FindAsync<Sale>(saleId) ??
+            await context.Sales.Include(s => s.MusicalInstruments)
+                               .Include(s => s.Accessories)
+                               .Include(s => s.SheetMusicEditions)
+                               .Include(s => s.AudioEquipmentUnits)
+                               .SingleAsync(s => s.SaleId == saleId);
     }
 
     public async Task<SaleView> GetSaleView(Guid saleId)
     {
 #warning how to throw exception here
-        return context.SalesView.Single(saleView => saleView.SaleId == saleId);
+        return await context.SalesView.SingleAsync(saleView => saleView.SaleId == saleId);
     }
 
 #warning under question

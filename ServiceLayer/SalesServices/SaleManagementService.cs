@@ -13,6 +13,7 @@ public interface ISaleManagementService
 {
     Task<bool> RegisterSaleAsSold(Guid saleId);
     Task<bool> CancelSale(Guid saleId);
+    Task<bool> DeleteSale(Guid saleId);
 }
 
 #warning i'm not sure about this method doesn't have a bizRunner
@@ -31,6 +32,11 @@ public class SaleManagementService(MusicalShopDbContext context) : ISaleManageme
         {
             return false;
         }
+    }
+
+    public Task DeleteSale(Guid saleId)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<bool> RegisterSaleAsSold(Guid saleId)

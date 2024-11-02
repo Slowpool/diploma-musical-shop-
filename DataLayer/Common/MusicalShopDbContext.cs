@@ -1,4 +1,5 @@
 ﻿using DataLayer.Models;
+using DataLayer.Models.LinkingTables;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Identity;
@@ -70,39 +71,36 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
             entity.ToView("sales_view");
         });
 
+        #region many-to-many sales and goods
+#warning well, i'm able to implement it, but i wanna something like single linking table like goods_sale
         modelBuilder.Entity<MusicalInstrument>(entity =>
         {
-            entity.HasOne(mi => mi.Sale)
-                  .WithMany()
-#warning do i need it?
-                  //.IsRequired(false)
-                  .OnDelete(DeleteBehavior.SetNull)
-                  .HasForeignKey(mi => mi.SaleId);
+            entity.HasMany(mi => mi.Sales)
+                  .WithMany(sale => sale.MusicalInstruments)
+                  .UsingEntity<MusicalInstrumentSale>();
         });
 
         modelBuilder.Entity<Accessory>(entity =>
         {
-            entity.HasOne(a => a.Sale)
-                  .WithMany()
-                  .OnDelete(DeleteBehavior.SetNull)
-                  .HasForeignKey(a => a.SaleId);
+            entity.HasMany(a => a.Sales)
+                  .WithMany(sale => sale.Accessories)
+                  .UsingEntity<AccessorySale>();
         });
 
         modelBuilder.Entity<AudioEquipmentUnit>(entity =>
         {
-            entity.HasOne(aeu => aeu.Sale)
-                  .WithMany()
-                  .OnDelete(DeleteBehavior.SetNull)
-                  .HasForeignKey(aeu => aeu.SaleId);
+            entity.HasMany(aeu => aeu.Sales)
+                  .WithMany(sale => sale.AudioEquipmentUnits)
+                  .UsingEntity<AudioEquipmentUnitSale>();
         });
 
         modelBuilder.Entity<SheetMusicEdition>(entity =>
         {
-            entity.HasOne(sme => sme.Sale)
-                  .WithMany()
-                  .OnDelete(DeleteBehavior.SetNull)
-                  .HasForeignKey(sme => sme.SaleId);
+            entity.HasMany(sme => sme.Sales)
+                  .WithMany(sale => sale.SheetMusicEditions)
+                  .UsingEntity<SheetMusicEditionSale>();
         });
+        #endregion
 
         base.OnModelCreating(modelBuilder);
         //var entities = modelBuilder.Model.GetEntityTypes();

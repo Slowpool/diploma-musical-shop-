@@ -15,7 +15,7 @@ public class SalesDbAccess(MusicalShopDbContext context)
     {
         foreach(var goodsUnit in goods)
         {
-            goodsUnit.SaleId = sale.SaleId;
+            goodsUnit.Sales.Add(sale);
 #warning do i need it?
             context.Update(goodsUnit);
         }
