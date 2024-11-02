@@ -14,7 +14,7 @@ public static class CommonNames
 
     public const string NotExistingGuid = "";
 
-    public const string SeparatedGoodsIdsInCart = "cart-with-goods";
+    public const string GoodsIdsInCartKey = "cart-with-goods";
 	public const char GoodsIdSeparator = ',';
 	public const char GoodsIdTypeSeparator = '|';
 }

@@ -116,7 +116,7 @@ public class GoodsController : CartViewerBaseController
         string? newGoodsIdsAndTypes = await service.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsInCart);
         if (newGoodsIdsAndTypes == null)
             return Content("failed");
-        HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, newGoodsIdsAndTypes);
+        SetNewCartValue(newGoodsIdsAndTypes);
         ViewBag.Session = GoodsIdsInCart;
         return Content("success");
     }

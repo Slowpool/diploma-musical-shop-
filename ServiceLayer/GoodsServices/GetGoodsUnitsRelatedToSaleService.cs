@@ -14,7 +14,7 @@ public interface IGetGoodsUnitsRelatedToSaleService
 {
     Task<List<Goods>> GetGoodsUnitsRelatedToSale(Guid saleId);
 }
-public class GetGoodsUnitsRelatedToSaleService(MusicalShopDbContext context, IGetSaleService saleService) : IGetGoodsUnitsRelatedToSaleService
+public class GetGoodsUnitsRelatedToSaleService(IGetSaleService saleService) : IGetGoodsUnitsRelatedToSaleService
 {
     public async Task<List<Goods>> GetGoodsUnitsRelatedToSale(Guid saleId)
     {

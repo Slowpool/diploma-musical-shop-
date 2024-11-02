@@ -42,7 +42,7 @@ public class SalesController : CartViewerBaseController
 
     private void ClearCart()
     {
-        HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, string.Empty);
+        SetNewCartValue(string.Empty);
     }
 
     public async Task<IActionResult> PayForSale([FromQuery] Guid saleId)
@@ -73,6 +73,7 @@ public class SalesController : CartViewerBaseController
     private async Task RestoreCart(Guid saleId, ICartService cartService)
     {
         string newCartContent = await cartService.MoveGoodsBackToCart(saleId);
+        SetNewCartValue(newCartContent);
     }
 
     /// <summary>
