@@ -32,10 +32,17 @@ public class SalesController : CartViewerBaseController
         }
         Guid? saleId = await service.ArrangeSale(goods, paidBy);
         if (!service.HasErrors)
-#warning redirect to payment and then to successfully sold sale
+        {
+            ClearCart();
             return RedirectToAction("PayForSale", new { saleId });
+        }
         else
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
+    }
+
+    private void ClearCart()
+    {
+        HttpContext.Session.SetString(CommonNames.SeparatedGoodsIdsInCart, string.Empty);
     }
 
     public async Task<IActionResult> PayForSale([FromQuery] Guid saleId)
@@ -50,9 +57,17 @@ public class SalesController : CartViewerBaseController
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> RegistrationOfSaleAsSold(Guid saleId, [FromServices] ISaleManagementService service)
+    public async Task<ContentResult> RegistrationOfSaleAsSold(Guid saleId, [FromServices] ISaleManagementService saleService, [FromServices] ICartService cartService)
     {
-        return await service.RegisterSaleAsSold(saleId) ? Content("Successfully registered") : Content("failed to register");
+        bool success = await saleService.RegisterSaleAsSold(saleId);
+        if (!success)
+            RestoreCart(saleId, cartService);
+        return success ? Content("Successfully registered") : Content("Failed to register");
+    }
+
+    private void RestoreCart(Guid saleId, ICartService cartService)
+    {
+
     }
 
     /// <summary>
