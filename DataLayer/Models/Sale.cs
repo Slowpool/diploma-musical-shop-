@@ -36,8 +36,8 @@ public class Sale
     [Column("is_paid")]
     public bool IsPaid { get; set; }
     // relationships
-    public ICollection<MusicalInstrument> MusicalInstruments { get; set; } = [];
-    public ICollection<Accessory> Accessories { get; set; } = [];
-    public ICollection<AudioEquipmentUnit> AudioEquipmentUnits { get; set; } = [];
-    public ICollection<SheetMusicEdition> SheetMusicEditions { get; set; } = [];
+    public virtual ICollection<MusicalInstrument> MusicalInstruments { get; set; } = [];
+    public virtual ICollection<Accessory> Accessories { get; set; } = [];
+    public virtual ICollection<AudioEquipmentUnit> AudioEquipmentUnits { get; set; } = [];
+    public virtual ICollection<SheetMusicEdition> SheetMusicEditions { get; set; } = [];
 }

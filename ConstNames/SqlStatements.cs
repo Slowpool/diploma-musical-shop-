@@ -7,51 +7,13 @@ using System.Threading.Tasks;
 namespace Common;
 public class SqlStatements
 {
-    public const string CreateTotalPriceV1 =
-        @"CREATE FUNCTION total_price(sale_id INT)
-          RETURNS INT
-          NOT DETERMINISTIC
-          READS SQL DATA
-          BEGIN
-              DECLARE total INT;
-              SET total = (SELECT SUM(mi.price) FROM musical_instruments AS mi WHERE mi.sale_id = sale_id);
-              SET total = total + (SELECT SUM(ac.price) FROM accessories AS ac WHERE ac.sale_id = sale_id);
-              SET total = total + (SELECT SUM(sme.price) FROM sheet_music_editions AS sme WHERE sme.sale_id = sale_id);
-              SET total = total + (SELECT SUM(aeu.price) FROM audio_equipment_units AS aeu WHERE aeu.sale_id = sale_id);
-              RETURN total;
-          END;";
-    public const string CreateSalesViewV1 =
-        @"CREATE VIEW sales_view AS
-          SELECT `sale_id`, `date`, `status`, total_price(sale_id) AS `total`
-          FROM `sales`;";
     public const string DropSalesView = @"DROP VIEW `sales_view`;";
     public const string DropTotalPriceFunction = @"DROP FUNCTION `total_price`;";
-    public const string DropGoodsForeignKeys =
-        @"ALTER TABLE `accessories` DROP FOREIGN KEY `FK_accessories_sales_sale_id`;
-          ALTER TABLE `musical_instruments` DROP FOREIGN KEY `FK_musical_instruments_sales_sale_id`;
-          ALTER TABLE `sheet_music_editions` DROP FOREIGN KEY `FK_sheet_music_editions_sales_sale_id`;
-          ALTER TABLE `audio_equipment_units` DROP FOREIGN KEY `FK_audio_equipment_units_sales_sale_id`;";
-    public const string RestoreGoodsForeignKeys =
-        @"ALTER TABLE `accessories` ADD CONSTRAINT `FK_accessories_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
-          ALTER TABLE `musical_instruments` ADD CONSTRAINT `FK_musical_instruments_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
-          ALTER TABLE `sheet_music_editions` ADD CONSTRAINT `FK_sheet_music_editions_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);
-          ALTER TABLE `audio_equipment_units` ADD CONSTRAINT `FK_audio_equipment_units_sales_sale_id` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`sale_id`);";
-    public const string CreateTotalPriceV2 =
-        @"CREATE FUNCTION total_price(sale_id char(36))
-          RETURNS INT
-          NOT DETERMINISTIC
-          READS SQL DATA
-          BEGIN
-              DECLARE total INT;
-              SET total = (SELECT SUM(mi.price) FROM musical_instruments AS mi WHERE mi.sale_id = sale_id);
-              SET total = total + (SELECT SUM(ac.price) FROM accessories AS ac WHERE ac.sale_id = sale_id);
-              SET total = total + (SELECT SUM(sme.price) FROM sheet_music_editions AS sme WHERE sme.sale_id = sale_id);
-              SET total = total + (SELECT SUM(aeu.price) FROM audio_equipment_units AS aeu WHERE aeu.sale_id = sale_id);
-              RETURN total;
-          END;";
-    public const string CreateSalesViewV2 =
+    public const string DropTotalGoodsUnitsCountFunction = @"DROP FUNCTION `total_price`;";
+
+    public const string CreateSalesViewV1 =
         @"CREATE VIEW sales_view AS
-          SELECT `sale_id`, `date`, `status`, total_price(sale_id) AS `total`, paid_by, total_goods_units_count(sale_id) as `goods_units_count`
+          SELECT `sale_id`, `sale_date`, `reservation_date`, `returning_date`, `status`, total_price(sale_id) AS `total`, `paid_by`, total_goods_units_count(sale_id) as `goods_units_count`, `is_paid`
           FROM `sales`;";
     public const string CreateTotalGoodsUnitsCountV1 =
         @"CREATE FUNCTION total_goods_units_count(sale_id char(36))
@@ -60,32 +22,22 @@ public class SqlStatements
           READS SQL DATA
           BEGIN
               DECLARE total INT;
-              SET total = (SELECT COUNT(*) FROM musical_instruments AS mi WHERE mi.sale_id = sale_id);
-              SET total = total + (SELECT COUNT(*) FROM accessories AS ac WHERE ac.sale_id = sale_id);
-              SET total = total + (SELECT COUNT(*) FROM sheet_music_editions AS sme WHERE sme.sale_id = sale_id);
-              SET total = total + (SELECT COUNT(*) FROM audio_equipment_units AS aeu WHERE aeu.sale_id = sale_id);
+              SET total = IFNULL((SELECT COUNT(*) FROM musical_instrument_sale AS mis WHERE mis.sale_id = sale_id), 0);
+              SET total = total + IFNULL((SELECT COUNT(*) FROM accessory_sale AS acs WHERE acs.sale_id = sale_id), 0);
+              SET total = total + IFNULL((SELECT COUNT(*) FROM sheet_music_edition_sale AS smes WHERE smes.sale_id = sale_id), 0);
+              SET total = total + IFNULL((SELECT COUNT(*) FROM audio_equipment_unit_sale AS aeus WHERE aeus.sale_id = sale_id), 0);
               RETURN total;
           END;";
-    public const string DropTotalGoodsUnitsCountFunction = @"DROP FUNCTION `total_price`;";
-    public const string CreateTotalPriceV3 =
-        @"CREATE FUNCTION total_price(sale_id char(36))
+    public const string CreateTotalPriceV1 = @"CREATE FUNCTION total_price(sale_id char(36))
           RETURNS INT
           NOT DETERMINISTIC
           READS SQL DATA
           BEGIN
               DECLARE total INT;
-              SET total = IFNULL((SELECT SUM(mi.price) FROM musical_instruments AS mi WHERE mi.sale_id = sale_id), 0);
-              SET total = total + IFNULL((SELECT SUM(ac.price) FROM accessories AS ac WHERE ac.sale_id = sale_id), 0);
-              SET total = total + IFNULL((SELECT SUM(sme.price) FROM sheet_music_editions AS sme WHERE sme.sale_id = sale_id), 0);
-              SET total = total + IFNULL((SELECT SUM(aeu.price) FROM audio_equipment_units AS aeu WHERE aeu.sale_id = sale_id), 0);
+              SET total = IFNULL(SELECT SUM(`mi`.`price`) FROM `musicalinstrumentsale` AS `mis` LEFT JOIN `musical_instruments` AS `mi` ON `mi`.`goods_id` = `mis`.`musicalinstrumentid` WHERE `mis`.`saleid` = `sale_id`), 0);
+              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `accessory_sale` AS `linking_table` LEFT JOIN `accessories` AS `goods` ON `goods`.`goods_id` = `linking_table`.`accessoryid` WHERE `linking_table`.`saleid` = `sale_id`), 0);
+              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `sheet_music_edition_sale` AS `linking_table` LEFT JOIN `sheet_music_editions` AS `goods` ON `goods`.`goods_id` = `linking_table`.`sheetmusiceditionid` WHERE `linking_table`.`saleid` = `sale_id`), 0);
+              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `audio_equipment_unit_sale` AS `linking_table` LEFT JOIN `audio_equipment_units` AS `goods` ON `goods`.`goods_id` = `linking_table`.`audioequipmentunitid` WHERE `linking_table`.`saleid` = `sale_id`), 0);
               RETURN total;
           END;";
-    public const string CreateSalesViewV3 =
-        @"CREATE VIEW sales_view AS
-          SELECT `sale_id`, `sale_date`, `reservation_date`, `returning_date`, `status`, total_price(sale_id) AS `total`, paid_by, total_goods_units_count(sale_id) as `goods_units_count`
-          FROM `sales`;";
-    public const string CreateSalesViewV4 =
-        @"CREATE VIEW sales_view AS
-          SELECT `sale_id`, `sale_date`, `reservation_date`, `returning_date`, `status`, total_price(sale_id) AS `total`, paid_by, total_goods_units_count(sale_id) as `goods_units_count`, is_paid
-          FROM `sales`;";
 }

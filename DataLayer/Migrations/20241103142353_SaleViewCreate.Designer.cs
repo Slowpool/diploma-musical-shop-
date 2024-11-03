@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    [Migration("20241102181719_Create")]
-    partial class Create
+    [Migration("20241103142353_SaleViewCreate")]
+    partial class SaleViewCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,7 +195,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("AccessoryId");
 
-                    b.ToTable("AccessorySale");
+                    b.ToTable("accessory_sale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.AudioEquipmentUnitSale", b =>
@@ -206,16 +206,11 @@ namespace DataLayer.Migrations
                     b.Property<Guid>("AudioEquipmentUnitId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AudioEquipmentUnitsGoodsId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("SaleId", "AudioEquipmentUnitId");
 
                     b.HasIndex("AudioEquipmentUnitId");
 
-                    b.HasIndex("AudioEquipmentUnitsGoodsId");
-
-                    b.ToTable("AudioEquipmentUnitSale");
+                    b.ToTable("audio_equipment_unit_sale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.MusicalInstrumentSale", b =>
@@ -226,16 +221,11 @@ namespace DataLayer.Migrations
                     b.Property<Guid>("MusicalInstrumentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("MusicalInstrumentsGoodsId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("SaleId", "MusicalInstrumentId");
 
                     b.HasIndex("MusicalInstrumentId");
 
-                    b.HasIndex("MusicalInstrumentsGoodsId");
-
-                    b.ToTable("MusicalInstrumentSale");
+                    b.ToTable("musical_instrumentSale_sale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.SheetMusicEditionSale", b =>
@@ -246,16 +236,11 @@ namespace DataLayer.Migrations
                     b.Property<Guid>("SheetMusicEditionId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("SheetMusicEditionsGoodsId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("SaleId", "SheetMusicEditionId");
 
                     b.HasIndex("SheetMusicEditionId");
 
-                    b.HasIndex("SheetMusicEditionsGoodsId");
-
-                    b.ToTable("SheetMusicEditionSale");
+                    b.ToTable("sheet_music_edition_sale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
@@ -645,12 +630,6 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_sale_aeu_id");
 
-                    b.HasOne("DataLayer.Models.AudioEquipmentUnit", null)
-                        .WithMany()
-                        .HasForeignKey("AudioEquipmentUnitsGoodsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataLayer.Models.Sale", "Sale")
                         .WithMany()
                         .HasForeignKey("SaleId")
@@ -671,12 +650,6 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_sale_musical_instrument_id");
-
-                    b.HasOne("DataLayer.Models.MusicalInstrument", null)
-                        .WithMany()
-                        .HasForeignKey("MusicalInstrumentsGoodsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("DataLayer.Models.Sale", "Sale")
                         .WithMany()
@@ -705,12 +678,6 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_sale_sme_id");
-
-                    b.HasOne("DataLayer.Models.SheetMusicEdition", null)
-                        .WithMany()
-                        .HasForeignKey("SheetMusicEditionsGoodsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Sale");
 

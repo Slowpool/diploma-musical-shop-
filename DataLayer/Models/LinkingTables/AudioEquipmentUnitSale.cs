@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models.LinkingTables;
+[Table("audio_equipment_unit_sale")]
 public class AudioEquipmentUnitSale
 {
     [Required]

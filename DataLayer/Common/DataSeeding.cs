@@ -264,11 +264,6 @@ public class DataSeeding
                 Type = synthesizerType
             },
         };
-            //context.Add(acousticGuitarType);
-            //context.Add(drumsType);
-            //context.Add(fluteType);
-            //context.Add(xylophoneType);
-            //context.Add(synthesizerType);
             context.AddRange(instruments);
             context.SaveChanges();
         }

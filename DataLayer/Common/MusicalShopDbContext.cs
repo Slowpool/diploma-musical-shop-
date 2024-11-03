@@ -24,6 +24,11 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
     public virtual DbSet<SpecificType> SpecificTypes { get; set; }
     public virtual DbSet<Sale> Sales { get; set; }
     public virtual DbSet<SaleView> SalesView { get; set; }
+    // linking tables
+    public virtual DbSet<MusicalInstrumentSale> MusicalInstrumentSale { get; set; }
+    public virtual DbSet<AccessorySale> AccessorySale { get; set; }
+    public virtual DbSet<AudioEquipmentUnitSale> AudioEquipmentUnitSale { get; set; }
+    public virtual DbSet<SheetMusicEditionSale> SheetMusicEditionSale { get; set; }
 
     public MusicalShopDbContext(DbContextOptions<MusicalShopDbContext> options)
         : base(options)

@@ -9,7 +9,7 @@ using Common;
 
 namespace DataLayer.Models.LinkingTables;
 #warning how to make it automatically
-//[Table(typeof(AccessorySale).NameToLowerMysql())]
+[Table("accessory_sale")]
 public class AccessorySale
 {
     [Required]

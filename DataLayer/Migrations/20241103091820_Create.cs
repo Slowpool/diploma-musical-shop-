@@ -405,18 +405,11 @@ namespace DataLayer.Migrations
                 columns: table => new
                 {
                     AudioEquipmentUnitId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    AudioEquipmentUnitsGoodsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AudioEquipmentUnitSale", x => new { x.SaleId, x.AudioEquipmentUnitId });
-                    table.ForeignKey(
-                        name: "FK_AudioEquipmentUnitSale_audio_equipment_units_AudioEquipmentU~",
-                        column: x => x.AudioEquipmentUnitsGoodsId,
-                        principalTable: "audio_equipment_units",
-                        principalColumn: "goods_id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_sale_aeu_id",
                         column: x => x.AudioEquipmentUnitId,
@@ -437,18 +430,11 @@ namespace DataLayer.Migrations
                 columns: table => new
                 {
                     MusicalInstrumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    MusicalInstrumentsGoodsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MusicalInstrumentSale", x => new { x.SaleId, x.MusicalInstrumentId });
-                    table.ForeignKey(
-                        name: "FK_MusicalInstrumentSale_musical_instruments_MusicalInstruments~",
-                        column: x => x.MusicalInstrumentsGoodsId,
-                        principalTable: "musical_instruments",
-                        principalColumn: "goods_id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_sale_musical_instrument_id",
                         column: x => x.MusicalInstrumentId,
@@ -469,18 +455,11 @@ namespace DataLayer.Migrations
                 columns: table => new
                 {
                     SheetMusicEditionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SheetMusicEditionsGoodsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SheetMusicEditionSale", x => new { x.SaleId, x.SheetMusicEditionId });
-                    table.ForeignKey(
-                        name: "FK_SheetMusicEditionSale_sheet_music_editions_SheetMusicEdition~",
-                        column: x => x.SheetMusicEditionsGoodsId,
-                        principalTable: "sheet_music_editions",
-                        principalColumn: "goods_id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_sale_sme_id",
                         column: x => x.SheetMusicEditionId,
@@ -554,11 +533,6 @@ namespace DataLayer.Migrations
                 column: "AudioEquipmentUnitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AudioEquipmentUnitSale_AudioEquipmentUnitsGoodsId",
-                table: "AudioEquipmentUnitSale",
-                column: "AudioEquipmentUnitsGoodsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_musical_instruments_type_id",
                 table: "musical_instruments",
                 column: "type_id");
@@ -569,11 +543,6 @@ namespace DataLayer.Migrations
                 column: "MusicalInstrumentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicalInstrumentSale_MusicalInstrumentsGoodsId",
-                table: "MusicalInstrumentSale",
-                column: "MusicalInstrumentsGoodsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_sheet_music_editions_type_id",
                 table: "sheet_music_editions",
                 column: "type_id");
@@ -582,11 +551,6 @@ namespace DataLayer.Migrations
                 name: "IX_SheetMusicEditionSale_SheetMusicEditionId",
                 table: "SheetMusicEditionSale",
                 column: "SheetMusicEditionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SheetMusicEditionSale_SheetMusicEditionsGoodsId",
-                table: "SheetMusicEditionSale",
-                column: "SheetMusicEditionsGoodsId");
         }
 
         /// <inheritdoc />

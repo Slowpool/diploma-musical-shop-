@@ -4,6 +4,7 @@ using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    partial class MusicalShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103091820_Create")]
+    partial class Create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,7 +195,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("AccessoryId");
 
-                    b.ToTable("accessory_sale");
+                    b.ToTable("AccessorySale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.AudioEquipmentUnitSale", b =>
@@ -207,7 +210,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("AudioEquipmentUnitId");
 
-                    b.ToTable("audio_equipment_unit_sale");
+                    b.ToTable("AudioEquipmentUnitSale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.MusicalInstrumentSale", b =>
@@ -222,7 +225,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("MusicalInstrumentId");
 
-                    b.ToTable("musical_instrumentSale_sale");
+                    b.ToTable("MusicalInstrumentSale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.SheetMusicEditionSale", b =>
@@ -237,7 +240,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("SheetMusicEditionId");
 
-                    b.ToTable("sheet_music_edition_sale");
+                    b.ToTable("SheetMusicEditionSale");
                 });
 
             modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
