@@ -14,9 +14,9 @@ namespace DataLayer.NotMapped;
 public class Goods : ISoftDeletable
 {
     [Key]
-    [Column("goods_id")]
+    //[Column("goods_id")]
     public Guid GoodsId { get; set; }
-    [Column("soft_deleted")]
+    //[Column("soft_deleted")]
     public bool SoftDeleted { get; set; }
 #warning workaround
     [Range(0, 4_294_967_295)]
@@ -31,10 +31,10 @@ public class Goods : ISoftDeletable
     //[ForeignKey(nameof(Goods.Sale))]
     //public Guid? SaleId { get; set; }
     public virtual ICollection<Sale> Sales { get; set; } = [];
-    [Column("type_id")]
+    //[Column("type_id")]
     public int TypeId { get; set; }
     public SpecificType Type { get; set; }
-    [Column("receipt_date")]
+    //[Column("receipt_date")]
     public DateTimeOffset? ReceiptDate { get; set; }
 
 }

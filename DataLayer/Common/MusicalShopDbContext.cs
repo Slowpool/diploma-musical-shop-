@@ -50,7 +50,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #warning how to change the user here corresponding to the current user? or i don't need it? because there (on server) will be authentication
-        //optionsBuilder.UseSnakeCaseNamingConvention();
+        optionsBuilder.UseSnakeCaseNamingConvention();
         if (optionsBuilder.IsConfigured)
             return;
         optionsBuilder.UseMySql("database=musical_shop;server=localhost;port=3306;user=root;password=password;", ServerVersion.Parse("8.0.39"));

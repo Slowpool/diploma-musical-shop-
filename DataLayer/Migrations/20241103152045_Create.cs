@@ -19,18 +19,18 @@ namespace DataLayer.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                    id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    normalized_name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                    concurrency_stamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_roles", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -38,34 +38,34 @@ namespace DataLayer.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                    id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    user_name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    normalized_user_name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                    normalized_email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true)
+                    email_confirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    password_hash = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true)
+                    security_stamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                    concurrency_stamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
+                    phone_number = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    phone_number_confirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    two_factor_enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    lockout_end = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    lockout_enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    access_failed_count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_users", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -77,7 +77,7 @@ namespace DataLayer.Migrations
                     sale_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     reservation_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     returning_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    Status = table.Column<string>(type: "longtext", nullable: false)
+                    status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     paid_by = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -85,7 +85,7 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_sales", x => x.sale_id);
+                    table.PrimaryKey("pk_sales", x => x.sale_id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -97,8 +97,8 @@ namespace DataLayer.Migrations
                     sale_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     reservation_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     returning_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    Total = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: false)
+                    total = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     paid_by = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -116,12 +116,12 @@ namespace DataLayer.Migrations
                 {
                     specific_type_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_specific_type", x => x.specific_type_id);
+                    table.PrimaryKey("pk_specific_type", x => x.specific_type_id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -129,23 +129,23 @@ namespace DataLayer.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    role_id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
+                    claim_type = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                    claim_value = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_role_claims", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
+                        name: "fk_asp_net_role_claims_asp_net_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -154,23 +154,23 @@ namespace DataLayer.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    user_id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
+                    claim_type = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                    claim_value = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_user_claims", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_claims_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -179,23 +179,23 @@ namespace DataLayer.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
+                    login_provider = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false)
+                    provider_key = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProviderDisplayName = table.Column<string>(type: "longtext", nullable: true)
+                    provider_display_name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    user_id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("pk_asp_net_user_logins", x => new { x.login_provider, x.provider_key });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_logins_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -204,25 +204,25 @@ namespace DataLayer.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    user_id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    role_id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("pk_asp_net_user_roles", x => new { x.user_id, x.role_id });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
+                        name: "fk_asp_net_user_roles_asp_net_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_roles_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -231,23 +231,23 @@ namespace DataLayer.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    user_id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
+                    login_provider = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                    name = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Value = table.Column<string>(type: "longtext", nullable: true)
+                    value = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("pk_asp_net_user_tokens", x => new { x.user_id, x.login_provider, x.name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_tokens_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -257,26 +257,26 @@ namespace DataLayer.Migrations
                 columns: table => new
                 {
                     goods_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Color = table.Column<string>(type: "longtext", nullable: false)
+                    color = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Size = table.Column<string>(type: "longtext", nullable: false)
+                    size = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     soft_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: false)
+                    price = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                    name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type_id = table.Column<int>(type: "int", nullable: false),
                     receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_accessories", x => x.goods_id);
+                    table.PrimaryKey("pk_accessories", x => x.goods_id);
                     table.ForeignKey(
-                        name: "FK_accessories_specific_type_type_id",
+                        name: "fk_accessories_specific_type_type_id",
                         column: x => x.type_id,
                         principalTable: "specific_type",
                         principalColumn: "specific_type_id",
@@ -290,21 +290,21 @@ namespace DataLayer.Migrations
                 {
                     goods_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     soft_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: false)
+                    price = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                    name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type_id = table.Column<int>(type: "int", nullable: false),
                     receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_audio_equipment_units", x => x.goods_id);
+                    table.PrimaryKey("pk_audio_equipment_units", x => x.goods_id);
                     table.ForeignKey(
-                        name: "FK_audio_equipment_units_specific_type_type_id",
+                        name: "fk_audio_equipment_units_specific_type_type_id",
                         column: x => x.type_id,
                         principalTable: "specific_type",
                         principalColumn: "specific_type_id",
@@ -318,25 +318,25 @@ namespace DataLayer.Migrations
                 {
                     goods_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     release_year = table.Column<int>(type: "int", nullable: false),
-                    Manufacturer = table.Column<string>(type: "longtext", nullable: false)
+                    manufacturer = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     manufacturer_type = table.Column<int>(type: "int", nullable: false),
                     soft_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: false)
+                    price = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                    name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type_id = table.Column<int>(type: "int", nullable: false),
                     receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_musical_instruments", x => x.goods_id);
+                    table.PrimaryKey("pk_musical_instruments", x => x.goods_id);
                     table.ForeignKey(
-                        name: "FK_musical_instruments_specific_type_type_id",
+                        name: "fk_musical_instruments_specific_type_type_id",
                         column: x => x.type_id,
                         principalTable: "specific_type",
                         principalColumn: "specific_type_id",
@@ -349,25 +349,25 @@ namespace DataLayer.Migrations
                 columns: table => new
                 {
                     goods_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Author = table.Column<string>(type: "longtext", nullable: true)
+                    author = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     release_year = table.Column<int>(type: "int", nullable: false),
                     soft_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: false)
+                    price = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                    name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type_id = table.Column<int>(type: "int", nullable: false),
                     receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_sheet_music_editions", x => x.goods_id);
+                    table.PrimaryKey("pk_sheet_music_editions", x => x.goods_id);
                     table.ForeignKey(
-                        name: "FK_sheet_music_editions_specific_type_type_id",
+                        name: "fk_sheet_music_editions_specific_type_type_id",
                         column: x => x.type_id,
                         principalTable: "specific_type",
                         principalColumn: "specific_type_id",
@@ -376,24 +376,24 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "AccessorySale",
+                name: "accessory_sale",
                 columns: table => new
                 {
-                    AccessoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    accessory_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    sale_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccessorySale", x => new { x.SaleId, x.AccessoryId });
+                    table.PrimaryKey("pk_accessory_sale", x => new { x.sale_id, x.accessory_id });
                     table.ForeignKey(
                         name: "FK_sale_accessory_id",
-                        column: x => x.AccessoryId,
+                        column: x => x.accessory_id,
                         principalTable: "accessories",
                         principalColumn: "goods_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_sale_accessory_sale_id",
-                        column: x => x.SaleId,
+                        column: x => x.sale_id,
                         principalTable: "sales",
                         principalColumn: "sale_id",
                         onDelete: ReferentialAction.Cascade);
@@ -401,24 +401,24 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "AudioEquipmentUnitSale",
+                name: "audio_equipment_unit_sale",
                 columns: table => new
                 {
-                    AudioEquipmentUnitId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    audio_equipment_unit_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    sale_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AudioEquipmentUnitSale", x => new { x.SaleId, x.AudioEquipmentUnitId });
+                    table.PrimaryKey("pk_audio_equipment_unit_sale", x => new { x.sale_id, x.audio_equipment_unit_id });
                     table.ForeignKey(
                         name: "FK_sale_aeu_id",
-                        column: x => x.AudioEquipmentUnitId,
+                        column: x => x.audio_equipment_unit_id,
                         principalTable: "audio_equipment_units",
                         principalColumn: "goods_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_sale_aeu_sale_id",
-                        column: x => x.SaleId,
+                        column: x => x.sale_id,
                         principalTable: "sales",
                         principalColumn: "sale_id",
                         onDelete: ReferentialAction.Cascade);
@@ -426,24 +426,24 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MusicalInstrumentSale",
+                name: "musical_instrument_sale",
                 columns: table => new
                 {
-                    MusicalInstrumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    musical_instrument_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    sale_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MusicalInstrumentSale", x => new { x.SaleId, x.MusicalInstrumentId });
+                    table.PrimaryKey("pk_musical_instrument_sale", x => new { x.sale_id, x.musical_instrument_id });
                     table.ForeignKey(
                         name: "FK_sale_musical_instrument_id",
-                        column: x => x.MusicalInstrumentId,
+                        column: x => x.musical_instrument_id,
                         principalTable: "musical_instruments",
                         principalColumn: "goods_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_sale_musical_instrument_sale_id",
-                        column: x => x.SaleId,
+                        column: x => x.sale_id,
                         principalTable: "sales",
                         principalColumn: "sale_id",
                         onDelete: ReferentialAction.Cascade);
@@ -451,24 +451,24 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SheetMusicEditionSale",
+                name: "sheet_music_edition_sale",
                 columns: table => new
                 {
-                    SheetMusicEditionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SaleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    sheet_music_edition_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    sale_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SheetMusicEditionSale", x => new { x.SaleId, x.SheetMusicEditionId });
+                    table.PrimaryKey("pk_sheet_music_edition_sale", x => new { x.sale_id, x.sheet_music_edition_id });
                     table.ForeignKey(
                         name: "FK_sale_sme_id",
-                        column: x => x.SheetMusicEditionId,
+                        column: x => x.sheet_music_edition_id,
                         principalTable: "sheet_music_editions",
                         principalColumn: "goods_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_sale_sme_sale_id",
-                        column: x => x.SaleId,
+                        column: x => x.sale_id,
                         principalTable: "sales",
                         principalColumn: "sale_id",
                         onDelete: ReferentialAction.Cascade);
@@ -476,88 +476,88 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_accessories_type_id",
+                name: "ix_accessories_type_id",
                 table: "accessories",
                 column: "type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccessorySale_AccessoryId",
-                table: "AccessorySale",
-                column: "AccessoryId");
+                name: "ix_accessory_sale_accessory_id",
+                table: "accessory_sale",
+                column: "accessory_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
+                name: "ix_asp_net_role_claims_role_id",
                 table: "AspNetRoleClaims",
-                column: "RoleId");
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
-                column: "NormalizedName",
+                column: "normalized_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
+                name: "ix_asp_net_user_claims_user_id",
                 table: "AspNetUserClaims",
-                column: "UserId");
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
+                name: "ix_asp_net_user_logins_user_id",
                 table: "AspNetUserLogins",
-                column: "UserId");
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
+                name: "ix_asp_net_user_roles_role_id",
                 table: "AspNetUserRoles",
-                column: "RoleId");
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
-                column: "NormalizedEmail");
+                column: "normalized_email");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
-                column: "NormalizedUserName",
+                column: "normalized_user_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_audio_equipment_units_type_id",
+                name: "ix_audio_equipment_unit_sale_audio_equipment_unit_id",
+                table: "audio_equipment_unit_sale",
+                column: "audio_equipment_unit_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_audio_equipment_units_type_id",
                 table: "audio_equipment_units",
                 column: "type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AudioEquipmentUnitSale_AudioEquipmentUnitId",
-                table: "AudioEquipmentUnitSale",
-                column: "AudioEquipmentUnitId");
+                name: "ix_musical_instrument_sale_musical_instrument_id",
+                table: "musical_instrument_sale",
+                column: "musical_instrument_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_musical_instruments_type_id",
+                name: "ix_musical_instruments_type_id",
                 table: "musical_instruments",
                 column: "type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicalInstrumentSale_MusicalInstrumentId",
-                table: "MusicalInstrumentSale",
-                column: "MusicalInstrumentId");
+                name: "ix_sheet_music_edition_sale_sheet_music_edition_id",
+                table: "sheet_music_edition_sale",
+                column: "sheet_music_edition_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_sheet_music_editions_type_id",
+                name: "ix_sheet_music_editions_type_id",
                 table: "sheet_music_editions",
                 column: "type_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SheetMusicEditionSale_SheetMusicEditionId",
-                table: "SheetMusicEditionSale",
-                column: "SheetMusicEditionId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccessorySale");
+                name: "accessory_sale");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -575,16 +575,16 @@ namespace DataLayer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AudioEquipmentUnitSale");
+                name: "audio_equipment_unit_sale");
 
             migrationBuilder.DropTable(
-                name: "MusicalInstrumentSale");
+                name: "musical_instrument_sale");
 
             migrationBuilder.DropTable(
                 name: "sales_view");
 
             migrationBuilder.DropTable(
-                name: "SheetMusicEditionSale");
+                name: "sheet_music_edition_sale");
 
             migrationBuilder.DropTable(
                 name: "accessories");

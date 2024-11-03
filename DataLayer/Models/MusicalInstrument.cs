@@ -14,9 +14,9 @@ public class MusicalInstrument : Goods
     //[Column("musical_instrument_id")]
     //public Guid MusicalInstrumentId { get; set; }
 #warning [Range(0, )] // postponed to business logic
-    [Column("release_year")]
+    //[Column("release_year")]
     public int ReleaseYear { get; set; }
     public string Manufacturer { get; set; }
-    [Column("manufacturer_type")]
+    //[Column("manufacturer_type")]
     public ManufacturerType ManufacturerType { get; set; }
 }

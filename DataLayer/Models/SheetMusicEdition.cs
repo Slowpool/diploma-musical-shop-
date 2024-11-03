@@ -15,6 +15,6 @@ public class SheetMusicEdition : Goods
     //[Column("sheet_music_edition_id")]
     //public Guid SheetMusicEditionId { get; set; }
     public string? Author { get; set; }
-    [Column("release_year")]
+    //[Column("release_year")]
     public int ReleaseYear { get; set; }
 }

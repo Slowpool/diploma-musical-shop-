@@ -34,10 +34,10 @@ public class SqlStatements
           READS SQL DATA
           BEGIN
               DECLARE total INT;
-              SET total = IFNULL(SELECT SUM(`mi`.`price`) FROM `musicalinstrumentsale` AS `mis` LEFT JOIN `musical_instruments` AS `mi` ON `mi`.`goods_id` = `mis`.`musicalinstrumentid` WHERE `mis`.`saleid` = `sale_id`), 0);
-              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `accessory_sale` AS `linking_table` LEFT JOIN `accessories` AS `goods` ON `goods`.`goods_id` = `linking_table`.`accessoryid` WHERE `linking_table`.`saleid` = `sale_id`), 0);
-              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `sheet_music_edition_sale` AS `linking_table` LEFT JOIN `sheet_music_editions` AS `goods` ON `goods`.`goods_id` = `linking_table`.`sheetmusiceditionid` WHERE `linking_table`.`saleid` = `sale_id`), 0);
-              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `audio_equipment_unit_sale` AS `linking_table` LEFT JOIN `audio_equipment_units` AS `goods` ON `goods`.`goods_id` = `linking_table`.`audioequipmentunitid` WHERE `linking_table`.`saleid` = `sale_id`), 0);
+              SET total = IFNULL((SELECT SUM(`mi`.`price`) FROM `musical_instrument_sale` AS `mis` LEFT JOIN `musical_instruments` AS `mi` ON `mi`.`goods_id` = `mis`.`musical_instrument_id` WHERE `mis`.`sale_id` = `sale_id`), 0);
+              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `accessory_sale` AS `linking_table` LEFT JOIN `accessories` AS `goods` ON `goods`.`goods_id` = `linking_table`.`accessory_id` WHERE `linking_table`.`sale_id` = `sale_id`), 0);
+              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `sheet_music_edition_sale` AS `linking_table` LEFT JOIN `sheet_music_editions` AS `goods` ON `goods`.`goods_id` = `linking_table`.`sheet_music_edition_id` WHERE `linking_table`.`sale_id` = `sale_id`), 0);
+              SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `audio_equipment_unit_sale` AS `linking_table` LEFT JOIN `audio_equipment_units` AS `goods` ON `goods`.`goods_id` = `linking_table`.`audio_equipment_unit_id` WHERE `linking_table`.`sale_id` = `sale_id`), 0);
               RETURN total;
           END;";
 }
