@@ -147,6 +147,8 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
         }
         goods = goods.AsNoTracking();
         goods = goods.Include(g => g.Type);
+        //goods = goods.Include(g => g.Sales);
+        //goods = goods.Where(g => g.Sales)
         goods = goods.Where(g => g.Status == filterOptions.Status);
         goods = goods.Where(g => g.Description.Contains(researchText) || g.Name.Contains(researchText) || g.Type.Name.Contains(researchText));
         if (filterOptions.MinPrice != null)
@@ -378,7 +380,7 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
             throw new Exception();
     }
 
-    // neat stuff
+    // dirty stuff
     public async Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes)
     {
         List<string> goodsIdsTypesList = goodsIdsAndTypes?.Split(CommonNames.GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries)

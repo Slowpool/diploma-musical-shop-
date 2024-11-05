@@ -80,11 +80,21 @@ div.adding-removing-results {
     height: 20%;
 }
 
-div.goods-unit-related-to-sale {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+div.goods-related-to-sale {
+    width: 100%;
 }
+
+div.goods-unit-related-to-sale {
+    width: 100%;
+}
+
+    div.goods-unit-related-to-sale > a {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
 input.add-remove-cart-button {
     width: 100%;

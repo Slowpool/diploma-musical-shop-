@@ -23,10 +23,15 @@ public class ArrangeSaleAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<
             return null;
         }
         //foreach(var key in dto.GoodsForSale) { } // guid:type
+        // actually everything below marked as warned is validation.
 #warning check for type of goods
 #warning check for each goods unit existence in table
 #warning check for each goods unit is not in another sale except returned
-#warning check for each goods unit
+#warning check for each goods unit status
+        //foreach (var goods in dto.GoodsForSale)
+        //{
+        //    goods.Status = GoodsStatus.InCart;
+        //}
         var sale = new Sale()
         {
             SaleId = Guid.NewGuid(),

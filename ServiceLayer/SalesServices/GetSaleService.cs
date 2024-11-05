@@ -23,7 +23,7 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
     public async Task<Sale> GetOriginalSale(Guid saleId)
     {
 #warning is there any point to use find here?
-        return await context.FindAsync<Sale>(saleId) ??
+        return /*await context.FindAsync<Sale>(saleId) ??*/
             await context.Sales.Include(s => s.MusicalInstruments)
                                .Include(s => s.Accessories)
                                .Include(s => s.SheetMusicEditions)

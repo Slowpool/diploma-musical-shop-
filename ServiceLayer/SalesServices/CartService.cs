@@ -1,4 +1,5 @@
-﻿using ServiceLayer.GoodsServices;
+﻿using DataLayer.Common;
+using ServiceLayer.GoodsServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,21 @@ public interface ICartService
 {
     Task<string> MoveGoodsBackToCart(Guid saleId);
 }
-public class CartService(IGetGoodsUnitsRelatedToSaleService service) : ICartService
+#warning so where is services for adding to and removing from the cart
+public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSaleService service) : ICartService
 {
     public async Task<string> MoveGoodsBackToCart(Guid saleId)
     {
-#warning hmm. one line, but um... one tough-readable line
-        return string.Join(GoodsIdSeparator, (await service.GetGoodsUnitsRelatedToSale(saleId)).Select(goodsUnit => new { goodsUnit.GoodsId, TypeName = goodsUnit.GetType().Name }));
+        var goods = await service.GetOrigGoodsUnitsRelatedToSale(saleId);
+        foreach (var goodsUnit in goods)
+        {
+            goodsUnit.Status = GoodsStatus.InStock;
+#warning does this update works?
+            context.Update(goodsUnit);
+        }
+        context.SaveChanges();
+
+        return string.Join(GoodsIdSeparator, goods.Select(goodsUnit => new { goodsUnit.GoodsId, TypeName = goodsUnit.GetType().Name }));
         
     }
 }

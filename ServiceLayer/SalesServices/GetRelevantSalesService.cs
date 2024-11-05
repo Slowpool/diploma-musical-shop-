@@ -35,7 +35,7 @@ public class GetRelevantSalesService(MusicalShopDbContext context, IGetSaleServi
         foreach (Guid saleId in saleIds)
         {
             saleView = await getSaleService.GetSaleView(saleId);
-            List<Goods> relatedGoods = await goodsService.GetGoodsUnitsRelatedToSale(saleId);
+            List<Goods> relatedGoods = await goodsService.GetOrigGoodsUnitsRelatedToSale(saleId);
 #warning not sure about it
             List<string> briefGoodsDescriptions = [];
             foreach(Goods goodsUnit in relatedGoods)

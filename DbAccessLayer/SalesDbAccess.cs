@@ -16,8 +16,9 @@ public class SalesDbAccess(MusicalShopDbContext context)
         foreach(var goodsUnit in goods)
         {
             goodsUnit.Sales.Add(sale);
-#warning do i need it?
-            context.Update(goodsUnit);
+#warning what if goods were passed here with edited values except goods.Status? UPD: okey, here it's safety, but probably dto with restricted data for update would be better. after all, that's a purpose of dto
+#warning do i need it at all? what if the latest line of this method may execute updating?
+            //context.Update(goodsUnit);
         }
         context.Add(sale);
     }
