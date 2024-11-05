@@ -3,6 +3,8 @@ using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,8 +33,13 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
 
     public async Task<SaleView> GetSaleView(Guid saleId)
     {
-#warning how to throw exception here
-        return await context.SalesView.SingleAsync(saleView => saleView.SaleId == saleId);
+        var saleView = await context.SalesView.SingleAsync(saleView => saleView.SaleId == saleId);
+        var sale = await GetOriginalSale(saleId);
+        saleView.MusicalInstruments = [.. sale.MusicalInstruments];
+        saleView.Accessories = [.. sale.Accessories];
+        saleView.AudioEquipmentUnits= [.. sale.AudioEquipmentUnits];
+        saleView.SheetMusicEditions = [.. sale.SheetMusicEditions];
+        return saleView;
     }
 
 #warning under question

@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models;
 
-[Table("sales_view")]
 [Keyless]
 public class SaleView
 {
@@ -29,10 +28,8 @@ public class SaleView
     public DateTime? LocalReservationDate => ReservationDate?.LocalDateTime;
     [NotMapped]
     public DateTime? LocalReturningDate => ReturningDate?.LocalDateTime;
-
     [Required]
     public int Total { get; set; }
-
 #warning how to add refers to several tables like ICollection<Goods> Answer: view
     [Required]
     public SaleStatus Status { get; set; }
@@ -45,4 +42,12 @@ public class SaleView
     [Required]
     [Column("is_paid")]
     public bool IsPaid { get; set; }
+    [NotMapped]
+    public IReadOnlyCollection<MusicalInstrument> MusicalInstruments { get; set; } = [];
+    [NotMapped]
+    public IReadOnlyCollection<Accessory> Accessories { get; set; } = [];
+    [NotMapped]
+    public IReadOnlyCollection<AudioEquipmentUnit> AudioEquipmentUnits { get; set; } = [];
+    [NotMapped]
+    public IReadOnlyCollection<SheetMusicEdition> SheetMusicEditions { get; set; } = [];
 }

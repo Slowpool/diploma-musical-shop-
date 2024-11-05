@@ -12,7 +12,7 @@ public class SqlStatements
     public const string DropTotalGoodsUnitsCountFunction = @"DROP FUNCTION `total_price`;";
 
     public const string CreateSalesViewV1 =
-        @"CREATE VIEW sales_view AS
+        @"CREATE VIEW `sales_view` AS
           SELECT `sale_id`, `sale_date`, `reservation_date`, `returning_date`, `status`, total_price(sale_id) AS `total`, `paid_by`, total_goods_units_count(sale_id) as `goods_units_count`, `is_paid`
           FROM `sales`;";
     public const string CreateTotalGoodsUnitsCountV1 =

@@ -19,6 +19,14 @@ public class GetGoodsUnitsRelatedToSaleService(IGetSaleService saleService) : IG
     public async Task<List<Goods>> GetGoodsUnitsRelatedToSale(Guid saleId)
     {
         var sale = await saleService.GetOriginalSale(saleId);
-        return sale.MusicalInstruments.Concat<Goods>(sale.Accessories).Concat(sale.SheetMusicEditions).Concat(sale.AudioEquipmentUnits).ToList();
+        return sale.MusicalInstruments
+                   .Cast<Goods>()
+                   .Concat(sale.Accessories
+                               .Cast<Goods>())
+                   .Concat(sale.SheetMusicEditions
+                               .Cast<Goods>())
+                   .Concat(sale.AudioEquipmentUnits
+                               .Cast<Goods>())
+                   .ToList();
     }
 }

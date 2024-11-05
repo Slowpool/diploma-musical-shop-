@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    [Migration("20241103152204_SaleViewAdd")]
+    [Migration("20241105142407_SaleViewAdd")]
     partial class SaleViewAdd
     {
         /// <inheritdoc />
@@ -430,7 +430,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("total");
 
-                    b.ToTable("sales_view", (string)null);
+                    b.ToTable((string)null);
 
                     b.ToView("sales_view", (string)null);
                 });

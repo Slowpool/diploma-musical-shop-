@@ -26,28 +26,28 @@ public class DataSeeding
         },
         new()
         {
-            SaleId = Guid.Parse("01938ce5-61c0-4eaf-8580-aeeb653b2191"),
+            SaleId = Guid.Parse("0d9ee495-b44c-4465-ba45-6fa6ff562579"),
             Status = SaleStatus.Sold,
             SaleDate = new DateTime(2023, 1, 19, 17, 19, 11),
             PaidBy = SalePaidBy.Cash
         },
         new()
         {
-            SaleId = Guid.Parse("01939ce5-61c0-4eaf-8580-aeeb653b2191"),
+            SaleId = Guid.Parse("e4c58ecd-e871-4579-b7bc-58563b67299a"),
             Status = SaleStatus.Sold,
             SaleDate = new DateTime(2023, 5, 28, 15, 50, 01),
             PaidBy = SalePaidBy.BankCard
         },
         new()
         {
-            SaleId = Guid.Parse("01940ce5-61c0-4eaf-8580-aeeb653b2191"),
+            SaleId = Guid.Parse("286b3185-c983-4339-86c9-b12fc8fac5e2"),
             Status = SaleStatus.Returned,
             SaleDate = new DateTime(2023, 3, 1, 13, 20, 35),
             PaidBy = SalePaidBy.Cash
         },
         new()
         {
-            SaleId = Guid.Parse("01941ce5-61c0-4eaf-8580-aeeb653b2191"),
+            SaleId = Guid.Parse("bf1cf858-f491-4234-9331-0b4abef9f0e8"),
             Status = SaleStatus.Reserved,
             SaleDate = new DateTime(2023, 7, 9, 10, 11, 35),
             PaidBy = SalePaidBy.BankCard
@@ -292,7 +292,7 @@ public class DataSeeding
                 },
                 new()
                 {
-                    GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1938-aeeb653b2191"),
+                    GoodsId = Guid.Parse("bf73bc1d-5d82-460b-9cf4-cd08e117face"),
                     Description = "Брелок с граммофоном отлично смотрится на архивных вещах",
                     Name = "Брелок с граммофоном",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
@@ -305,7 +305,7 @@ public class DataSeeding
                 },
                 new()
                 {
-                    GoodsId = Guid.Parse("05812ce5-61c0-4eaf-1939-aeeb653b2191"),
+                    GoodsId = Guid.Parse("6d4e31a0-9809-44c8-810f-7e0c4f435e03"),
                     Description = "Набор 3 в 1: пюпитр и каподастр",
                     Name = "Стартующий гитарист",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),

@@ -427,7 +427,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasColumnName("total");
 
-                    b.ToTable("sales_view", (string)null);
+                    b.ToTable((string)null);
 
                     b.ToView("sales_view", (string)null);
                 });
