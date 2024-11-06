@@ -21,7 +21,7 @@ public interface IArrangeSaleService : IErrorStorage
 {
     Task<Guid?> ArrangeSale(Dictionary<Guid, Type> goods, SalePaidBy paidBy);
 }
-public class ArrangeSaleService(MusicalShopDbContext context, IGoodsService service) : ErrorStorage, IArrangeSaleService
+public class ArrangeSaleService(MusicalShopDbContext context, IGetGoodsService service) : ErrorStorage, IArrangeSaleService
 {
     private readonly RunnerWriteDb<ArrangeSaleDto, Task<Guid?>> runner = new RunnerWriteDb<ArrangeSaleDto, Task<Guid?>>(context, new ArrangeSaleAction(new SalesDbAccess(context)));
     public override IImmutableList<ValidationResult> Errors => runner.Errors;

@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MusicalShopApp.Controllers.BaseControllers;
 using MusicalShopApp.Models;
-using NuGet.Packaging.Signing;
 using ServiceLayer.GoodsServices;
-using ServiceLayer.GoodsServices.Support;
+using ServiceLayer.GoodsServices.Extensions;
+using ServiceLayer.SalesServices;
 using ViewModelsLayer;
 using ViewModelsLayer.Goods;
 
@@ -62,7 +62,7 @@ public class GoodsController : CartViewerBaseController
     //}
 
     [HttpGet]
-    public async Task<IActionResult> Search([FromServices] IGoodsService service, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromReceiptDate, [FromQuery] string? toReceiptDate, [FromQuery] string kindOfGoods = nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy = nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder = true, [FromQuery] int page = 1, [FromQuery] int pageSize = 15, [FromQuery] string status = nameof(GoodsStatus.InStock))
+    public async Task<IActionResult> Search([FromServices] IGetRelevantGoodsService getRelevantGoodsService, [FromServices] IGetGoodsService getGoodsService, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromReceiptDate, [FromQuery] string? toReceiptDate, [FromQuery] string kindOfGoods = nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy = nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder = true, [FromQuery] int page = 1, [FromQuery] int pageSize = 15, [FromQuery] string status = nameof(GoodsStatus.InStock))
     {
         var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
         var statusEnum = Enum.Parse<GoodsStatus>(status, ignoreCase: true);
@@ -76,7 +76,7 @@ public class GoodsController : CartViewerBaseController
         var orderByEnum = Enum.Parse<GoodsOrderBy>(orderBy, ignoreCase: true);
         var orderByOptions = new GoodsOrderByOptions(orderByEnum, ascendingOrder);
 #warning what about query object pattern here?
-        var goodsIds = await service.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
+        var goodsIds = await getRelevantGoodsService.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
 #warning it could be simpler
         var type = kindOfGoodsEnum == KindOfGoods.Accessories ? typeof(Accessory) :
             kindOfGoodsEnum == KindOfGoods.AudioEquipmentUnits ? typeof(AudioEquipmentUnit) :
@@ -87,7 +87,7 @@ public class GoodsController : CartViewerBaseController
         {
             try
             {
-                var goodsUnitSearchDto = await service.GetReadableGoodsInfo(goodsId, type);
+                var goodsUnitSearchDto = await getGoodsService.GetReadableGoodsInfo(goodsId, type);
                 goodsUnitSearchDto.IsInCart = IsInCart(goodsId);
                 goodsUnitModels.Add(goodsUnitSearchDto);
             }
@@ -111,9 +111,9 @@ public class GoodsController : CartViewerBaseController
 
     [ValidateAntiForgeryToken]
     [Authorize(Roles = CommonNames.SellerRole)]
-    public async Task<ContentResult> AddToOrRemoveFromCart(string goodsId, bool isInCart, [FromServices] IGoodsService service)
+    public async Task<ContentResult> AddToOrRemoveFromCart([FromServices] ICartService cartService, string goodsId, bool isInCart)
     {
-        string? newGoodsIdsAndTypes = await service.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsInCart);
+        string? newGoodsIdsAndTypes = await cartService.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsInCart);
         if (newGoodsIdsAndTypes == null)
             return Content("failed");
         SetNewCartValue(newGoodsIdsAndTypes);
@@ -129,7 +129,7 @@ public class GoodsController : CartViewerBaseController
     //}
 
     [Authorize(Roles = CommonNames.SellerRole)]
-    public async Task<IActionResult> Cart([FromServices] IGoodsService service)
+    public async Task<IActionResult> Cart([FromServices] IGetGoodsService service)
     {
 #warning probably the same code as in search
         List<GoodsUnitSearchDto> GoodsUnitModels = new();

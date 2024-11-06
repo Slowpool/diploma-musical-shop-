@@ -18,109 +18,18 @@ using ServiceLayer.SalesServices.QueryObjects;
 
 namespace ServiceLayer.GoodsServices;
 
-public interface IGoodsService
+public interface IGetRelevantGoodsService
 {
-    Task<Goods> GetGoodsInfo<T>(string id)
-        where T : Goods, new();
-
-    Task<Goods> GetGoodsInfo(string id, Type type);
-    Task<GoodsUnitSearchDto> GetReadableGoodsInfo<T>(string id)
-        where T : Goods, new();
-
-    Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, Type type);
 
     // Kinda complex task to implement.
     // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
     // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
     Task<List<string>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize);
-
-    Task<Type> GetGoodsType(string goodsId);
-
-    Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes);
 }
 
 #warning i ain't wanna create service for each action
-public class GoodsService(MusicalShopDbContext context) : IGoodsService
+public class GetRelevantGoodsService(MusicalShopDbContext context) : IGetRelevantGoodsService
 {
-#warning i don't like this method. strictly speaking, i see this> (T?)(Goods?) cast for oithe first time
-    public async Task<Goods> GetGoodsInfo<T>(string id)
-        where T : Goods, new()
-    {
-        IQueryable<Goods>? targetGoods = new T() switch
-        {
-            MusicalInstrument => context.MusicalInstruments,
-            Accessory => context.Accessories,
-            AudioEquipmentUnit => context.AudioEquipmentUnits,
-            SheetMusicEdition => context.SheetMusicEditions,
-            _ => throw new ArgumentException("unknown type")
-        };
-        return (T)await targetGoods
-            .Include(g => g.Type)
-            .SingleAsync(e => e.GoodsId.ToString() == id)!;
-    }
-
-    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo<T>(string id)
-        where T : Goods, new()
-    {
-        Goods goods = await GetGoodsInfo<T>(id);
-
-        GoodsUnitSearchDto dto = new()
-        {
-            Id = id,
-            Type = goods.Type.Name,
-            Price = goods.Price
-        };
-
-        switch (typeof(T).Name)
-        {
-            // I know that handling these things this way is a bit wrong, but come+on. they are so similar-alike.
-            case "MusicalInstrument":
-            case "SheetMusicEdition":
-                dynamic specificGoods = goods;
-                string from = typeof(T).Name == "MusicalInstrument" ? specificGoods.Manufacturer : specificGoods.Author;
-                dto.Name = $"{specificGoods.Name} от \"{from}\"";
-                string description = $"Год выпуска: {specificGoods.ReleaseYear}. ";
-                int remainedLength = MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION - description.Length;
-                int takeDescriptionLength = specificGoods.Description.Length <= remainedLength ? specificGoods.Description.Length : remainedLength;
-                description += specificGoods.Description.Substring(0, takeDescriptionLength);
-                if (takeDescriptionLength < specificGoods.Description.Length)
-                    description += "...";
-                dto.Description = description;
-                break;
-            case "Accessory":
-                var accessory = (Accessory)goods;
-                string color = accessory.Color.ToLower();
-                string size = accessory.Size.ToLower();
-                dto.Name = $"{accessory.Name}, {color}, {size}";
-                dto.Description = accessory.Description[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
-                break;
-            case "AudioEquipmentUnit":
-                var audioEquipmentUnit = (AudioEquipmentUnit)goods;
-                dto.Name = $"{audioEquipmentUnit.Name}";
-                dto.Description = audioEquipmentUnit.Description[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
-                break;
-#warning Unreachable code
-            default:
-                throw new ArgumentException("unknown type");
-        };
-        return dto;
-
-    }
-
-    /// <summary>
-    /// This method redirect to <see cref="GetReadableGoodsInfo{T}"/>
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, Type type)
-    {
-        MethodInfo methodInfo = typeof(GoodsService).GetMethod("GetReadableGoodsInfo", BindingFlags.IgnoreReturn | BindingFlags.Public | BindingFlags.Instance, [typeof(string)])!;
-        methodInfo = methodInfo.MakeGenericMethod(type);
-
-        return await (Task<GoodsUnitSearchDto>)methodInfo.Invoke(this, [id])!;
-    }
-
     // Kinda complex task to implement.
     // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
     // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
@@ -362,64 +271,5 @@ public class GoodsService(MusicalShopDbContext context) : IGoodsService
         //        }
         //        return result; 
         #endregion
-    }
-
-    public async Task<Type> GetGoodsType(string goodsId)
-    {
-        Guid guid = Guid.Parse(goodsId);
-#warning why dijkstra said that function should have only one output
-        if (await context.Accessories.ContainsAsync(new Accessory() { GoodsId = guid }))
-            return typeof(Accessory);
-        else if (await context.MusicalInstruments.ContainsAsync(new MusicalInstrument() { GoodsId = guid }))
-            return typeof(MusicalInstrument);
-        else if (await context.AudioEquipmentUnits.ContainsAsync(new AudioEquipmentUnit() { GoodsId = guid }))
-            return typeof(AudioEquipmentUnit);
-        else if (await context.SheetMusicEditions.ContainsAsync(new SheetMusicEdition() { GoodsId = guid }))
-            return typeof(SheetMusicEdition);
-        else
-            throw new Exception();
-    }
-
-    // dirty stuff
-    public async Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes)
-    {
-        List<string> goodsIdsTypesList = goodsIdsAndTypes?.Split(CommonNames.GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries)
-                                                         ?.ToList() ?? [];
-        List<string>? updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, goodsIdsTypesList) : await AddInCart(goodsId, goodsIdsTypesList);
-        if (updatedGoodsIdsList == null)
-            return null;
-        else
-            return string.Join(CommonNames.GoodsIdSeparator, updatedGoodsIdsList);
-    }
-
-    private List<string>? RemoveFromCart(string goodsId, List<string> goodsIdsTypesList)
-    {
-        foreach (var goodsIdType in goodsIdsTypesList)
-        {
-            if (goodsIdType.Contains(goodsId))
-            {
-                goodsIdsTypesList.Remove(goodsIdType);
-                return goodsIdsTypesList;
-            }
-        }
-        return null;
-    }
-
-    private async Task<List<string>?> AddInCart(string goodsId, List<string> goodsIdsTypesList)
-    {
-        foreach (var idType in goodsIdsTypesList)
-        {
-            if (idType.Contains(goodsId))
-                return null;
-        }
-        string typeName = (await GetGoodsType(goodsId)).Name;
-        goodsIdsTypesList.Add($"{goodsId}{CommonNames.GoodsIdTypeSeparator}{typeName}");
-        return goodsIdsTypesList;
-    }
-
-    public async Task<Goods> GetGoodsInfo(string id, Type type)
-    {
-        var methodInfo = typeof(GoodsService).GetMethod("GetGoodsInfo", BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreReturn, [typeof(string)]);
-        return await (Task<Goods>)methodInfo.MakeGenericMethod(type).Invoke(this, [id]);
     }
 }

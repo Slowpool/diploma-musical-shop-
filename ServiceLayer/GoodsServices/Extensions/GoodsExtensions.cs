@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using ViewModelsLayer.Goods;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace ServiceLayer.GoodsServices.Support;
+namespace ServiceLayer.GoodsServices.Extensions;
 
 public static class GoodsExtensions
 {

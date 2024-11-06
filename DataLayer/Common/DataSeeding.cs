@@ -127,7 +127,6 @@ public class DataSeeding
                 Price = 9599,
                 ReleaseYear = 2023,
                 Status = GoodsStatus.InStock,
-                Sales = [Sales[0]],
                 Type = acousticGuitarType
             },
             new()
@@ -232,7 +231,7 @@ public class DataSeeding
                 ManufacturerType = ManufacturerType.Factory,
                 Price = 299,
                 ReleaseYear = 2023,
-                Status = GoodsStatus.InStock,
+                Status = GoodsStatus.Sold,
                 Sales = [Sales[0]],
                 Type = fluteType
             },
@@ -259,7 +258,7 @@ public class DataSeeding
                 ManufacturerType = ManufacturerType.Factory,
                 Price = 2390,
                 ReleaseYear = 2022,
-                Status = GoodsStatus.AwaitingDelivery,
+                Status = GoodsStatus.Sold,
                 Sales = [Sales[3]],
                 Type = synthesizerType
             },
@@ -284,7 +283,7 @@ public class DataSeeding
                     Name = "Табуретка",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 599,
-                    Status = GoodsStatus.InStock,
+                    Status = GoodsStatus.Sold,
                     Type = chairType,
                     Color = "Прозрачный",
                     Sales = [Sales[0]],
@@ -297,7 +296,7 @@ public class DataSeeding
                     Name = "Брелок с граммофоном",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 99,
-                    Status = GoodsStatus.Reserved,
+                    Status = GoodsStatus.Sold,
                     Type = keychainType,
                     Sales = [Sales[3]],
                     Color = "Черно-желтый",
