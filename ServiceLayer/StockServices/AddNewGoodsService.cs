@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.StockServices;
 
-public interface IAddNewGoodsService
+public interface IAddNewGoodsService : IErrorAdder
 {
     Task<List<Goods>> AddNewGoods(string goodsName, KindOfGoods kindOfGoods, SpecificType specificType, int price, GoodsStatus status, string description, int numberOfUnits);
 }
@@ -19,7 +19,7 @@ public class AddNewGoodsService(MusicalShopDbContext context) : ErrorAdder, IAdd
 {
     public async Task<List<Goods>> AddNewGoods(string goodsName, KindOfGoods kindOfGoods, SpecificType specificType, int price, GoodsStatus status, string description, int numberOfUnits)
     {
-#warning it is a business logic, but so little
+#warning business logic is here, but little
         if (price <= 0)
 #warning how to use these properties
             AddError("Цена не может быть меньше или равна 0");//, nameof(price
@@ -39,35 +39,45 @@ public class AddNewGoodsService(MusicalShopDbContext context) : ErrorAdder, IAdd
                 AddError("Вы не можете выбрать данный статус");
                 break;
         }
-        if (!HasErrors)
+        if (HasErrors)
+            return [];
+        var result = new List<Goods>();
+        for (int i = 0; i < numberOfUnits; i++)
         {
-            for (int i = 0; i < numberOfUnits; i++)
-            {
 #warning what about factory
-                Goods goods = new()
-                {
-                    Description = description,
-                    Name = goodsName,
-                    Price = price,
-                    ReceiptDate = receiptDate,
-                    SoftDeleted = false,
-                    Status = status,
-                    Type = specificType,
-                };
-                context.Add(goods);
-                #region uuuu
-                //switch (kindOfGoods)
-                //{
-                //    case KindOfGoods.MusicalInstruments:
-                //        goods = new MusicalInstrument
-                //        {
-                //            Description 
-                //        };
-                //            break;
-                //} 
-                #endregion
-            }
-            await context.SaveChangesAsync();
+            Goods goods = new()
+            {
+                Description = description,
+                Name = goodsName,
+                Price = price,
+                ReceiptDate = receiptDate,
+                SoftDeleted = false,
+                Status = status,
+                Type = specificType,
+            };
+            dynamic typifiedGoodsUnit = kindOfGoods switch
+            {
+                KindOfGoods.MusicalInstruments => (MusicalInstrument)goods,
+                KindOfGoods.Accessories => (Accessory)goods,
+                KindOfGoods.AudioEquipmentUnits => (AudioEquipmentUnit)goods,
+                KindOfGoods.SheetMusicEditions => (SheetMusicEdition)goods,
+                _ => throw new Exception()
+            };
+            result.Add(typifiedGoodsUnit);
+            await context.AddAsync(typifiedGoodsUnit);
+            #region uuuu
+            //switch (kindOfGoods)
+            //{
+            //    case KindOfGoods.MusicalInstruments:
+            //        goods = new MusicalInstrument
+            //        {
+            //            Description 
+            //        };
+            //            break;
+            //} 
+            #endregion
         }
+        await context.SaveChangesAsync();
+        return result;
     }
 }

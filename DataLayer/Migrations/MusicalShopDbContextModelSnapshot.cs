@@ -500,11 +500,15 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("name");
 
                     b.HasKey("SpecificTypeId")
                         .HasName("pk_specific_type");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_specific_type_name");
 
                     b.ToTable("specific_type", (string)null);
                 });

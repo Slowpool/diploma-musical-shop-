@@ -2,6 +2,7 @@
 using DataLayer.Models.LinkingTables;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
+using EFCore.NamingConventions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -70,11 +71,17 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-#warning if i don't have a personal life, i could rename all stuff like here
+#warning if i don't have a personal life, i could rename everything like here
         //modelBuilder.Entity<IdentityUser>().ToTable("identity_users").Property(u => u.UserId).HasColumnName("user_id");
         modelBuilder.Entity<SaleView>(entity =>
         {
             entity.ToView("sales_view");
+        });
+
+        modelBuilder.Entity<SpecificType>(entity =>
+        {
+            entity.HasIndex(e => e.Name)
+                  .IsUnique();
         });
 
         #region many-to-many sales and goods

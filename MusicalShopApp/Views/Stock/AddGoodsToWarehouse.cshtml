@@ -1,0 +1,42 @@
+﻿@model ViewModelsLayer.Stock.AddGoodsToWarehouseModel?
+
+@{
+#pragma warning disable 8602
+}
+
+<form asp-action="AddGoodsToWarehouse" method="post">
+    <label>Наименование</label>
+    <input asp-for="AddGoodsToWarehouseDto.GoodsName" />
+    <div>
+        <label for="new-goods-kind">Вид</label>
+        <span id="new-goods-kind">
+            <input id="new-goods-kind-mi" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="MusicalInstrument" />
+            <label for="new-goods-kind-mi">Музыкальный инструмент</label>
+            <input id="new-goods-kind-ac" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="Accessory" />
+            <label for="new-goods-kind-ac">Аксессуар</label>
+            <input id="new-goods-kind-aeu" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="AudioEquipmentUnit" />
+            <label for="new-goods-kind-aeu">Аудиоаппаратура</label>
+            <input id="new-goods-kind-sme" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="SheetMusicEdition" />
+            <label for="new-goods-kind-sme">Нотное издание</label>
+        </span>
+        <div>
+            <label>Тип</label>
+            <span>
+                <select>
+                    @foreach (string specificType in Model.SpecificTypes)
+                    {
+                        <option name="SpecificType" value="@specificType">@specificType</option>
+                    }
+                </select>
+            </span>
+        </div>
+        <div>
+            <label>Цена</label>
+            <input asp-for="AddGoodsToWarehouseDto.Price" type="number"/>
+        </div>
+    </div>
+    <input type="submit" action="post" value="Добавить" />
+</form>
+@{
+#pragma warning restore 8602
+}
