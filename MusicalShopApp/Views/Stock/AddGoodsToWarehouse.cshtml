@@ -22,17 +22,36 @@
         <div>
             <label>Тип</label>
             <span>
-                <select>
-                    @foreach (string specificType in Model.SpecificTypes)
+                @{
+                    List<SelectListItem> items = [];
+                    foreach (var specificType in Model.SpecificTypes)
                     {
-                        <option name="SpecificType" value="@specificType">@specificType</option>
+                        items.Add(new SelectListItem(specificType, specificType));
                     }
-                </select>
+                }
+                <select asp-for="AddGoodsToWarehouseDto.SpecificType" asp-items="items"></select>
             </span>
         </div>
         <div>
-            <label>Цена</label>
-            <input asp-for="AddGoodsToWarehouseDto.Price" type="number"/>
+            <label for="new-goods-price">Цена</label>
+            <input id="new-goods-price" asp-for="AddGoodsToWarehouseDto.Price" type="number" />
+        </div>
+        <div>
+            <label for="new-goods-status">Вид</label>
+            <span id="new-goods-status">
+                <input id="new-goods-status-ad" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="AwaitingDelivery" />
+                <label for="new-goods-status-ad">Ожидает поставки</label>
+                <input id="new-goods-status-is" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="InStock" />
+                <label for="new-goods-status-is">На складе</label>
+            </span>
+        </div>
+        <div>
+            <label for="new-goods-description">Описание</label>
+            <input id="new-goods-description" asp-for="AddGoodsToWarehouseDto.Description" />
+        </div>
+        <div>
+            <label for="new-goods-quantity">Количество</label>
+            <input id="new-goods-quantity" asp-for="AddGoodsToWarehouseDto.NumberOfUnits" type="number" />
         </div>
     </div>
     <input type="submit" action="post" value="Добавить" />

@@ -1,5 +1,6 @@
 ﻿using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceLayer.StockServices;
 using ViewModelsLayer.Stock;
 
@@ -15,21 +16,22 @@ public class StockController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypesService specificTypesService, [FromServices] IAddNewGoodsService addNewGoodsService, string goodsName, KindOfGoods kindOfGoods, string specificType, int price, GoodsStatus status, string description, int numberOfUnits)
+    public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypesService specificTypesService, [FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
 #warning try making it working
-    //public async Task<IActionResult> AddGoodsToWarehouse([FromServices] IFindSpecificTypeService findSpecificTypeService, [FromServices] IAddNewGoodsService addNewGoodsService, addGoodsToWarehouseModel)
     {
+#error how to add one of several kind of goods with specific attributes?
         var specificTypes = await specificTypesService.GetSpecificTypes();
         try
         {
-            var specificTypeEntity = await specificTypesService.FindSpecificType(specificType);
-            await addNewGoodsService.AddNewGoods(goodsName, kindOfGoods, specificTypeEntity, price, status, description, numberOfUnits);
+            var specificTypeEntity = await specificTypesService.FindSpecificType(addGoodsToWarehouseDto.SpecificType);
+            await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto.GoodsName, addGoodsToWarehouseDto.KindOfGoods, specificTypeEntity, addGoodsToWarehouseDto.Price, addGoodsToWarehouseDto.Status, addGoodsToWarehouseDto.Description, addGoodsToWarehouseDto.NumberOfUnits);
+
 #warning display success/fail
-            return View(new AddGoodsToWarehouseModel(new AddGoodsToWarehouseDto(goodsName, kindOfGoods, specificType, price, status, description, numberOfUnits), specificTypes, []));
+            return View(new AddGoodsToWarehouseModel(addGoodsToWarehouseDto, specificTypes, []));
         }
         catch
         {
-            return View(new AddGoodsToWarehouseModel(new AddGoodsToWarehouseDto(goodsName, kindOfGoods, specificType, price, status, description, numberOfUnits), specificTypes, [.. addNewGoodsService.Errors]));
+            return View(new AddGoodsToWarehouseModel(addGoodsToWarehouseDto, specificTypes, [.. addNewGoodsService.Errors]));
         }
     }
 }
