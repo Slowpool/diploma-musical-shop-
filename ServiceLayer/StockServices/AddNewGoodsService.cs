@@ -8,26 +8,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.Stock;
 
 namespace ServiceLayer.StockServices;
 
 public interface IAddNewGoodsService : IErrorAdder
 {
-    Task<List<Goods>> AddNewGoods(string goodsName, KindOfGoods kindOfGoods, SpecificType specificType, int price, GoodsStatus status, string description, int numberOfUnits);
+    Task<List<Goods>> AddNewGoods(AddGoodsToWarehouseDto dto);
 }
-public class AddNewGoodsService(MusicalShopDbContext context) : ErrorAdder, IAddNewGoodsService
+public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeService specificTypesService) : ErrorAdder, IAddNewGoodsService
 {
-    public async Task<List<Goods>> AddNewGoods(string goodsName, KindOfGoods kindOfGoods, SpecificType specificType, int price, GoodsStatus status, string description, int numberOfUnits)
+    public async Task<List<Goods>> AddNewGoods(AddGoodsToWarehouseDto dto)
     {
+        var specificTypeEntity = await specificTypesService.GetSpecificType(dto.SpecificType);
+
 #warning business logic is here, but little
-        if (price <= 0)
+        if (dto.Price <= 0)
 #warning how to use these properties
             AddError("Цена не может быть меньше или равна 0");//, nameof(price
-        if (numberOfUnits <= 0)
-#warning how to use these properties
+        if (dto.NumberOfUnits <= 0)
             AddError("Количество единиц товара не может быть меньше или равно 0");
         DateTimeOffset? receiptDate = default;
-        switch (status)
+        switch (dto.Status)
         {
             case GoodsStatus.InStock:
                 receiptDate = DateTimeOffset.UtcNow;
@@ -42,40 +44,37 @@ public class AddNewGoodsService(MusicalShopDbContext context) : ErrorAdder, IAdd
         if (HasErrors)
             return [];
         var result = new List<Goods>();
-        for (int i = 0; i < numberOfUnits; i++)
+        for (int i = 0; i < dto.NumberOfUnits; i++)
         {
-#warning what about factory
-            Goods goods = new()
+            Goods goods = dto.KindOfGoods switch
             {
-                Description = description,
-                Name = goodsName,
-                Price = price,
-                ReceiptDate = receiptDate,
-                SoftDeleted = false,
-                Status = status,
-                Type = specificType,
-            };
-            dynamic typifiedGoodsUnit = kindOfGoods switch
-            {
-                KindOfGoods.MusicalInstruments => (MusicalInstrument)goods,
-                KindOfGoods.Accessories => (Accessory)goods,
-                KindOfGoods.AudioEquipmentUnits => (AudioEquipmentUnit)goods,
-                KindOfGoods.SheetMusicEditions => (SheetMusicEdition)goods,
+                KindOfGoods.MusicalInstruments => new MusicalInstrument
+                {
+                    ReleaseYear = (int)dto.GoodsKindSpecificDataDto.ReleaseYear
+                },
+                KindOfGoods.Accessories => new Accessory
+                {
+                    Color = dto.GoodsKindSpecificDataDto.Color,
+                    Size = dto.GoodsKindSpecificDataDto.Size
+                },
+                KindOfGoods.AudioEquipmentUnits => new AudioEquipmentUnit(),
+                KindOfGoods.SheetMusicEditions => new SheetMusicEdition
+                {
+                    ReleaseYear = (int)dto.GoodsKindSpecificDataDto.ReleaseYear,
+                    Author = dto.GoodsKindSpecificDataDto.Author
+                },
                 _ => throw new Exception()
             };
-            result.Add(typifiedGoodsUnit);
-            await context.AddAsync(typifiedGoodsUnit);
-            #region uuuu
-            //switch (kindOfGoods)
-            //{
-            //    case KindOfGoods.MusicalInstruments:
-            //        goods = new MusicalInstrument
-            //        {
-            //            Description 
-            //        };
-            //            break;
-            //} 
-            #endregion
+            goods.Description = dto.Description;
+            goods.Name = dto.GoodsName;
+            goods.Price = dto.Price;
+            goods.ReceiptDate = receiptDate;
+            goods.SoftDeleted = false;
+            goods.Status = dto.Status;
+            goods.Type = specificTypeEntity;
+
+            result.Add(goods);
+            await context.AddAsync(goods);
         }
         await context.SaveChangesAsync();
         return result;

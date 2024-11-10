@@ -10,13 +10,13 @@
     <div>
         <label for="new-goods-kind">Вид</label>
         <span id="new-goods-kind">
-            <input id="new-goods-kind-mi" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="MusicalInstrument" />
+            <input id="new-goods-kind-mi" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="MusicalInstrument" />
             <label for="new-goods-kind-mi">Музыкальный инструмент</label>
-            <input id="new-goods-kind-ac" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="Accessory" />
+            <input id="new-goods-kind-ac" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="Accessory" />
             <label for="new-goods-kind-ac">Аксессуар</label>
-            <input id="new-goods-kind-aeu" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="AudioEquipmentUnit" />
+            <input id="new-goods-kind-aeu" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="AudioEquipmentUnit" />
             <label for="new-goods-kind-aeu">Аудиоаппаратура</label>
-            <input id="new-goods-kind-sme" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="SheetMusicEdition" />
+            <input id="new-goods-kind-sme" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="SheetMusicEdition" />
             <label for="new-goods-kind-sme">Нотное издание</label>
         </span>
         <div>
@@ -52,6 +52,12 @@
         <div>
             <label for="new-goods-quantity">Количество</label>
             <input id="new-goods-quantity" asp-for="AddGoodsToWarehouseDto.NumberOfUnits" type="number" />
+        </div>
+    </div>
+    <div>
+        Специфичные для вида данные
+        <div id="specific-data">
+            
         </div>
     </div>
     <input type="submit" action="post" value="Добавить" />

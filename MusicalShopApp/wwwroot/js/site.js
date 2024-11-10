@@ -40,3 +40,40 @@ $(document).ready(function () {
 function markSwitched(button) {
     button.innerHTML = button.innerHTML == '+' ? '-' : '+';
 }
+
+$(document).ready(function () {
+    let radioButtons = document.getElementsByClassName('new-goods-kind-radio');
+    for (let i = 0; i < radioButtons.length; i++) {
+        radioButtons[i].addEventListener('change', function () {
+            let specificDataDiv = document.getElementById('specific-data');
+            removeChildren(specificDataDiv);
+            if (this.value == 'MusicalInstrument') {
+                let releaseYear = document.createElement('input');
+                releaseYear.setAttribute('name', 'AddGoodsToWarehouseDto.ReleaseYear');
+                releaseYear.setAttribute('type', 'number');
+                specificDataDiv.appendChild(releaseYear);
+
+                //let manufacturerType = document.createElement('input');
+                //manufacturerType.setAttribute('name', 'AddGoodsToWarehouseDto.ReleaseYear');
+                //manufacturerType.setAttribute('type', 'number');
+                //specificDataDiv.appendChild(manufacturerType);
+            }
+            else if (this.value == 'Accessory') {
+                removeChildren(specificDataDiv);
+
+            }
+            else if (this.value == 'AudioEquipmentUnit') {
+                removeChildren(specificDataDiv);
+
+            }
+            else if (this.value == 'SheetMusicEdition') {
+                removeChildren(specificDataDiv);
+
+            }
+        });
+    };
+});
+
+function removeChildren(element) {
+    element.innerHTML = '';
+}

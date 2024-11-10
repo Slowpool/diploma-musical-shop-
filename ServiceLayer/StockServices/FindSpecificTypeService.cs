@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.StockServices;
 
-public interface ISpecificTypesService
+public interface ISpecificTypeService
 {
-    Task<SpecificType> FindSpecificType(string specificType);
+    Task<SpecificType> GetSpecificType(string specificType);
     Task<List<string>> GetSpecificTypes();
 }
-public class FindSpecificTypeService(MusicalShopDbContext context) : ISpecificTypesService
+public class FindSpecificTypeService(MusicalShopDbContext context) : ISpecificTypeService
 {
-    public async Task<SpecificType> FindSpecificType(string specificType)
+    public async Task<SpecificType> GetSpecificType(string specificType)
     {
         return await context.SpecificTypes.SingleAsync(type => type.Name.ToLower() == specificType.ToLower());
     }
