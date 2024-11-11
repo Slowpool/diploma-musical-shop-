@@ -50,7 +50,9 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             {
                 KindOfGoods.MusicalInstruments => new MusicalInstrument
                 {
-                    ReleaseYear = (int)dto.GoodsKindSpecificDataDto.ReleaseYear
+                    ReleaseYear = (int)dto.GoodsKindSpecificDataDto.ReleaseYear,
+                    ManufacturerType = (ManufacturerType)dto.GoodsKindSpecificDataDto.ManufacturerType,
+                    Manufacturer = dto.GoodsKindSpecificDataDto.Manufacturer,
                 },
                 KindOfGoods.Accessories => new Accessory
                 {

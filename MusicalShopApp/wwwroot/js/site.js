@@ -48,15 +48,74 @@ $(document).ready(function () {
             let specificDataDiv = document.getElementById('specific-data');
             removeChildren(specificDataDiv);
             if (this.value == 'MusicalInstrument') {
-                let releaseYear = document.createElement('input');
-                releaseYear.setAttribute('name', 'AddGoodsToWarehouseDto.ReleaseYear');
-                releaseYear.setAttribute('type', 'number');
-                specificDataDiv.appendChild(releaseYear);
+                // release year
+                let releaseYearId = 'new-goods-release-year';
+                let releaseYearDiv = document.createElement('div');
 
-                //let manufacturerType = document.createElement('input');
-                //manufacturerType.setAttribute('name', 'AddGoodsToWarehouseDto.ReleaseYear');
-                //manufacturerType.setAttribute('type', 'number');
-                //specificDataDiv.appendChild(manufacturerType);
+                let releaseYearLabel = document.createElement('label');
+                releaseYearLabel.setAttribute('for', releaseYearId);
+                releaseYearLabel.innerHTML = 'Год выпуска';
+                releaseYearDiv.appendChild(releaseYearLabel);
+
+                let releaseYear = document.createElement('input');
+                releaseYear.setAttribute('id', releaseYearId);
+                releaseYear.setAttribute('name', 'AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.ReleaseYear');
+                releaseYear.setAttribute('type', 'number');
+                releaseYearDiv.appendChild(releaseYear);
+                specificDataDiv.appendChild(releaseYearDiv);
+                // manufacturer type
+                let manufacturerTypeId = 'new-goods-manufacturer-type';
+
+                let manufacturerTypeLabel = document.createElement('label');
+                manufacturerTypeLabel.setAttribute('for', manufacturerTypeId);
+                manufacturerTypeLabel.innerHTML = 'Тип производителя';
+                specificDataDiv.appendChild(manufacturerTypeLabel);
+
+                let manufacturerTypeRadioGroup = document.createElement('span');
+                manufacturerTypeRadioGroup.setAttribute('id', manufacturerTypeId);
+
+                let manufacturerTypeFactoryId = manufacturerTypeId + '-factory';
+                let manufacturerTypeFactory = document.createElement('input');
+                manufacturerTypeFactory.setAttribute('id', manufacturerTypeFactoryId);
+                manufacturerTypeFactory.setAttribute('name', 'AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.ManufacturerType');
+                manufacturerTypeFactory.setAttribute('value', 'Factory');
+                manufacturerTypeFactory.setAttribute('type', 'radio');
+                manufacturerTypeRadioGroup.appendChild(manufacturerTypeFactory);
+
+                let manufacturerTypeFactoryLabel = document.createElement('label');
+                manufacturerTypeFactoryLabel.setAttribute('for', manufacturerTypeFactoryId);
+                manufacturerTypeFactoryLabel.innerHTML = 'Завод';
+                manufacturerTypeRadioGroup.appendChild(manufacturerTypeFactoryLabel);
+
+                let manufacturerTypeMasterId = manufacturerTypeId + '-Master';
+                let manufacturerTypeMaster = document.createElement('input');
+                manufacturerTypeMaster.setAttribute('id', manufacturerTypeMasterId);
+                manufacturerTypeMaster.setAttribute('name', 'AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.ManufacturerType');
+                manufacturerTypeMaster.setAttribute('value', 'Master');
+                manufacturerTypeMaster.setAttribute('type', 'radio');
+                manufacturerTypeRadioGroup.appendChild(manufacturerTypeMaster);
+
+                let manufacturerTypeMasterLabel = document.createElement('label');
+                manufacturerTypeMasterLabel.setAttribute('for', manufacturerTypeMasterId);
+                manufacturerTypeMasterLabel.innerHTML = 'Мастер';
+                manufacturerTypeRadioGroup.appendChild(manufacturerTypeMasterLabel);
+
+                specificDataDiv.appendChild(manufacturerTypeRadioGroup);
+                // manufacturer name
+                let manufacturerNameDiv = document.createElement('div');
+                let manufacturerNameLabel = document.createElement('label');
+                let manufacturerNameId = 'new-goods-manufacturer-name';
+                manufacturerNameLabel.setAttribute('for', manufacturerNameId);
+                manufacturerNameLabel.innerHTML = 'Название производителя';
+                manufacturerNameDiv.appendChild(manufacturerNameLabel);
+
+                let manufacturerNameInput = document.createElement('input');
+                manufacturerNameInput.setAttribute('id', manufacturerNameId);
+                manufacturerNameInput.setAttribute('type', 'text');
+                manufacturerNameInput.setAttribute('name', 'AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.Manufacturer');
+                manufacturerNameDiv.appendChild(manufacturerNameInput);
+
+                specificDataDiv.appendChild(manufacturerNameDiv);
             }
             else if (this.value == 'Accessory') {
                 removeChildren(specificDataDiv);
