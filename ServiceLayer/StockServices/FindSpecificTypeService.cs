@@ -18,11 +18,15 @@ public class FindSpecificTypeService(MusicalShopDbContext context) : ISpecificTy
 {
     public async Task<SpecificType> GetSpecificType(string specificType)
     {
-        return await context.SpecificTypes.SingleAsync(type => type.Name.ToLower() == specificType.ToLower());
+        throw new NotImplementedException();
+        // TODO specific type
+        //return await context.SpecificTypes.SingleAsync(type => type.Name.ToLower() == specificType.ToLower());
     }
     public async Task<List<string>> GetSpecificTypes()
     {
-        return await context.SpecificTypes.Select(specificType => specificType.Name)
-                                          .ToListAsync();
+        throw new NotImplementedException();
+        // TODO specific type
+        //return await context.SpecificTypes.Select(specificType => specificType.Name)
+                                          //.ToListAsync();
     }
 }

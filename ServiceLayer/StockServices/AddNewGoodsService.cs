@@ -73,7 +73,8 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             goods.ReceiptDate = receiptDate;
             goods.SoftDeleted = false;
             goods.Status = dto.Status;
-            goods.SpecificType = specificTypeEntity;
+            // TODO specific type
+            //goods.SpecificType = specificTypeEntity;
 
             result.Add(goods);
             await context.AddAsync(goods);

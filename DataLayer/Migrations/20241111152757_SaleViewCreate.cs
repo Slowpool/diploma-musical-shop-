@@ -11,9 +11,9 @@ namespace DataLayer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "sales_view");
+            //migrationBuilder.DropTable(name: "sales_view");
             migrationBuilder.Sql($"{CreateTotalGoodsUnitsCountV1}{CreateTotalPriceV1}{CreateSalesViewV1}");
-#error
+//#error
         }
 
         /// <inheritdoc />

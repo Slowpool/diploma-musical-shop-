@@ -37,7 +37,8 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
             _ => throw new ArgumentException("unknown type")
         };
         return (T)await targetGoods
-            .Include(g => g.SpecificType)
+            // TODO specific type
+            //.Include(g => g.SpecificType)
             .SingleAsync(e => e.GoodsId.ToString() == id)!;
     }
 
@@ -49,7 +50,8 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
         GoodsUnitSearchDto dto = new()
         {
             Id = id,
-            Type = goods.SpecificType.Name,
+// TODO specific type
+            //Type = goods.SpecificType.Name,
             Price = goods.Price
         };
 

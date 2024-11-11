@@ -62,25 +62,25 @@ public class GoodsController : CartViewerBaseController
     //}
 #warning what the hell is going on here? i have not been seeing this method for just about 1 week and now it looks like insane one
     [HttpGet]
-    public async Task<IActionResult> Search([FromServices] IGetRelevantGoodsService getRelevantGoodsService, [FromServices] IGetGoodsService getGoodsService, [FromQuery] string q, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] string? fromReceiptDate, [FromQuery] string? toReceiptDate, [FromQuery] string kindOfGoods = nameof(KindOfGoods.MusicalInstruments), [FromQuery] string orderBy = nameof(GoodsOrderBy.Relevance), [FromQuery] bool ascendingOrder = true, [FromQuery] int page = 1, [FromQuery] int pageSize = 15, [FromQuery] string status = nameof(GoodsStatus.InStock))
+    public async Task<IActionResult> Search([FromServices] IGetRelevantGoodsService getRelevantGoodsService, [FromServices] IGetGoodsService getGoodsService, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] DateTime? fromReceiptDate, [FromQuery] DateTime? toReceiptDate, [FromQuery] KindOfGoods kindOfGoods, [FromQuery] GoodsOrderBy orderBy, [FromQuery] GoodsStatus status, [FromQuery] bool ascendingOrder, [FromQuery] string q = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 15)
     {
-        var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
-        var statusEnum = Enum.Parse<GoodsStatus>(status, ignoreCase: true);
-        DateTime? fromReceiptDateTime = null;
-        DateTime? toReceiptDateTime = null;
-        if (DateTime.TryParse(fromReceiptDate, out DateTime temp))
-            fromReceiptDateTime = temp;
-        if (DateTime.TryParse(toReceiptDate, out temp))
-            toReceiptDateTime = temp;
-        var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromReceiptDateTime, toReceiptDateTime, kindOfGoodsEnum, statusEnum);
-        var orderByEnum = Enum.Parse<GoodsOrderBy>(orderBy, ignoreCase: true);
-        var orderByOptions = new GoodsOrderByOptions(orderByEnum, ascendingOrder);
+        //var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
+        //var statusEnum = Enum.Parse<GoodsStatus>(status, ignoreCase: true);
+        //DateTime? fromReceiptDateTime = null;
+        //DateTime? toReceiptDateTime = null;
+        //if (DateTime.TryParse(fromReceiptDate, out DateTime temp))
+        //    fromReceiptDateTime = temp;
+        //if (DateTime.TryParse(toReceiptDate, out temp))
+        //    toReceiptDateTime = temp;
+        var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromReceiptDate.LocalToUniversal(), toReceiptDate.LocalToUniversal(), kindOfGoods, status);
+        //var orderByEnum = Enum.Parse<GoodsOrderBy>(orderBy, ignoreCase: true);
+        var orderByOptions = new GoodsOrderByOptions(orderBy, ascendingOrder);
 #warning what about query object pattern here?
         var goodsIds = await getRelevantGoodsService.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
 #warning it could be simpler
-        var type = kindOfGoodsEnum == KindOfGoods.Accessories ? typeof(Accessory) :
-            kindOfGoodsEnum == KindOfGoods.AudioEquipmentUnits ? typeof(AudioEquipmentUnit) :
-            kindOfGoodsEnum == KindOfGoods.MusicalInstruments ? typeof(MusicalInstrument) :
+        var type = kindOfGoods == KindOfGoods.Accessories ? typeof(Accessory) :
+            kindOfGoods == KindOfGoods.AudioEquipmentUnits ? typeof(AudioEquipmentUnit) :
+            kindOfGoods == KindOfGoods.MusicalInstruments ? typeof(MusicalInstrument) :
             typeof(SheetMusicEdition);
         List<GoodsUnitSearchDto> goodsUnitModels = new();
         foreach (var goodsId in goodsIds)
@@ -92,7 +92,6 @@ public class GoodsController : CartViewerBaseController
                 goodsUnitModels.Add(goodsUnitSearchDto);
             }
             catch
-
             {
                 _logger.LogWarning("unknown goods id in cart: {goodsId}", goodsId);
             }
