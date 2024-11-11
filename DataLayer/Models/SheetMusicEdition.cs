@@ -1,4 +1,5 @@
-﻿using DataLayer.NotMapped;
+﻿using DataLayer.Models.SpecificTypes;
+using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using System;
 using System.Collections.Generic;
@@ -17,4 +18,5 @@ public class SheetMusicEdition : Goods
     public string? Author { get; set; }
     //[Column("release_year")]
     public int ReleaseYear { get; set; }
+    public SheetMusicEditionSpecificType SpecificType { get; set; }
 }

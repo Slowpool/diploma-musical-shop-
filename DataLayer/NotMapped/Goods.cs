@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace DataLayer.NotMapped;
 
 //[NotMapped] // Apparently ef core ignores types which are inhereted by other types and doesn't model them even without this attribute. But I wrote it here just for clarity.
-public class Goods : ISoftDeletable
+public abstract class Goods : ISoftDeletable
 {
     [Key]
     //[Column("goods_id")]
@@ -32,8 +32,8 @@ public class Goods : ISoftDeletable
     //public Guid? SaleId { get; set; }
     public virtual ICollection<Sale> Sales { get; set; } = [];
     //[Column("type_id")]
-    public int TypeId { get; set; }
-    public SpecificType Type { get; set; }
+    public Guid SpecificTypeId { get; set; }
+    //public abstract SpecificType SpecificType { get; set; }
     //[Column("receipt_date")]
     public DateTimeOffset? ReceiptDate { get; set; }
 

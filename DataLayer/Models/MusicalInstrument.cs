@@ -1,4 +1,5 @@
-﻿using DataLayer.NotMapped;
+﻿using DataLayer.Models.SpecificTypes;
+using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using System;
 using System.Collections.Generic;
@@ -19,4 +20,5 @@ public class MusicalInstrument : Goods
     public string Manufacturer { get; set; }
     //[Column("manufacturer_type")]
     public ManufacturerType ManufacturerType { get; set; }
+    public MusicalInstrumentSpecificType SpecificType { get; set; }
 }

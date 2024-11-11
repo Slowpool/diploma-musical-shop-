@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Models;
-#warning use it instead of several linking tables
+namespace DataLayer.Models.LinkingTables;
+#warning try to use it instead of several linking tables
 //public class GoodsSale
 //{
 //    [Required]

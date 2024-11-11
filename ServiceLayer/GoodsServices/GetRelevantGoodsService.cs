@@ -55,11 +55,11 @@ public class GetRelevantGoodsService(MusicalShopDbContext context) : IGetRelevan
                 throw new Exception();
         }
         goods = goods.AsNoTracking();
-        goods = goods.Include(g => g.Type);
+        goods = goods.Include(g => g.SpecificType);
         //goods = goods.Include(g => g.Sales);
         //goods = goods.Where(g => g.Sales)
         goods = goods.Where(g => g.Status == filterOptions.Status);
-        goods = goods.Where(g => g.Description.Contains(researchText) || g.Name.Contains(researchText) || g.Type.Name.Contains(researchText));
+        goods = goods.Where(g => g.Description.Contains(researchText) || g.Name.Contains(researchText) || g.SpecificType.Name.Contains(researchText));
         if (filterOptions.MinPrice != null)
             goods = goods.Where(g => g.Price >= filterOptions.MinPrice);
         if (filterOptions.MaxPrice != null)
@@ -73,8 +73,8 @@ public class GetRelevantGoodsService(MusicalShopDbContext context) : IGetRelevan
         {
             case GoodsOrderBy.Relevance:
                 goods = orderByOptions.AscendingOrder
-                    ? goods.OrderBy(g => g.Type.Name)
-                    : goods.OrderByDescending(g => g.Type.Name);
+                    ? goods.OrderBy(g => g.SpecificType.Name)
+                    : goods.OrderByDescending(g => g.SpecificType.Name);
                 break;
             case GoodsOrderBy.Price:
                 goods = orderByOptions.AscendingOrder

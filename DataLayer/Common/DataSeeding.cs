@@ -1,5 +1,6 @@
 ﻿using Common;
 using DataLayer.Models;
+using DataLayer.Models.SpecificTypes;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -109,11 +110,11 @@ public class DataSeeding
     {
         if (context.MusicalInstruments.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
         {
-            var acousticGuitarType = new SpecificType { Name = "Акустическая гитара" };
-            var drumsType = new SpecificType { Name = "Барабанная установка" };
-            var fluteType = new SpecificType { Name = "Флейта" };
-            var xylophoneType = new SpecificType { Name = "Ксилофон" };
-            var synthesizerType = new SpecificType { Name = "Синтезатор" };
+            var acousticGuitarType = new MusicalInstrumentSpecificType { Name = "Акустическая гитара" };
+            var drumsType = new MusicalInstrumentSpecificType { Name = "Барабанная установка" };
+            var fluteType = new MusicalInstrumentSpecificType { Name = "Флейта" };
+            var xylophoneType = new MusicalInstrumentSpecificType { Name = "Ксилофон" };
+            var synthesizerType = new MusicalInstrumentSpecificType { Name = "Синтезатор" };
             var instruments = new List<MusicalInstrument>
         {
             new()
@@ -127,7 +128,7 @@ public class DataSeeding
                 Price = 9599,
                 ReleaseYear = 2023,
                 Status = GoodsStatus.InStock,
-                Type = acousticGuitarType
+                SpecificType = acousticGuitarType
             },
             new()
             {
@@ -140,7 +141,7 @@ public class DataSeeding
                 Price = 7499,
                 ReleaseYear = 2023,
                 Status = GoodsStatus.Reserved,
-                Type = acousticGuitarType
+                SpecificType = acousticGuitarType
             },
             new()
             {
@@ -154,7 +155,7 @@ public class DataSeeding
                 Price = 3499,
                 ReleaseYear = 2022,
                 Status = GoodsStatus.InStock,
-                Type = acousticGuitarType
+                SpecificType = acousticGuitarType
             },
             new()
             {
@@ -167,7 +168,7 @@ public class DataSeeding
                 Price = 2399,
                 ReleaseYear = 2021,
                 Status = GoodsStatus.AwaitingDelivery,
-                Type = acousticGuitarType
+                SpecificType = acousticGuitarType
             },
             new()
             {
@@ -180,7 +181,7 @@ public class DataSeeding
                 Price = 2399,
                 ReleaseYear = 2020,
                 Status = GoodsStatus.AwaitingDelivery,
-                Type = acousticGuitarType
+                SpecificType = acousticGuitarType
             },
             new()
             {
@@ -193,7 +194,7 @@ public class DataSeeding
                 Price = 88990,
                 ReleaseYear = 2024,
                 Status = GoodsStatus.InStock,
-                Type = acousticGuitarType
+                SpecificType = acousticGuitarType
             },
             new()
             {
@@ -206,7 +207,7 @@ public class DataSeeding
                 Price = 14900,
                 ReleaseYear = 2019,
                 Status = GoodsStatus.AwaitingDelivery,
-                Type = drumsType
+                SpecificType = drumsType
             },
             new()
             {
@@ -219,7 +220,7 @@ public class DataSeeding
                 Price = 1900,
                 ReleaseYear = 2019,
                 Status = GoodsStatus.InStock,
-                Type = drumsType
+                SpecificType = drumsType
             },
             new()
             {
@@ -233,7 +234,7 @@ public class DataSeeding
                 ReleaseYear = 2023,
                 Status = GoodsStatus.Sold,
                 Sales = [Sales[0]],
-                Type = fluteType
+                SpecificType = fluteType
             },
             new()
             {
@@ -246,7 +247,7 @@ public class DataSeeding
                 Price = 11590,
                 ReleaseYear = 1975,
                 Status = GoodsStatus.InStock,
-                Type = synthesizerType
+                SpecificType = synthesizerType
             },
             new()
             {
@@ -260,7 +261,7 @@ public class DataSeeding
                 ReleaseYear = 2022,
                 Status = GoodsStatus.Sold,
                 Sales = [Sales[3]],
-                Type = synthesizerType
+                SpecificType = synthesizerType
             },
         };
             context.AddRange(instruments);
@@ -272,8 +273,8 @@ public class DataSeeding
     {
         if (context.Accessories.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-1937-aeeb653b2191")) == null)
         {
-            var chairType = new SpecificType { Name = "Табуретка регулируемая" };
-            var keychainType = new SpecificType { Name = "Брелок" };
+            var chairType = new AccessorySpecificType { Name = "Табуретка регулируемая" };
+            var keychainType = new AccessorySpecificType { Name = "Брелок" };
             var accessories = new List<Accessory>
             {
                 new()
@@ -284,7 +285,7 @@ public class DataSeeding
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 599,
                     Status = GoodsStatus.Sold,
-                    Type = chairType,
+                    SpecificType = chairType,
                     Color = "Прозрачный",
                     Sales = [Sales[0]],
                     Size = "регулировка высоты от 10 до 150 см, 50см радиус седла"
@@ -297,7 +298,7 @@ public class DataSeeding
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 99,
                     Status = GoodsStatus.Sold,
-                    Type = keychainType,
+                    SpecificType = keychainType,
                     Sales = [Sales[3]],
                     Color = "Черно-желтый",
                     Size = "20см x 0.5см x 3см"
@@ -310,7 +311,7 @@ public class DataSeeding
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 699,
                     Status = GoodsStatus.Sold,
-                    Type = keychainType,
+                    SpecificType = keychainType,
                     Sales = [Sales[4]],
                     Color = "Черно-рыжий",
                     Size = "Высота пюпитра: 30-200см. Каподастр 13см x 1см x 12 см"

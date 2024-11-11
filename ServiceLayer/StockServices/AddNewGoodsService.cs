@@ -52,7 +52,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
                 {
                     ReleaseYear = (int)dto.GoodsKindSpecificDataDto.ReleaseYear,
                     ManufacturerType = (ManufacturerType)dto.GoodsKindSpecificDataDto.ManufacturerType,
-                    Manufacturer = dto.GoodsKindSpecificDataDto.Manufacturer,
+                    Manufacturer = dto.GoodsKindSpecificDataDto.Manufacturer
                 },
                 KindOfGoods.Accessories => new Accessory
                 {
@@ -73,7 +73,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             goods.ReceiptDate = receiptDate;
             goods.SoftDeleted = false;
             goods.Status = dto.Status;
-            goods.Type = specificTypeEntity;
+            goods.SpecificType = specificTypeEntity;
 
             result.Add(goods);
             await context.AddAsync(goods);

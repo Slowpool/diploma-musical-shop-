@@ -37,7 +37,7 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
             _ => throw new ArgumentException("unknown type")
         };
         return (T)await targetGoods
-            .Include(g => g.Type)
+            .Include(g => g.SpecificType)
             .SingleAsync(e => e.GoodsId.ToString() == id)!;
     }
 
@@ -49,7 +49,7 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
         GoodsUnitSearchDto dto = new()
         {
             Id = id,
-            Type = goods.Type.Name,
+            Type = goods.SpecificType.Name,
             Price = goods.Price
         };
 
@@ -62,11 +62,11 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
                 string from = typeof(T).Name == "MusicalInstrument" ? specificGoods.Manufacturer : specificGoods.Author;
                 dto.Name = $"{specificGoods.Name} от \"{from}\"";
                 string description = $"Год выпуска: {specificGoods.ReleaseYear}. ";
-                int remainedLength = MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION - description.Length;
-                int takeDescriptionLength = specificGoods.Description.Length <= remainedLength ? specificGoods.Description.Length : remainedLength;
-                description += specificGoods.Description.Substring(0, takeDescriptionLength);
-                if (takeDescriptionLength < specificGoods.Description.Length)
-                    description += "...";
+                //int remainedLength = MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION - description.Length;
+                //int takeDescriptionLength = specificGoods.Description.Length <= remainedLength ? specificGoods.Description.Length : remainedLength;
+                //description += specificGoods.Description.Substring(0, takeDescriptionLength);
+                //if (takeDescriptionLength < specificGoods.Description.Length)
+                //    description += "...";
                 dto.Description = description;
                 break;
             case "Accessory":
@@ -74,14 +74,13 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
                 string color = accessory.Color.ToLower();
                 string size = accessory.Size.ToLower();
                 dto.Name = $"{accessory.Name}, {color}, {size}";
-                dto.Description = accessory.Description[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
+                dto.Description = accessory.Description;//[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
                 break;
             case "AudioEquipmentUnit":
                 var audioEquipmentUnit = (AudioEquipmentUnit)goods;
                 dto.Name = $"{audioEquipmentUnit.Name}";
-                dto.Description = audioEquipmentUnit.Description[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
+                dto.Description = audioEquipmentUnit.Description;// [..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
                 break;
-#warning Unreachable code
             default:
                 throw new ArgumentException("unknown type");
         };

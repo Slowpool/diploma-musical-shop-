@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLayer.SupportClasses;
 
-[Table("specific_type")]
-public class SpecificType
+[NotMapped]
+public abstract class SpecificType
 {
-    [Column("specific_type_id")]
-    public int SpecificTypeId { get; set; }
+    [Key]
+    public Guid SpecificTypeId { get; set; }
 
     [Required]
     public string Name { get; set; }

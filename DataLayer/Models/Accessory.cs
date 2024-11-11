@@ -1,3 +1,4 @@
+using DataLayer.Models.SpecificTypes;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using System;
@@ -16,4 +17,5 @@ public class Accessory : Goods
     //public Guid AccessoryId { get; set; }
     public string Color { get; set; }
     public string Size { get; set; }
+    public AccessorySpecificType SpecificType { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿@using ViewModelsLayer.Goods
 @using DataLayer.SupportClasses
+@using Common
 
 @model List<GoodsUnitSearchDto>
 
@@ -20,7 +21,7 @@
                 </div>
                 <div>
                     <span class="Model[i]-mini-card-price">
-                        @Model[i].Price
+                        @Model[i].Price.ToMoney()
                     </span>
                     <span class="Model[i]-mini-card-status">
                         @Model[i].Status.ToFormattedText()

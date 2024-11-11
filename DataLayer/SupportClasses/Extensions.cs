@@ -10,5 +10,5 @@ public static class Extensions
             GoodsStatus.Reserved => "Зарезервировано"
         };
 
-    public static bool TryParse(this string kindOfGoods, out KindOfGoods result) => Enum.TryParse<KindOfGoods>(kindOfGoods, out result);
+    //public static bool TryParse(this string kindOfGoods, out KindOfGoods result) => Enum.TryParse<KindOfGoods>(kindOfGoods, out result);
 }

@@ -1,5 +1,6 @@
 ﻿using DataLayer.Models;
 using DataLayer.Models.LinkingTables;
+using DataLayer.Models.SpecificTypes;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using EFCore.NamingConventions;
@@ -22,7 +23,6 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
     public virtual DbSet<Accessory> Accessories { get; set; }
     public virtual DbSet<AudioEquipmentUnit> AudioEquipmentUnits { get; set; }
     public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
-    public virtual DbSet<SpecificType> SpecificTypes { get; set; }
     public virtual DbSet<Sale> Sales { get; set; }
     public virtual DbSet<SaleView> SalesView { get; set; }
     // linking tables
@@ -30,6 +30,11 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
     public virtual DbSet<AccessorySale> AccessorySale { get; set; }
     public virtual DbSet<AudioEquipmentUnitSale> AudioEquipmentUnitSale { get; set; }
     public virtual DbSet<SheetMusicEditionSale> SheetMusicEditionSale { get; set; }
+    // specific types
+    public virtual DbSet<MusicalInstrumentSpecificType> MusicalInstrumentSpecificTypes { get; set; }
+    public virtual DbSet<AccessorySpecificType> AccessorySpecificTypes { get; set; }
+    public virtual DbSet<AudioEquipmentUnitSpecificType> AudioEquipmentUnitSpecificTypes { get; set; }
+    public virtual DbSet<SheetMusicEditionSpecificType> SheetMusicEditionSpecificTypes { get; set; }
 
     public MusicalShopDbContext(DbContextOptions<MusicalShopDbContext> options)
         : base(options)
@@ -78,11 +83,17 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
             entity.ToView("sales_view");
         });
 
-        modelBuilder.Entity<SpecificType>(entity =>
-        {
-            entity.HasIndex(e => e.Name)
-                  .IsUnique();
-        });
+        //modelBuilder.Entity<SpecificType>(entity =>
+        //{
+        //    entity.HasIndex(e => e.Name)
+        //          .IsUnique();
+        //});
+        modelBuilder.Entity<AccessorySpecificType>();
+        modelBuilder.Entity<MusicalInstrumentSpecificType>();
+        modelBuilder.Entity<AudioEquipmentUnitSpecificType>();
+        modelBuilder.Entity<SheetMusicEditionSpecificType>();
+
+
 
         #region many-to-many sales and goods
 #warning well, i'm able to implement it, but i wanna something like single linking table like goods_sale
@@ -102,6 +113,10 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                                   .HasForeignKey(e => e.SaleId)
                                   .HasConstraintName("FK_sale_musical_instrument_sale_id");
                   });
+#warning implement via reflection foreach (var goodsUnit in goods)
+            entity.HasOne(a => a.SpecificType)
+                  .WithMany()
+                  .HasForeignKey(a => a.SpecificTypeId);
         });
 
         modelBuilder.Entity<Accessory>(entity =>
@@ -120,6 +135,9 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                                   .HasForeignKey(e => e.SaleId)
                                   .HasConstraintName("FK_sale_accessory_sale_id");
                   });
+            entity.HasOne(a => a.SpecificType)
+                  .WithMany()
+                  .HasForeignKey(a => a.SpecificTypeId);
         });
 
         modelBuilder.Entity<AudioEquipmentUnit>(entity =>
@@ -138,6 +156,9 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                                   .HasForeignKey(e => e.SaleId)
                                   .HasConstraintName("FK_sale_aeu_sale_id");
                   });
+            entity.HasOne(a => a.SpecificType)
+                  .WithMany()
+                  .HasForeignKey(a => a.SpecificTypeId);
         });
 
         modelBuilder.Entity<SheetMusicEdition>(entity =>
@@ -156,6 +177,9 @@ public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
                                   .HasForeignKey(e => e.SaleId)
                                   .HasConstraintName("FK_sale_sme_sale_id");
                   });
+            entity.HasOne(a => a.SpecificType)
+                  .WithMany()
+                  .HasForeignKey(a => a.SpecificTypeId);
         });
         #endregion
 

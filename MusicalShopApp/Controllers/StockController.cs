@@ -23,11 +23,9 @@ public class StockController : Controller
         {
             await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
 #warning display success/fail
-            return View(new AddGoodsToWarehouseModel(addGoodsToWarehouseDto, specificTypes, []));
         }
         catch
-        {
+        { }
             return View(new AddGoodsToWarehouseModel(addGoodsToWarehouseDto, specificTypes, [.. addNewGoodsService.Errors]));
-        }
     }
 }
