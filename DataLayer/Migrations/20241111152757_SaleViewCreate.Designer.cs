@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    [Migration("20241111150459_SpecificTypeChangedAttempt")]
-    partial class SpecificTypeChangedAttempt
+    [Migration("20241111152757_SaleViewCreate")]
+    partial class SaleViewCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -492,7 +492,7 @@ namespace DataLayer.Migrations
                     b.ToTable("sheet_music_editions", (string)null);
                 });
 
-            modelBuilder.Entity("DataLayer.SupportClasses.SpecificType", b =>
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AccessorySpecificType", b =>
                 {
                     b.Property<Guid>("SpecificTypeId")
                         .ValueGeneratedOnAdd()
@@ -501,18 +501,67 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
-                    b.HasKey("SpecificTypeId");
+                    b.HasKey("SpecificTypeId")
+                        .HasName("pk_accessory_specific_types");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("ix_specific_types_name");
+                    b.ToTable("accessory_specific_types", (string)null);
+                });
 
-                    b.ToTable("specific_types", (string)null);
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", b =>
+                {
+                    b.Property<Guid>("SpecificTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
 
-                    b.UseTptMappingStrategy();
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.HasKey("SpecificTypeId")
+                        .HasName("pk_audio_equipment_unit_specific_types");
+
+                    b.ToTable("audio_equipment_unit_specific_types", (string)null);
+                });
+
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", b =>
+                {
+                    b.Property<Guid>("SpecificTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.HasKey("SpecificTypeId")
+                        .HasName("pk_musical_instrument_specific_types");
+
+                    b.ToTable("musical_instrument_specific_types", (string)null);
+                });
+
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", b =>
+                {
+                    b.Property<Guid>("SpecificTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.HasKey("SpecificTypeId")
+                        .HasName("pk_sheet_music_edition_specific_types");
+
+                    b.ToTable("sheet_music_edition_specific_types", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -679,34 +728,6 @@ namespace DataLayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AccessorySpecificType", b =>
-                {
-                    b.HasBaseType("DataLayer.SupportClasses.SpecificType");
-
-                    b.ToTable("accessory_specific_types", (string)null);
-                });
-
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", b =>
-                {
-                    b.HasBaseType("DataLayer.SupportClasses.SpecificType");
-
-                    b.ToTable("audio_equipment_unit_specific_types", (string)null);
-                });
-
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", b =>
-                {
-                    b.HasBaseType("DataLayer.SupportClasses.SpecificType");
-
-                    b.ToTable("musical_instrument_specific_types", (string)null);
-                });
-
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", b =>
-                {
-                    b.HasBaseType("DataLayer.SupportClasses.SpecificType");
-
-                    b.ToTable("sheet_music_edition_specific_types", (string)null);
-                });
-
             modelBuilder.Entity("DataLayer.Models.Accessory", b =>
                 {
                     b.HasOne("DataLayer.Models.SpecificTypes.AccessorySpecificType", "SpecificType")
@@ -721,12 +742,12 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.AudioEquipmentUnit", b =>
                 {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "SpecificType")
+                    b.HasOne("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", "SpecificType")
                         .WithMany()
                         .HasForeignKey("SpecificTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_audio_equipment_units_specific_types_specific_type_id");
+                        .HasConstraintName("fk_audio_equipment_units_audio_equipment_unit_specific_types_sp");
 
                     b.Navigation("SpecificType");
                 });
@@ -817,24 +838,24 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
                 {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "SpecificType")
+                    b.HasOne("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", "SpecificType")
                         .WithMany()
                         .HasForeignKey("SpecificTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_musical_instruments_specific_types_specific_type_id");
+                        .HasConstraintName("fk_musical_instruments_musical_instrument_specific_types_specif");
 
                     b.Navigation("SpecificType");
                 });
 
             modelBuilder.Entity("DataLayer.Models.SheetMusicEdition", b =>
                 {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "SpecificType")
+                    b.HasOne("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", "SpecificType")
                         .WithMany()
                         .HasForeignKey("SpecificTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_sheet_music_editions_specific_types_specific_type_id");
+                        .HasConstraintName("fk_sheet_music_editions_sheet_music_edition_specific_types_spec");
 
                     b.Navigation("SpecificType");
                 });
@@ -894,46 +915,6 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AccessorySpecificType", b =>
-                {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", null)
-                        .WithOne()
-                        .HasForeignKey("DataLayer.Models.SpecificTypes.AccessorySpecificType", "SpecificTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_accessory_specific_types_specific_types_specific_type_id");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", b =>
-                {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", null)
-                        .WithOne()
-                        .HasForeignKey("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", "SpecificTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_audio_equipment_unit_specific_types_specific_types_specific_");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", b =>
-                {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", null)
-                        .WithOne()
-                        .HasForeignKey("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", "SpecificTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_musical_instrument_specific_types_specific_types_specific_ty");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", b =>
-                {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", null)
-                        .WithOne()
-                        .HasForeignKey("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", "SpecificTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_sheet_music_edition_specific_types_specific_types_specific_t");
                 });
 #pragma warning restore 612, 618
         }

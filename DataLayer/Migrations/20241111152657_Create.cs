@@ -16,6 +16,20 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "accessory_specific_types",
+                columns: table => new
+                {
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_accessory_specific_types", x => x.specific_type_id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -70,6 +84,34 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "audio_equipment_unit_specific_types",
+                columns: table => new
+                {
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_audio_equipment_unit_specific_types", x => x.specific_type_id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "musical_instrument_specific_types",
+                columns: table => new
+                {
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_musical_instrument_specific_types", x => x.specific_type_id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "sales",
                 columns: table => new
                 {
@@ -90,38 +132,48 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "sales_view",
+                name: "sheet_music_edition_specific_types",
                 columns: table => new
                 {
-                    sale_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    sale_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    reservation_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    returning_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    total = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    paid_by = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    goods_units_count = table.Column<int>(type: "int", nullable: false),
-                    is_paid = table.Column<bool>(type: "tinyint(1)", nullable: false)
-                },
-                constraints: table =>
-                {
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "specific_type",
-                columns: table => new
-                {
-                    specific_type_id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_specific_type", x => x.specific_type_id);
+                    table.PrimaryKey("pk_sheet_music_edition_specific_types", x => x.specific_type_id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "accessories",
+                columns: table => new
+                {
+                    goods_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    color = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    size = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    soft_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    price = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_accessories", x => x.goods_id);
+                    table.ForeignKey(
+                        name: "fk_accessories_accessory_specific_types_specific_type_id",
+                        column: x => x.specific_type_id,
+                        principalTable: "accessory_specific_types",
+                        principalColumn: "specific_type_id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -253,38 +305,6 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "accessories",
-                columns: table => new
-                {
-                    goods_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    color = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    size = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    soft_deleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    price = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    type_id = table.Column<int>(type: "int", nullable: false),
-                    receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_accessories", x => x.goods_id);
-                    table.ForeignKey(
-                        name: "fk_accessories_specific_type_type_id",
-                        column: x => x.type_id,
-                        principalTable: "specific_type",
-                        principalColumn: "specific_type_id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "audio_equipment_units",
                 columns: table => new
                 {
@@ -297,16 +317,16 @@ namespace DataLayer.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    type_id = table.Column<int>(type: "int", nullable: false),
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_audio_equipment_units", x => x.goods_id);
                     table.ForeignKey(
-                        name: "fk_audio_equipment_units_specific_type_type_id",
-                        column: x => x.type_id,
-                        principalTable: "specific_type",
+                        name: "fk_audio_equipment_units_audio_equipment_unit_specific_types_sp",
+                        column: x => x.specific_type_id,
+                        principalTable: "audio_equipment_unit_specific_types",
                         principalColumn: "specific_type_id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -329,16 +349,16 @@ namespace DataLayer.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    type_id = table.Column<int>(type: "int", nullable: false),
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_musical_instruments", x => x.goods_id);
                     table.ForeignKey(
-                        name: "fk_musical_instruments_specific_type_type_id",
-                        column: x => x.type_id,
-                        principalTable: "specific_type",
+                        name: "fk_musical_instruments_musical_instrument_specific_types_specif",
+                        column: x => x.specific_type_id,
+                        principalTable: "musical_instrument_specific_types",
                         principalColumn: "specific_type_id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -360,16 +380,16 @@ namespace DataLayer.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    type_id = table.Column<int>(type: "int", nullable: false),
+                    specific_type_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     receipt_date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_sheet_music_editions", x => x.goods_id);
                     table.ForeignKey(
-                        name: "fk_sheet_music_editions_specific_type_type_id",
-                        column: x => x.type_id,
-                        principalTable: "specific_type",
+                        name: "fk_sheet_music_editions_sheet_music_edition_specific_types_spec",
+                        column: x => x.specific_type_id,
+                        principalTable: "sheet_music_edition_specific_types",
                         principalColumn: "specific_type_id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -476,9 +496,9 @@ namespace DataLayer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "ix_accessories_type_id",
+                name: "ix_accessories_specific_type_id",
                 table: "accessories",
-                column: "type_id");
+                column: "specific_type_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_accessory_sale_accessory_id",
@@ -528,9 +548,9 @@ namespace DataLayer.Migrations
                 column: "audio_equipment_unit_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_audio_equipment_units_type_id",
+                name: "ix_audio_equipment_units_specific_type_id",
                 table: "audio_equipment_units",
-                column: "type_id");
+                column: "specific_type_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_musical_instrument_sale_musical_instrument_id",
@@ -538,9 +558,9 @@ namespace DataLayer.Migrations
                 column: "musical_instrument_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_musical_instruments_type_id",
+                name: "ix_musical_instruments_specific_type_id",
                 table: "musical_instruments",
-                column: "type_id");
+                column: "specific_type_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_sheet_music_edition_sale_sheet_music_edition_id",
@@ -548,9 +568,9 @@ namespace DataLayer.Migrations
                 column: "sheet_music_edition_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_sheet_music_editions_type_id",
+                name: "ix_sheet_music_editions_specific_type_id",
                 table: "sheet_music_editions",
-                column: "type_id");
+                column: "specific_type_id");
         }
 
         /// <inheritdoc />
@@ -581,9 +601,6 @@ namespace DataLayer.Migrations
                 name: "musical_instrument_sale");
 
             migrationBuilder.DropTable(
-                name: "sales_view");
-
-            migrationBuilder.DropTable(
                 name: "sheet_music_edition_sale");
 
             migrationBuilder.DropTable(
@@ -608,7 +625,16 @@ namespace DataLayer.Migrations
                 name: "sales");
 
             migrationBuilder.DropTable(
-                name: "specific_type");
+                name: "accessory_specific_types");
+
+            migrationBuilder.DropTable(
+                name: "audio_equipment_unit_specific_types");
+
+            migrationBuilder.DropTable(
+                name: "musical_instrument_specific_types");
+
+            migrationBuilder.DropTable(
+                name: "sheet_music_edition_specific_types");
         }
     }
 }

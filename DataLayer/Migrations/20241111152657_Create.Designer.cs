@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    [Migration("20241107140733_SpecificTypeUnique")]
-    partial class SpecificTypeUnique
+    [Migration("20241111152657_Create")]
+    partial class Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,20 +66,20 @@ namespace DataLayer.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
+                    b.Property<Guid>("SpecificTypeId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("status");
 
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int")
-                        .HasColumnName("type_id");
-
                     b.HasKey("GoodsId")
                         .HasName("pk_accessories");
 
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_accessories_type_id");
+                    b.HasIndex("SpecificTypeId")
+                        .HasDatabaseName("ix_accessories_specific_type_id");
 
                     b.ToTable("accessories", (string)null);
                 });
@@ -195,20 +195,20 @@ namespace DataLayer.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
+                    b.Property<Guid>("SpecificTypeId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("status");
 
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int")
-                        .HasColumnName("type_id");
-
                     b.HasKey("GoodsId")
                         .HasName("pk_audio_equipment_units");
 
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_audio_equipment_units_type_id");
+                    b.HasIndex("SpecificTypeId")
+                        .HasDatabaseName("ix_audio_equipment_units_specific_type_id");
 
                     b.ToTable("audio_equipment_units", (string)null);
                 });
@@ -333,20 +333,20 @@ namespace DataLayer.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
+                    b.Property<Guid>("SpecificTypeId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("status");
 
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int")
-                        .HasColumnName("type_id");
-
                     b.HasKey("GoodsId")
                         .HasName("pk_musical_instruments");
 
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_musical_instruments_type_id");
+                    b.HasIndex("SpecificTypeId")
+                        .HasDatabaseName("ix_musical_instruments_specific_type_id");
 
                     b.ToTable("musical_instruments", (string)null);
                 });
@@ -474,46 +474,94 @@ namespace DataLayer.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
+                    b.Property<Guid>("SpecificTypeId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("status");
 
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int")
-                        .HasColumnName("type_id");
-
                     b.HasKey("GoodsId")
                         .HasName("pk_sheet_music_editions");
 
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_sheet_music_editions_type_id");
+                    b.HasIndex("SpecificTypeId")
+                        .HasDatabaseName("ix_sheet_music_editions_specific_type_id");
 
                     b.ToTable("sheet_music_editions", (string)null);
                 });
 
-            modelBuilder.Entity("DataLayer.SupportClasses.SpecificType", b =>
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AccessorySpecificType", b =>
                 {
-                    b.Property<int>("SpecificTypeId")
+                    b.Property<Guid>("SpecificTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("char(36)")
                         .HasColumnName("specific_type_id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SpecificTypeId"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.HasKey("SpecificTypeId")
-                        .HasName("pk_specific_type");
+                        .HasName("pk_accessory_specific_types");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("ix_specific_type_name");
+                    b.ToTable("accessory_specific_types", (string)null);
+                });
 
-                    b.ToTable("specific_type", (string)null);
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", b =>
+                {
+                    b.Property<Guid>("SpecificTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.HasKey("SpecificTypeId")
+                        .HasName("pk_audio_equipment_unit_specific_types");
+
+                    b.ToTable("audio_equipment_unit_specific_types", (string)null);
+                });
+
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", b =>
+                {
+                    b.Property<Guid>("SpecificTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.HasKey("SpecificTypeId")
+                        .HasName("pk_musical_instrument_specific_types");
+
+                    b.ToTable("musical_instrument_specific_types", (string)null);
+                });
+
+            modelBuilder.Entity("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", b =>
+                {
+                    b.Property<Guid>("SpecificTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("specific_type_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.HasKey("SpecificTypeId")
+                        .HasName("pk_sheet_music_edition_specific_types");
+
+                    b.ToTable("sheet_music_edition_specific_types", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -682,26 +730,26 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Accessory", b =>
                 {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
+                    b.HasOne("DataLayer.Models.SpecificTypes.AccessorySpecificType", "SpecificType")
                         .WithMany()
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("SpecificTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_accessories_specific_type_type_id");
+                        .HasConstraintName("fk_accessories_accessory_specific_types_specific_type_id");
 
-                    b.Navigation("Type");
+                    b.Navigation("SpecificType");
                 });
 
             modelBuilder.Entity("DataLayer.Models.AudioEquipmentUnit", b =>
                 {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
+                    b.HasOne("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", "SpecificType")
                         .WithMany()
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("SpecificTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_audio_equipment_units_specific_type_type_id");
+                        .HasConstraintName("fk_audio_equipment_units_audio_equipment_unit_specific_types_sp");
 
-                    b.Navigation("Type");
+                    b.Navigation("SpecificType");
                 });
 
             modelBuilder.Entity("DataLayer.Models.LinkingTables.AccessorySale", b =>
@@ -790,26 +838,26 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.MusicalInstrument", b =>
                 {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
+                    b.HasOne("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", "SpecificType")
                         .WithMany()
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("SpecificTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_musical_instruments_specific_type_type_id");
+                        .HasConstraintName("fk_musical_instruments_musical_instrument_specific_types_specif");
 
-                    b.Navigation("Type");
+                    b.Navigation("SpecificType");
                 });
 
             modelBuilder.Entity("DataLayer.Models.SheetMusicEdition", b =>
                 {
-                    b.HasOne("DataLayer.SupportClasses.SpecificType", "Type")
+                    b.HasOne("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", "SpecificType")
                         .WithMany()
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("SpecificTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_sheet_music_editions_specific_type_type_id");
+                        .HasConstraintName("fk_sheet_music_editions_sheet_music_edition_specific_types_spec");
 
-                    b.Navigation("Type");
+                    b.Navigation("SpecificType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
