@@ -12,6 +12,7 @@ using NetCore.AutoRegisterDi;
 using System.Reflection;
 using DbAccessLayer;
 using ServiceLayer;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 #warning rub it off
 const bool USE_MYSQL = true;
@@ -38,7 +39,11 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddRoles<IdentityRole>()
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<MusicalShopDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewOptions(options =>
+    {
+        options.HtmlHelperOptions.FormInputRenderMode = FormInputRenderMode.AlwaysUseCurrentCulture;
+    });
 
 builder.Services.RegisterServiceLayer();
 builder.Services.RegisterDbAccessLayer();

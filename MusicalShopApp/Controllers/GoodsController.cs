@@ -64,16 +64,7 @@ public class GoodsController : CartViewerBaseController
     [HttpGet]
     public async Task<IActionResult> Search([FromServices] IGetRelevantGoodsService getRelevantGoodsService, [FromServices] IGetGoodsService getGoodsService, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] DateTime? fromReceiptDate, [FromQuery] DateTime? toReceiptDate, [FromQuery] KindOfGoods kindOfGoods, [FromQuery] GoodsOrderBy orderBy, [FromQuery] GoodsStatus status, [FromQuery] bool ascendingOrder, [FromQuery] string q = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 15)
     {
-        //var kindOfGoodsEnum = Enum.Parse<KindOfGoods>(kindOfGoods, ignoreCase: true);
-        //var statusEnum = Enum.Parse<GoodsStatus>(status, ignoreCase: true);
-        //DateTime? fromReceiptDateTime = null;
-        //DateTime? toReceiptDateTime = null;
-        //if (DateTime.TryParse(fromReceiptDate, out DateTime temp))
-        //    fromReceiptDateTime = temp;
-        //if (DateTime.TryParse(toReceiptDate, out temp))
-        //    toReceiptDateTime = temp;
         var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromReceiptDate.LocalToUniversal(), toReceiptDate.LocalToUniversal(), kindOfGoods, status);
-        //var orderByEnum = Enum.Parse<GoodsOrderBy>(orderBy, ignoreCase: true);
         var orderByOptions = new GoodsOrderByOptions(orderBy, ascendingOrder);
 #warning what about query object pattern here?
         var goodsIds = await getRelevantGoodsService.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
