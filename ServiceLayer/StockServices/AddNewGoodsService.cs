@@ -20,7 +20,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
 {
     public async Task<List<Goods>> AddNewGoods(AddGoodsToWarehouseDto dto)
     {
-        var specificTypeEntity = await specificTypesService.GetSpecificType(dto.SpecificType);
+        var specificTypeEntity = await specificTypesService.GetSpecificType(dto.SpecificType, dto.KindOfGoods);
 
 #warning business logic is here, but little
         if (dto.Price <= 0)

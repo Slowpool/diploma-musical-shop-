@@ -1,5 +1,4 @@
-﻿using Common;
-using DataLayer.Models;
+﻿using DataLayer.Models;
 using DataLayer.Models.SpecificTypes;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Identity;
@@ -22,35 +21,35 @@ public class DataSeeding
         {
             SaleId = Guid.Parse("01937ce5-61c0-4eaf-8580-aeeb653b2191"),
             Status = SaleStatus.Sold,
-            SaleDate = new DateTime(2023, 10, 1, 10, 49, 07),
+            LocalSaleDate = new DateTime(2023, 10, 1, 10, 49, 07),
             PaidBy = SalePaidBy.BankCard
         },
         new()
         {
             SaleId = Guid.Parse("0d9ee495-b44c-4465-ba45-6fa6ff562579"),
             Status = SaleStatus.Sold,
-            SaleDate = new DateTime(2023, 1, 19, 17, 19, 11),
+            LocalSaleDate = new DateTime(2023, 1, 19, 17, 19, 11),
             PaidBy = SalePaidBy.Cash
         },
         new()
         {
             SaleId = Guid.Parse("e4c58ecd-e871-4579-b7bc-58563b67299a"),
             Status = SaleStatus.Sold,
-            SaleDate = new DateTime(2023, 5, 28, 15, 50, 01),
+            LocalSaleDate = new DateTime(2023, 5, 28, 15, 50, 01),
             PaidBy = SalePaidBy.BankCard
         },
         new()
         {
             SaleId = Guid.Parse("286b3185-c983-4339-86c9-b12fc8fac5e2"),
             Status = SaleStatus.Returned,
-            SaleDate = new DateTime(2023, 3, 1, 13, 20, 35),
+            LocalSaleDate = new DateTime(2023, 3, 1, 13, 20, 35),
             PaidBy = SalePaidBy.Cash
         },
         new()
         {
             SaleId = Guid.Parse("bf1cf858-f491-4234-9331-0b4abef9f0e8"),
             Status = SaleStatus.Reserved,
-            SaleDate = new DateTime(2023, 7, 9, 10, 11, 35),
+            LocalSaleDate = new DateTime(2023, 7, 9, 10, 11, 35),
             PaidBy = SalePaidBy.BankCard
         },
         ];

@@ -4,6 +4,7 @@ using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    partial class MusicalShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241113085158_GoodsDeliveryAdd")]
+    partial class GoodsDeliveryAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +37,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("color");
 
-                    b.Property<Guid?>("DeliveryId")
+                    b.Property<Guid?>("DeliveryGoodsDeliveryId")
                         .HasColumnType("char(36)")
-                        .HasColumnName("delivery_id");
+                        .HasColumnName("delivery_goods_delivery_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -79,8 +82,8 @@ namespace DataLayer.Migrations
                     b.HasKey("GoodsId")
                         .HasName("pk_accessories");
 
-                    b.HasIndex("DeliveryId")
-                        .HasDatabaseName("ix_accessories_delivery_id");
+                    b.HasIndex("DeliveryGoodsDeliveryId")
+                        .HasDatabaseName("ix_accessories_delivery_goods_delivery_id");
 
                     b.HasIndex("SpecificTypeId")
                         .HasDatabaseName("ix_accessories_specific_type_id");
@@ -175,9 +178,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("goods_id");
 
-                    b.Property<Guid?>("DeliveryId")
+                    b.Property<Guid?>("DeliveryGoodsDeliveryId")
                         .HasColumnType("char(36)")
-                        .HasColumnName("delivery_id");
+                        .HasColumnName("delivery_goods_delivery_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -215,8 +218,8 @@ namespace DataLayer.Migrations
                     b.HasKey("GoodsId")
                         .HasName("pk_audio_equipment_units");
 
-                    b.HasIndex("DeliveryId")
-                        .HasDatabaseName("ix_audio_equipment_units_delivery_id");
+                    b.HasIndex("DeliveryGoodsDeliveryId")
+                        .HasDatabaseName("ix_audio_equipment_units_delivery_goods_delivery_id");
 
                     b.HasIndex("SpecificTypeId")
                         .HasDatabaseName("ix_audio_equipment_units_specific_type_id");
@@ -328,9 +331,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("goods_id");
 
-                    b.Property<Guid?>("DeliveryId")
+                    b.Property<Guid?>("DeliveryGoodsDeliveryId")
                         .HasColumnType("char(36)")
-                        .HasColumnName("delivery_id");
+                        .HasColumnName("delivery_goods_delivery_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -381,8 +384,8 @@ namespace DataLayer.Migrations
                     b.HasKey("GoodsId")
                         .HasName("pk_musical_instruments");
 
-                    b.HasIndex("DeliveryId")
-                        .HasDatabaseName("ix_musical_instruments_delivery_id");
+                    b.HasIndex("DeliveryGoodsDeliveryId")
+                        .HasDatabaseName("ix_musical_instruments_delivery_goods_delivery_id");
 
                     b.HasIndex("SpecificTypeId")
                         .HasDatabaseName("ix_musical_instruments_specific_type_id");
@@ -485,9 +488,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("author");
 
-                    b.Property<Guid?>("DeliveryId")
+                    b.Property<Guid?>("DeliveryGoodsDeliveryId")
                         .HasColumnType("char(36)")
-                        .HasColumnName("delivery_id");
+                        .HasColumnName("delivery_goods_delivery_id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -529,8 +532,8 @@ namespace DataLayer.Migrations
                     b.HasKey("GoodsId")
                         .HasName("pk_sheet_music_editions");
 
-                    b.HasIndex("DeliveryId")
-                        .HasDatabaseName("ix_sheet_music_editions_delivery_id");
+                    b.HasIndex("DeliveryGoodsDeliveryId")
+                        .HasDatabaseName("ix_sheet_music_editions_delivery_goods_delivery_id");
 
                     b.HasIndex("SpecificTypeId")
                         .HasDatabaseName("ix_sheet_music_editions_specific_type_id");
@@ -778,8 +781,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.GoodsDelivery", "Delivery")
                         .WithMany("Accessories")
-                        .HasForeignKey("DeliveryId")
-                        .HasConstraintName("fk_accessories_goods_delivery_delivery_id");
+                        .HasForeignKey("DeliveryGoodsDeliveryId")
+                        .HasConstraintName("fk_accessories_goods_delivery_delivery_goods_delivery_id");
 
                     b.HasOne("DataLayer.Models.SpecificTypes.AccessorySpecificType", "SpecificType")
                         .WithMany()
@@ -797,8 +800,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.GoodsDelivery", "Delivery")
                         .WithMany("AudioEquipmentUnits")
-                        .HasForeignKey("DeliveryId")
-                        .HasConstraintName("fk_audio_equipment_units_goods_delivery_delivery_id");
+                        .HasForeignKey("DeliveryGoodsDeliveryId")
+                        .HasConstraintName("fk_audio_equipment_units_goods_delivery_delivery_goods_delivery");
 
                     b.HasOne("DataLayer.Models.SpecificTypes.AudioEquipmentUnitSpecificType", "SpecificType")
                         .WithMany()
@@ -900,8 +903,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.GoodsDelivery", "Delivery")
                         .WithMany("MusicalInstruments")
-                        .HasForeignKey("DeliveryId")
-                        .HasConstraintName("fk_musical_instruments_goods_delivery_delivery_id");
+                        .HasForeignKey("DeliveryGoodsDeliveryId")
+                        .HasConstraintName("fk_musical_instruments_goods_delivery_delivery_goods_delivery_id");
 
                     b.HasOne("DataLayer.Models.SpecificTypes.MusicalInstrumentSpecificType", "SpecificType")
                         .WithMany()
@@ -919,8 +922,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.GoodsDelivery", "Delivery")
                         .WithMany("SheetMusicEditions")
-                        .HasForeignKey("DeliveryId")
-                        .HasConstraintName("fk_sheet_music_editions_goods_delivery_delivery_id");
+                        .HasForeignKey("DeliveryGoodsDeliveryId")
+                        .HasConstraintName("fk_sheet_music_editions_goods_delivery_delivery_goods_delivery_");
 
                     b.HasOne("DataLayer.Models.SpecificTypes.SheetMusicEditionSpecificType", "SpecificType")
                         .WithMany()

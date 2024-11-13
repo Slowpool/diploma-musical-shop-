@@ -1,5 +1,4 @@
-﻿using Common;
-using DataLayer.Common;
+﻿using DataLayer.Common;
 using ServiceLayer.GoodsServices;
 using System;
 using System.Collections.Generic;
@@ -13,10 +12,11 @@ namespace ServiceLayer.SalesServices;
 public interface ICartService
 {
     Task<string> MoveGoodsBackToCart(Guid saleId);
-    Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes);
+    Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndKinds);
 
 }
 #warning so where is services for adding to and removing from the cart
+#warning UPD: what did i mean?
 public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSaleService goodsRelatedToSaleService, IGetGoodsService getGoodsService, IUpdateGoodsStatusService updateGoodsStatusService) : ICartService
 {
     public async Task<string> MoveGoodsBackToCart(Guid saleId)
@@ -30,6 +30,7 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSa
         }
         context.SaveChanges();
 
+        // TODO change to kind of goods
         return string.Join(GoodsIdSeparator, goods.Select(goodsUnit => new { goodsUnit.GoodsId, TypeName = goodsUnit.GetType().Name }));
         
     }

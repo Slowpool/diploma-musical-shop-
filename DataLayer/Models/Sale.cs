@@ -21,11 +21,32 @@ public class Sale
     public DateTimeOffset? ReturningDate { get; set; }
 #warning is it working correctly?
     [NotMapped]
-    public DateTime? LocalSaleDate => SaleDate?.LocalDateTime;
+    public DateTime? LocalSaleDate
+    {
+        get => SaleDate?.LocalDateTime;
+        set
+        {
+            SaleDate = value.LocalToUniversal();
+        }
+    }
     [NotMapped]
-    public DateTime? LocalReservationDate => ReservationDate?.LocalDateTime;
+    public DateTime? LocalReservationDate
+    {
+        get => ReservationDate?.LocalDateTime;
+        set
+        {
+            ReservationDate = value.LocalToUniversal();
+        }
+    }
     [NotMapped]
-    public DateTime? LocalReturningDate => ReturningDate?.LocalDateTime;
+    public DateTime? LocalReturningDate
+    {
+        get => ReturningDate?.LocalDateTime;
+        set
+        {
+            ReturningDate = value.LocalToUniversal();
+        }
+    }
 #warning how to add references to several tables like ICollection<Goods> Answer: view. Upd: bad answer.
     [Required]
     public SaleStatus Status { get; set; }

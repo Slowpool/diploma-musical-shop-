@@ -1,6 +1,7 @@
 ﻿using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.NotMapped;
+using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,38 +15,24 @@ using static Common.ConstValues;
 namespace ServiceLayer.GoodsServices;
 public interface IGetGoodsService
 {
-    Task<Goods> GetGoodsInfo<T>(string id)
-        where T : Goods, new();
     Task<Type> GetGoodsType(string goodsId);
-    Task<Goods> GetGoodsInfo(string id, Type type);
-    Task<GoodsUnitSearchDto> GetReadableGoodsInfo<T>(string id)
-        where T : Goods, new();
-
-    Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, Type type);
+    Task<Goods> GetGoodsInfo(string id, KindOfGoods kindOfGoods);
+    Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, KindOfGoods kindOfGoods);
+    static abstract dynamic GetSpecificGoodsByKind(MusicalShopDbContext context, KindOfGoods kindOfGoods);
 }
 public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
 {
-    public async Task<Goods> GetGoodsInfo<T>(string id)
-        where T : Goods, new()
+    public async Task<Goods> GetGoodsInfo(string id, KindOfGoods kindOfGoods)
     {
-        IQueryable<Goods>? targetGoods = new T() switch
-        {
-            MusicalInstrument => context.MusicalInstruments,
-            Accessory => context.Accessories,
-            AudioEquipmentUnit => context.AudioEquipmentUnits,
-            SheetMusicEdition => context.SheetMusicEditions,
-            _ => throw new ArgumentException("unknown type")
-        };
-        return (T)await targetGoods
-            // TODO specific type
+        IQueryable<Goods> goods = GetGoodsService.GetSpecificGoodsByKind(context, kindOfGoods);
+        return await goods
             //.Include(g => g.SpecificType)
             .SingleAsync(e => e.GoodsId.ToString() == id)!;
     }
 
-    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo<T>(string id)
-        where T : Goods, new()
+    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, KindOfGoods kindOfGoods)
     {
-        Goods goods = await GetGoodsInfo<T>(id);
+        Goods goods = await GetGoodsInfo(id, kindOfGoods);
 
         GoodsUnitSearchDto dto = new()
         {
@@ -55,13 +42,13 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
             Price = goods.Price
         };
 
-        switch (typeof(T).Name)
+        switch (kindOfGoods)
         {
             // I know that handling these things this way is a bit wrong, but come+on. they are so similar-alike.
-            case "MusicalInstrument":
-            case "SheetMusicEdition":
+            case KindOfGoods.MusicalInstruments:
+            case KindOfGoods.SheetMusicEditions:
                 dynamic specificGoods = goods;
-                string from = typeof(T).Name == "MusicalInstrument" ? specificGoods.Manufacturer : specificGoods.Author;
+                string from = kindOfGoods == KindOfGoods.MusicalInstruments ? specificGoods.Manufacturer : specificGoods.Author;
                 dto.Name = $"{specificGoods.Name} от \"{from}\"";
                 string description = $"Год выпуска: {specificGoods.ReleaseYear}. ";
                 //int remainedLength = MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION - description.Length;
@@ -71,14 +58,14 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
                 //    description += "...";
                 dto.Description = description;
                 break;
-            case "Accessory":
+            case KindOfGoods.Accessories:
                 var accessory = (Accessory)goods;
                 string color = accessory.Color.ToLower();
                 string size = accessory.Size.ToLower();
                 dto.Name = $"{accessory.Name}, {color}, {size}";
                 dto.Description = accessory.Description;//[..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
                 break;
-            case "AudioEquipmentUnit":
+            case KindOfGoods.AudioEquipmentUnits:
                 var audioEquipmentUnit = (AudioEquipmentUnit)goods;
                 dto.Name = $"{audioEquipmentUnit.Name}";
                 dto.Description = audioEquipmentUnit.Description;// [..MAX_LENGTH_OF_BRIEF_GOODS_DESCRIPTION];
@@ -87,27 +74,12 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
                 throw new ArgumentException("unknown type");
         };
         return dto;
-
-    }
-
-    /// <summary>
-    /// This method redirect to <see cref="GetReadableGoodsInfo{T}"/>
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo(string id, Type type)
-    {
-        MethodInfo methodInfo = typeof(GetGoodsService).GetMethod("GetReadableGoodsInfo", BindingFlags.IgnoreReturn | BindingFlags.Public | BindingFlags.Instance, [typeof(string)])!;
-        methodInfo = methodInfo.MakeGenericMethod(type);
-
-        return await (Task<GoodsUnitSearchDto>)methodInfo.Invoke(this, [id])!;
     }
 
     public async Task<Type> GetGoodsType(string goodsId)
     {
         Guid guid = Guid.Parse(goodsId);
-#warning why dijkstra said that function should have only one output
+#warning dijkstra claimed that function should have only one output
         if (await context.Accessories.ContainsAsync(new Accessory() { GoodsId = guid }))
             return typeof(Accessory);
         else if (await context.MusicalInstruments.ContainsAsync(new MusicalInstrument() { GoodsId = guid }))
@@ -120,9 +92,13 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
             throw new Exception();
     }
 
-    public async Task<Goods> GetGoodsInfo(string id, Type type)
-    {
-        var methodInfo = typeof(GetGoodsService).GetMethod("GetGoodsInfo", BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreReturn, [typeof(string)]);
-        return await (Task<Goods>)methodInfo.MakeGenericMethod(type).Invoke(this, [id]);
-    }
+    public static dynamic GetSpecificGoodsByKind(MusicalShopDbContext context, KindOfGoods kindOfGoods)
+        => kindOfGoods switch
+        {
+            KindOfGoods.Accessories => context.Accessories,
+            KindOfGoods.AudioEquipmentUnits => context.AudioEquipmentUnits,
+            KindOfGoods.MusicalInstruments => context.MusicalInstruments,
+            KindOfGoods.SheetMusicEditions => context.SheetMusicEditions,
+            _ => throw new Exception()
+        };
 }

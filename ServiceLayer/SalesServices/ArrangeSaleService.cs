@@ -19,18 +19,18 @@ namespace ServiceLayer.SalesServices;
 
 public interface IArrangeSaleService : IErrorStorage
 {
-    Task<Guid?> ArrangeSale(Dictionary<Guid, Type> goods, SalePaidBy paidBy);
+    Task<Guid?> ArrangeSale(Dictionary<Guid, KindOfGoods> goods, SalePaidBy paidBy);
 }
 public class ArrangeSaleService(MusicalShopDbContext context, IGetGoodsService service) : ErrorStorage, IArrangeSaleService
 {
     private readonly RunnerWriteDb<ArrangeSaleDto, Task<Guid?>> runner = new RunnerWriteDb<ArrangeSaleDto, Task<Guid?>>(context, new ArrangeSaleAction(new SalesDbAccess(context)));
     public override IImmutableList<ValidationResult> Errors => runner.Errors;
-    public async Task<Guid?> ArrangeSale(Dictionary<Guid, Type> goods, SalePaidBy paidBy)
+    public async Task<Guid?> ArrangeSale(Dictionary<Guid, KindOfGoods> goods, SalePaidBy paidBy)
     {
         List<Goods> goodsList = [];
-        foreach(var (goodsId, goodsType) in goods)
+        foreach(var (goodsId, kindOfGoods) in goods)
         {
-            goodsList.Add(await service.GetGoodsInfo(goodsId.ToString(), goodsType));
+            goodsList.Add(await service.GetGoodsInfo(goodsId.ToString(), kindOfGoods));
         }
         return await runner.Run(new ArrangeSaleDto(goodsList, paidBy));
     }

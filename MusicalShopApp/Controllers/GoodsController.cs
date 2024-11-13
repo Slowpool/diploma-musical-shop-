@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
-using Common;
 using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.NotMapped;
@@ -68,17 +67,12 @@ public class GoodsController : CartViewerBaseController
         var orderByOptions = new GoodsOrderByOptions(orderBy, ascendingOrder);
 #warning what about query object pattern here?
         var goodsIds = await getRelevantGoodsService.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
-#warning it could be simpler
-        var type = kindOfGoods == KindOfGoods.Accessories ? typeof(Accessory) :
-            kindOfGoods == KindOfGoods.AudioEquipmentUnits ? typeof(AudioEquipmentUnit) :
-            kindOfGoods == KindOfGoods.MusicalInstruments ? typeof(MusicalInstrument) :
-            typeof(SheetMusicEdition);
         List<GoodsUnitSearchDto> goodsUnitModels = new();
         foreach (var goodsId in goodsIds)
         {
             try
             {
-                var goodsUnitSearchDto = await getGoodsService.GetReadableGoodsInfo(goodsId, type);
+                var goodsUnitSearchDto = await getGoodsService.GetReadableGoodsInfo(goodsId, kindOfGoods);
                 goodsUnitSearchDto.IsInCart = IsInCart(goodsId);
                 goodsUnitModels.Add(goodsUnitSearchDto);
             }
@@ -128,10 +122,10 @@ public class GoodsController : CartViewerBaseController
         {
             foreach (var goodsIdAndType in GoodsIdsAndTypes!)
             {
-                string goodsId = GetGoodsId(goodsIdAndType);
+                string goodsId = CutGoodsId(goodsIdAndType);
                 try
                 {
-                    var goodsInfo = await service.GetReadableGoodsInfo(goodsId, GetGoodsType(goodsIdAndType));
+                    var goodsInfo = await service.GetReadableGoodsInfo(goodsId, CutGoodsKind(goodsIdAndType));
                     goodsInfo.IsInCart = IsInCart(goodsId);
                     GoodsUnitModels.Add(goodsInfo);
                 }

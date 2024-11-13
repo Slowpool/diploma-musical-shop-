@@ -8,8 +8,6 @@ using System.Runtime.Intrinsics.X86;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Common;
 public static class CommonExtensions

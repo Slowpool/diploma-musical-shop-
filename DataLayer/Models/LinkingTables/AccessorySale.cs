@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common;
 
 namespace DataLayer.Models.LinkingTables;
 #warning how to make it automatically

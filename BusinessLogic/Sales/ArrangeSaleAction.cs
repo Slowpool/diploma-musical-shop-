@@ -36,7 +36,7 @@ public class ArrangeSaleAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<
         {
             SaleId = Guid.NewGuid(),
             PaidBy = dto.PaidBy,
-            SaleDate = DateTimeOffset.UtcNow,
+            LocalSaleDate = DateTime.UtcNow,
             Status = SaleStatus.Sold
         };
         dbAccess.CreateSale(sale, dto.GoodsForSale);

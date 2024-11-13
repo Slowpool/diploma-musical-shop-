@@ -1,5 +1,4 @@
-﻿using Common;
-using DataLayer.NotMapped;
+﻿using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,11 +23,11 @@ public class SalesController : CartViewerBaseController
     [HttpPost]
     public async Task<IActionResult> ArrangeSale([FromServices] IArrangeSaleService service, [FromQuery] SalePaidBy paidBy)
     {
-        Dictionary<Guid, Type> goods = [];
+        Dictionary<Guid, KindOfGoods> goods = [];
 #warning don't like this yellow underlining line
         foreach(var goodsIdAndType in GoodsIdsAndTypes)
         {
-            goods[Guid.Parse(GetGoodsId(goodsIdAndType))] = GetGoodsType(goodsIdAndType);
+            goods[Guid.Parse(CutGoodsId(goodsIdAndType))] = CutGoodsKind(goodsIdAndType);
         }
         Guid? saleId = await service.ArrangeSale(goods, paidBy);
         if (!service.HasErrors)
