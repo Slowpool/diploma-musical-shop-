@@ -23,36 +23,20 @@ public interface IGetRelevantGoodsService
     // Kinda complex task to implement.
     // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
     // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
-    Task<List<string>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize);
+    Task<List<Guid>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize);
 }
 
 #warning i ain't wanna create service for each action
-public class GetRelevantGoodsService(MusicalShopDbContext context) : IGetRelevantGoodsService
+public class GetRelevantGoodsService(MusicalShopDbContext context, IGetGoodsService getGoodsService) : IGetRelevantGoodsService
 {
     // Kinda complex task to implement.
     // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
     // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
-    public async Task<List<string>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize)
+    public async Task<List<Guid>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize)
     {
-        IQueryable<Goods> goods;
+        IQueryable<Goods> goods = getGoodsService.GetSpecificGoodsByKind(filterOptions.KindOfGoods);
+
 #warning separate it in few methods
-        switch (filterOptions.KindOfGoods)
-        {
-            case KindOfGoods.Accessories:
-                goods = context.Accessories;
-                break;
-            case KindOfGoods.AudioEquipmentUnits:
-                goods = context.AudioEquipmentUnits;
-                break;
-            case KindOfGoods.MusicalInstruments:
-                goods = context.MusicalInstruments;
-                break;
-            case KindOfGoods.SheetMusicEditions:
-                goods = context.SheetMusicEditions;
-                break;
-            default:
-                throw new Exception();
-        }
         goods = goods.AsNoTracking();
 #warning explicit load of specificType or something else
         //goods = goods.Include(g => g.SpecificType);
@@ -73,8 +57,6 @@ public class GetRelevantGoodsService(MusicalShopDbContext context) : IGetRelevan
         {
             case GoodsOrderBy.Relevance:
                 goods = orderByOptions.AscendingOrder
-                    //? goods.OrderBy(g => g.SpecificType.Name)
-                    //: goods.OrderByDescending(g => g.SpecificType.Name);
                     ? goods.OrderBy(g => g.GoodsId)
                     : goods.OrderByDescending(g => g.GoodsId);
                 break;
@@ -92,10 +74,10 @@ public class GetRelevantGoodsService(MusicalShopDbContext context) : IGetRelevan
                 throw new Exception();
         }
         goods = goods.Page(page, pageSize);
-        List<string> result = [];
+        List<Guid> result = [];
         foreach (var goodsUnit in goods)
         {
-            result.Add(goodsUnit.GoodsId.ToString());
+            result.Add(goodsUnit.GoodsId);
         }
         return result;
 

@@ -25,7 +25,7 @@ public class SalesController : CartViewerBaseController
     {
         Dictionary<Guid, KindOfGoods> goods = [];
 #warning don't like this yellow underlining line
-        foreach(var goodsIdAndType in GoodsIdsAndTypes)
+        foreach(var goodsIdAndType in GoodsIdsAndKinds)
         {
             goods[Guid.Parse(CutGoodsId(goodsIdAndType))] = CutGoodsKind(goodsIdAndType);
         }

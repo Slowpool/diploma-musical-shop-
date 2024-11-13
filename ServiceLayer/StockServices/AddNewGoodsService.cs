@@ -69,7 +69,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             };
             goods.Description = dto.Description;
             goods.Name = dto.GoodsName;
-            goods.Price = dto.Price;
+            goods.Price = (int)dto.Price;
             goods.ReceiptDate = receiptDate;
             goods.SoftDeleted = false;
             goods.Status = dto.Status;

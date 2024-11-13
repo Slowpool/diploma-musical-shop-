@@ -16,5 +16,10 @@ public static class CommonNames
 
     public const string GoodsIdsInCartKey = "cart-with-goods";
 	public const char GoodsIdSeparator = ',';
-	public const char GoodsIdTypeSeparator = '|';
+	public const char GoodsIdAndKindSeparator = '|';
+
+    public const string MusicalInstruments = "Музыкальные инструменты";
+    public const string AudioEquipmentUnits = "Аудиооборудование";
+    public const string Accessories = "Аксессуары";
+    public const string SheetMusicEditions = "Нотные издания";
 }

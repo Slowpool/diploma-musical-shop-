@@ -1,4 +1,5 @@
-﻿@model ViewModelsLayer.Stock.AddGoodsToWarehouseModel?
+﻿@using DataLayer.SupportClasses
+@model ViewModelsLayer.Stock.AddGoodsToWarehouseModel?
 
 @{
 #pragma warning disable 8602
@@ -20,21 +21,51 @@
             <label for="new-goods-kind-sme">Нотное издание</label>
         </span>
         <div>
-            <label>Тип</label>
-            <span>
-                @{
-                    List<SelectListItem> items = [];
-                    foreach (var specificType in Model.SpecificTypes)
+            <label asp-for="AddGoodsToWarehouseDto.SpecificType">Тип</label>
+            @{
+                SelectListGroup mi = new()
+                {
+                    Name = CommonNames.MusicalInstruments,
+                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.MusicalInstruments
+                };
+                SelectListGroup sme = new()
+                {
+                    Name = CommonNames.SheetMusicEditions,
+                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.SheetMusicEditions
+                };
+                SelectListGroup a = new()
+                {
+                    Name = CommonNames.Accessories,
+                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.Accessories
+                };
+                SelectListGroup aeu = new()
+                {
+                    Name = CommonNames.AudioEquipmentUnits,
+                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.AudioEquipmentUnits
+                };
+#warning default formatter went crazy
+                List<SelectListItem> items = [];
+                foreach (var (kindOfGoods, specificTypes) in Model.SpecificTypes)
+                {
+                    SelectListGroup currentGroup = kindOfGoods == KindOfGoods.Accessories ? a :
+                    kindOfGoods == KindOfGoods.AudioEquipmentUnits ? aeu :
+                    kindOfGoods == KindOfGoods.MusicalInstruments ? mi :
+                    kindOfGoods == KindOfGoods.SheetMusicEditions ? sme :
+                    throw new ArgumentException();
+                    foreach (var specificType in specificTypes)
+                        items.Add(new SelectListItem
                     {
-                        items.Add(new SelectListItem(specificType, specificType));
-                    }
+                        Text = specificType,
+                        Value = specificType,
+                        Group = currentGroup
+                    });
                 }
                 <select asp-for="AddGoodsToWarehouseDto.SpecificType" asp-items="items"></select>
-            </span>
+            }
         </div>
         <div>
-            <label for="new-goods-price">Цена</label>
-            <input id="new-goods-price" asp-for="AddGoodsToWarehouseDto.Price" type="number" />
+            <label asp-for="AddGoodsToWarehouseDto.Price">Цена</label>
+            <input asp-for="AddGoodsToWarehouseDto.Price" type="number" />
         </div>
         <div>
             <label for="new-goods-status">Вид</label>
@@ -46,22 +77,25 @@
             </span>
         </div>
         <div>
-            <label for="new-goods-description">Описание</label>
-            <input id="new-goods-description" asp-for="AddGoodsToWarehouseDto.Description" />
+            <label asp-for="AddGoodsToWarehouseDto.Description">Описание</label>
+            <input asp-for="AddGoodsToWarehouseDto.Description" />
         </div>
         <div>
-            <label for="new-goods-quantity">Количество</label>
-            <input id="new-goods-quantity" asp-for="AddGoodsToWarehouseDto.NumberOfUnits" type="number" />
+            <label asp-for="AddGoodsToWarehouseDto.NumberOfUnits">Количество</label>
+            <input asp-for="AddGoodsToWarehouseDto.NumberOfUnits" type="number" />
         </div>
     </div>
     <div>
-        Специфичные для вида данные
+        <label for="specific-data">Специфичные для вида данные</label>
         <div id="specific-data">
-            
         </div>
     </div>
     <input type="submit" action="post" value="Добавить" />
 </form>
 @{
 #pragma warning restore 8602
+}
+@section Scripts
+{
+    <script src="~/js/addGoodsToWarehouse.js"></script>
 }

@@ -16,7 +16,7 @@ public class UpdateGoodsStatusService(IGetGoodsService getGoodsService, MusicalS
 {
     public async Task<Guid> UpdateGoodsStatus(Guid goodsId, KindOfGoods kindOfGoods, GoodsStatus status)
     {
-        Goods goods = await getGoodsService.GetGoodsInfo(goodsId.ToString(), kindOfGoods);
+        Goods goods = await getGoodsService.GetGoodsInfo(goodsId, kindOfGoods);
         goods.Status = status;
         context.Update(goods);
         context.SaveChanges();

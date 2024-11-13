@@ -1,4 +1,5 @@
 ﻿using DataLayer.Common;
+using DataLayer.SupportClasses;
 using ServiceLayer.GoodsServices;
 using System;
 using System.Collections.Generic;
@@ -12,65 +13,66 @@ namespace ServiceLayer.SalesServices;
 public interface ICartService
 {
     Task<string> MoveGoodsBackToCart(Guid saleId);
-    Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndKinds);
+    Task<string?> AddToOrRemoveFromCart(Guid goodsId, bool isInCart, string? goodsIdsAndKinds);
 
 }
 #warning so where is services for adding to and removing from the cart
 #warning UPD: what did i mean?
 public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSaleService goodsRelatedToSaleService, IGetGoodsService getGoodsService, IUpdateGoodsStatusService updateGoodsStatusService) : ICartService
 {
+#warning encapsulate it in Cart class
     public async Task<string> MoveGoodsBackToCart(Guid saleId)
     {
         var goods = await goodsRelatedToSaleService.GetOrigGoodsUnitsRelatedToSale(saleId);
         foreach (var goodsUnit in goods)
         {
             goodsUnit.Status = GoodsStatus.InStock;
-#warning does this update works?
             context.Update(goodsUnit);
         }
         context.SaveChanges();
 
         // TODO change to kind of goods
         return string.Join(GoodsIdSeparator, goods.Select(goodsUnit => new { goodsUnit.GoodsId, TypeName = goodsUnit.GetType().Name }));
-        
+
     }
 
     // dirty stuff
-    public async Task<string?> AddToOrRemoveFromCart(string goodsId, bool isInCart, string? goodsIdsAndTypes)
+    public async Task<string> AddToOrRemoveFromCart(Guid goodsId, bool isInCart, string? goodsIdsAndKinds)
     {
-        List<string> goodsIdsTypesList = goodsIdsAndTypes?.Split(GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries)
-                                                         ?.ToList() ?? [];
-        var goodsType = await getGoodsService.GetGoodsType(goodsId);
-        var goods = await getGoodsService.GetGoodsInfo(goodsId, goodsType);
-        List<string> updatedGoodsIdsList = isInCart ? RemoveFromCart(goodsId, goodsIdsTypesList) : await AddInCart(goodsId, goodsType.Name, goodsIdsTypesList);
-        await updateGoodsStatusService.UpdateGoodsStatus(goods.GoodsId, goodsType, isInCart ? GoodsStatus.InStock : GoodsStatus.InCart);
-        if (updatedGoodsIdsList == null)
-            return null;
+        List<string> goodsIdsAndKindsList = goodsIdsAndKinds?.Split(GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries)
+                                                            ?.ToList() ?? [];
+        var kindOfGoods = await getGoodsService.GetGoodsKind(goodsId);
+#warning is it validation? did i try to validate whether goods unit exists in db?
+        var goods = await getGoodsService.GetGoodsInfo(goodsId, kindOfGoods);
+        if (isInCart)
+            RemoveFromCart(goodsId, goodsIdsAndKindsList);
         else
-            return string.Join(GoodsIdSeparator, updatedGoodsIdsList);
+            AddInCart(goodsId, kindOfGoods, goodsIdsAndKindsList);
+        await updateGoodsStatusService.UpdateGoodsStatus(goods.GoodsId, kindOfGoods, isInCart ? GoodsStatus.InStock : GoodsStatus.InCart);
+        return string.Join(GoodsIdSeparator, goodsIdsAndKindsList);
     }
 
-    private List<string> RemoveFromCart(string goodsId, List<string> goodsIdsTypesList)
+    private List<string> RemoveFromCart(Guid goodsId, List<string> goodsIdsAndKindsList)
     {
-        foreach (var goodsIdType in goodsIdsTypesList)
+        foreach (var goodsIdAndKind in goodsIdsAndKindsList)
         {
-            if (goodsIdType.Contains(goodsId))
+            if (goodsIdAndKind.Contains(goodsId.ToString()))
             {
-                goodsIdsTypesList.Remove(goodsIdType);
-                return goodsIdsTypesList;
+                goodsIdsAndKindsList.Remove(goodsIdAndKind);
+                return goodsIdsAndKindsList;
             }
         }
         throw new Exception("removing from cart error");
     }
 
-    private async Task<List<string>> AddInCart(string goodsId, string goodsType, List<string> goodsIdsTypesList)
+    private List<string> AddInCart(Guid goodsId, KindOfGoods kindOfGoods, List<string> goodsIdsAndKindsList)
     {
-        foreach (var idType in goodsIdsTypesList)
+        foreach (var goodsIdAndKind in goodsIdsAndKindsList)
         {
-            if (idType.Contains(goodsId))
+            if (goodsIdAndKind.Contains(goodsId.ToString()))
                 throw new Exception("this goods is already in cart");
         }
-        goodsIdsTypesList.Add($"{goodsId}{GoodsIdTypeSeparator}{goodsType}");
-        return goodsIdsTypesList;
+        goodsIdsAndKindsList.Add($"{goodsId}{GoodsIdAndKindSeparator}{kindOfGoods}");
+        return goodsIdsAndKindsList;
     }
 }

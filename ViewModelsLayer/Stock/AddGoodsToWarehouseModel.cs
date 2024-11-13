@@ -7,4 +7,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ViewModelsLayer.Stock;
-public record class AddGoodsToWarehouseModel(AddGoodsToWarehouseDto? AddGoodsToWarehouseDto, List<string> SpecificTypes, List<ValidationResult> Errors);
+public record class AddGoodsToWarehouseModel(AddGoodsToWarehouseDto AddGoodsToWarehouseDto, Dictionary<KindOfGoods, List<string>> SpecificTypes, List<ValidationResult> Errors);

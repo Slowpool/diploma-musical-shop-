@@ -30,7 +30,7 @@ public class ArrangeSaleService(MusicalShopDbContext context, IGetGoodsService s
         List<Goods> goodsList = [];
         foreach(var (goodsId, kindOfGoods) in goods)
         {
-            goodsList.Add(await service.GetGoodsInfo(goodsId.ToString(), kindOfGoods));
+            goodsList.Add(await service.GetGoodsInfo(goodsId, kindOfGoods));
         }
         return await runner.Run(new ArrangeSaleDto(goodsList, paidBy));
     }

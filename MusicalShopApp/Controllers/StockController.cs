@@ -11,14 +11,15 @@ public class StockController : Controller
     [HttpGet]
     public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService)
     {
-        var specificTypes = await specificTypesService.GetSpecificTypes();
-        return View(new AddGoodsToWarehouseModel(null, specificTypes, []));
+        var specificTypes = await specificTypesService.GetAllSpecificTypes();
+        var defaultDto = new AddGoodsToWarehouseDto(default, KindOfGoods.MusicalInstruments, default, default, GoodsStatus.InStock, default, default, default);
+        return View(new AddGoodsToWarehouseModel(defaultDto, specificTypes, []));
     }
 
     [HttpPost]
     public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService, [FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
     {
-        var specificTypes = await specificTypesService.GetSpecificTypes();
+        var specificTypes = await specificTypesService.GetAllSpecificTypes();
         try
         {
             await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
@@ -26,6 +27,6 @@ public class StockController : Controller
         }
         catch
         { }
-            return View(new AddGoodsToWarehouseModel(addGoodsToWarehouseDto, specificTypes, [.. addNewGoodsService.Errors]));
+        return View(new AddGoodsToWarehouseModel(addGoodsToWarehouseDto, specificTypes, [.. addNewGoodsService.Errors]));
     }
 }

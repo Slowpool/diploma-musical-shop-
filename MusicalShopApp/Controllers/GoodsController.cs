@@ -90,19 +90,19 @@ public class GoodsController : CartViewerBaseController
             GoodsUnitModels = goodsUnitModels,
             ResultsCount = goodsUnitModels.Count()
         };
-        ViewBag.Session = GoodsIdsInCart;
+        ViewBag.Session = GoodsIdsAndKindsInCart;
         return View(goodsSearchModel);
     }
 
     [ValidateAntiForgeryToken]
     [Authorize(Roles = CommonNames.SellerRole)]
-    public async Task<ContentResult> AddToOrRemoveFromCart([FromServices] ICartService cartService, string goodsId, bool isInCart)
+    public async Task<ContentResult> AddToOrRemoveFromCart([FromServices] ICartService cartService, Guid goodsId, bool isInCart)
     {
-        string? newGoodsIdsAndTypes = await cartService.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsInCart);
+        string? newGoodsIdsAndTypes = await cartService.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsAndKindsInCart);
         if (newGoodsIdsAndTypes == null)
             return Content("failed");
         SetNewCartValue(newGoodsIdsAndTypes);
-        ViewBag.Session = GoodsIdsInCart;
+        ViewBag.Session = GoodsIdsAndKindsInCart;
         return Content("success");
     }
 
@@ -118,24 +118,27 @@ public class GoodsController : CartViewerBaseController
     {
 #warning probably the same code as in search
         List<GoodsUnitSearchDto> GoodsUnitModels = new();
-        if (!string.IsNullOrEmpty(GoodsIdsInCart))
+        if (!string.IsNullOrEmpty(GoodsIdsAndKindsInCart))
         {
-            foreach (var goodsIdAndType in GoodsIdsAndTypes!)
+            foreach (var goodsIdAndType in GoodsIdsAndKinds!)
             {
-                string goodsId = CutGoodsId(goodsIdAndType);
-                try
-                {
-                    var goodsInfo = await service.GetReadableGoodsInfo(goodsId, CutGoodsKind(goodsIdAndType));
-                    goodsInfo.IsInCart = IsInCart(goodsId);
-                    GoodsUnitModels.Add(goodsInfo);
-                }
-                catch
-                {
-                    _logger.LogWarning("unknown goods id in cart: {goodsId}", goodsId);
-                }
+                Guid goodsId = Guid.Parse(CutGoodsId(goodsIdAndType));
+                var goodsInfo = await service.GetReadableGoodsInfo(goodsId, CutGoodsKind(goodsIdAndType));
+                goodsInfo.IsInCart = IsInCart(goodsId);
+                GoodsUnitModels.Add(goodsInfo);
+                //try
+                //{
+                //    var goodsInfo = await service.GetReadableGoodsInfo(goodsId, CutGoodsKind(goodsIdAndType));
+                //    goodsInfo.IsInCart = IsInCart(goodsId);
+                //    GoodsUnitModels.Add(goodsInfo);
+                //}
+                //catch
+                //{
+                //    _logger.LogError("unknown goods id in cart: {goodsId}", goodsId);
+                //}
             }
         }
-        ViewBag.Session = GoodsIdsInCart;
+        ViewBag.Session = GoodsIdsAndKindsInCart;
         return View(GoodsUnitModels);
     }
 }
