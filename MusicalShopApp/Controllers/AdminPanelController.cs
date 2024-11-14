@@ -21,11 +21,11 @@ namespace MusicalShopApp.Controllers
 			return View();
 		}
 
-		[HttpPost(template: "/backup")]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Backup([FromQuery] string? backupPath)
+		//[HttpGet(template: "/backup")]
+		[HttpGet]
+		public async Task<IActionResult> Backup([FromQuery] string? backupPath, [FromServices] IBackupService service)
 		{
-#warning implement
+			await service.CreateBackup(backupPath);
 			return RedirectToAction("Index");
 		}
 

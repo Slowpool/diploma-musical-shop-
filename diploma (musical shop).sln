@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccessLayer", "DbAccessLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayerTests", "ServiceLayerTests\ServiceLayerTests.csproj", "{3562583E-335E-4246-A989-12B7CA836CFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelsLayer", "ViewModelsLayer\ViewModelsLayer.csproj", "{54D6E029-9D5F-4982-8C13-ADA1B8E72084}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModelsLayer", "ViewModelsLayer\ViewModelsLayer.csproj", "{54D6E029-9D5F-4982-8C13-ADA1B8E72084}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

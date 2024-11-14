@@ -1,12 +1,17 @@
 ﻿@{
-	ViewBag.Title = "Панель администратора";
+    ViewBag.Title = "Панель администратора";
 }
 
-<form asp-controller="Goods" asp-action="Backup" method="POST">
-    <label for="backupPath">Укажите путь (опционально):</label>
-    <input name="backupPath" id="backup-path" style="width:350px;" placeholder="Путь для резервной копии" />
-    <br>
-    <button type="submit">Сделать резервную копию</button>
+<form asp-controller="AdminPanel" asp-action="Backup" method="get">
+    <div>
+        <label for="backupPath">Укажите путь (опционально):</label>
+        @{
+#warning style
+#warning ajax
+        }
+        <input name="backupPath" id="backup-path" style="width:350px;" placeholder="Путь для резервной копии" />
+    </div>
+    <input type="submit" value="Сделать резервную копию" />
 </form>
 <br>
 <br>
