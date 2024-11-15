@@ -46,7 +46,8 @@
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "PurchaseReturn", "Index", "Возврат покупки"))
 
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Reports", "Index", "Отчеты"))
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "AdminPanel", "Index", "Панель администратора"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Admin", "Users", "Пользователи"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Admin", "Backups", "Резервное копирование"))
 
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.StockManagerRole, "Stock", "AddGoodsToWarehouse", "Поставка товара"))
                         @* @(string.IsNullOrWhiteSpace(ViewBag.Session) ? "null" : ViewBag.Session) *@

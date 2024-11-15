@@ -1,5 +1,4 @@
-﻿
-namespace BusinessLogicLayer.AdminPanel.Dto;
+﻿namespace BusinessLogicLayer.Admin.Dto;
 #warning i think this is inappropriate place for dto
 public class UpdateUserDto
 {

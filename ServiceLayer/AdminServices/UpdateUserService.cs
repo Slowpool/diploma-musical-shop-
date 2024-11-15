@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DataLayer.Models;
 using DataLayer.Common;
-using DbAccessLayer.AdminPanel;
+using DbAccessLayer.Admin;
 using BizLogicBase.Validation;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using BizLogicBase.Common;
-using BusinessLogicLayer.AdminPanel.Dto;
-using BusinessLogicLayer.AdminPanel;
+using BusinessLogicLayer.Admin;
 using Microsoft.AspNetCore.Identity;
+using BusinessLogicLayer.Admin.Dto;
 
 namespace ServiceLayer.AdminServices;
 

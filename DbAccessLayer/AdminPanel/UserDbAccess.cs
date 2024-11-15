@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbAccessLayer.AdminPanel;
+namespace DbAccessLayer.Admin;
 public interface IUserDbAccess
 {
     Task<AppUser?> GetUserInfo(Guid userId);

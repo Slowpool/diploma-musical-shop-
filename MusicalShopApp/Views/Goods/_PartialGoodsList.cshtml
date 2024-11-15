@@ -41,8 +41,7 @@
                       data-ajax-mode="replace"
                       data-ajax-update="#adding-removing-results@(i)">
                     @* @Html.AntiForgeryToken() *@
-                    @* <input class="add-remove-cart-button" type="button" action="submit" value="@(Model[i].IsInCart ? "-" : "+")" /> *@
-                    <button type="submit" class="add-remove-cart-button">@(Model[i].IsInCart ? "-" : "+")</button>
+                    <button class="add-remove-cart-button" type="submit">@(Model[i].IsInCart ? "-" : "+")</button>
                     <input type="hidden" value="@Model[i].Id" name="goodsId" />
                     <input type="hidden" value="@Model[i].IsInCart.ToString()" name="isInCart" />
                 </form>
@@ -53,3 +52,8 @@
         <hr class="narrow" />
     }
 </div>
+
+@* quote: "A Razor section defined in a partial view is invisible to parent markup files. The section is only visible to the partial view in which it's defined." *@
+@* @section Scripts {
+    <script src="~/js/goodsList.js"></script>
+} *@

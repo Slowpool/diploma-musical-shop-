@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using BizLogicBase;
 using BizLogicBase.Common;
 using BizLogicBase.Validation;
-using BusinessLogicLayer.AdminPanel.Dto;
+using BusinessLogicLayer.Admin.Dto;
 using DataLayer.Models;
-using DbAccessLayer.AdminPanel;
+using DbAccessLayer.Admin;
 
-namespace BusinessLogicLayer.AdminPanel;
+namespace BusinessLogicLayer.Admin;
 public class UpdateUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<UpdateUserDto, Task<string?>>
 {
     public async Task<string?> Action(UpdateUserDto dto)
@@ -66,8 +66,8 @@ public class UpdateUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<Up
             if (dto.PhoneNumberConfirmed)
                 AddError("Номер телефона указан как подтврежденный, но его значение отсутствует", nameof(user.PhoneNumberConfirmed), nameof(user.PhoneNumber));
         }
-        else if(dto.PhoneNumber.Length != 11)
-                AddError("Номер телефона указан не полностью", nameof(user.PhoneNumber));
+        else if (dto.PhoneNumber.Length != 11)
+            AddError("Номер телефона указан не полностью", nameof(user.PhoneNumber));
 
         user.PhoneNumber = dto.PhoneNumber;
         user.PhoneNumberConfirmed = dto.PhoneNumberConfirmed;

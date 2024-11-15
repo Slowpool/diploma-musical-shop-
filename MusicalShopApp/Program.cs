@@ -1,6 +1,6 @@
 using DataLayer.Common;
 using DataLayer.Models;
-using DbAccessLayer.AdminPanel;
+using DbAccessLayer.Admin;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;

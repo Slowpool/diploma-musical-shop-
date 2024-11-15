@@ -31,7 +31,8 @@ public class GoodsController : CartViewerBaseController
 
     public IActionResult Index()
     {
-        return View();
+#warning if i don't need it, delete view and this method and then change the url for Товары in _Layout
+        return RedirectToAction("Search");
     }
 
     public IActionResult Privacy()

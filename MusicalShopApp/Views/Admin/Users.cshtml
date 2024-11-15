@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Панель администратора";
+}
+
+
+@{
+    await Html.RenderPartialAsync("_UsersListWithActions");
+}
+
+@section Scripts {
+    <script src="~/js/users.js"></script>
+}

@@ -1,10 +1,10 @@
 ﻿using BizLogicBase.Common;
 using BizLogicBase.Validation;
-using BusinessLogicLayer.AdminPanel;
-using BusinessLogicLayer.AdminPanel.Dto;
+using BusinessLogicLayer.Admin.Dto;
+using BusinessLogicLayer.Admin;
 using DataLayer.Common;
 using DataLayer.Models;
-using DbAccessLayer.AdminPanel;
+using DbAccessLayer.Admin;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

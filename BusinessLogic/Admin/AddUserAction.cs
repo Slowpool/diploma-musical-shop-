@@ -1,15 +1,15 @@
 ﻿using BizLogicBase.Common;
 using BizLogicBase.Validation;
-using BusinessLogicLayer.AdminPanel.Dto;
+using BusinessLogicLayer.Admin.Dto;
 using DataLayer.Models;
-using DbAccessLayer.AdminPanel;
+using DbAccessLayer.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogicLayer.AdminPanel;
+namespace BusinessLogicLayer.Admin;
 #warning this is a CRUD, so it should be in service layer
 public class AddUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<NewUserDto, Task<string?>>
 {
@@ -39,5 +39,5 @@ public class AddUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<NewUs
         newUser.PhoneNumber = dto.PhoneNumber;
         newUser.PhoneNumberConfirmed = dto.PhoneNumberConfirmed;
         return await dbAccess.AddUser(newUser, dto.Password);
-    }   
+    }
 }

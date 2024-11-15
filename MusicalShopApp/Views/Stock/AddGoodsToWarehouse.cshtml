@@ -24,25 +24,25 @@
             <label asp-for="AddGoodsToWarehouseDto.SpecificType">Тип</label>
             @{
                 SelectListGroup mi = new()
-                {
-                    Name = CommonNames.MusicalInstruments,
-                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.MusicalInstruments
-                };
+            {
+                Name = CommonNames.MusicalInstruments,
+                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.MusicalInstruments
+            };
                 SelectListGroup sme = new()
-                {
-                    Name = CommonNames.SheetMusicEditions,
-                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.SheetMusicEditions
-                };
+            {
+                Name = CommonNames.SheetMusicEditions,
+                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.SheetMusicEditions
+            };
                 SelectListGroup a = new()
-                {
-                    Name = CommonNames.Accessories,
-                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.Accessories
-                };
+            {
+                Name = CommonNames.Accessories,
+                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.Accessories
+            };
                 SelectListGroup aeu = new()
-                {
-                    Name = CommonNames.AudioEquipmentUnits,
-                    Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.AudioEquipmentUnits
-                };
+            {
+                Name = CommonNames.AudioEquipmentUnits,
+                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.AudioEquipmentUnits
+            };
 #warning default formatter went crazy
                 List<SelectListItem> items = [];
                 foreach (var (kindOfGoods, specificTypes) in Model.SpecificTypes)
