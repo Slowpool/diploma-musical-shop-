@@ -4,12 +4,15 @@
 
 <form asp-controller="AdminPanel" asp-action="Backup" method="get">
     <div>
-        <label for="backupPath">Укажите путь (опционально):</label>
+        <label for="backup-directory-path">Укажите директорию (опционально):</label>
         @{
 #warning style
 #warning ajax
         }
-        <input name="backupPath" id="backup-path" style="width:350px;" placeholder="Путь для резервной копии" />
+        <input name="backupDirectoryPath" id="backup-directory-path" style="width:350px;" placeholder="Путь для резервной копии" />
+        <h6>
+            Пример директории: C:/sql/backups
+        </h6>
     </div>
     <input type="submit" value="Сделать резервную копию" />
 </form>

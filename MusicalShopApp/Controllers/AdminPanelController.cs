@@ -21,11 +21,10 @@ namespace MusicalShopApp.Controllers
 			return View();
 		}
 
-		//[HttpGet(template: "/backup")]
 		[HttpGet]
-		public async Task<IActionResult> Backup([FromQuery] string? backupPath, [FromServices] IBackupService service)
+		public async Task<IActionResult> Backup([FromQuery] string? backupDirectoryPath, [FromServices] IBackupService service)
 		{
-			await service.CreateBackup(backupPath);
+			await service.CreateBackup(backupDirectoryPath);
 			return RedirectToAction("Index");
 		}
 
