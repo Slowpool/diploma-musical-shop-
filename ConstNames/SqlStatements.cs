@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Common;
 public class SqlStatements
 {
+    #region Migrations statements
     public const string DropSalesView = @"DROP VIEW `sales_view`;";
     public const string DropTotalPriceFunction = @"DROP FUNCTION `total_price`;";
     public const string DropTotalGoodsUnitsCountFunction = @"DROP FUNCTION `total_price`;";
@@ -40,4 +41,14 @@ public class SqlStatements
               SET total = total + IFNULL((SELECT SUM(`goods`.`price`) FROM `audio_equipment_unit_sale` AS `linking_table` LEFT JOIN `audio_equipment_units` AS `goods` ON `goods`.`goods_id` = `linking_table`.`audio_equipment_unit_id` WHERE `linking_table`.`sale_id` = `sale_id`), 0);
               RETURN total;
           END;";
+    #endregion
+
+    #region Backup statements
+    public const string RestoreDatabaseFromBackup = 
+        //"DROP DATABASE IF EXISTS `{0}`; " +
+        //                                            "CREATE DATABASE `{0}`; " +
+        //                                            "USE `{0}`; " +
+                                                    "SOURCE {1}; ";
+
+    #endregion
 }

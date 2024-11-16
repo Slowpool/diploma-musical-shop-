@@ -95,9 +95,10 @@ public class GoodsController : CartViewerBaseController
         return View(goodsSearchModel);
     }
 
-    [ValidateAntiForgeryToken]
+    [HttpPost]
     [Authorize(Roles = CommonNames.SellerRole)]
-    public async Task<ContentResult> AddToOrRemoveFromCart([FromServices] ICartService cartService, Guid goodsId, bool isInCart)
+    [ValidateAntiForgeryToken]
+    public async Task<ContentResult> AddToOrRemoveFromCart(Guid goodsId, bool isInCart, [FromServices] ICartService cartService)
     {
         string? newGoodsIdsAndTypes = await cartService.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsAndKindsInCart);
         if (newGoodsIdsAndTypes == null)
@@ -114,6 +115,7 @@ public class GoodsController : CartViewerBaseController
     //    return RedirectToAction("Search");
     //}
 
+    [HttpGet]
     [Authorize(Roles = CommonNames.SellerRole)]
     public async Task<IActionResult> Cart([FromServices] IGetGoodsService service)
     {

@@ -43,12 +43,12 @@ namespace MusicalShopApp.Controllers
 
         [HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<ContentResult> CreateBackup([FromQuery] string note, [FromServices] IBackupService service)
+		public async Task<ContentResult> CreateBackup([FromForm] string note, [FromServices] IBackupService service)
 		{
 			try
 			{
 				string fullFileName = await service.CreateBackup(note);
-				return Content("Успешно. Название файла: ");
+				return Content($"Успешно. Название файла: {fullFileName}");
 			}
 			catch
 			{
@@ -58,12 +58,19 @@ namespace MusicalShopApp.Controllers
         }
 
 		[HttpPost]
-        public async Task<ContentResult> RestoreBackup([FromBody] DateTime dateTime, [FromServices] IBackupService service)
+		[ValidateAntiForgeryToken]
+        public async Task<ContentResult> RestoreBackup([FromForm] DateTime? dateTime, [FromServices] IBackupService service)
 		{
-			return Content("Успех");
+			if (dateTime is null)
+				return Content("Укажите резервную копию для восстановления");
+			await service.ApplyRestoreFromBackup((DateTime)dateTime);
+			if (service.HasErrors)
+#warning i don't think it's correctly. The view details in the controller?
+				return Content(string.Join("<br>", service.Errors));
+			return Content("База данных восстановлена");
 		}
 
-        [HttpPost()]
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 #warning rename to EditUsers
 		public async Task<IActionResult> Edit(UpdateUserDto dto, [FromServices] IUpdateUserService service)

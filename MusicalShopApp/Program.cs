@@ -69,7 +69,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateAsyncScope())
 {
-    await DataSeeding.SeedAsync(scope.ServiceProvider);
+    //await DataSeeding.SeedAsync(scope.ServiceProvider);
 }
 
 // Configure the HTTP request pipeline.

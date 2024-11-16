@@ -12,16 +12,23 @@
         @{
 #warning style
         }
-        <input name="note" id="backup-note" style="width:350px;" placeholder="Примечание" />
+        <input id="backup-note" name="note" type="text" style="width:350px;" placeholder="Примечание" />
     </div>
     @* @Html.AntiForgeryToken() *@
     <input type="submit" value="Сделать резервную копию" />
     <span id="backup-create-result"></span>
 </form>
-@if (Model.BackupsDict.Count == 0)
+@if (Model is null)
 {
     <p>
-        Резервные копии не обнаружены. Создайте ее, чтобы в будущем выполнить востановление.
+        @{#warning something went wrong}
+        Что-то пошло не так.
+    </p>
+}
+else if (Model.BackupsDict.Count == 0)
+{
+    <p>
+        Резервные копии не обнаружены. Вы можете выполнить резервное копирование базы данных для восстановления данных в будущем.
     </p>
 }
 else
@@ -29,14 +36,14 @@ else
     <form method="post"
           data-ajax="true"
           data-ajax-method="post"
-          data-ajax-url="@Url.Action(controller: "Admin", action: "CreateBackup")"
+          data-ajax-url="@Url.Action(controller: "Admin", action: "RestoreBackup")"
           data-ajax-mode="replace"
-          data-ajax-update="#backup-create-result">
+          data-ajax-update="#backup-restore-result">
         <table>
             <thead>
                 <tr>
                     <td>Выбор копии для восстановления</td>
-                    <td>Дата выполнения копии</td>
+                    <td>Дата и время выполнения копии (UTC)</td>
                     <td>Примечание</td>
                 </tr>
             </thead>
@@ -54,7 +61,7 @@ else
             </tbody>
         </table>
         <input type="submit" value="Оформить восстановление" />
-        <span id="backup-create-result"></span>
+        <span id="backup-restore-result"></span>
     </form>
 }
 

@@ -21,7 +21,7 @@ public class SalesController : CartViewerBaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> ArrangeSale([FromServices] IArrangeSaleService service, [FromQuery] SalePaidBy paidBy)
+    public async Task<IActionResult> ArrangeSale([FromQuery] SalePaidBy paidBy, [FromServices] IArrangeSaleService service)
     {
         Dictionary<Guid, KindOfGoods> goods = [];
 #warning don't like this yellow underlining line
@@ -44,6 +44,7 @@ public class SalesController : CartViewerBaseController
         SetNewCartValue(string.Empty);
     }
 
+    [HttpGet]
     public async Task<IActionResult> PayForSale([FromQuery] Guid saleId)
     {
         return View(saleId);
