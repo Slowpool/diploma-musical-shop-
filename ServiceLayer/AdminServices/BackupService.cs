@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Humanizer.Configuration;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,7 +24,7 @@ public class BackupService(IConfiguration configuration) : IBackupService
         string password = (string)userCredentials.GetValue(typeof(string), "Password")!;
         string hostName = (string)backupInfo.GetValue(typeof(string), "Host")!;
         string dbName = (string)backupInfo.GetValue(typeof(string), "Database")!;
-        string directory = (string)backupInfo.GetValue(typeof(string), "DefaultDirectory")!;
+        string directory = (string)backupInfo.GetValue(typeof(string), "Directory")!;
         EnsureDirectory(directory);
         string fileName = $"{DateTimeOffset.UtcNow.ToString(ConstValues.BackupDateTimeFormat)}{note}.sql";
         string fullFileName = Path.Combine(directory, fileName);
@@ -47,6 +48,19 @@ public class BackupService(IConfiguration configuration) : IBackupService
     }
     public async Task<Dictionary<DateTime, string>> GetBackups()
     {
-
+        var backupInfo = configuration.GetRequiredSection("BackupData");
+        string directoryName = (string)backupInfo.GetValue(typeof(string), "Directory")!;
+        DirectoryInfo backupsDirectory = new(directoryName);
+        if (!backupsDirectory.Exists)
+            return [];
+        Dictionary<DateTime, string> result = [];
+        DateTime dateTime;
+        const string format = ConstValues.BackupDateTimeFormat;
+        foreach (var fileInfo in backupsDirectory.GetFiles())
+        {
+            dateTime = DateTime.ParseExact(fileInfo.Name.AsSpan(0, format.Length), format, null);
+            result[dateTime] = fileInfo.Name.AsSpan(format.Length, fileInfo.Name.Length - ".sql".Length).ToString();
+        }
+        return result;
     }
 }

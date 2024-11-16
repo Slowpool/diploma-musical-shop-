@@ -4,7 +4,7 @@
 <form id="create-backup-form" method="post"
       data-ajax="true"
       data-ajax-method="post"
-      data-ajax-url="@Url.Action(controller: "Admin", action: "Backup")"
+      data-ajax-url="@Url.Action(controller: "Admin", action: "CreateBackup")"
       data-ajax-mode="replace"
       data-ajax-update="#backup-create-result">
     <div>
@@ -12,43 +12,51 @@
         @{
 #warning style
         }
-        <input name="note" id="backup-note" style="width:350px;" placeholder="Путь для резервной копии" />
+        <input name="note" id="backup-note" style="width:350px;" placeholder="Примечание" />
     </div>
+    @* @Html.AntiForgeryToken() *@
     <input type="submit" value="Сделать резервную копию" />
     <span id="backup-create-result"></span>
 </form>
-
-<form method="post"
-      data-ajax="true"
-      data-ajax-method="post"
-      data-ajax-url="@Url.Action(controller: "Admin", action: "CreateBackup")"
-      data-ajax-mode="replace"
-      data-ajax-update="#backup-create-result"
->
-    <table>
-        <thead>
-            <tr>
-                <td>Выбор копии для восстановления</td>
-                <td>Дата выполнения копии</td>
-                <td>Примечание</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var (dateTime, note) in Model.BackupsList)
-            {
+@if (Model.BackupsDict.Count == 0)
+{
+    <p>
+        Резервные копии не обнаружены. Создайте ее, чтобы в будущем выполнить востановление.
+    </p>
+}
+else
+{
+    <form method="post"
+          data-ajax="true"
+          data-ajax-method="post"
+          data-ajax-url="@Url.Action(controller: "Admin", action: "CreateBackup")"
+          data-ajax-mode="replace"
+          data-ajax-update="#backup-create-result">
+        <table>
+            <thead>
                 <tr>
-                    <td>
-                        <input type="radio" name="dateTime" value="@dateTime" />
-                    </td>
-                    <td>@dateTime</td>
-                    <td>@note</td>
+                    <td>Выбор копии для восстановления</td>
+                    <td>Дата выполнения копии</td>
+                    <td>Примечание</td>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <input type="submit" value="Оформить восстановление" />
-    <span id="backup-create-result"></span>
-</form>
+            </thead>
+            <tbody>
+                @foreach (var (dateTime, note) in Model.BackupsDict)
+                {
+                    <tr>
+                        <td>
+                            <input type="radio" name="dateTime" value="@dateTime" />
+                        </td>
+                        <td>@dateTime</td>
+                        <td>@note</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input type="submit" value="Оформить восстановление" />
+        <span id="backup-create-result"></span>
+    </form>
+}
 
 @section Scripts {
     <script src="~/js/adminBackups.js"></script>

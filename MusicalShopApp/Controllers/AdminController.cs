@@ -42,7 +42,8 @@ namespace MusicalShopApp.Controllers
         }
 
         [HttpPost]
-		public async Task<ContentResult> CreateBackup([FromBody] string note, [FromServices] IBackupService service)
+		[ValidateAntiForgeryToken]
+		public async Task<ContentResult> CreateBackup([FromQuery] string note, [FromServices] IBackupService service)
 		{
 			try
 			{
