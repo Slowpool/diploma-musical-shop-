@@ -3,125 +3,128 @@
 @{
     ViewBag.Title = "Продажи";
 }
-
-<form asp-action="Search" method="get">
-    <input asp-for="ResearchText" name="q" placeholder="Поиск..." />
-    <div>
-        <label for="min-sale-date">Продано в промежутке с</label>
-        <input id="min-sale-date" asp-for="Filter.MinSaleDate" name="minSaleDate" type="datetime-local" />
-        <label for="max-sale-date">по</label>
-        <input id="max-sale-date" asp-for="Filter.MaxSaleDate" name="maxSaleDate" type="datetime-local" />
-    </div>
-    <div>
-        <label for="min-reservation-date">Зарезервировано в промежутке с</label>
-        <input id="min-reservation-date" asp-for="Filter.MinReservationDate" name="minReservationDate" type="datetime-local" />
-        <label for="max-reservation-date">по</label>
-        <input id="max-reservation-date" asp-for="Filter.MaxReservationDate" name="maxReservationDate" type="datetime-local" />
-    </div>
-    <div>
-        <label for="min-returning-date">Продано в промежутке с</label>
-        <input id="min-returning-date" asp-for="Filter.MinReturningDate" name="minReturningDate" type="datetime-local" />
-        <label for="max-returning-date">по</label>
-        <input id="max-returning-date" asp-for="Filter.MaxReturningDate" name="maxReturningDate" type="datetime-local" />
-    </div>
-    @{
+<search>
+    <form asp-action="Search" method="get">
+        <input asp-for="ResearchText" name="q" placeholder="Поиск..." />
+        <div>
+            <label for="min-sale-date">Продано в промежутке с</label>
+            <input id="min-sale-date" asp-for="Filter.MinSaleDate" name="minSaleDate" type="datetime-local" />
+            <label for="max-sale-date">по</label>
+            <input id="max-sale-date" asp-for="Filter.MaxSaleDate" name="maxSaleDate" type="datetime-local" />
+        </div>
+        <div>
+            <label for="min-reservation-date">Зарезервировано в промежутке с</label>
+            <input id="min-reservation-date" asp-for="Filter.MinReservationDate" name="minReservationDate" type="datetime-local" />
+            <label for="max-reservation-date">по</label>
+            <input id="max-reservation-date" asp-for="Filter.MaxReservationDate" name="maxReservationDate" type="datetime-local" />
+        </div>
+        <div>
+            <label for="min-returning-date">Продано в промежутке с</label>
+            <input id="min-returning-date" asp-for="Filter.MinReturningDate" name="minReturningDate" type="datetime-local" />
+            <label for="max-returning-date">по</label>
+            <input id="max-returning-date" asp-for="Filter.MaxReturningDate" name="maxReturningDate" type="datetime-local" />
+        </div>
+        @{
 #warning probably use <fieldset> tag here
-    }
-    <div>
-        <label for="radio-sale-type">Тип продажи</label>
-        <span id="radio-sale-type">
-            <input id="radio-status-sold" type="radio" asp-for="Filter.Status" name="status" value="Sold" />
-            <label for="radio-status-sold">Продано</label>
-            <input id="radio-status-reserved" type="radio" asp-for="Filter.Status" name="status" value="Reserved" />
-            <label for="radio-status-reserved">Зарезервировано</label>
-            <input id="radio-status-returned" type="radio" asp-for="Filter.Status" name="status" value="Returned" />
-            <label for="radio-status-returned">Возвращено</label>
-            <input id="radio-status-any" type="radio" name="status" value="null" @(Model.Filter.Status is null ? "checked" : string.Empty) />
-            <label for="radio-status-any">Без фильтра</label>
-        </span>
-    </div>
-    <div>
-        <label for="radio-paid-by">Оплачено</label>
-        <span id="radio-paid-by">
-            <input id="radio-paid-by-card" type="radio" asp-for="Filter.PaidBy" name="paidBy" value="Cash" />
-            <label for="radio-paid-by-card">Наличными</label>
-            <input id="radio-paid-by-cash" type="radio" asp-for="Filter.PaidBy" name="paidBy" value="BankCard" />
-            <label for="radio-paid-by-cash">Банковской картой</label>
-            <input id="radio-paid-by-any" type="radio" name="paidBy" value="null" @(Model.Filter.PaidBy is null ? "checked" : string.Empty) />
-            <label for="radio-paid-by-any">Без фильтра</label>
-        </span>
-    </div>
-    <div>
-        <label for="radio-sales-order-by">Сортировать по</label>
-        <span id="radio-sales-order-by">
-            <input id="radio-sales-order-by-relevance" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="Relevance" />
-            <label for="radio-sales-order-by-relevance">Релевантности</label>
-            <input id="radio-sales-order-by-reservation-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="ReservationDate" />
-            <label for="radio-sales-order-by-reservation-date">Дате резервирования</label>
-            <input id="radio-sales-order-by-sale-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="SaleDate" />
-            <label for="radio-sales-order-by-sale-date">Дате продажи</label>
-            <input id="radio-sales-order-by-returning-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="ReturningDate" />
-            <label for="radio-sales-order-by-returning-date">Дате возврата</label>
-            <input id="radio-sales-order-by-goods-count" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="GoodsUnitsCount" />
-            <label for="radio-sales-order-by-goods-count">Количеству единиц товара</label>
-        </span>
-    </div>
-    <input type="submit" value="Поиск (удалить)" />
-</form>
+        }
+        <div>
+            <label for="radio-sale-type">Тип продажи</label>
+            <span id="radio-sale-type">
+                <input id="radio-status-sold" type="radio" asp-for="Filter.Status" name="status" value="Sold" />
+                <label for="radio-status-sold">Продано</label>
+                <input id="radio-status-reserved" type="radio" asp-for="Filter.Status" name="status" value="Reserved" />
+                <label for="radio-status-reserved">Зарезервировано</label>
+                <input id="radio-status-returned" type="radio" asp-for="Filter.Status" name="status" value="Returned" />
+                <label for="radio-status-returned">Возвращено</label>
+                <input id="radio-status-any" type="radio" name="status" value="null" @(Model.Filter.Status is null ? "checked" : string.Empty) />
+                <label for="radio-status-any">Без фильтра</label>
+            </span>
+        </div>
+        <div>
+            <label for="radio-paid-by">Оплачено</label>
+            <span id="radio-paid-by">
+                <input id="radio-paid-by-card" type="radio" asp-for="Filter.PaidBy" name="paidBy" value="Cash" />
+                <label for="radio-paid-by-card">Наличными</label>
+                <input id="radio-paid-by-cash" type="radio" asp-for="Filter.PaidBy" name="paidBy" value="BankCard" />
+                <label for="radio-paid-by-cash">Банковской картой</label>
+                <input id="radio-paid-by-any" type="radio" name="paidBy" value="null" @(Model.Filter.PaidBy is null ? "checked" : string.Empty) />
+                <label for="radio-paid-by-any">Без фильтра</label>
+            </span>
+        </div>
+        <div>
+            <label for="radio-sales-order-by">Сортировать по</label>
+            <span id="radio-sales-order-by">
+                <input id="radio-sales-order-by-relevance" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="Relevance" />
+                <label for="radio-sales-order-by-relevance">Релевантности</label>
+                <input id="radio-sales-order-by-reservation-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="ReservationDate" />
+                <label for="radio-sales-order-by-reservation-date">Дате резервирования</label>
+                <input id="radio-sales-order-by-sale-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="SaleDate" />
+                <label for="radio-sales-order-by-sale-date">Дате продажи</label>
+                <input id="radio-sales-order-by-returning-date" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="ReturningDate" />
+                <label for="radio-sales-order-by-returning-date">Дате возврата</label>
+                <input id="radio-sales-order-by-goods-count" type="radio" asp-for="OrderBy.OrderBy" name="orderBy" value="GoodsUnitsCount" />
+                <label for="radio-sales-order-by-goods-count">Количеству единиц товара</label>
+            </span>
+        </div>
+        <input type="submit" value="Поиск (удалить)" />
+    </form>
+</search>
 
-<div class="results-count">
-    Найдено: @Model.ResultsCount
-</div>
-<hr class="narrow" />
-@foreach (var sale in Model.Sales)
-{
-    <div class="mini-card">
-        <div class="mini-card-left">
-            <div class="sale-status">
-                Статус: @(sale.Status switch
-                {
-                    DataLayer.SupportClasses.SaleStatus.Sold => "Продано",
-                    DataLayer.SupportClasses.SaleStatus.Reserved => "Зарезервировано",
-                    DataLayer.SupportClasses.SaleStatus.Returned => "Возвращено",
-                    _ => throw new ArgumentException()
-                })
-            </div>
-            <div class="sale-paid-by">
-                Оплачено: @(sale.PaidBy switch
-                {
-                    DataLayer.SupportClasses.SalePaidBy.Cash => "Наличными средствами",
-                    DataLayer.SupportClasses.SalePaidBy.BankCard => "Банковской картой",
-                    _ => throw new ArgumentException()
-                })
-            </div>
-            <div class="sale-date">
-                Дата оформления: @(sale?.SaleDate?.ToString() ?? "-")
-                <br />
-                Дата возврата: @(sale?.ReturningDate?.ToString() ?? "-")
-                <br />
-                Дата резервирования: @(sale?.ReservationDate?.ToString() ?? "-")
-            </div>
-            <div class="goods-related-to-sale">
-                @{
-                    int goodsDisplayed = 0;
-                    foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)
+<section>
+    <h4 class="results-count">
+        Найдено: @Model.ResultsCount
+    </h4>
+    <hr class="narrow" />
+    @foreach (var sale in Model.Sales)
+    {
+        <div class="mini-card">
+            <div class="mini-card-left">
+                <div class="sale-status">
+                    Статус: @(sale.Status switch
                     {
-                        <div class="goods-unit-related-to-sale">
-                            <a href="#">@briefGoodsUnitDescription</a>
-                        </div>
-                        if (++goodsDisplayed == 3)
+                        DataLayer.SupportClasses.SaleStatus.Sold => "Продано",
+                        DataLayer.SupportClasses.SaleStatus.Reserved => "Зарезервировано",
+                        DataLayer.SupportClasses.SaleStatus.Returned => "Возвращено",
+                        _ => throw new ArgumentException()
+                    })
+                </div>
+                <div class="sale-paid-by">
+                    Оплачено: @(sale.PaidBy switch
+                    {
+                        DataLayer.SupportClasses.SalePaidBy.Cash => "Наличными средствами",
+                        DataLayer.SupportClasses.SalePaidBy.BankCard => "Банковской картой",
+                        _ => throw new ArgumentException()
+                    })
+                </div>
+                <div class="sale-date">
+                    Дата оформления: @(sale?.SaleDate?.ToString() ?? "-")
+                    <br />
+                    Дата возврата: @(sale?.ReturningDate?.ToString() ?? "-")
+                    <br />
+                    Дата резервирования: @(sale?.ReservationDate?.ToString() ?? "-")
+                </div>
+                <div class="goods-related-to-sale">
+                    @{
+                        int goodsDisplayed = 0;
+                        foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)
                         {
-                            <div>
-                            ...
+                            <div class="goods-unit-related-to-sale">
+                                <a href="#">@briefGoodsUnitDescription</a>
                             </div>
-                            break;
+                            if (++goodsDisplayed == 3)
+                            {
+                                <div>
+                                    ...
+                                </div>
+                                break;
+                            }
                         }
                     }
-                }
+                </div>
+            </div>
+            <div class="mini-card-right">
             </div>
         </div>
-        <div class="mini-card-right">
-        </div>
-    </div>
-    <hr class="narrow" />
-}
+        <hr class="narrow" />
+    }
+</section>

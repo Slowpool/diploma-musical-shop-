@@ -5,6 +5,8 @@ using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +20,15 @@ public interface IAddNewGoodsService : IErrorAdder
 }
 public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeService specificTypesService) : ErrorAdder, IAddNewGoodsService
 {
+    public override IImmutableList<ValidationResult> Errors
+        => base.Errors.Concat(specificTypesService.Errors).ToImmutableList();
     public async Task<List<Goods>> AddNewGoods(AddGoodsToWarehouseDto dto)
     {
-        var specificTypeEntity = await specificTypesService.GetSpecificType(dto.SpecificType, dto.KindOfGoods);
+        SpecificType specificType;
+        specificType = dto.NewSpecificTypeIsBeingAdded
+            ? await specificTypesService.CreateSpecificType(dto.NewSpecificType, dto.KindOfGoods)
+            : await specificTypesService.GetSpecificType(dto.SpecificType, dto.KindOfGoods);
+
 
 #warning business logic is here, but little
         if (dto.Price <= 0)
@@ -43,11 +51,13 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
         }
         if (HasErrors)
             return [];
+        // Validated successfully
         var result = new List<Goods>();
         for (int i = 0; i < dto.NumberOfUnits; i++)
         {
             Goods goods = dto.KindOfGoods switch
             {
+// TODO refactoring
                 KindOfGoods.MusicalInstruments => new MusicalInstrument
                 {
                     ReleaseYear = (int)dto.GoodsKindSpecificDataDto.ReleaseYear,
@@ -73,6 +83,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             goods.ReceiptDate = receiptDate;
             goods.SoftDeleted = false;
             goods.Status = dto.Status;
+            goods.SpecificTypeId = specificType.SpecificTypeId;
             // TODO specific type
             //goods.SpecificType = specificTypeEntity;
 

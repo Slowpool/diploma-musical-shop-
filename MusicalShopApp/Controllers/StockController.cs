@@ -12,22 +12,24 @@ public class StockController : Controller
     public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService)
     {
         var specificTypes = await specificTypesService.GetAllSpecificTypes();
-        var defaultDto = new AddGoodsToWarehouseDto(default, KindOfGoods.MusicalInstruments, default, default, GoodsStatus.InStock, default, default, default);
+        var defaultDto = new AddGoodsToWarehouseDto(default, KindOfGoods.MusicalInstruments, default, false, default, default, GoodsStatus.InStock, default, default, default);
         return View(new AddGoodsToWarehouseModel(defaultDto, specificTypes, []));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService, [FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
+    public async Task<ContentResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService, [FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
     {
         var specificTypes = await specificTypesService.GetAllSpecificTypes();
         try
         {
             await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
-#warning display success/fail
+            return Content("Товар успешно добавлен");
         }
         catch
-        { }
-        return View(new AddGoodsToWarehouseModel(addGoodsToWarehouseDto, specificTypes, [.. addNewGoodsService.Errors]));
+        {
+            return Content(string.Join("\r\n", addNewGoodsService.Errors));
+        }
+
     }
 }

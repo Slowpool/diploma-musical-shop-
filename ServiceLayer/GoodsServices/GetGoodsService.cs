@@ -19,14 +19,14 @@ public interface IGetGoodsService
     Task<GoodsUnitSearchDto> GetReadableGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
     //Task<Type> GetGoodsType(Guid goodsId);
     Task<KindOfGoods> GetGoodsKind(Guid goodsId);
-    IQueryable<Goods> GetSpecificGoodsByKind(KindOfGoods kindOfGoods);
 }
-public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
+public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsService kindOfGoodsMapper) : IGetGoodsService
 {
     public async Task<Goods> GetGoodsInfo(Guid id, KindOfGoods kindOfGoods)
     {
-        IQueryable<Goods> goods = GetSpecificGoodsByKind(kindOfGoods);
+        IQueryable<Goods> goods = kindOfGoodsMapper.MapToSpecificGoods(kindOfGoods);
         return await goods
+            // TODO refactoring
             //.Include(g => g.SpecificType)
             .SingleAsync(e => e.GoodsId == id)!;
     }
@@ -81,20 +81,12 @@ public class GetGoodsService(MusicalShopDbContext context) : IGetGoodsService
         IQueryable<Goods> goods;
         foreach(var kindOfGoods in Enum.GetValues<KindOfGoods>())
         {
-            goods = GetSpecificGoodsByKind(kindOfGoods);
+            goods = kindOfGoodsMapper.MapToSpecificGoods(kindOfGoods);
             if (goods.Any(g => g.GoodsId == goodsId))
                 return kindOfGoods;
         }
         throw new ArgumentException();
     }
 
-    public IQueryable<Goods> GetSpecificGoodsByKind(KindOfGoods kindOfGoods)
-        => kindOfGoods switch
-        {
-            KindOfGoods.Accessories => context.Accessories,
-            KindOfGoods.AudioEquipmentUnits => context.AudioEquipmentUnits,
-            KindOfGoods.MusicalInstruments => context.MusicalInstruments,
-            KindOfGoods.SheetMusicEditions => context.SheetMusicEditions,
-            _ => throw new Exception()
-        };
+    
 }

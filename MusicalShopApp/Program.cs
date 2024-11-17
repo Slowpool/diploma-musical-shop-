@@ -52,11 +52,6 @@ builder.Services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetAssembly(ty
     .Where(@class => @class.Name.EndsWith("Service") || @class.Name.EndsWith("DbAccess"))
     .AsPublicImplementedInterfaces();
 
-//builder.Services.AddScoped<UserDbAccess>();
-//builder.Services.AddTransient<GetUserService>();
-//builder.Services.AddTransient<UpdateUserService>();
-//builder.Services.AddTransient<GoodsService>();
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -69,7 +64,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateAsyncScope())
 {
-    //await DataSeeding.SeedAsync(scope.ServiceProvider);
+    await DataSeeding.SeedAsync(scope.ServiceProvider);
 }
 
 // Configure the HTTP request pipeline.

@@ -19,22 +19,21 @@ namespace ServiceLayer.GoodsServices;
 
 public interface IGetRelevantGoodsService
 {
-
     // Kinda complex task to implement.
     // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
     // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
     Task<List<Guid>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize);
 }
 
-#warning i ain't wanna create service for each action
-public class GetRelevantGoodsService(MusicalShopDbContext context, IGetGoodsService getGoodsService) : IGetRelevantGoodsService
+#warning i ain't wanna create the service for each action
+public class GetRelevantGoodsService(MusicalShopDbContext context, IMapKindOfGoodsService kindOfGoodsMapper) : IGetRelevantGoodsService
 {
     // Kinda complex task to implement.
     // Upd: nice. this method is absolutely useless because it is impossible to implement paging for a lightweight quantity of objects in memory. The problem here is that goods of different types are not binded, so it's impossible to know what place item A takes in paging without getting knowledge about others. It may be first and last by match, it's depend upon other items. So, to select little objects in memory won't work. Do anyone understand what did i write here?
     // Consequently, the cause of problem here - i hadn't known what exactly do i implement because i didn't know how the app will look like at all on the whole. I should've sketch out a layout of website = this is the gist.
     public async Task<List<Guid>> GetRelevantGoodsIds(string researchText, GoodsFilterOptions filterOptions, GoodsOrderByOptions orderByOptions, int page, int pageSize)
     {
-        IQueryable<Goods> goods = getGoodsService.GetSpecificGoodsByKind(filterOptions.KindOfGoods);
+        IQueryable<Goods> goods = kindOfGoodsMapper.MapToSpecificGoods(filterOptions.KindOfGoods);
 
 #warning separate it in few methods
         goods = goods.AsNoTracking();

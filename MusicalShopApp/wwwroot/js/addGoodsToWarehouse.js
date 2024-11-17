@@ -133,11 +133,18 @@ function observeKindOfGoodsChangeAndSwitchSpecificTypesGroup() {
                 let optgroupToEnable = select.querySelector('[label="' + optgroupToNotDisable + '"]');
                 if (optgroupToEnable != null) {
                     optgroupToEnable.removeAttribute('disabled');
-                    // TODO
-                    select.val(optgroupToEnable.children[0].value);
+                    // TODO check checkbox when there're 0 specific types
+                    let options = select.getElementsByTagName('option');
+                    for (var i = 0; i < options.length; i++) {
+                        if (options[i].value == optgroupToEnable.children[0].value) {
+                            options[i].selected = true;
+                            break;
+                        }
+                    }
                 }
-                else
-                    select.val('hui');
+                else {
+                    // TODO
+                }
                 Array.from(select.children).forEach(function (anotherOptgroup) {
                     if (anotherOptgroup != optgroupToEnable) {
                         anotherOptgroup.setAttribute('disabled', 'disabled');
@@ -149,6 +156,17 @@ function observeKindOfGoodsChangeAndSwitchSpecificTypesGroup() {
     
 }
 
+function observeNewSpecificTypeChecking() {
+    $("#AddGoodsToWarehouseDto_NewSpecificTypeIsBeingAdded")[0].addEventListener('change', function () {
+        let specificTypesSelect = $("#AddGoodsToWarehouseDto_SpecificType")[0];
+        if (this.checked) {
+            specificTypesSelect.setAttribute('disabled', 'disabled');
+        }
+        else {
+            specificTypesSelect.removeAttribute('disabled');
+        }
+    });
+}
 
 
 // TODO does it work?
@@ -156,6 +174,7 @@ function observeKindOfGoodsChangeAndSwitchSpecificTypesGroup() {
 $(document).ready(function () {
     observeKindOfGoodsChangeAndChangeSpecificData();
     observeKindOfGoodsChangeAndSwitchSpecificTypesGroup();
+    observeNewSpecificTypeChecking();
 });
 
 function removeChildren(element) {
