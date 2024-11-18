@@ -25,9 +25,17 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
     public async Task<List<Goods>> AddNewGoods(AddGoodsToWarehouseDto dto)
     {
         SpecificType specificType;
-        specificType = dto.NewSpecificTypeIsBeingAdded
-            ? await specificTypesService.CreateSpecificType(dto.NewSpecificType, dto.KindOfGoods)
-            : await specificTypesService.GetSpecificType(dto.SpecificType, dto.KindOfGoods);
+        try
+        {
+            specificType = dto.NewSpecificTypeIsBeingAdded
+                ? await specificTypesService.CreateSpecificType(dto.NewSpecificType, dto.KindOfGoods)
+                : await specificTypesService.GetSpecificType(dto.SpecificType, dto.KindOfGoods);
+        }
+        catch
+        {
+            AddError("Некорректное значение типа товара");
+            return null;
+        }
 
 
 #warning business logic is here, but little
@@ -57,7 +65,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
         {
             Goods goods = dto.KindOfGoods switch
             {
-// TODO refactoring
+                // TODO refactoring
                 KindOfGoods.MusicalInstruments => new MusicalInstrument
                 {
                     ReleaseYear = (int)dto.GoodsKindSpecificDataDto.ReleaseYear,

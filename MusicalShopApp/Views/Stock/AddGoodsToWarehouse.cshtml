@@ -11,97 +11,129 @@
       data-ajax-url="@Url.Action(controller: "Stock", action: "AddGoodsToWarehouse")"
       data-ajax-mode="replace"
       data-ajax-update="#add-goods-result">
-    <label>Наименование</label>
-    <input asp-for="AddGoodsToWarehouseDto.GoodsName" />
     <div>
+        <h4 for="specific-data">Основные данные</h4>
+        <p>
+            <label asp-for="AddGoodsToWarehouseDto.GoodsName">Наименование</label>
+            <input asp-for="AddGoodsToWarehouseDto.GoodsName" />
+        </p>
         <div>
-            <label for="new-goods-kind">Вид</label>
-            <span id="new-goods-kind">
-                <input id="new-goods-kind-mi" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="MusicalInstruments" />
-                <label for="new-goods-kind-mi">Музыкальный инструмент</label>
-                <input id="new-goods-kind-ac" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="Accessories" />
-                <label for="new-goods-kind-ac">Аксессуар</label>
-                <input id="new-goods-kind-aeu" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="AudioEquipmentUnits" />
-                <label for="new-goods-kind-aeu">Аудиоаппаратура</label>
-                <input id="new-goods-kind-sme" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="SheetMusicEditions" />
-                <label for="new-goods-kind-sme">Нотное издание</label>
-            </span>
-        </div>
-        <div style="display:inline-block">
-            <label asp-for="AddGoodsToWarehouseDto.SpecificType">Тип</label>
+            <p>
+                <label for="new-goods-kind">Вид</label>
+                <span id="new-goods-kind">
+                    <input id="new-goods-kind-mi" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="MusicalInstruments" />
+                    <label for="new-goods-kind-mi">Музыкальный инструмент</label>
+                    <input id="new-goods-kind-ac" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="Accessories" />
+                    <label for="new-goods-kind-ac">Аксессуар</label>
+                    <input id="new-goods-kind-aeu" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="AudioEquipmentUnits" />
+                    <label for="new-goods-kind-aeu">Аудиоаппаратура</label>
+                    <input id="new-goods-kind-sme" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="SheetMusicEditions" />
+                    <label for="new-goods-kind-sme">Нотное издание</label>
+                </span>
+            </p>
             @{
-                // TODO refactoring
-                SelectListGroup mi = new()
+                /* TODO style*/
+            }
+            <p style="display:inline-block">
+                <label asp-for="AddGoodsToWarehouseDto.SpecificType">Тип</label>
+                @{
+                    // TODO refactoring
+                    SelectListGroup mi = new()
             {
                 Name = CommonNames.MusicalInstruments,
                 Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.MusicalInstruments
             };
-                SelectListGroup sme = new()
+                    SelectListGroup sme = new()
             {
                 Name = CommonNames.SheetMusicEditions,
                 Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.SheetMusicEditions
             };
-                SelectListGroup a = new()
+                    SelectListGroup a = new()
             {
                 Name = CommonNames.Accessories,
                 Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.Accessories
             };
-                SelectListGroup aeu = new()
+                    SelectListGroup aeu = new()
             {
                 Name = CommonNames.AudioEquipmentUnits,
                 Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.AudioEquipmentUnits
             };
 #warning default formatter went crazy
-                List<SelectListItem> items = [];
-                foreach (var (kindOfGoods, specificTypes) in Model.SpecificTypes)
-                {
-                    SelectListGroup currentGroup = kindOfGoods == KindOfGoods.Accessories ? a :
-                    kindOfGoods == KindOfGoods.AudioEquipmentUnits ? aeu :
-                    kindOfGoods == KindOfGoods.MusicalInstruments ? mi :
-                    kindOfGoods == KindOfGoods.SheetMusicEditions ? sme :
-                    throw new ArgumentException();
-                    foreach (var specificType in specificTypes)
-                        items.Add(new SelectListItem
+                    List<SelectListItem> items = [];
+                    foreach (var (kindOfGoods, specificTypes) in Model.SpecificTypes)
+                    {
+                        SelectListGroup currentGroup = kindOfGoods == KindOfGoods.Accessories ? a :
+                        kindOfGoods == KindOfGoods.AudioEquipmentUnits ? aeu :
+                        kindOfGoods == KindOfGoods.MusicalInstruments ? mi :
+                        kindOfGoods == KindOfGoods.SheetMusicEditions ? sme :
+                        throw new ArgumentException();
+                        foreach (var specificType in specificTypes)
+                            items.Add(new SelectListItem
                     {
                         Text = specificType,
                         Value = specificType,
                         Group = currentGroup
                     });
+                    }
+                    <select asp-for="AddGoodsToWarehouseDto.SpecificType" asp-items="items"></select>
                 }
-                <select asp-for="AddGoodsToWarehouseDto.SpecificType" asp-items="items"></select>
-            }
-        </div>
-        <div style="display:inline-block">  
-            <label asp-for="AddGoodsToWarehouseDto.NewSpecificTypeIsBeingAdded">Добавить новый тип</label>
-            <input asp-for="AddGoodsToWarehouseDto.NewSpecificTypeIsBeingAdded" type="checkbox" />
-            <label asp-for="AddGoodsToWarehouseDto.NewSpecificType">Название нового типа</label>
-            <input asp-for="AddGoodsToWarehouseDto.NewSpecificType" placeholder="Новый тип"/>
-        </div>
-        <div>
-            <label asp-for="AddGoodsToWarehouseDto.Price">Цена</label>
-            <input asp-for="AddGoodsToWarehouseDto.Price" type="number" />
-        </div>
-        <div>
-            <label for="new-goods-status">Вид</label>
-            <span id="new-goods-status">
-                <input id="new-goods-status-ad" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="AwaitingDelivery" />
-                <label for="new-goods-status-ad">Ожидает поставки</label>
-                <input id="new-goods-status-is" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="InStock" />
-                <label for="new-goods-status-is">На складе</label>
-            </span>
-        </div>
-        <div>
-            <label asp-for="AddGoodsToWarehouseDto.Description">Описание</label>
-            <input asp-for="AddGoodsToWarehouseDto.Description" />
-        </div>
-        <div>
-            <label asp-for="AddGoodsToWarehouseDto.NumberOfUnits">Количество</label>
-            <input asp-for="AddGoodsToWarehouseDto.NumberOfUnits" type="number" />
+            </p>
+            <p style="display:inline-block">
+                <label asp-for="AddGoodsToWarehouseDto.NewSpecificTypeIsBeingAdded">Добавить новый тип</label>
+                <input asp-for="AddGoodsToWarehouseDto.NewSpecificTypeIsBeingAdded" type="checkbox" />
+                <label asp-for="AddGoodsToWarehouseDto.NewSpecificType">Название нового типа</label>
+                <input asp-for="AddGoodsToWarehouseDto.NewSpecificType" placeholder="Новый тип" disabled="disabled" />
+            </p>
+            <p>
+                <label asp-for="AddGoodsToWarehouseDto.Price">Цена</label>
+                <input asp-for="AddGoodsToWarehouseDto.Price" type="number" />
+            </p>
+            <p>
+                <label for="new-goods-status">Вид</label>
+                <span id="new-goods-status">
+                    <input id="new-goods-status-ad" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="AwaitingDelivery" />
+                    <label for="new-goods-status-ad">Ожидает поставки</label>
+                    <input id="new-goods-status-is" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="InStock" />
+                    <label for="new-goods-status-is">На складе</label>
+                </span>
+            </p>
+            <p>
+                <label asp-for="AddGoodsToWarehouseDto.Description">Описание</label>
+                <input asp-for="AddGoodsToWarehouseDto.Description" />
+            </p>
+            <p>
+                <label asp-for="AddGoodsToWarehouseDto.NumberOfUnits">Количество</label>
+                <input asp-for="AddGoodsToWarehouseDto.NumberOfUnits" type="number" />
+            </p>
         </div>
     </div>
     <div>
-        <label for="specific-data">Специфичные для вида данные</label>
+        <h4 for="specific-data">Специфичные для вида данные</h4>
         <div id="specific-data">
+            <p>
+                <label for="new-goods-release-year">Год выпуска</label>
+                <input id="new-goods-release-year" type="number" name=AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.ReleaseYear />
+            </p>
+            <p>
+                <label for="new-goods-manufacturer-type">Тип производителя</label>
+                <span id="new-goods-manufacturer-type">
+                    <input id="new-goods-manufacturer-type-factory"
+                           type="radio"
+                           name="AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.ManufacturerType"
+                           value="Factory"
+                           checked="checked" />
+                    <label for="new-goods-manufacturer-type-factory">Завод</label>
+                    <input id="new-goods-manufacturer-type-master"
+                           type="radio"
+                           name="AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.ManufacturerType"
+                           value="Master" />
+                    <label for="new-goods-manufacturer-type-master">Мастер</label>
+                </span>
+            </p>
+            <p>
+                <label for="new-goods-manufacturer-name">Название производителя</label>
+                <input id="new-goods-manufacturer-name" type="text" name="AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.Manufacturer" />
+            </p>
         </div>
     </div>
     <input type="submit" action="post" value="Добавить" />

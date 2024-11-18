@@ -5,14 +5,15 @@
             let specificDataDiv = document.getElementById('specific-data');
             removeChildren(specificDataDiv);
             if (this.value == 'MusicalInstruments') {
-                specificDataDiv.appendChild(configureReleaseYear(document));
+                specificDataDiv.appendChild(configureReleaseYear());
                 // manufacturer type
                 let manufacturerTypeId = 'new-goods-manufacturer-type';
 
+                let manufactruerTypeParagraph = document.createElement('p');
                 let manufacturerTypeLabel = document.createElement('label');
                 manufacturerTypeLabel.setAttribute('for', manufacturerTypeId);
                 manufacturerTypeLabel.innerHTML = 'Тип производителя';
-                specificDataDiv.appendChild(manufacturerTypeLabel);
+                manufactruerTypeParagraph.appendChild(manufacturerTypeLabel);
 
                 let manufacturerTypeRadioGroup = document.createElement('span');
                 manufacturerTypeRadioGroup.setAttribute('id', manufacturerTypeId);
@@ -39,26 +40,27 @@
                 manufacturerTypeMasterLabel.setAttribute('for', manufacturerTypeMasterId);
                 manufacturerTypeMasterLabel.innerHTML = 'Мастер';
                 manufacturerTypeRadioGroup.appendChild(manufacturerTypeMasterLabel);
+                manufactruerTypeParagraph.appendChild(manufacturerTypeRadioGroup);
 
-                specificDataDiv.appendChild(manufacturerTypeRadioGroup);
+                specificDataDiv.appendChild(manufactruerTypeParagraph);
                 // manufacturer name
-                let manufacturerNameDiv = document.createElement('div');
+                let manufacturerNameParagraph = document.createElement('p');
                 let manufacturerNameLabel = document.createElement('label');
                 let manufacturerNameId = 'new-goods-manufacturer-name';
                 manufacturerNameLabel.setAttribute('for', manufacturerNameId);
                 manufacturerNameLabel.innerHTML = 'Название производителя';
-                manufacturerNameDiv.appendChild(manufacturerNameLabel);
+                manufacturerNameParagraph.appendChild(manufacturerNameLabel);
 
                 let manufacturerNameInput = document.createElement('input');
                 configureInput(manufacturerNameInput, manufacturerNameId, 'text', 'Manufacturer');
-                manufacturerNameDiv.appendChild(manufacturerNameInput);
+                manufacturerNameParagraph.appendChild(manufacturerNameInput);
 
-                specificDataDiv.appendChild(manufacturerNameDiv);
+                specificDataDiv.appendChild(manufacturerNameParagraph);
             }
             else if (this.value == 'Accessories') {
                 removeChildren(specificDataDiv);
                 // color div
-                let colorDiv = document.createElement('div');
+                let colorDiv = document.createElement('p');
 
                 let colorLabel = document.createElement('label');
                 let colorId = 'new-goods-color';
@@ -72,19 +74,19 @@
 
                 specificDataDiv.appendChild(colorDiv);
                 //size div
-                let sizeDiv = document.createElement('div');
+                let sizeParagraph = document.createElement('p');
 
                 let sizeLabel = document.createElement('label');
                 let sizeId = 'new-goods-size';
                 sizeLabel.setAttribute('for', sizeId);
                 sizeLabel.innerHTML = 'Размер';
-                sizeDiv.appendChild(sizeLabel);
+                sizeParagraph.appendChild(sizeLabel);
 
                 let sizeInput = document.createElement('input');
                 configureInput(sizeInput, sizeId, 'text', 'Size')
-                sizeDiv.appendChild(sizeInput);
+                sizeParagraph.appendChild(sizeInput);
 
-                specificDataDiv.appendChild(sizeDiv);
+                specificDataDiv.appendChild(sizeParagraph);
             }
             else if (this.value == 'AudioEquipmentUnits') {
                 removeChildren(specificDataDiv);
@@ -92,27 +94,26 @@
             else if (this.value == 'SheetMusicEditions') {
                 removeChildren(specificDataDiv);
                 // author
-                let authorDiv = document.createElement('div');
+                let authorParagraph = document.createElement('p');
 
                 let authorLabel = document.createElement('label');
                 let authorId = 'new-goods-author';
                 authorLabel.setAttribute('for', authorId);
                 authorLabel.innerHTML = 'Автор';
-                authorDiv.appendChild(authorLabel);
+                authorParagraph.appendChild(authorLabel);
 
                 let authorInput = document.createElement('input');
                 configureInput(authorInput, authorId, 'text', 'Author')
-                authorDiv.appendChild(authorInput);
+                authorParagraph.appendChild(authorInput);
 
-                specificDataDiv.appendChild(configureReleaseYear(document));
-                specificDataDiv.appendChild(authorDiv);
+                specificDataDiv.appendChild(configureReleaseYear());
+                specificDataDiv.appendChild(authorParagraph);
             }
         });
     };
 }
 
 function observeKindOfGoodsChangeAndSwitchSpecificTypesGroup() {
-    //$('select[id="AddGoodsToWarehouseDto_SpecificType"]')
     let radioButtons = document.getElementsByClassName('new-goods-kind-radio');
     for (let i = 0; i < radioButtons.length; i++) {
         radioButtons[i].addEventListener('change', function () {
@@ -156,14 +157,18 @@ function observeKindOfGoodsChangeAndSwitchSpecificTypesGroup() {
     
 }
 
-function observeNewSpecificTypeChecking() {
-    $("#AddGoodsToWarehouseDto_NewSpecificTypeIsBeingAdded")[0].addEventListener('change', function () {
-        let specificTypesSelect = $("#AddGoodsToWarehouseDto_SpecificType")[0];
+function observeNewSpecificTypeCheckboxChecked() {
+    $('#AddGoodsToWarehouseDto_NewSpecificTypeIsBeingAdded')[0].addEventListener('change', function () {
+        let specificTypesSelect = $('#AddGoodsToWarehouseDto_SpecificType')[0];
+        let newSpecificTypeInput = $('#AddGoodsToWarehouseDto_NewSpecificType')[0];
         if (this.checked) {
             specificTypesSelect.setAttribute('disabled', 'disabled');
+            newSpecificTypeInput.removeAttribute('disabled');
         }
         else {
+            newSpecificTypeInput.setAttribute('disabled', 'disabled');
             specificTypesSelect.removeAttribute('disabled');
+            newSpecificTypeInput.value = '';
         }
     });
 }
@@ -174,7 +179,7 @@ function observeNewSpecificTypeChecking() {
 $(document).ready(function () {
     observeKindOfGoodsChangeAndChangeSpecificData();
     observeKindOfGoodsChangeAndSwitchSpecificTypesGroup();
-    observeNewSpecificTypeChecking();
+    observeNewSpecificTypeCheckboxChecked();
 });
 
 function removeChildren(element) {
@@ -191,17 +196,17 @@ function specificData(name) {
     return 'AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.' + name;
 }
 
-function configureReleaseYear(document) {
+function configureReleaseYear() {
     let releaseYearId = 'new-goods-release-year';
-    let releaseYearDiv = document.createElement('div');
+    let releaseYearParagraph = document.createElement('p');
 
     let releaseYearLabel = document.createElement('label');
     releaseYearLabel.setAttribute('for', releaseYearId);
     releaseYearLabel.innerHTML = 'Год выпуска';
-    releaseYearDiv.appendChild(releaseYearLabel);
+    releaseYearParagraph.appendChild(releaseYearLabel);
 
     let releaseYear = document.createElement('input');
     configureInput(releaseYear, releaseYearId, 'number', 'ReleaseYear');
-    releaseYearDiv.appendChild(releaseYear);
-    return releaseYearDiv;
+    releaseYearParagraph.appendChild(releaseYear);
+    return releaseYearParagraph;
 }

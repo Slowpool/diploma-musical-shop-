@@ -22,7 +22,6 @@ public interface ISpecificTypeService : IErrorAdder
 }
 public class SpecificTypeService(MusicalShopDbContext context, IMapKindOfGoodsService kindOfGoodsMapper) : ErrorAdder, ISpecificTypeService
 {
-#error handle errors to display them
     public async Task<SpecificType> GetSpecificType(string specificType, KindOfGoods kindOfGoods)
         => kindOfGoodsMapper.MapToSpecificTypes(kindOfGoods).Single(st => st.Name.ToLower() == specificType.ToLower());
 

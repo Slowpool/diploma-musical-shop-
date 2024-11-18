@@ -3,6 +3,7 @@ using DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ServiceLayer.AdminServices;
 using ViewModelsLayer.Admin;
 
@@ -30,6 +31,7 @@ namespace MusicalShopApp.Controllers
         {
 			try
 			{
+				// TODO handle in
 				var dict = await service.GetBackups();
 				return View(new BackupsModel(dict));
 			}
@@ -45,6 +47,15 @@ namespace MusicalShopApp.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ContentResult> CreateBackup([FromForm] string note, [FromServices] IBackupService service)
 		{
+			if(!ModelState.IsValid)
+			{
+
+
+            }
+			else
+			{
+				return Content("");
+			}
 			try
 			{
 				string fullFileName = await service.CreateBackup(note);

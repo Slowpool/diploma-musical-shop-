@@ -88,8 +88,10 @@ app.UseAuthorization();
 app.UseSession();
 
 app.MapControllerRoute(
+
     name: "default",
     pattern: "{controller=Goods}/{action=Index}/{id?}");
 app.MapRazorPages();
+
 
 app.Run();

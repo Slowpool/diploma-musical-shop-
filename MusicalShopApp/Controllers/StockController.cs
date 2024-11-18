@@ -1,4 +1,5 @@
-﻿using DataLayer.SupportClasses;
+﻿using BizLogicBase.Validation;
+using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceLayer.StockServices;
@@ -18,18 +19,15 @@ public class StockController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService, [FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
+    public async Task<ContentResult> AddGoodsToWarehouse([FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
     {
-        var specificTypes = await specificTypesService.GetAllSpecificTypes();
-        try
-        {
-            await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
-            return Content("Товар успешно добавлен");
-        }
-        catch
-        {
-            return Content(string.Join("\r\n", addNewGoodsService.Errors));
-        }
-
+        if (!ModelState.IsValid)
+            // TODO what data? how to get errors of model?
+            return Content("Некорректные данные. ");
+        await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
+        string result = addNewGoodsService.HasErrors
+            ? string.Join("\r\n", addNewGoodsService.Errors)
+            : "Товар успешно добавлен";
+        return Content(result);
     }
 }
