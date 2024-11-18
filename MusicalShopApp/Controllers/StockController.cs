@@ -1,6 +1,7 @@
 ﻿using BizLogicBase.Validation;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceLayer.StockServices;
 using ViewModelsLayer.Stock;
@@ -13,7 +14,7 @@ public class StockController : Controller
     public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService)
     {
         var specificTypes = await specificTypesService.GetAllSpecificTypes();
-        var defaultDto = new AddGoodsToWarehouseDto(default, KindOfGoods.MusicalInstruments, default, false, default, default, GoodsStatus.InStock, default, default, default);
+        var defaultDto = new AddGoodsToWarehouseDto(default!, KindOfGoods.MusicalInstruments, default!, false, default, default, GoodsStatus.InStock, default, default, default!);
         return View(new AddGoodsToWarehouseModel(defaultDto, specificTypes, []));
     }
 
@@ -22,8 +23,15 @@ public class StockController : Controller
     public async Task<ContentResult> AddGoodsToWarehouse([FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
     {
         if (!ModelState.IsValid)
-            // TODO what data? how to get errors of model?
-            return Content("Некорректные данные. ");
+        {
+            string errors = string.Empty;
+            foreach (var error in ModelState.Values.SelectMany(modelEntry => modelEntry.Errors.Select(e => e.ErrorMessage)))
+            {
+                errors += error + "<br>";
+            }
+            return Content(errors);
+        }
+        // TODO what data? how to get errors of model?
         await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
         string result = addNewGoodsService.HasErrors
             ? string.Join("\r\n", addNewGoodsService.Errors)

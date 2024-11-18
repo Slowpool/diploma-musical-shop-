@@ -14,9 +14,10 @@ public record class GoodsKindSpecificDataDto
     //[Required()]
     [MaxLength(100)]
     // TODO add this attribute via fluent api automatically to the every string property
-    [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "Невалидные данные")]
-#error
-[StringLength(100, ErrorMessage = "Значение атрибута \"Цвет\" не может быть длиннее {1} символов")]
+    // UPD: probably ef core is helpless here
+    // TODO to cyrillic
+    [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "Значение поля \"Цвет\" может содержать только буквы а-я, А-Я и цифры 0-9")]
+    [StringLength(100, ErrorMessage = "Значение поля \"Цвет\" не может быть длиннее {1} символов")]
     string? Color,
     [StringLength(200)]
     string? Size,

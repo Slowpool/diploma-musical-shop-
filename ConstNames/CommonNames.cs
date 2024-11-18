@@ -22,4 +22,6 @@ public static class CommonNames
     public const string AudioEquipmentUnits = "Аудиооборудование";
     public const string Accessories = "Аксессуары";
     public const string SheetMusicEditions = "Нотные издания";
+
+    public const string EmptyFieldRu = "Значение поля \"{0}\" не может быть пустым";
 }
