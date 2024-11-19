@@ -14,7 +14,8 @@ public class StockController : Controller
     public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService)
     {
         var specificTypes = await specificTypesService.GetAllSpecificTypes();
-        var defaultDto = new AddGoodsToWarehouseDto(default!, KindOfGoods.MusicalInstruments, default!, false, default, default, GoodsStatus.InStock, default, default, default!);
+        GoodsKindSpecificDataDto defaultSpecificData = new(KindOfGoods.MusicalInstruments, default, default, default, default, default, default);
+        var defaultDto = new AddGoodsToWarehouseDto(default!, default!, false, default, default, GoodsStatus.InStock, default, default, defaultSpecificData);
         return View(new AddGoodsToWarehouseModel(defaultDto, specificTypes, []));
     }
 

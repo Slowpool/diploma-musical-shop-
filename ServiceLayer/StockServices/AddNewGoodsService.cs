@@ -28,8 +28,8 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
         try
         {
             specificType = dto.NewSpecificTypeIsBeingAdded
-                ? await specificTypesService.CreateSpecificType(dto.NewSpecificType, dto.KindOfGoods)
-                : await specificTypesService.GetSpecificType(dto.SpecificType, dto.KindOfGoods);
+                ? await specificTypesService.CreateSpecificType(dto.NewSpecificType, dto.GoodsKindSpecificDataDto.KindOfGoods)
+                : await specificTypesService.GetSpecificType(dto.SpecificType, dto.GoodsKindSpecificDataDto.KindOfGoods);
         }
         catch
         {
@@ -57,7 +57,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
         var result = new List<Goods>();
         for (int i = 0; i < dto.NumberOfUnits; i++)
         {
-            Goods goods = dto.KindOfGoods switch
+            Goods goods = dto.GoodsKindSpecificDataDto.KindOfGoods switch
             {
                 // TODO refactoring
                 KindOfGoods.MusicalInstruments => new MusicalInstrument

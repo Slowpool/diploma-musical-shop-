@@ -10,13 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Models;
-[Table("sheet_music_editions")]
 public class SheetMusicEdition : Goods
 {
-    //[Column("sheet_music_edition_id")]
-    //public Guid SheetMusicEditionId { get; set; }
+    [MaxLength(ConstValues.SheetMusicEditionAuthorMaxLength)]
     public string? Author { get; set; }
-    //[Column("release_year")]
     public int ReleaseYear { get; set; }
     public SheetMusicEditionSpecificType SpecificType { get; set; }
 }

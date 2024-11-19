@@ -13,10 +13,12 @@ public class DoesNotContainHtmlTagsAttribute : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var obj = validationContext.ObjectInstance;
-        var objType = obj.GetType();
-        foreach(var property in objType.GetProperties()
-                                       .Where(property => property.PropertyType == typeof(string)))
+        var obj = value;
+        var objType = obj!.GetType();
+        var properties = objType.GetProperties()
+                                .Where(property => property.PropertyType == typeof(string))
+                                .ToList();
+        foreach (var property in properties)
         {
             var propertyValue = (string?)property.GetValue(obj);
             if (propertyValue is null)

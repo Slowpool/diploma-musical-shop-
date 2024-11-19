@@ -10,18 +10,12 @@ using ViewModelsLayer.Stock.CustomAttributes;
 namespace ViewModelsLayer.Stock;
 [DoesNotContainHtmlTags]
 public record class AddGoodsToWarehouseDto(
-    // TODO sort out goodsName-must-be-not-null bug
     [RussianRequired("Наименование")]
     [RussianStringLength(ConstValues.GoodsNameMaxLength, "Наименование")]
     string Name,
 
-    [RussianRequired("Вид")]
-    [Required()]
-    KindOfGoods KindOfGoods,
-
     [RequiredWhenNewSpecificTypeAddingIsEqualTo(false, "Тип")]
     [RussianStringLength(ConstValues.GoodsSpecificTypeMaxLength, "Тип")]
-    //[DoesNotContainHtmlTags]
     string? SpecificType,
 
     [RussianRequired("Выполнить добавление нового типа")]
@@ -29,7 +23,6 @@ public record class AddGoodsToWarehouseDto(
 
     [RequiredWhenNewSpecificTypeAddingIsEqualTo(true, "Название нового типа")]
     [RussianStringLength(ConstValues.GoodsSpecificTypeMaxLength, "Название нового типа")]
-    //[DoesNotContainHtmlTags]
     string? NewSpecificType,
 
     [RussianRequired("Цена")]
@@ -40,7 +33,6 @@ public record class AddGoodsToWarehouseDto(
     GoodsStatus Status,
 
     [RussianStringLength(ConstValues.GoodsDescriptionMaxLength, "Описание")]
-    //[DoesNotContainHtmlTags]
     string? Description,
 
     [RussianRequired("Количество")]

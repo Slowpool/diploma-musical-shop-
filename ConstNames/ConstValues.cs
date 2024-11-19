@@ -21,5 +21,6 @@ public class ConstValues
     public const int AccessorySizeMaxLength = 200;
 
     public const int SheetMusicEditionAuthorMaxLength = 100;
-    public const int SheetMusicEditionManufacturerMaxLength = 100;
+
+    public const int MusicalInstrumentManufacturerMaxLength = 100;
 }

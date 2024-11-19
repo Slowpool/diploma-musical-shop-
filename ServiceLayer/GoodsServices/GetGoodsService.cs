@@ -50,8 +50,7 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
                 dynamic specificGoods = goods;
                 string from = kindOfGoods == KindOfGoods.MusicalInstruments ? specificGoods.Manufacturer : specificGoods.Author;
                 dto.Name = $"{specificGoods.Name} от \"{from}\"";
-                string description = $"Год выпуска: {specificGoods.ReleaseYear}. ";
-                dto.Description = description;
+                dto.Description = $"Год выпуска: {specificGoods.ReleaseYear} {goods.Description}";
                 break;
             case KindOfGoods.Accessories:
                 var accessory = (Accessory)goods;

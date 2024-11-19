@@ -21,13 +21,13 @@
             <p>
                 <label for="new-goods-kind">Вид</label>
                 <span id="new-goods-kind">
-                    <input id="new-goods-kind-mi" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="MusicalInstruments" />
+                    <input id="new-goods-kind-mi" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods" value="MusicalInstruments" />
                     <label for="new-goods-kind-mi">Музыкальный инструмент</label>
-                    <input id="new-goods-kind-ac" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="Accessories" />
+                    <input id="new-goods-kind-ac" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods" value="Accessories" />
                     <label for="new-goods-kind-ac">Аксессуар</label>
-                    <input id="new-goods-kind-aeu" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="AudioEquipmentUnits" />
+                    <input id="new-goods-kind-aeu" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods" value="AudioEquipmentUnits" />
                     <label for="new-goods-kind-aeu">Аудиоаппаратура</label>
-                    <input id="new-goods-kind-sme" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.KindOfGoods" value="SheetMusicEditions" />
+                    <input id="new-goods-kind-sme" class="new-goods-kind-radio" type="radio" asp-for="AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods" value="SheetMusicEditions" />
                     <label for="new-goods-kind-sme">Нотное издание</label>
                 </span>
             </p>
@@ -41,22 +41,22 @@
                     SelectListGroup mi = new()
             {
                 Name = CommonNames.MusicalInstruments,
-                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.MusicalInstruments
+                Disabled = Model.AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods != KindOfGoods.MusicalInstruments
             };
                     SelectListGroup sme = new()
             {
                 Name = CommonNames.SheetMusicEditions,
-                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.SheetMusicEditions
+                Disabled = Model.AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods != KindOfGoods.SheetMusicEditions
             };
                     SelectListGroup a = new()
             {
                 Name = CommonNames.Accessories,
-                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.Accessories
+                Disabled = Model.AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods != KindOfGoods.Accessories
             };
                     SelectListGroup aeu = new()
             {
                 Name = CommonNames.AudioEquipmentUnits,
-                Disabled = Model.AddGoodsToWarehouseDto.KindOfGoods != KindOfGoods.AudioEquipmentUnits
+                Disabled = Model.AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods != KindOfGoods.AudioEquipmentUnits
             };
 #warning default formatter went crazy
                     List<SelectListItem> items = [];

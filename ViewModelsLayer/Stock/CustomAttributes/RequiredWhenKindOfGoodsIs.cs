@@ -19,7 +19,7 @@ public class RequiredWhenKindOfGoodsIsAttribute : RequiredAttribute
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var dto = (AddGoodsToWarehouseDto)validationContext.ObjectInstance;
+        var dto = (GoodsKindSpecificDataDto)validationContext.ObjectInstance;
         if (dto.KindOfGoods == targetKindOfGoods)
 // TODO difference?
             return base.IsValid(value, validationContext);
