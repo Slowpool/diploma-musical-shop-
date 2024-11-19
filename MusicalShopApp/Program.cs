@@ -1,6 +1,5 @@
 using DataLayer.Common;
 using DataLayer.Models;
-using DbAccessLayer.Admin;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
@@ -13,6 +12,7 @@ using System.Reflection;
 using DbAccessLayer;
 using ServiceLayer;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using DbAccessLayer.Admin;
 
 #warning rub it off
 const bool USE_MYSQL = true;

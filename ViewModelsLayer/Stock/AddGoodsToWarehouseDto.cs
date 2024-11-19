@@ -5,39 +5,46 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.Stock.CustomAttributes;
 
 namespace ViewModelsLayer.Stock;
+[DoesNotContainHtmlTags]
 public record class AddGoodsToWarehouseDto(
     // TODO sort out goodsName-must-be-not-null bug
     [RussianRequired("Наименование")]
-    [StringLength(ConstValues.MaxGoodsNameLength)]
+    [RussianStringLength(ConstValues.GoodsNameMaxLength, "Наименование")]
     string Name,
 
     [RussianRequired("Вид")]
     [Required()]
     KindOfGoods KindOfGoods,
 
-    [RussianRequired("Тип")]
-    string SpecificType,
+    [RequiredWhenNewSpecificTypeAddingIsEqualTo(false, "Тип")]
+    [RussianStringLength(ConstValues.GoodsSpecificTypeMaxLength, "Тип")]
+    //[DoesNotContainHtmlTags]
+    string? SpecificType,
 
     [RussianRequired("Выполнить добавление нового типа")]
     bool NewSpecificTypeIsBeingAdded,
 
-    //[RussianRequired("Новый тип")]
-    [RequiredWhenNewSpecificTypeIsTrue]
+    [RequiredWhenNewSpecificTypeAddingIsEqualTo(true, "Название нового типа")]
+    [RussianStringLength(ConstValues.GoodsSpecificTypeMaxLength, "Название нового типа")]
+    //[DoesNotContainHtmlTags]
     string? NewSpecificType,
 
     [RussianRequired("Цена")]
-    [Range(ConstValues.MinGoodsPriceValue, ConstValues.MaxPriceValue)]
+    [Range(ConstValues.GoodsPriceMinValue, ConstValues.GoodsPriceMaxValue, ErrorMessage = "Значение поля \"Цена\" должно быть в диапазоне от {1} до {2}")]
     int? Price,
 
     [RussianRequired("Статус")]
     GoodsStatus Status,
 
-    [StringLength(ConstValues.MaxGoodsDescriptionLength)]
+    [RussianStringLength(ConstValues.GoodsDescriptionMaxLength, "Описание")]
+    //[DoesNotContainHtmlTags]
     string? Description,
 
     [RussianRequired("Количество")]
+    [Range(ConstValues.GoodsPriceMinValue, ConstValues.GoodsPriceMaxValue, ErrorMessage = "Значение поля \"Количество\" должно быть в диапазоне от {1} до {2}")]
     int? NumberOfUnits,
 
     [Required(ErrorMessage = "Отсутствуют специфичные данные")]

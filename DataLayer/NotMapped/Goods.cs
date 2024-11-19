@@ -16,13 +16,13 @@ public abstract class Goods : ISoftDeletable
     [Key]
     public Guid GoodsId { get; set; }
     [Required]
-    [MaxLength(ConstValues.MaxGoodsNameLength)]
+    [MaxLength(ConstValues.GoodsNameMaxLength)]
     public string Name { get; set; }
     public bool SoftDeleted { get; set; }
-    [Range(ConstValues.MinGoodsPriceValue, ConstValues.MaxPriceValue)]
+    [Range(ConstValues.GoodsPriceMinValue, ConstValues.GoodsPriceMaxValue)]
     public int Price { get; set; }
     public GoodsStatus Status { get; set; }
-    [MaxLength(ConstValues.MaxGoodsDescriptionLength)]
+    [MaxLength(ConstValues.GoodsDescriptionMaxLength)]
     public string? Description { get; set; }
     // relationships
     public virtual ICollection<Sale> Sales { get; set; } = [];

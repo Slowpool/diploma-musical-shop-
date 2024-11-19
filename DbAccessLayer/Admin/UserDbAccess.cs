@@ -15,7 +15,7 @@ public interface IUserDbAccess
     Task<bool> IsUniqueNormalizedUserName(string normalizedUserName, string userId);
     Task<bool> IsUniqueNormalizedUserName(string normalizedUserName);
     Task<bool> IsUniqueNormalizedEmail(string normalizedEmail, string userId);
-    Task<string?> AddUser(AppUser newUser, string password); 
+    Task<string?> AddUser(AppUser newUser, string password);
 }
 
 public class UserDbAccess(MusicalShopDbContext context, UserManager<AppUser> userManager) : IUserDbAccess

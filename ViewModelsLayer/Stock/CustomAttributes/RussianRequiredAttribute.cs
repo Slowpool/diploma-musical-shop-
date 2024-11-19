@@ -9,12 +9,11 @@ namespace ViewModelsLayer.Stock.CustomAttributes;
 [AttributeUsage(AttributeTargets.Parameter)]
 public class RussianRequiredAttribute : RequiredAttribute
 {
-    public RussianRequiredAttribute(string propertyName)
+    public RussianRequiredAttribute(string parameterName)
     {
-        ErrorMessage = string.Format(CommonNames.EmptyFieldRu, propertyName);
+        ErrorMessage = string.Format(CommonNames.FieldIsRequiredMessageRu, parameterName);
     }
-
-    public override bool IsValid(object? value)
-        => value is not null;
+    //public override bool IsValid(object? value)
+        //=> value is not null;
 
 }

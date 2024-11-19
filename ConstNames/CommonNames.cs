@@ -23,5 +23,7 @@ public static class CommonNames
     public const string Accessories = "Аксессуары";
     public const string SheetMusicEditions = "Нотные издания";
 
-    public const string EmptyFieldRu = "Значение поля \"{0}\" не может быть пустым";
+    public const string FieldIsRequiredMessageRu = "Значение поля \"{0}\" не может быть пустым";
+    public const string MaxLengthViolationMessageRu = "Значение поля \"{0}\" не может быть длиннее {1} символов";
+    public const string HtmlTagsViolationMessageRu = "Значение поля \"{0}\" не может содержать HTML-теги";
 }

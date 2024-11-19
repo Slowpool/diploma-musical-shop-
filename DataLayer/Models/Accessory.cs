@@ -14,9 +14,9 @@ namespace DataLayer.Models;
 [Table("accessories")]
 public class Accessory : Goods
 {
+    [MaxLength(ConstValues.AccessoryColorMaxLength)]
     public string Color { get; set; }
-    //[Required]
-    //[MaxLength(255)]
+    [MaxLength(ConstValues.AccessorySizeMaxLength)]
     public string Size { get; set; }
     public AccessorySpecificType SpecificType { get; set; }
 }

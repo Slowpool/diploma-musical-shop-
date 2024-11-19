@@ -6,28 +6,32 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.Stock.CustomAttributes;
 
 namespace ViewModelsLayer.Stock;
+[DoesNotContainHtmlTags]
 public record class GoodsKindSpecificDataDto
     (
     // Accessory
-    //[Required()]
-    [MaxLength(100)]
-    // TODO add this attribute via fluent api automatically to the every string property
-    // UPD: probably ef core is helpless here
+    [RussianStringLength(ConstValues.AccessoryColorMaxLength, "Цвет")]
+    [RequiredWhenKindOfGoodsIs(KindOfGoods.Accessories, "Цвет")]
     // TODO to cyrillic
-    [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "Значение поля \"Цвет\" может содержать только буквы а-я, А-Я и цифры 0-9")]
-    [StringLength(100, ErrorMessage = "Значение поля \"Цвет\" не может быть длиннее {1} символов")]
     string? Color,
-    [StringLength(200)]
+    [RussianStringLength(ConstValues.AccessorySizeMaxLength, "Размер")]
+    [RequiredWhenKindOfGoodsIs(KindOfGoods.Accessories, "Размер")]
     string? Size,
     // Sheet music edition
-    [StringLength(100)]
+    [RussianStringLength(ConstValues.SheetMusicEditionAuthorMaxLength, "Автор")]
+    [RequiredWhenKindOfGoodsIs(KindOfGoods.SheetMusicEditions, "Автор")]
     string? Author,
     // Musical instrument
     // TODO dynamic validation like [Max(CurrentYear)] but there're exceptions, e.g. when the instrument will be released in next year, and shop already has ordered this instrument and its release year in the next year is really possible.
+    [RequiredWhenKindOfGoodsIs(KindOfGoods.MusicalInstruments, "Год выпуска")]
+    [RequiredWhenKindOfGoodsIs(KindOfGoods.SheetMusicEditions, "Год выпуска")]
     int? ReleaseYear,
+    [RequiredWhenKindOfGoodsIs(KindOfGoods.MusicalInstruments, "Тип производителя")]
     ManufacturerType? ManufacturerType,
-    [StringLength(100)]
+    [RequiredWhenKindOfGoodsIs(KindOfGoods.MusicalInstruments, "Производитель")]
+    [RussianStringLength(ConstValues.SheetMusicEditionManufacturerMaxLength, "Производитель")]
     string? Manufacturer
     );
