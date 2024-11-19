@@ -4,6 +4,7 @@ using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MusicalShopDbContext))]
-    partial class MusicalShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241119083824_DeliveryChagne2")]
+    partial class DeliveryChagne2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,14 +42,13 @@ namespace DataLayer.Migrations
                         .HasColumnName("delivery_id");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .IsRequired()
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<int>("Price")
@@ -179,14 +181,13 @@ namespace DataLayer.Migrations
                         .HasColumnName("delivery_id");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .IsRequired()
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<int>("Price")
@@ -331,8 +332,8 @@ namespace DataLayer.Migrations
                         .HasColumnName("delivery_id");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .IsRequired()
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("Manufacturer")
@@ -346,8 +347,7 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<int>("Price")
@@ -487,14 +487,13 @@ namespace DataLayer.Migrations
                         .HasColumnName("delivery_id");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .IsRequired()
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)")
+                        .HasColumnType("longtext")
                         .HasColumnName("name");
 
                     b.Property<int>("Price")

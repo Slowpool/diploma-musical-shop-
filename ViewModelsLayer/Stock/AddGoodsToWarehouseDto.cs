@@ -10,23 +10,35 @@ namespace ViewModelsLayer.Stock;
 public record class AddGoodsToWarehouseDto(
     // TODO sort out goodsName-must-be-not-null bug
     [RussianRequired("Наименование")]
-    string GoodsName,
+    [StringLength(ConstValues.MaxGoodsNameLength)]
+    string Name,
+
     [RussianRequired("Вид")]
+    [Required()]
     KindOfGoods KindOfGoods,
+
     [RussianRequired("Тип")]
     string SpecificType,
+
     [RussianRequired("Выполнить добавление нового типа")]
     bool NewSpecificTypeIsBeingAdded,
+
     //[RussianRequired("Новый тип")]
+    [RequiredWhenNewSpecificTypeIsTrue]
     string? NewSpecificType,
+
     [RussianRequired("Цена")]
-    // TODO to russian, check exclusion
-    [Range(1, 2_147_483_647, MinimumIsExclusive = false, MaximumIsExclusive = false)]
+    [Range(ConstValues.MinGoodsPriceValue, ConstValues.MaxPriceValue)]
     int? Price,
+
     [RussianRequired("Статус")]
     GoodsStatus Status,
+
+    [StringLength(ConstValues.MaxGoodsDescriptionLength)]
     string? Description,
+
     [RussianRequired("Количество")]
     int? NumberOfUnits,
+
     [Required(ErrorMessage = "Отсутствуют специфичные данные")]
     GoodsKindSpecificDataDto GoodsKindSpecificDataDto);

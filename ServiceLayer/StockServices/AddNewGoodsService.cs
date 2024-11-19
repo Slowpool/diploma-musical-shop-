@@ -38,12 +38,6 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
         }
 
 
-#warning business logic is here, but little
-        if (dto.Price <= 0)
-#warning how to use these properties
-            AddError("Цена не может быть меньше или равна 0");//, nameof(price
-        if (dto.NumberOfUnits <= 0)
-            AddError("Количество единиц товара не может быть меньше или равно 0");
         DateTimeOffset? receiptDate = default;
         switch (dto.Status)
         {
@@ -86,7 +80,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
                 _ => throw new Exception()
             };
             goods.Description = dto.Description;
-            goods.Name = dto.GoodsName;
+            goods.Name = dto.Name;
             goods.Price = (int)dto.Price;
             goods.ReceiptDate = receiptDate;
             goods.SoftDeleted = false;

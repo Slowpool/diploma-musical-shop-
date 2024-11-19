@@ -5,21 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewModelsLayer.Stock;
+namespace ViewModelsLayer.Stock.CustomAttributes;
 [AttributeUsage(AttributeTargets.Parameter)]
-public class RussianRequiredAttribute : ValidationAttribute
+public class RussianRequiredAttribute : RequiredAttribute
 {
     public RussianRequiredAttribute(string propertyName)
     {
         ErrorMessage = string.Format(CommonNames.EmptyFieldRu, propertyName);
     }
 
-    protected override ValidationResult IsValid(object value, ValidationContext context)
-    {
-        if (value is null)
-            return new ValidationResult(ErrorMessage);
-        else
-            return ValidationResult.Success!;
-    }
+    public override bool IsValid(object? value)
+        => value is not null;
 
 }

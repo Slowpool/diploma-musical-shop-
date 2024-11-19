@@ -14,30 +14,22 @@ namespace DataLayer.NotMapped;
 public abstract class Goods : ISoftDeletable
 {
     [Key]
-    //[Column("goods_id")]
     public Guid GoodsId { get; set; }
-    //[Column("soft_deleted")]
+    [Required]
+    [MaxLength(ConstValues.MaxGoodsNameLength)]
+    public string Name { get; set; }
     public bool SoftDeleted { get; set; }
-#warning workaround
-    [Range(0, 4_294_967_295)]
+    [Range(ConstValues.MinGoodsPriceValue, ConstValues.MaxPriceValue)]
     public int Price { get; set; }
     public GoodsStatus Status { get; set; }
-    [MaxLength(500)]
-    public string Description { get; set; }
-    [MaxLength(200)]
-    public string Name { get; set; }
+    [MaxLength(ConstValues.MaxGoodsDescriptionLength)]
+    public string? Description { get; set; }
     // relationships
-    //[Column("sale_id")]
-    //[ForeignKey(nameof(Goods.Sale))]
-    //public Guid? SaleId { get; set; }
     public virtual ICollection<Sale> Sales { get; set; } = [];
-    //[Column("type_id")]
     public Guid SpecificTypeId { get; set; }
     //public abstract SpecificType SpecificType { get; set; }
-    //[Column("receipt_date")]
     public DateTimeOffset? ReceiptDate { get; set; }
     public Guid? DeliveryId { get; set; }
     [ForeignKey(nameof(Goods.DeliveryId))]
     public virtual GoodsDelivery? Delivery { get; set; }
-
 }
