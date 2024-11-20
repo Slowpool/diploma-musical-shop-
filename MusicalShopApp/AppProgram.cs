@@ -13,6 +13,9 @@ using DbAccessLayer;
 using ServiceLayer;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DbAccessLayer.Admin;
+using Microsoft.AspNetCore.Mvc;
+using DataLayer.SupportClasses;
+using Microsoft.AspNetCore.Builder;
 
 #warning rub it off
 const bool USE_MYSQL = true;
@@ -92,6 +95,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Goods}/{action=Index}/{id?}");
 app.MapRazorPages();
+
 
 
 app.Run();

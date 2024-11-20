@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Sales;
 
-public class ArrangeSaleAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<ArrangeSaleDto, Task<Guid?>>
+public class CreateSaleAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<CreateSaleDto, Task<Guid?>>
 {
-    public async Task<Guid?> Action(ArrangeSaleDto dto)
+    public async Task<Guid?> Action(CreateSaleDto dto)
     {
         if (dto.GoodsForSale.Count == 0)
         {

@@ -21,7 +21,7 @@ public class SalesController : CartViewerBaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> ArrangeSale([FromQuery] SalePaidBy paidBy, [FromServices] IArrangeSaleService service)
+    public async Task<IActionResult> ArrangeSale([FromQuery] SalePaidBy paidBy, [FromServices] ICreateSaleService service)
     {
         Dictionary<Guid, KindOfGoods> goods = [];
 #warning don't like this yellow underlining line
@@ -83,8 +83,16 @@ public class SalesController : CartViewerBaseController
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> SaleCancelling(/*[FromQuery]*/ Guid saleId, [FromServices] ISaleManagementService service)
+    public async Task<ContentResult> SaleCancelling([FromQuery] Guid saleId, [FromServices] ISaleManagementService service)
     {
         return await service.CancelSale(saleId) ? Content("Successfully cancelled") : Content("Failed to cancel");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ReserveSale([FromServices] ICartService cartService)
+    {
+        cartService.
+        return View();
     }
 }
