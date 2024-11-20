@@ -4,4 +4,4 @@ using DataLayer.SupportClasses;
 
 namespace BusinessLogicLayer.Sales.Dto;
 
-public record class CreateSaleDto(List<Goods> GoodsForSale, SalePaidBy PaidBy);
+public record class CreateSaleDto(List<Goods> GoodsForSale, SalePaidBy? PaidBy);

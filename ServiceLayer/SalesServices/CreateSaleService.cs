@@ -19,32 +19,13 @@ namespace ServiceLayer.SalesServices;
 
 public interface ICreateSaleService : IErrorStorage
 {
-    Task<Guid?> ArrangeSale(Dictionary<Guid, KindOfGoods> goods, SalePaidBy paidBy);
-    Task<Guid?> ReserveSale(Dictionary<Guid, KindOfGoods> goods);
+    Task<Guid?> ArrangeSale(List<Goods> goods, SalePaidBy? paidBy);
 }
-public class CreateSaleService(MusicalShopDbContext context, IGetGoodsService service) : ErrorStorage, ICreateSaleService
+public class CreateSaleService(MusicalShopDbContext context) : ErrorStorage, ICreateSaleService
 {
     private readonly RunnerWriteDb<CreateSaleDto, Task<Guid?>> runner = new RunnerWriteDb<CreateSaleDto, Task<Guid?>>(context, new CreateSaleAction(new SalesDbAccess(context)));
     public override IImmutableList<ValidationResult> Errors => runner.Errors;
-    public async Task<Guid?> ArrangeSale(Dictionary<Guid, KindOfGoods> goods, SalePaidBy paidBy)
-    {
-        List<Goods> goodsList = [];
-        try
-        {
-            foreach (var (goodsId, kindOfGoods) in goods)
-            {
-                goodsList.Add(await service.GetGoodsInfo(goodsId, kindOfGoods));
-            }
-            return await runner.Run(new CreateSaleDto(goodsList, paidBy));
-        }
-        catch
-        {
-#warning DRN violation (Don't Return Null)
-            return null;
-        }
-    }
-    public async Task<Guid?> ReserveSale(Dictionary<Guid, KindOfGoods> goods)
-    {
-
-    }
+    // interesting thing about DRN, here it is an architectural decision.
+    public async Task<Guid?> ArrangeSale(List<Goods> goodsList, SalePaidBy? paidBy)
+        => await runner.Run(new CreateSaleDto(goodsList, paidBy));
 }

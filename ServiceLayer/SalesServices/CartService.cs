@@ -1,9 +1,11 @@
 ﻿using DataLayer.Common;
+using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using ServiceLayer.GoodsServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using static Common.CommonNames;
@@ -12,15 +14,22 @@ namespace ServiceLayer.SalesServices;
 
 public interface ICartService
 {
+
     Task<string> MoveGoodsBackToCart(Guid saleId);
     Task<string?> AddToOrRemoveFromCart(Guid goodsId, bool isInCart, string? goodsIdsAndKinds);
-
+    Task<List<Goods>> GetGoodsFromCart(string[] cartContent);
+    // Raw logic methods
+    string CutGoodsId(string goodsIdAndKind);
+    KindOfGoods CutGoodsKind(string goodsIdAndKind);
 }
 #warning so where is services for adding to and removing from the cart
 #warning UPD: what did i mean?
+#warning UPD2: i meant that the cart is supposed to have methods like AddGoodsUnitInCart() and RemoveGoodsUnitFromCart()
 public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSaleService goodsRelatedToSaleService, IGetGoodsService getGoodsService, IUpdateGoodsStatusService updateGoodsStatusService) : ICartService
 {
-#warning encapsulate it in Cart class
+    public string CutGoodsId(string goodsIdAndKind) => goodsIdAndKind.Split(CommonNames.GoodsIdAndKindSeparator)[0];
+    public KindOfGoods CutGoodsKind(string goodsIdAndKind) => Enum.Parse<KindOfGoods>(goodsIdAndKind.Split(CommonNames.GoodsIdAndKindSeparator)[1])!;
+
     public async Task<string> MoveGoodsBackToCart(Guid saleId)
     {
         var goods = await goodsRelatedToSaleService.GetOrigGoodsUnitsRelatedToSale(saleId);
@@ -74,5 +83,15 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSa
         }
         goodsIdsAndKindsList.Add($"{goodsId}{GoodsIdAndKindSeparator}{kindOfGoods}");
         return goodsIdsAndKindsList;
+    }
+
+    public async Task<List<Goods>> GetGoodsFromCart(string[] cartContent)
+    {
+        List<Goods> goodsList = [];
+        foreach (var goodsIdAndType in cartContent)
+        {
+            goodsList.Add(await getGoodsService.GetGoodsInfo(Guid.Parse(CutGoodsId(goodsIdAndType)), CutGoodsKind(goodsIdAndType)));
+        }
+        return goodsList;
     }
 }

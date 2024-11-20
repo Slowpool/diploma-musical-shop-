@@ -20,23 +20,27 @@ public class SalesController : CartViewerBaseController
         return View(new SalesSearchModel(q, list, list.Count, filterOptions, orderByOptions));
     }
 
-    [HttpPost]
-    public async Task<IActionResult> ArrangeSale([FromQuery] SalePaidBy paidBy, [FromServices] ICreateSaleService service)
+    [HttpPost("/sale/arrange")]
+#warning QueryString with POST?
+    public async Task<IActionResult> Arrange([FromQuery] SalePaidBy paidBy, [FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
     {
-        Dictionary<Guid, KindOfGoods> goods = [];
-#warning don't like this yellow underlining line
-        foreach(var goodsIdAndType in GoodsIdsAndKinds)
-        {
-            goods[Guid.Parse(CutGoodsId(goodsIdAndType))] = CutGoodsKind(goodsIdAndType);
-        }
-        Guid? saleId = await service.ArrangeSale(goods, paidBy);
-        if (!service.HasErrors)
+        var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
+        Guid? saleId = await createSaleService.ArrangeSale(goods, paidBy);
+        if (!createSaleService.HasErrors)
         {
             ClearCart();
             return RedirectToAction("PayForSale", new { saleId });
         }
         else
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost("/sale/reserve")]
+    public async Task<IActionResult> Reserve([FromServices] ICartService cartService)
+    {
+        return View();
     }
 
     private void ClearCart()
@@ -57,7 +61,7 @@ public class SalesController : CartViewerBaseController
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> RegistrationOfSaleAsSold(Guid saleId, [FromServices] ISaleManagementService saleService, [FromServices] ICartService cartService)
+    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, [FromServices] ISaleManagementService saleService, [FromServices] ICartService cartService)
     {
         bool success = await saleService.RegisterSaleAsSold(saleId);
         if (!success)
@@ -86,13 +90,5 @@ public class SalesController : CartViewerBaseController
     public async Task<ContentResult> SaleCancelling([FromQuery] Guid saleId, [FromServices] ISaleManagementService service)
     {
         return await service.CancelSale(saleId) ? Content("Successfully cancelled") : Content("Failed to cancel");
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ReserveSale([FromServices] ICartService cartService)
-    {
-        cartService.
-        return View();
     }
 }

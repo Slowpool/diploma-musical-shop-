@@ -15,8 +15,14 @@ namespace BusinessLogicLayer.Sales;
 
 public class CreateSaleAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<CreateSaleDto, Task<Guid?>>
 {
+    /// <summary>
+    /// When <paramref name="dto"/>.PaidBy is <c>null</c>, this method treat sale as a reservation, otherwise as a sale.
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
     public async Task<Guid?> Action(CreateSaleDto dto)
     {
+#warning already checked before an Action calling
         if (dto.GoodsForSale.Count == 0)
         {
             AddError("Список товаров пуст.");
