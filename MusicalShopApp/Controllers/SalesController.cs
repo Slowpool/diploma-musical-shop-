@@ -35,9 +35,8 @@ public class SalesController : CartViewerBaseController
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
     [HttpPost("/sale/reserve")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Reserve([FromServices] ICartService cartService)
     {
         return View();

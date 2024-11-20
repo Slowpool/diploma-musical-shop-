@@ -47,9 +47,8 @@ public class Sale
     [Required]
     public SaleStatus Status { get; set; }
     [Required]
-    public SalePaidBy PaidBy { get; set; }
-    [Required]
     public bool IsPaid { get; set; }
+    public SalePaidBy? PaidBy { get; set; }
     // relationships
     public virtual ICollection<MusicalInstrument> MusicalInstruments { get; set; } = [];
     public virtual ICollection<Accessory> Accessories { get; set; } = [];

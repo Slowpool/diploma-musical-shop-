@@ -117,7 +117,7 @@ public class GoodsController : CartViewerBaseController
 
     [HttpGet]
     [Authorize(Roles = CommonNames.SellerRole)]
-    public async Task<IActionResult> Cart([FromServices] IGetGoodsService service)
+    public async Task<IActionResult> Cart([FromServices] IGetGoodsService getGoodsService, ICartService cartService)
     {
 #warning probably the same code as in search
         List<GoodsUnitSearchDto> GoodsUnitModels = new();
@@ -125,13 +125,13 @@ public class GoodsController : CartViewerBaseController
         {
             foreach (var goodsIdAndType in GoodsIdsAndKinds!)
             {
-                Guid goodsId = Guid.Parse(CutGoodsId(goodsIdAndType));
-                var goodsInfo = await service.GetReadableGoodsInfo(goodsId, CutGoodsKind(goodsIdAndType));
+                Guid goodsId = Guid.Parse(cartService.CutGoodsId(goodsIdAndType));
+                var goodsInfo = await getGoodsService.GetReadableGoodsInfo(goodsId, cartService.CutGoodsKind(goodsIdAndType));
                 goodsInfo.IsInCart = IsInCart(goodsId);
                 GoodsUnitModels.Add(goodsInfo);
                 //try
                 //{
-                //    var goodsInfo = await service.GetReadableGoodsInfo(goodsId, CutGoodsKind(goodsIdAndType));
+                //    var goodsInfo = await service.GeitReadableGoodsInfo(goodsId, CutGoodsKind(goodsIdAndType));
                 //    goodsInfo.IsInCart = IsInCart(goodsId);
                 //    GoodsUnitModels.Add(goodsInfo);
                 //}
