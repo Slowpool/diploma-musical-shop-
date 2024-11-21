@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
 using DbAccessLayer;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace BasicAppConfiguration;
 
@@ -11,6 +13,23 @@ namespace BasicAppConfiguration;
 /// </summary>
 public static class BasicApp
 {
+    public static string AppSettingsFilePath
+    {
+        get
+        {
+            //"../appsettings.json"
+            var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+            DirectoryInfo parent = currentDirectory;
+            do
+            {
+                parent = parent.Parent!;
+            }
+            while (parent is not null && parent.Name.ToLower() != "diploma (musical shop)");
+            return parent is null
+                ? throw new Exception("Parent was null")
+                : Path.Combine(parent.FullName, "BaseAppConfiguration", "appsettings.json");
+        }
+    }
     public static WebApplicationBuilder CreateBuilder(string[] args)
     {
 #warning rub it off
@@ -19,7 +38,7 @@ public static class BasicApp
         const bool USE_SQLITE = false;
 
         var builder = WebApplication.CreateBuilder(args);
-
+        builder.Configuration.AddJsonFile(AppSettingsFilePath);
         var connectionString = builder.Configuration.GetConnectionString(USE_MYSQL ? "MySql" : USE_SQL_SERVER ? "SqlServer" : USE_SQLITE ? "Sqlite" : "") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<MusicalShopDbContext>(options =>
         {
