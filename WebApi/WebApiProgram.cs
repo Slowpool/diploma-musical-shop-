@@ -1,16 +1,19 @@
-using DataLayer.SupportClasses;
-using Microsoft.AspNetCore.Builder;
 using WebApi.RouteGroups;
+using DbAccessLayer;
+using ServiceLayer;
+using DataLayer.Common;
+using DataLayer.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using BasicAppConfiguration;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = BasicApp.CreateBuilder(args);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

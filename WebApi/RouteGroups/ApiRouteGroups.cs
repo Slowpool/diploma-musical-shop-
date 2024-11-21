@@ -25,7 +25,7 @@ public static class ApiRouteGroups
 
     private static RouteGroupBuilder RouteVersion1(this RouteGroupBuilder group)
     {
-        group.MapGet("/goods/{kindOfGoods:KindOfGoods}/{goodsId:Guid}",
+        group.MapGet("/goods/{kindOfGoods}/{goodsId:Guid}",
         ([FromRoute] Guid goodsId, [FromRoute] KindOfGoods kindOfGoods, [FromServices] IGetGoodsService service) =>
         {
             try

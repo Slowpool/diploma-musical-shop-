@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.AdminServices
 {
-    class AddUserService(MusicalShopDbContext context, UserManager<AppUser> userManager) : ErrorStorage
+    class AddUserService(MusicalShopDbContext context, UserManager<IdentityUser> userManager) : ErrorStorage
     {
         private readonly RunnerWriteDb<NewUserDto, Task<string?>> _runner = new(context, new AddUserAction(new(context, userManager)));
         public override IImmutableList<ValidationResult> Errors => _runner.Errors;

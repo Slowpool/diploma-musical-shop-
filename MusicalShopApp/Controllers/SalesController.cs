@@ -22,7 +22,7 @@ public class SalesController : CartViewerBaseController
 
     [HttpPost("/sale/arrange")]
 #warning QueryString with POST?
-    public async Task<IActionResult> Arrange([FromQuery] SalePaidBy paidBy, [FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
+    public async Task<IActionResult> Arrange([FromQuery] SalePaidBy? paidBy, [FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
     {
         var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
         Guid? saleId = await createSaleService.ArrangeSale(goods, paidBy);

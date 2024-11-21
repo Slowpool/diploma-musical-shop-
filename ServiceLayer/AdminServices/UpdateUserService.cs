@@ -21,7 +21,7 @@ public interface IUpdateUserService : IErrorStorage
     Task<string?> UpdateUser(UpdateUserDto dto);
 }
 
-public class UpdateUserService(MusicalShopDbContext context, UserManager<AppUser> userManager) : ErrorStorage, IUpdateUserService
+public class UpdateUserService(MusicalShopDbContext context, UserManager<IdentityUser> userManager) : ErrorStorage, IUpdateUserService
 {
     private readonly RunnerWriteDb<UpdateUserDto, Task<string?>> _runner = new(context, new UpdateUserAction(new(context, userManager)));
     public override IImmutableList<ValidationResult> Errors => _runner.Errors;

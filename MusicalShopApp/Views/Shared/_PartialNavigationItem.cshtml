@@ -4,8 +4,8 @@
 
 @model PartialNavigationItemModel
 
-@inject UserManager<AppUser> userManager
-@inject SignInManager<AppUser> signInManager
+@inject UserManager<IdentityUser> userManager
+@inject SignInManager<IdentityUser> signInManager
 
 @if (signInManager.IsSignedIn(User))
 {

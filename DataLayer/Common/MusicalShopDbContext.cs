@@ -17,7 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Common;
-public partial class MusicalShopDbContext : IdentityDbContext<AppUser>
+public partial class MusicalShopDbContext : IdentityDbContext<IdentityUser>
 {
     public virtual DbSet<MusicalInstrument> MusicalInstruments { get; set; }
     public virtual DbSet<Accessory> Accessories { get; set; }

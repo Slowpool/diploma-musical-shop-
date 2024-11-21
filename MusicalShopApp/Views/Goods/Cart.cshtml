@@ -20,7 +20,7 @@
         <h3>
             Итого к оплате: @(Model.Aggregate(0, (total, dto) => total += dto.Price).ToMoney())
         </h3>
-        <form asp-controller="Sales" asp-action="ArrangeSale" method="post">
+        <form asp-controller="Sales" asp-action="Arrange" method="post">
             <div>
                 <label for="radio-paid-by-sale-arranging">Оплата</label>
                 <span id="radio-paid-by-sale-arranging">
@@ -32,7 +32,7 @@
             </div>
             <input type="submit" value="Оформить продажу" />
         </form>
-        <form asp-controller="Sales" asp-action="ReserveSale" method="post">
+        <form asp-controller="Sales" asp-action="Reserve" method="post">
             <input type="submit" value="Зарезервировать покупку" />
         </form>
     }

@@ -117,9 +117,9 @@ public class GoodsController : CartViewerBaseController
 
     [HttpGet]
     [Authorize(Roles = CommonNames.SellerRole)]
-    public async Task<IActionResult> Cart([FromServices] IGetGoodsService getGoodsService, ICartService cartService)
+    public async Task<IActionResult> Cart([FromServices] IGetGoodsService getGoodsService, [FromServices] ICartService cartService)
     {
-#warning probably the same code as in search
+#warning i'm confused around the whole this cart stuff. i stopped understanding what's going on here
         List<GoodsUnitSearchDto> GoodsUnitModels = new();
         if (!string.IsNullOrEmpty(GoodsIdsAndKindsInCart))
         {

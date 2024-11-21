@@ -3,6 +3,7 @@ using BizLogicBase.Validation;
 using BusinessLogicLayer.Admin.Dto;
 using DataLayer.Models;
 using DbAccessLayer.Admin;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ public class AddUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<NewUs
 {
     public async Task<string?> Action(NewUserDto dto)
     {
-        var newUser = new AppUser();
+        var newUser = new IdentityUser();
 
         if (string.IsNullOrWhiteSpace(dto.UserName))
             AddError("Имя пользователя не может быть пустым");
@@ -23,7 +24,7 @@ public class AddUserAction(UserDbAccess dbAccess) : ErrorAdder, IBizAction<NewUs
         {
             var normalizedUserName = dto.UserName.ToUpper();
             if (!await dbAccess.IsUniqueNormalizedUserName(normalizedUserName))
-                AddError("Данное имя пользователя уже используется", nameof(AppUser.UserName));
+                AddError("Данное имя пользователя уже используется", nameof(IdentityUser.UserName));
             else
             {
                 newUser.UserName = dto.UserName;

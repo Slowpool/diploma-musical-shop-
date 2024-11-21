@@ -60,7 +60,7 @@ public class DataSeeding
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         await EnsureRolesAsync(roleManager);
 
-        var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
         await EnsureUsersAsync(userManager, services);
         // Unneccesary stuff for app, but it provides visibility for test-review
         var context = services.GetRequiredService<MusicalShopDbContext>();
@@ -83,7 +83,7 @@ public class DataSeeding
         }
     }
 
-    private async static Task EnsureUsersAsync(UserManager<AppUser> userManager, IServiceProvider services)
+    private async static Task EnsureUsersAsync(UserManager<IdentityUser> userManager, IServiceProvider services)
     {
         var configuration = services.GetRequiredService<IConfiguration>();
         var passwordsSection = configuration.GetSection("DefaultPasswords");
@@ -97,7 +97,7 @@ public class DataSeeding
                 .SingleOrDefaultAsync();
             if (defaultUser == null)
             {
-                var user = new AppUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
+                var user = new IdentityUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
                 await userManager.CreateAsync(user, passwordsSection.GetValue<string>(roleNames[i])!);
                 await userManager.AddToRoleAsync(user, roleNames[i]);
             }

@@ -8,13 +8,13 @@ namespace ServiceLayer.AdminServices;
 
 public interface IGetUserService
 {
-    Task<AppUser?> GetUserInfo(Guid userId);
+    Task<IdentityUser?> GetUserInfo(Guid userId);
 }
 
-public class GetUserService(MusicalShopDbContext context, UserManager<AppUser> userManager) : IGetUserService
+public class GetUserService(MusicalShopDbContext context, UserManager<IdentityUser> userManager) : IGetUserService
 {
     private readonly UserDbAccess dbAccess = new(context, userManager);
-    public async Task<AppUser?> GetUserInfo(Guid userId)
+    public async Task<IdentityUser?> GetUserInfo(Guid userId)
     {
         return await dbAccess.GetUserInfo(userId);
     }
