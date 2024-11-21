@@ -35,6 +35,7 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
     {
         var saleView = await context.SalesView.SingleAsync(saleView => saleView.SaleId == saleId);
         var sale = await GetOriginalSale(saleId);
+#warning whaaat's going on here?
         saleView.MusicalInstruments = [.. sale.MusicalInstruments];
         saleView.Accessories = [.. sale.Accessories];
         saleView.AudioEquipmentUnits= [.. sale.AudioEquipmentUnits];

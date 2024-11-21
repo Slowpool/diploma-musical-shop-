@@ -13,7 +13,7 @@ namespace BasicAppConfiguration;
 /// </summary>
 public static class BasicApp
 {
-    public static string AppSettingsFilePath
+    private static string AppSettingsFilePath
     {
         get
         {
