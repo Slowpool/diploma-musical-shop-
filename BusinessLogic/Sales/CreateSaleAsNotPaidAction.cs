@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Sales;
 
-public class CreateSaleAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<CreateSaleDto, Task<Guid?>>
+public class CreateSaleAsNotPaidAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<CreateSaleDto, Task<Guid?>>
 {
     /// <summary>
     /// When <paramref name="dto"/>.PaidBy is <c>null</c>, this method treat sale as a reservation, otherwise as a sale.
@@ -43,7 +43,7 @@ public class CreateSaleAction(SalesDbAccess dbAccess) : ErrorAdder, IBizAction<C
             SaleId = Guid.NewGuid(),
             PaidBy = dto.PaidBy,
             LocalSaleDate = DateTime.UtcNow,
-            Status = SaleStatus.Sold
+            Status = SaleStatus.YetNotPaid
         };
         dbAccess.CreateSale(sale, dto.GoodsForSale);
         return sale.SaleId;

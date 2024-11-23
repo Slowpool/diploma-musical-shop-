@@ -21,11 +21,10 @@ public class SalesController : CartViewerBaseController
     }
 
     [HttpPost("/sale/arrange")]
-#warning QueryString with POST?
-    public async Task<IActionResult> Arrange([FromQuery] SalePaidBy? paidBy, [FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
+    public async Task<IActionResult> CreateSaleAsNotSold([FromForm] SalePaidBy? paidBy, [FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
     {
         var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
-        Guid? saleId = await createSaleService.ArrangeSale(goods, paidBy);
+        Guid? saleId = await createSaleService.CreateSaleAsNotPaid(goods, paidBy);
         if (!createSaleService.HasErrors)
         {
             ClearCart();
@@ -60,17 +59,21 @@ public class SalesController : CartViewerBaseController
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, [FromServices] ISaleManagementService saleService, [FromServices] ICartService cartService)
+    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService)
     {
-        bool success = await saleService.RegisterSaleAsSold(saleId);
-        if (!success)
+        string result;
+        try
+        {
+            await saleService.RegisterSaleAsPaid(saleId);
+            result = "Successfully registered";
+        }
+        catch
         {
             await RestoreCart(saleId, cartService);
-            //await saleService.DeleteSale(saleId);
-#warning what if false?
             await saleService.CancelSale(saleId);
+            result = "Failed to register";
         }
-        return success ? Content("Successfully registered") : Content("Failed to register");
+        return Content(result);
     }
 
     private async Task RestoreCart(Guid saleId, ICartService cartService)
@@ -86,8 +89,20 @@ public class SalesController : CartViewerBaseController
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> SaleCancelling([FromQuery] Guid saleId, [FromServices] ISaleManagementService service)
+    public async Task<ContentResult> SaleCancelling([FromForm] Guid saleId, [FromServices] IExistingSaleManagementService service, [FromServices] ICartService cartService)
     {
-        return await service.CancelSale(saleId) ? Content("Successfully cancelled") : Content("Failed to cancel");
+        string result;
+        try
+        {
+            // TODO something is wrong here
+            await RestoreCart(saleId, cartService);
+            await service.CancelSale(saleId);
+            result = "Successfully cancelled";
+        }
+        catch
+        {
+            result = "Failed to cancel";
+        }
+        return Content(result);
     }
-}
+}   

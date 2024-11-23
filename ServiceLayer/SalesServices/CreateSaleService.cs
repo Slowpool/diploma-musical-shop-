@@ -19,13 +19,17 @@ namespace ServiceLayer.SalesServices;
 
 public interface ICreateSaleService : IErrorStorage
 {
-    Task<Guid?> ArrangeSale(List<Goods> goods, SalePaidBy? paidBy);
+    Task<Guid?> CreateSaleAsNotPaid(List<Goods> goods, SalePaidBy? paidBy);
 }
+/// <summary>
+/// This service is separated from SaleManagementService because it uses complicated business logic
+/// </summary>
+/// <param name="context"></param>
 public class CreateSaleService(MusicalShopDbContext context) : ErrorStorage, ICreateSaleService
 {
-    private readonly RunnerWriteDb<CreateSaleDto, Task<Guid?>> runner = new RunnerWriteDb<CreateSaleDto, Task<Guid?>>(context, new CreateSaleAction(new SalesDbAccess(context)));
+    private readonly RunnerWriteDb<CreateSaleDto, Task<Guid?>> runner = new(context, new CreateSaleAsNotPaidAction(new SalesDbAccess(context)));
     public override IImmutableList<ValidationResult> Errors => runner.Errors;
     // interesting thing about DRN, here it is an architectural decision.
-    public async Task<Guid?> ArrangeSale(List<Goods> goodsList, SalePaidBy? paidBy)
+    public async Task<Guid?> CreateSaleAsNotPaid(List<Goods> goodsList, SalePaidBy? paidBy)
         => await runner.Run(new CreateSaleDto(goodsList, paidBy));
 }

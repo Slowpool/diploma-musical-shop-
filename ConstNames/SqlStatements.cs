@@ -51,38 +51,39 @@ public class SqlStatements
     #region Triggers
     public const string SalesUpdateTriggerDrop = @"DROP TRIGGER IF EXISTS `sale_paid_by_check_UPD`;";
     public const string SalesUpdateTriggerCreateV1 = @"
-CREATE TRIGGER `sale_paid_by_check_INS`
-BEFORE INSERT ON `sales`
-FOR EACH ROW
-BEGIN
-    IF(!is_correct_sale_paid_by(new.paid_by, new.is_paid)) THEN
-        SIGNAL SQLSTATE '40000';
-    END IF;
-END;";
+#CREATE TRIGGER `sale_paid_by_check_INS`
+#BEFORE INSERT ON `sales`
+#FOR EACH ROW
+#BEGIN
+#    IF(!is_correct_sale_paid_by(new.paid_by, new.is_paid)) THEN
+#        SIGNAL SQLSTATE '40000';
+#    END IF;
+#END;";
     public const string SalesInsertTriggerDrop = @"DROP TRIGGER IF EXISTS `sale_paid_by_check_INS`;";
+// TODO add another check for status and uncomment
     public const string SalesInsertTriggerCreateV1 = @"
-CREATE TRIGGER `sale_paid_by_check_UPD`
-BEFORE UPDATE ON `sales`
-FOR EACH ROW
-BEGIN
-    IF(!is_correct_sale_paid_by(new.paid_by, new.is_paid)) THEN
-        SIGNAL SQLSTATE '40000';
-    END IF;
-END;";
+#CREATE TRIGGER `sale_paid_by_check_UPD`
+#BEFORE UPDATE ON `sales`
+#FOR EACH ROW
+#BEGIN
+#    IF(!is_correct_sale_paid_by(new.paid_by, new.is_paid)) THEN
+#        SIGNAL SQLSTATE '40000';
+#    END IF;
+#END;";
     public const string IsCorrectSalePaidByFuncDrop = @"DROP FUNCTION IF EXISTS `is_correct_sale_paid_by`;";
     public const string IsCorrectSalePaidByFuncCreateV1 = @"
-CREATE FUNCTION is_correct_sale_paid_by(paid_by VARCHAR(8), is_paid BOOL)
-RETURNS BOOL
-DETERMINISTIC
-CONTAINS SQL
-SQL SECURITY DEFINER
-BEGIN
-    IF(is_paid = true) THEN
-        RETURN paid_by IS NOT NULL;
-    ELSE
-        RETURN paid_by IS NULL; 
-    END IF;
-END;";
+#CREATE FUNCTION is_correct_sale_paid_by(paid_by VARCHAR(8), is_paid BOOL)
+#RETURNS BOOL
+#DETERMINISTIC
+#CONTAINS SQL
+#SQL SECURITY DEFINER
+#BEGIN
+#    IF(is_paid = true) THEN
+#        RETURN paid_by IS NOT NULL;
+#    ELSE
+#        RETURN paid_by IS NULL; 
+#    END IF;
+#END;";
 
     #endregion
 }

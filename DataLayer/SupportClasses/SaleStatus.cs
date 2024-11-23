@@ -3,5 +3,6 @@ public enum SaleStatus
 {
     Sold,
     Reserved,
-    Returned
+    Returned,
+    YetNotPaid
 }
