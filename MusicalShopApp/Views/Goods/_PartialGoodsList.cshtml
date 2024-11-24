@@ -9,7 +9,7 @@
     {
         <div class="mini-card">
             <div class="mini-card-left">
-                <a href="@Model[i].Id">
+                <a href="/goods/@(System.IO.Path.Combine(Model[i].KindOfGoods.ToString(), Model[i].Id))">
                     <h4 class="mini-card-name">@Model[i].Name</h4>
                 </a>
                 <div class="mini-card-type">

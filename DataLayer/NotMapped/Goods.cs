@@ -18,6 +18,7 @@ public abstract class Goods : ISoftDeletable
     [Required]
     [MaxLength(ConstValues.GoodsNameMaxLength)]
     public string Name { get; set; }
+    public KindOfGoods KindOfGoods { get; set; }
     public bool SoftDeleted { get; set; }
     [Range(ConstValues.GoodsPriceMinValue, ConstValues.GoodsPriceMaxValue)]
     public int Price { get; set; }

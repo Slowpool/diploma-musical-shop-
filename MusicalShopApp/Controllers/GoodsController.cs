@@ -108,13 +108,6 @@ public class GoodsController : CartViewerBaseController
         return Content("success");
     }
 
-    //[HttpPost]
-    //[ValidateAntiForgeryToken]
-    //public async Task<IActionResult> AddToOrRemoveFromCart(Guid goodsId, bool addToCart)
-    //{
-    //    return RedirectToAction("Search");
-    //}
-
     [HttpGet]
     [Authorize(Roles = CommonNames.SellerRole)]
     public async Task<IActionResult> Cart([FromServices] IGetGoodsService getGoodsService, [FromServices] ICartService cartService)
@@ -143,5 +136,13 @@ public class GoodsController : CartViewerBaseController
         }
         ViewBag.Session = GoodsIdsAndKindsInCart;
         return View(GoodsUnitModels);
+    }
+
+    [HttpGet("/goods/{kindOfGoods}/{goodsId}")]
+    public async Task<IActionResult> GoodsUnit([FromRoute] KindOfGoods kindOfGoods, [FromRoute] Guid goodsId, [FromServices] IGetGoodsService service)
+    {
+        var goods = await service.GetGoodsInfo(goodsId, kindOfGoods);
+        var goodsModel = new GoodsUnitModel(goods.GoodsId, goods., goods.Name, );
+        return View(goods);
     }
 }
