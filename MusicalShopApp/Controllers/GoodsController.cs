@@ -142,7 +142,7 @@ public class GoodsController : CartViewerBaseController
     public async Task<IActionResult> GoodsUnit([FromRoute] KindOfGoods kindOfGoods, [FromRoute] Guid goodsId, [FromServices] IGetGoodsService service)
     {
         var goods = await service.GetGoodsInfo(goodsId, kindOfGoods);
-        var goodsModel = new GoodsUnitModel(goods.GoodsId, goods., goods.Name, );
-        return View(goods);
+        var goodsModel = new GoodsUnitModel(goods.GoodsId, kindOfGoods, goods.Name, goods.Price, goods.Status, goods.Description);
+        return View(goodsModel);
     }
 }

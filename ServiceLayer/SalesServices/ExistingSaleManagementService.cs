@@ -20,8 +20,7 @@ public class ExistingSaleManagementService(MusicalShopDbContext context) : IExis
     public async Task CancelSale(Guid saleId)
     {
         var sale = await context.Sales.SingleAsync(sale => sale.SaleId == saleId);
-        //TODO soft deleting?
-        context.Remove(sale);
+        context.Remove(sale); // TODO here could be soft deleting
         await context.SaveChangesAsync();
     }
 
@@ -29,7 +28,7 @@ public class ExistingSaleManagementService(MusicalShopDbContext context) : IExis
     {
         var sale = await context.Sales.SingleAsync(sale => sale.SaleId == saleId);
         if (sale.IsPaid)
-            throw new Exception("attempt to register an already paid sale as a paid one");
+            throw new ArgumentException("attempt to register an already paid sale as a paid one");
         sale.IsPaid = true;
         context.Update(sale);
         await context.SaveChangesAsync();
