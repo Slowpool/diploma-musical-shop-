@@ -42,7 +42,6 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSa
 
         // TODO change to kind of goods
         return string.Join(GoodsIdSeparator, goods.Select(goodsUnit => new { goodsUnit.GoodsId, TypeName = goodsUnit.GetType().Name }));
-
     }
 
     // dirty stuff

@@ -9,7 +9,7 @@ using DataLayer.SupportClasses;
 
 namespace DataLayer.Models;
 [Table("sales")]
-public class Sale
+public class Sale : ISoftDeletable
 {
     public Guid SaleId { get; set; }
     public DateTimeOffset? SaleDate { get; set; }
@@ -49,6 +49,7 @@ public class Sale
     [Required]
     public bool IsPaid { get; set; }
     public SalePaidBy? PaidBy { get; set; }
+    public bool SoftDeleted { get; set; }
     // relationships
     public virtual ICollection<MusicalInstrument> MusicalInstruments { get; set; } = [];
     public virtual ICollection<Accessory> Accessories { get; set; } = [];

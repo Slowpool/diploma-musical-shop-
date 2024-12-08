@@ -28,8 +28,17 @@ public class CreateSaleAsNotPaidAction(SalesDbAccess dbAccess) : ErrorAdder, IBi
             AddError("Список товаров пуст.");
             return null;
         }
+
+
+
+        foreach(var goodsUnit in dto.GoodsForSale)
+        {
+            goodsUnit.Status = GoodsStatus.AwaitingPayment;
+        }
+
+        // TODO fix bug when goods is in cart but not in session cart
         //foreach(var key in dto.GoodsForSale) { } // guid:type
-        // actually everything below marked as warned is validation.
+        // actually everything below marked with warned is validation.
 #warning check for type of goods
 #warning check for each goods unit existence in table
 #warning check for each goods unit is not in another sale except returned

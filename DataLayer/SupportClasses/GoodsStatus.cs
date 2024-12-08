@@ -6,5 +6,6 @@ public enum GoodsStatus
     InCart,
     AwaitingDelivery,
     Sold,
-    Reserved
+    Reserved,
+    AwaitingPayment
 }

@@ -20,7 +20,8 @@ public class ExistingSaleManagementService(MusicalShopDbContext context) : IExis
     public async Task CancelSale(Guid saleId)
     {
         var sale = await context.Sales.SingleAsync(sale => sale.SaleId == saleId);
-        context.Remove(sale); // TODO here could be soft deleting
+        sale.SoftDeleted = true;
+        // TODO also soft delte all goods_sale linking tables
         await context.SaveChangesAsync();
     }
 

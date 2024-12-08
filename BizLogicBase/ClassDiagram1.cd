@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BizLogicBase.Common.RunnerTransact2WriteDb&lt;TIn, TPass, TOut&gt;">
+    <Position X="10.75" Y="0.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAgAAAABAAI=</HashCode>
+      <FileName>Common\RunnerTransact2WriteDb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BizLogicBase.Common.RunnerTransact3WriteDb&lt;TIn, TPass1, TPass2, TOut&gt;">
+    <Position X="0.5" Y="0.5" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAgBAAABAAI=</HashCode>
+      <FileName>Common\RunnerTransact3WriteDb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BizLogicBase.Common.RunnerWriteDb&lt;TIn, TOut&gt;">
+    <Position X="7" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Common\RunnerWriteDb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BizLogicBase.Validation.ErrorAdder">
+    <Position X="1" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAQAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Validation\ErrorAdder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.263" />
+  </Class>
+  <Class Name="BizLogicBase.Validation.ErrorStorage">
+    <Position X="3.75" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Validation\ErrorStorage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.246" />
+  </Class>
+  <Interface Name="BizLogicBase.Common.IBizAction&lt;TIn, TOut&gt;">
+    <Position X="6.5" Y="6.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAAAAAAAAAAQ=</HashCode>
+      <FileName>Common\IBizAction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BizLogicBase.Validation.IErrorAdder">
+    <Position X="0.75" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Validation\IErrorAdder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BizLogicBase.Validation.IErrorStorage">
+    <Position X="3.75" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Validation\IErrorStorage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Consolas" Size="14" />
+</ClassDiagram>
