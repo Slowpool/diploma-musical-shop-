@@ -1,5 +1,6 @@
 ﻿using DataLayer.Common;
 using DataLayer.Models;
+using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace ServiceLayer.SalesServices;
 
 public interface IExistingSaleManagementService
 {
-    Task RegisterSaleAsPaid(Guid saleId);
+    Task RegisterSaleAsPaid(Guid saleId, SalePaidBy paidBy);
     Task CancelSale(Guid saleId);
 }
 
@@ -25,12 +26,14 @@ public class ExistingSaleManagementService(MusicalShopDbContext context) : IExis
         await context.SaveChangesAsync();
     }
 
-    public async Task RegisterSaleAsPaid(Guid saleId)
+    public async Task RegisterSaleAsPaid(Guid saleId, SalePaidBy paidBy)
     {
         var sale = await context.Sales.SingleAsync(sale => sale.SaleId == saleId);
-        if (sale.IsPaid)
+        if (sale.IsPaid || sale.PaidBy is not null)
             throw new ArgumentException("attempt to register an already paid sale as a paid one");
+        // TODO via service??
         sale.IsPaid = true;
+        sale.PaidBy = paidBy;
         context.Update(sale);
         await context.SaveChangesAsync();
     }

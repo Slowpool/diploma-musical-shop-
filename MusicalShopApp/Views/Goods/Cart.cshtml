@@ -21,18 +21,6 @@
             Итого к оплате: @(Model.Aggregate(0, (total, dto) => total += dto.Price).ToMoney())
         </h3>
         <form asp-controller="Sales" asp-action="CreateSaleAsNotSold" method="post">
-            <div>
-                @{
-#warning move it to the page of sale, because the reserve the sale does not need the payment method.
-                }
-                <label for="radio-paid-by-sale-arranging">Оплата</label>
-                <span id="radio-paid-by-sale-arranging">
-                    <input id="radio-paid-by-card-sale-arranging" type="radio" name="paidBy" value="Cash" checked />
-                    <label for="radio-paid-by-card-sale-arranging">Наличными</label>
-                    <input id="radio-paid-by-cash-sale-arranging" type="radio" name="paidBy" value="BankCard" />
-                    <label for="radio-paid-by-cash-sale-arranging">Банковской картой</label>
-                </span>
-            </div>
             <input type="submit" value="Оформить продажу" />
         </form>
         <form asp-controller="Sales" asp-action="Reserve" method="post">

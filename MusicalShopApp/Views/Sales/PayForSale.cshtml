@@ -2,12 +2,21 @@
 
 Здесь специалисты по интеграции кассовых аппаратов должны интегрировать кассовый аппарат.
 <div>
-	<form asp-controller="Sales" asp-action="RegisterSaleAsSold" method="post">
-		<input type="submit" value="Успешно оплачено" />
-		<input type="hidden" name="saleId" value="@Model" />
-	</form>
-	<form asp-controller="Sales" asp-action="SaleCancelling" method="post">
-		<input type="submit" value="Отмена" />
-		<input type="hidden" name="saleId" value="@Model" />
-	</form>
+    <form asp-controller="Sales" asp-action="RegisterSaleAsSold" method="post">
+        <div>
+            <label for="radio-paid-by-sale-arranging">Оплата</label>
+            <span id="radio-paid-by-sale-arranging">
+                <input id="radio-paid-by-card-sale-arranging" type="radio" name="paidBy" value="Cash" checked />
+                <label for="radio-paid-by-card-sale-arranging">Наличными</label>
+                <input id="radio-paid-by-cash-sale-arranging" type="radio" name="paidBy" value="BankCard" />
+                <label for="radio-paid-by-cash-sale-arranging">Банковской картой</label>
+            </span>
+        </div>
+        <input type="submit" value="Успешно оплачено" />
+        <input type="hidden" name="saleId" value="@Model" />
+    </form>
+    <form asp-controller="Sales" asp-action="SaleCancelling" method="post">
+        <input type="submit" value="Отмена" />
+        <input type="hidden" name="saleId" value="@Model" />
+    </form>
 </div>

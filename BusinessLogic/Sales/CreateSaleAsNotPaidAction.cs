@@ -3,6 +3,7 @@ using BizLogicBase.Validation;
 using BusinessLogicLayer.Sales.Dto;
 using DataLayer.Common;
 using DataLayer.Models;
+using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using DbAccessLayer;
 using System;
@@ -22,39 +23,51 @@ public class CreateSaleAsNotPaidAction(SalesDbAccess dbAccess) : ErrorAdder, IBi
     /// <returns></returns>
     public async Task<Guid?> Action(CreateSaleDto dto)
     {
-#warning already checked before an Action calling
         if (dto.GoodsForSale.Count == 0)
         {
             AddError("Список товаров пуст.");
             return null;
         }
 
-
-
-        foreach(var goodsUnit in dto.GoodsForSale)
+        foreach (var goodsUnit in dto.GoodsForSale)
         {
+            ValidateGoodsUnit(goodsUnit);
             goodsUnit.Status = GoodsStatus.AwaitingPayment;
         }
 
         // TODO fix bug when goods is in cart but not in session cart
-        //foreach(var key in dto.GoodsForSale) { } // guid:type
-        // actually everything below marked with warned is validation.
-#warning check for type of goods
-#warning check for each goods unit existence in table
-#warning check for each goods unit is not in another sale except returned
-#warning check for each goods unit status
         //foreach (var goods in dto.GoodsForSale)
         //{
         //    goods.Status = GoodsStatus.InCart;
         //}
+
+        if (HasErrors)
+            return null;
+
         var sale = new Sale()
         {
-            SaleId = Guid.NewGuid(),
-            PaidBy = dto.PaidBy,
             LocalSaleDate = DateTime.UtcNow,
             Status = SaleStatus.YetNotPaid
         };
         dbAccess.CreateSale(sale, dto.GoodsForSale);
         return sale.SaleId;
+    }
+
+    public void ValidateGoodsUnit(Goods goodsUnit)
+    {
+        if (goodsUnit.Status != GoodsStatus.InCart)
+            AddError("В корзину находится товар, статус которого не \"В корзине\"");
+        if (goodsUnit.SoftDeleted)
+            AddError("В корзину добавлен удаленный товар");
+        // TODO load delivery here
+        if (goodsUnit.Delivery.LocalActualDeliveryDate is null || goodsUnit.ReceiptDate is null)
+            AddError("В корзину добавлен непоступивший на склад товар");
+        if (goodsUnit.Price <= 0)
+            AddError("В корзину добавлен товар с некорректной ценой. Цена не может быть меньше или равна 0");
+        // if goods unit has a sale, it must be returned. otherwise this loop won't be executed
+        // TODO handle reserved sale.
+        foreach (var sale in goodsUnit.Sales)
+            if (sale.Status != SaleStatus.Returned)
+                AddError("В корзину добавлен товар, который входит в другую продажу и не может быть продан");
     }
 }

@@ -100,6 +100,7 @@ public class GoodsController : CartViewerBaseController
     [ValidateAntiForgeryToken]
     public async Task<ContentResult> AddToOrRemoveFromCart(Guid goodsId, bool isInCart, [FromServices] ICartService cartService)
     {
+        // DRN violation
         string? newGoodsIdsAndTypes = await cartService.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsAndKindsInCart);
         if (newGoodsIdsAndTypes == null)
             return Content("failed");

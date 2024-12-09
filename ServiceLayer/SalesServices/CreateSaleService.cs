@@ -19,7 +19,7 @@ namespace ServiceLayer.SalesServices;
 
 public interface ICreateSaleService : IErrorStorage
 {
-    Task<Guid?> CreateSaleAsNotPaid(List<Goods> goods, SalePaidBy? paidBy);
+    Task<Guid?> CreateSaleAsNotPaid(List<Goods> goods);
 }
 /// <summary>
 /// This service is separated from SaleManagementService because it uses complicated business logic
@@ -30,6 +30,6 @@ public class CreateSaleService(MusicalShopDbContext context) : ErrorStorage, ICr
     private readonly RunnerWriteDb<CreateSaleDto, Task<Guid?>> runner = new(context, new CreateSaleAsNotPaidAction(new SalesDbAccess(context)));
     public override IImmutableList<ValidationResult> Errors => runner.Errors;
     // interesting thing about DRN (don't return null), here it is an architectural decision. anyway either HasErrors is true and then returned value won't be used or HasErrors is false, hence the return value is not null
-    public async Task<Guid?> CreateSaleAsNotPaid(List<Goods> goodsList, SalePaidBy? paidBy)
-        => await runner.Run(new CreateSaleDto(goodsList, paidBy));
+    public async Task<Guid?> CreateSaleAsNotPaid(List<Goods> goodsList)
+        => await runner.Run(new CreateSaleDto(goodsList));
 }

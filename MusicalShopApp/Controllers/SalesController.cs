@@ -21,10 +21,10 @@ public class SalesController : CartViewerBaseController
     }
 
     [HttpPost("/sale/arrange")]
-    public async Task<IActionResult> CreateSaleAsNotSold([FromForm] SalePaidBy? paidBy, [FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
+    public async Task<IActionResult> CreateSaleAsNotSold([FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
     {
         var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
-        Guid? saleId = await createSaleService.CreateSaleAsNotPaid(goods, paidBy);
+        Guid? saleId = await createSaleService.CreateSaleAsNotPaid(goods);
         if (!createSaleService.HasErrors)
         {
             ClearCart();
@@ -59,12 +59,12 @@ public class SalesController : CartViewerBaseController
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService)
+    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, SalePaidBy paidBy)
     {
         string result;
         try
         {
-            await saleService.RegisterSaleAsPaid(saleId);
+            await saleService.RegisterSaleAsPaid(saleId, paidBy);
             result = "Successfully registered";
         }
         catch

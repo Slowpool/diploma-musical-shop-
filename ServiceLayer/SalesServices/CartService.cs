@@ -56,6 +56,12 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSa
             RemoveFromCart(goodsId, goodsIdsAndKindsList);
         else
             AddInCart(goodsId, kindOfGoods, goodsIdsAndKindsList);
+        // TODO check goods status
+        // what if this goods unit is already sold?
+        //if (goodsUnit.Status != GoodsStatus.InCart)
+        //{
+        //    AddError("В корзине обнаружен товар, статус которого не \"В корзине\"");
+        //}
         await updateGoodsStatusService.UpdateGoodsStatus(goods.GoodsId, kindOfGoods, isInCart ? GoodsStatus.InStock : GoodsStatus.InCart);
         return string.Join(GoodsIdSeparator, goodsIdsAndKindsList);
     }
