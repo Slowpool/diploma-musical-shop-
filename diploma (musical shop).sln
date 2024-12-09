@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModelsLayer", "ViewMode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{D371E461-59DF-41C6-A227-36D64DB04EF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicAppConfiguration", "BaseAppConfiguration\BasicAppConfiguration.csproj", "{3C9A93EA-210C-45EA-A4CD-399728CFB93E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicAppConfiguration", "BaseAppConfiguration\BasicAppConfiguration.csproj", "{3C9A93EA-210C-45EA-A4CD-399728CFB93E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumTests", "SeleniumTests\SeleniumTests.csproj", "{6193A424-3086-4CCC-82E4-52313FC8E213}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{3C9A93EA-210C-45EA-A4CD-399728CFB93E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C9A93EA-210C-45EA-A4CD-399728CFB93E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C9A93EA-210C-45EA-A4CD-399728CFB93E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6193A424-3086-4CCC-82E4-52313FC8E213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6193A424-3086-4CCC-82E4-52313FC8E213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6193A424-3086-4CCC-82E4-52313FC8E213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6193A424-3086-4CCC-82E4-52313FC8E213}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

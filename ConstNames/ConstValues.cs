@@ -10,7 +10,6 @@ public class ConstValues
 {
     public const string BackupDateTimeFormat = "yyyy_MM_dd HH_mm_ss";
 
-
     public const int GoodsDescriptionMaxLength = 500;
     public const int GoodsNameMaxLength = 100;
     public const int GoodsPriceMinValue = 1;

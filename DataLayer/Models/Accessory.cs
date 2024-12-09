@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models;
 
-[Table("accessories")]
 public class Accessory : Goods
 {
     [MaxLength(ConstValues.AccessoryColorMaxLength)]

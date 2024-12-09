@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models;
 
-[Table("audio_equipment_units")]
 public class AudioEquipmentUnit : Goods
 {
     //[Column("audio_equipment_unit_id")]
