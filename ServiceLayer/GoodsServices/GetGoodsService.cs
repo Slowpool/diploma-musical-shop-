@@ -18,7 +18,6 @@ public interface IGetGoodsService
     Task<Goods> GetGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
     Task<GoodsUnitSearchDto> GetReadableGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
     //Task<Type> GetGoodsType(Guid goodsId);
-    Task<KindOfGoods> GetGoodsKind(Guid goodsId);
 }
 public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsService kindOfGoodsMapper) : IGetGoodsService
 {
@@ -75,18 +74,6 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
     //{
     //    throw new NotImplementedException();
     //}
-
-    public async Task<KindOfGoods> GetGoodsKind(Guid goodsId)
-    {
-        IQueryable<Goods> goods;
-        foreach(var kindOfGoods in Enum.GetValues<KindOfGoods>())
-        {
-            goods = kindOfGoodsMapper.MapToSpecificGoods(kindOfGoods);
-            if (goods.Any(g => g.GoodsId == goodsId))
-                return kindOfGoods;
-        }
-        throw new ArgumentException();
-    }
 
     
 }

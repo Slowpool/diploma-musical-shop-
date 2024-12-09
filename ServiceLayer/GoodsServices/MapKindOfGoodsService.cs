@@ -15,7 +15,7 @@ public interface IMapKindOfGoodsService
     SpecificType CreateNewSpecificType(KindOfGoods kindOfGoods);
     Type MapToType(KindOfGoods kindOfGoods);
     IQueryable<SpecificType> MapToSpecificTypes(KindOfGoods kindOfGoods);
-
+    Task<KindOfGoods> GetGoodsKind(Guid goodsId);
 }
 public class MapKindOfGoodsService(MusicalShopDbContext context) : IMapKindOfGoodsService
 {
@@ -49,4 +49,15 @@ public class MapKindOfGoodsService(MusicalShopDbContext context) : IMapKindOfGoo
     public SpecificType CreateNewSpecificType(KindOfGoods kindOfGoods)
         => (SpecificType)Activator.CreateInstance(MapToType(kindOfGoods))!;
 
+    public async Task<KindOfGoods> GetGoodsKind(Guid goodsId)
+    {
+        IQueryable<Goods> goods;
+        foreach (var kindOfGoods in Enum.GetValues<KindOfGoods>())
+        {
+            goods = MapToSpecificGoods(kindOfGoods);
+            if (goods.Any(g => g.GoodsId == goodsId))
+                return kindOfGoods;
+        }
+        throw new ArgumentException();
+    }
 }

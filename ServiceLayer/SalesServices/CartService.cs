@@ -25,7 +25,7 @@ public interface ICartService
 #warning so where is services for adding to and removing from the cart
 #warning UPD: what did i mean?
 #warning UPD2: i meant that the cart is supposed to have methods like AddGoodsUnitInCart() and RemoveGoodsUnitFromCart()
-public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSaleService goodsRelatedToSaleService, IGetGoodsService getGoodsService, IUpdateGoodsStatusService updateGoodsStatusService) : ICartService
+public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSaleService goodsRelatedToSaleService, IGetGoodsService getGoodsService, IUpdateGoodsStatusService updateGoodsStatusService, IMapKindOfGoodsService kindOfGoodsMapper) : ICartService
 {
     public string CutGoodsId(string goodsIdAndKind) => goodsIdAndKind.Split(CommonNames.GoodsIdAndKindSeparator)[0];
     public KindOfGoods CutGoodsKind(string goodsIdAndKind) => Enum.Parse<KindOfGoods>(goodsIdAndKind.Split(CommonNames.GoodsIdAndKindSeparator)[1])!;
@@ -35,7 +35,7 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSa
         var goods = await goodsRelatedToSaleService.GetOrigGoodsUnitsRelatedToSale(saleId);
         foreach (var goodsUnit in goods)
         {
-            goodsUnit.Status = GoodsStatus.InStock;
+            goodsUnit.Status = GoodsStatus.InCart;
             context.Update(goodsUnit);
         }
         context.SaveChanges();
@@ -49,7 +49,7 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSa
     {
         List<string> goodsIdsAndKindsList = goodsIdsAndKinds?.Split(GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries)
                                                             ?.ToList() ?? [];
-        var kindOfGoods = await getGoodsService.GetGoodsKind(goodsId);
+        var kindOfGoods = await kindOfGoodsMapper.GetGoodsKind(goodsId);
 #warning is it validation? did i try to validate whether goods unit exists in db?
         var goods = await getGoodsService.GetGoodsInfo(goodsId, kindOfGoods);
         if (isInCart)

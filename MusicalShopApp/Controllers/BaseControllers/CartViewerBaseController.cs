@@ -9,4 +9,6 @@ public abstract class CartViewerBaseController : Controller
     public string[] GoodsIdsAndKinds => GoodsIdsAndKindsInCart?.Split(CommonNames.GoodsIdSeparator, StringSplitOptions.RemoveEmptyEntries) ?? [];
     public bool IsInCart(Guid goodsId) => GoodsIdsAndKindsInCart != null && GoodsIdsAndKinds!.Any(s => s.Contains(goodsId.ToString()));
     public void SetNewCartValue(string newValue) => HttpContext.Session.SetString(CommonNames.GoodsIdsInCartKey, newValue);
+    public void ClearCart()
+        => SetNewCartValue(string.Empty);
 }

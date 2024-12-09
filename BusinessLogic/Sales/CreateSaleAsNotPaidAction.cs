@@ -49,7 +49,7 @@ public class CreateSaleAsNotPaidAction(SalesDbAccess dbAccess) : ErrorAdder, IBi
             LocalSaleDate = DateTime.UtcNow,
             Status = SaleStatus.YetNotPaid
         };
-        dbAccess.CreateSale(sale, dto.GoodsForSale);
+        dbAccess.CreateSaleAndUpdateGoods(sale, dto.GoodsForSale);
         return sale.SaleId;
     }
 
@@ -60,8 +60,9 @@ public class CreateSaleAsNotPaidAction(SalesDbAccess dbAccess) : ErrorAdder, IBi
         if (goodsUnit.SoftDeleted)
             AddError("В корзину добавлен удаленный товар");
         // TODO load delivery here
-        if (goodsUnit.Delivery.LocalActualDeliveryDate is null || goodsUnit.ReceiptDate is null)
-            AddError("В корзину добавлен непоступивший на склад товар");
+// TODO uncomment
+        //if (goodsUnit.Delivery?.LocalActualDeliveryDate is null || goodsUnit.ReceiptDate is null)
+        //    AddError("В корзину добавлен непоступивший на склад товар");
         if (goodsUnit.Price <= 0)
             AddError("В корзину добавлен товар с некорректной ценой. Цена не может быть меньше или равна 0");
         // if goods unit has a sale, it must be returned. otherwise this loop won't be executed

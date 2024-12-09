@@ -3,6 +3,7 @@ using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicalShopApp.Controllers.BaseControllers;
+using ServiceLayer.GoodsServices;
 using ServiceLayer.SalesServices;
 using ViewModelsLayer.Sales;
 
@@ -41,11 +42,6 @@ public class SalesController : CartViewerBaseController
         return View();
     }
 
-    private void ClearCart()
-    {
-        SetNewCartValue(string.Empty);
-    }
-
     [HttpGet]
     public async Task<IActionResult> PayForSale([FromQuery] Guid saleId)
     {
@@ -57,14 +53,20 @@ public class SalesController : CartViewerBaseController
     /// </summary>
     /// <param name="saleId"></param>
     /// <returns></returns>
+    // TODO encapsulate the goods status updating
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, SalePaidBy paidBy)
+    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, SalePaidBy paidBy, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, [FromServices] IGetGoodsUnitsRelatedToSaleService goodsService, [FromServices]  IUpdateGoodsStatusService goodsStatusService, [FromServices] IMapKindOfGoodsService kindOfGoodsService)
     {
         string result;
         try
         {
             await saleService.RegisterSaleAsPaid(saleId, paidBy);
+            var goods = await goodsService.GetOrigGoodsUnitsRelatedToSale(saleId);
+            foreach(var goodsUnit in goods)
+            {
+                await goodsStatusService.UpdateGoodsStatus(goodsUnit.GoodsId, await kindOfGoodsService.GetGoodsKind(goodsUnit.GoodsId), GoodsStatus.Sold);
+            }
             result = "Successfully registered";
         }
         catch

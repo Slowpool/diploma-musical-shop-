@@ -11,11 +11,12 @@ namespace DbAccessLayer;
 
 public class SalesDbAccess(MusicalShopDbContext context)
 {
-    public void CreateSale(Sale sale, List<Goods> goods)
+    public void CreateSaleAndUpdateGoods(Sale sale, List<Goods> goods)
     {
         foreach(var goodsUnit in goods)
         {
             goodsUnit.Sales.Add(sale);
+            context.Update(goodsUnit);
 #warning what if goods were passed here with edited values except goods.Status? UPD: okey, here it's safety, but probably dto with restricted data for update would be better. after all, that's a purpose of dto
 #warning do i need it at all? what if the latest line of this method may execute updating?
             //context.Update(goodsUnit);
