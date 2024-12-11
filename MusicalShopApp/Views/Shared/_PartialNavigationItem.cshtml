@@ -13,7 +13,7 @@
     if (currentUser != null && await userManager.IsInRoleAsync(currentUser, Model.Role))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="@Model.Controller" asp-action="@Model.Action">@Model.Title</a>
+            <a class="nav-link text-dark" id="@($"{Model.Controller}-{Model.Action}")" asp-area="" asp-controller="@Model.Controller" asp-action="@Model.Action">@Model.Title </a>
         </li>
     }
 }

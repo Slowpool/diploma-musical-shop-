@@ -99,13 +99,14 @@
                     })
                 </div>
                 <div class="sale-date">
-                    Дата оформления: @(sale?.SaleDate?.ToString() ?? "-")
+                    Дата оформления: @(sale.SaleDate?.ToString() ?? "-")
                     <br />
-                    Дата возврата: @(sale?.ReturningDate?.ToString() ?? "-")
+                    Дата возврата: @(sale.ReturningDate?.ToString() ?? "-")
                     <br />
-                    Дата резервирования: @(sale?.ReservationDate?.ToString() ?? "-")
+                    Дата резервирования: @(sale.ReservationDate?.ToString() ?? "-")
                 </div>
                 <div class="goods-related-to-sale">
+                    <section>Список товаров:</section>
                     @{
                         int goodsDisplayed = 0;
                         foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)

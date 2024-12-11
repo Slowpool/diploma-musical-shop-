@@ -1,21 +1,38 @@
 ﻿@using DataLayer.NotMapped
 @using ViewModelsLayer.Goods
+@using static Common.CommonExtensions
 @model GoodsUnitModel
 
 <article>
     <h3>@Model.Name</h3>
     <section>
         <section>
+            <h5>Тип</h5>
+            <p>@Model.SpecificTypeName</p>
+        </section>
+        <section>
             <h5>Статус</h5>
             <p>@Model.Status</p>
         </section>
+        @* <section>
+            <h5>Год выпуска</h5>
+            <p>@Model.ReleaseYear</p>
+        </section> *@
+        <section>
+            <h5>Дата поставки</h5>
+            <p>@(Model.ReceiptDate?.ToString() ?? "-")</p>
+        </section>
+        @* <section>
+            <h5>Тип производителя</h5>
+            <p>@Model.ManufacturerType</p>
+        </section>
+        <section>
+            <h5>Производитель</h5>
+            <p>@Model.Manufacturer</p>
+        </section> *@
         <section>
             <h5>Цена</h5>
             <p>@Model.Price.ToMoney()</p>
-        </section>
-        <section>
-            <h5>Цена</h5>
-            <p>@Model.Price</p>
         </section>
         <section>
             <h5>Описание</h5>
