@@ -84,12 +84,6 @@ public class DataSeeding
             if (!await roleManager.RoleExistsAsync(roles[i]))
             {
                 var role = new IdentityRole { Name = roles[i] };
-                if (role.Name == CommonNames.AdminRole
-                    || role.Name == CommonNames.SellerRole
-                    || role.Name == CommonNames.StockManagerRole)
-                {
-                    role.
-                }
                 await roleManager.CreateAsync(role);
             }
         }

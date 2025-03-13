@@ -19,7 +19,7 @@ using ViewModelsLayer.Goods;
 
 namespace MusicalShopApp.Controllers;
 
-[Authorize(Roles = $"{CommonNames.AdminRole},{CommonNames.StockManagerRole},{CommonNames.SellerRole},{CommonNames.ConsultantRole}")]
+[Authorize(Policy = "ConsultantPolicy")]
 public class GoodsController : CartViewerBaseController
 {
     private readonly ILogger<GoodsController> _logger;

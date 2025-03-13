@@ -37,7 +37,24 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddSingleton<IAuthorizationPolicyProvider, RbacPolicy>();
+//builder.Services.AddSingleton<IAuthorizationPolicyProvider, RbacPolicy>();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("AdminPolicy", policy => policy.RequireRole(CommonNames.AdminRole))
+    .AddPolicy("StockManagerPolicy", policy => policy.RequireRole(CommonNames.StockManagerRole))
+    //.AddPolicy("ConsultantPolicy", policy => policy.RequireRole(CommonNames.ConsultantRole))
+    .AddPolicy("SellerPolicy", policy => policy.RequireRole(CommonNames.SellerRole))
+    .AddPolicy("ConsultantPolicy", policy => policy.RequireAssertion(context => context.User.IsInRole(CommonNames.AdminRole) || context.User.IsInRole(CommonNames.ConsultantRole) || context.User.IsInRole(CommonNames.StockManagerRole) || context.User.IsInRole(CommonNames.SellerRole)));
+;
+
+//(options =>
+//{
+//    options
+//    options
+//    options
+//    options
+
+//    options
+//});
 
 var app = builder.Build();
 
