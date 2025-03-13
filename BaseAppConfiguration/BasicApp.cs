@@ -17,14 +17,14 @@ public static class BasicApp
     {
         get
         {
-            //"../appsettings.json"
+            // workaround. i don't know how to get the path of currently executed file.
             var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
             DirectoryInfo parent = currentDirectory;
             do
             {
                 parent = parent.Parent!;
             }
-            while (parent is not null && parent.Name.ToLower() != "diploma (musical shop)");
+            while (parent is not null && parent.Name.ToLower() != "diploma-musical-shop");
             return parent is null
                 ? throw new Exception("Parent was null")
                 : Path.Combine(parent.FullName, "BaseAppConfiguration", "appsettings.json");

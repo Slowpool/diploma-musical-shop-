@@ -17,6 +17,7 @@ using DbAccessLayer.Admin;
 using Microsoft.AspNetCore.Mvc;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = BasicApp.CreateBuilder(args);
 
@@ -24,7 +25,9 @@ builder.Services.AddControllersWithViews()
     .AddViewOptions(options =>
     {
         options.HtmlHelperOptions.FormInputRenderMode = FormInputRenderMode.AlwaysUseCurrentCulture;
-    });
+    })
+    .AddRazorRuntimeCompilation()
+    ;
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -33,6 +36,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, RbacPolicy>();
 
 var app = builder.Build();
 

@@ -1,5 +1,11 @@
 ﻿@using ViewModelsLayer.Goods
+@using Microsoft.AspNetCore.Identity
 @using DataLayer.SupportClasses
+@using Common;
+
+@inject UserManager<IdentityUser> userManager
+@inject SignInManager<IdentityUser> signInManager
+
 
 @model List<GoodsUnitSearchDto>
 
@@ -27,27 +33,34 @@
                     </span>
                 </div>
             </div>
-            <div class="mini-card-right">
-                <!-- asp-action="AddToOrRemoveFromCart" asp-controller="Goods" data-ajax="true"
-                      data-ajax="true"
-                      data-ajax-method="post"
-                      data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"
-                      data-ajax-mode="replace"
-                      data-ajax-update="#adding-removing-results@(i)"-->
-                <form class="mini-card-add-remove" method="post"
-                      data-ajax="true"
-                      data-ajax-method="post"
-                      data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"
-                      data-ajax-mode="replace"
-                      data-ajax-update="#adding-removing-results@(i)">
-                    @* @Html.AntiForgeryToken() *@
-                    <button class="add-remove-cart-button" type="submit">@(Model[i].IsInCart ? "-" : "+")</button>
-                    <input type="hidden" value="@Model[i].Id" name="goodsId" />
-                    <input type="hidden" value="@Model[i].IsInCart.ToString()" name="isInCart" />
-                </form>
-                <div id="adding-removing-results@(i)">
-                </div>
-            </div>
+            @if (signInManager.IsSignedIn(User))
+            {
+                var currentUser = await userManager.GetUserAsync(User);
+                if (currentUser != null && await userManager.IsInRoleAsync(currentUser, CommonNames.SellerRole))
+                {
+                    <div class="mini-card-right">
+                        <!-- asp-action="AddToOrRemoveFromCart" asp-controller="Goods" data-ajax="true"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"
+                              data-ajax-mode="replace"
+                              data-ajax-update="#adding-removing-results@(i)"-->
+                        <form class="mini-card-add-remove" method="post"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"
+                              data-ajax-mode="replace"
+                              data-ajax-update="#adding-removing-results@(i)">
+                            @* @Html.AntiForgeryToken() *@
+                            <button class="add-remove-cart-button" type="submit">@(Model[i].IsInCart ? "-" : "+")</button>
+                            <input type="hidden" value="@Model[i].Id" name="goodsId" />
+                            <input type="hidden" value="@Model[i].IsInCart.ToString()" name="isInCart" />
+                        </form>
+                        <div id="adding-removing-results@(i)">
+                        </div>
+                    </div>
+                }
+            }
         </div>
         <hr class="narrow" />
     }

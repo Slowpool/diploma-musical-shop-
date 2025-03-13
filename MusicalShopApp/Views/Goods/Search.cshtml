@@ -8,7 +8,7 @@
             <input asp-for="ResearchText" name="q" placeholder="Поиск..." />
         </div>
         <div>
-            <label for="kind-of-goods">Вид товара</label>
+            <label for="kind-of-goods"><b>Вид товара</b></label>
             <span id="kind-of-goods">
                 <input id="radio-musical-instrument" type="radio" asp-for="Filter.KindOfGoods" name="kindOfGoods" value="MusicalInstruments" />
                 <label for="radio-musical-instrument">Музыкальный инструмент</label>
@@ -21,7 +21,7 @@
             </span>
         </div>
         <div>
-            <label for="goods-price">Цена</label>
+            <label for="goods-price"><b>Цена</b></label>
             <span id="goods-price">
                 <label for="number-min-price"> от</label>
                 <input id="number-min-price" asp-for="Filter.MinPrice" name="minPrice" min="0" max="4294967295" />
@@ -30,7 +30,7 @@
             </span>
         </div>
         <div>
-            <label for="date-receipt-date">Дата получения</label>
+            <label for="date-receipt-date"><b>Дата получения</b></label>
             <span id="date-receipt-date">
                 <label for="date-from-receipt-date">от</label>
                 <input type="datetime-local" id="date-from-receipt-date" asp-for="Filter.FromReceiptDate" name="fromReceiptDate" />
@@ -39,7 +39,7 @@
             </span>
         </div>
         <div>
-            <label for="order-goods-by">Сортировать по</label>
+            <label for="order-goods-by"><b>Сортировать по</b></label>
             <span id="order-goods-by">
                 <input id="order-goods-by-relevance" type="radio" value="Relevance" asp-for="OrderBy.OrderBy" name="orderBy" />
                 <label for="order-goods-by-relevance">Релевантность</label>
@@ -50,7 +50,7 @@
             </span>
         </div>
         <div>
-            <label for="goods-status">Статус</label>
+            <label for="goods-status"><b>Статус</b></label>
             <span id="goods-status">
                 <input id="radio-in-stock" type="radio" value="InStock" asp-for="Filter.Status" name="status" />
                 <label for="radio-in-stock">На складе</label>

@@ -68,6 +68,7 @@ public class DataSeeding
         var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
         await EnsureUsersAsync(userManager, services);
         // Unneccesary stuff for app, but it provides visibility for test-review
+        // TODO remove everything below from production
         var context = services.GetRequiredService<MusicalShopDbContext>();
         await EnsureMusicalInstrumentsAndTheirTypes(context);
         await EnsureAccessoriesAndTheirTypes(context);
@@ -80,10 +81,16 @@ public class DataSeeding
         string[] roles = { CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole };
         for (int i = 0; i < 4; i++)
         {
-            var roleExists = await roleManager.RoleExistsAsync(roles[i]);
-            if (!roleExists)
+            if (!await roleManager.RoleExistsAsync(roles[i]))
             {
-                await roleManager.CreateAsync(new IdentityRole { Name = roles[i] });
+                var role = new IdentityRole { Name = roles[i] };
+                if (role.Name == CommonNames.AdminRole
+                    || role.Name == CommonNames.SellerRole
+                    || role.Name == CommonNames.StockManagerRole)
+                {
+                    role.
+                }
+                await roleManager.CreateAsync(role);
             }
         }
     }

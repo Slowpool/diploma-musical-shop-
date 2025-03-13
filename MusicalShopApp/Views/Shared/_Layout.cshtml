@@ -1,6 +1,7 @@
 ﻿@using DataLayer.Models
 @using Microsoft.AspNetCore.Identity
 @using MusicalShopApp.Views.Shared
+@using Common;
 
 @inject UserManager<IdentityUser> userManager
 
@@ -30,9 +31,9 @@
                             // <form class="goods-search" asp-action="Search" method="POST">
                             //     <input class="goods-search" type="text" name="q" placeholder="Поиск товара" />
                             // </form>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Goods" asp-action="Index">Товары</a>
-                            </li>
+                            // <li class="nav-item">
+                            //     <a class="nav-link text-dark" asp-area="" asp-controller="Goods" asp-action="Index">Товары</a>
+                            // </li>
                             // await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.ConsultantRole, "Goods", "Товары"));
                             @* <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Оформление продажи</a>
@@ -41,6 +42,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="PurchaseReturn" asp-action="Index">Возврат покупки</a>
                         </li> *@
                         }
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.ConsultantRole, "Goods", "Index", "Товары"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "Goods", "Cart", "Корзина"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "Sales", "Search", "Продажи"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.SellerRole, "PurchaseReturn", "Index", "Возврат покупки"))
@@ -49,16 +51,16 @@
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Admin", "Users", "Пользователи"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.AdminRole, "Admin", "Backups", "Резервное копирование"))
 
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.StockManagerRole, "Stock", "AddGoodsToWarehouse", "Поставка товара"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(CommonNames.ConsultantRole, "Goods", "Privacy", "Политика конфиденциальности"))
                         @* @(string.IsNullOrWhiteSpace(ViewBag.Session) ? "null" : ViewBag.Session) *@
                         @* @Html.RenderPartialAsync("_AdminActionsPartial") *@
                         @* <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">Отчеты</a>
                         </li> *@
 
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Goods" asp-action="Privacy">Политика конфиденциальности</a>
-                        </li>
+                        </li> *@
 
                     </ul>
                     @{
@@ -76,7 +78,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - MusicalShopApp - <a asp-area="" asp-controller="Goods" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - MusicalShopApp - <a asp-area="" asp-controller="Goods" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
