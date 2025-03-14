@@ -7,10 +7,10 @@ public static class CommonNames
     public const string DefaultConsultantEmail = "consultant@koshka.prosrochka";
     public const string DefaultStockManagerEmail = "stockmanager@koshka.prosrochka";
 
-    public const string AdminRole = "Администратор";
-    public const string SellerRole = "Продавец";
-    public const string ConsultantRole = "Консультант";
-    public const string StockManagerRole = "Менеджер складского учета";
+    public const string Admin = "Администратор";
+    public const string Seller = "Продавец";
+    public const string Consultant = "Консультант";
+    public const string StockManager = "Менеджер складского учета";
 
     public const string NotExistingGuid = "";
 

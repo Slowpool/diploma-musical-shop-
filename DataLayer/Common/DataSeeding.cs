@@ -78,7 +78,7 @@ public class DataSeeding
 
     private async static Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)
     {
-        string[] roles = { CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole };
+        string[] roles = { CommonNames.Admin, CommonNames.Seller, CommonNames.Consultant, CommonNames.StockManager };
         for (int i = 0; i < 4; i++)
         {
             if (!await roleManager.RoleExistsAsync(roles[i]))
@@ -95,7 +95,7 @@ public class DataSeeding
         var passwordsSection = configuration.GetSection("DefaultPasswords");
 #warning it could have been implemented more, more simply.
         string[] emails = [CommonNames.DefaultAdminEmail, CommonNames.DefaultSellerEmail, CommonNames.DefaultConsultantEmail, CommonNames.DefaultStockManagerEmail];
-        string[] roleNames = [CommonNames.AdminRole, CommonNames.SellerRole, CommonNames.ConsultantRole, CommonNames.StockManagerRole];
+        string[] roleNames = [CommonNames.Admin, CommonNames.Seller, CommonNames.Consultant, CommonNames.StockManager];
         for (int i = 0; i < emails.Length; i++)
         {
             var defaultUser = await userManager.Users

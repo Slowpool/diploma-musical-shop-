@@ -9,7 +9,7 @@ using ViewModelsLayer.Sales;
 
 namespace MusicalShopApp.Controllers;
 
-[Authorize(Roles = CommonNames.SellerRole)]
+[Authorize(Policy = nameof(CommonNames.Seller))]
 public class SalesController : CartViewerBaseController
 {
     [HttpGet]
@@ -22,6 +22,7 @@ public class SalesController : CartViewerBaseController
     }
 
     [HttpPost("/sale/arrange")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateSaleAsNotSold([FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
     {
         var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);

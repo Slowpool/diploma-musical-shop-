@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceLayer.StockServices;
 using ViewModelsLayer.Stock;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicalShopApp.Controllers;
 
+[Authorize(Policy = nameof(CommonNames.StockManager))]
 public class StockController : Controller
 {
     [HttpGet]

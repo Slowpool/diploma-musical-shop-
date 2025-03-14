@@ -36,7 +36,7 @@
             @if (signInManager.IsSignedIn(User))
             {
                 var currentUser = await userManager.GetUserAsync(User);
-                if (currentUser != null && await userManager.IsInRoleAsync(currentUser, CommonNames.SellerRole))
+                if (currentUser != null && await userManager.IsInRoleAsync(currentUser, CommonNames.Seller))
                 {
                     <div class="mini-card-right">
                         <!-- asp-action="AddToOrRemoveFromCart" asp-controller="Goods" data-ajax="true"

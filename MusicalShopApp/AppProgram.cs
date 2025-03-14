@@ -39,11 +39,10 @@ builder.Services.AddSession(options =>
 
 //builder.Services.AddSingleton<IAuthorizationPolicyProvider, RbacPolicy>();
 builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("AdminPolicy", policy => policy.RequireRole(CommonNames.AdminRole))
-    .AddPolicy("StockManagerPolicy", policy => policy.RequireRole(CommonNames.StockManagerRole))
-    //.AddPolicy("ConsultantPolicy", policy => policy.RequireRole(CommonNames.ConsultantRole))
-    .AddPolicy("SellerPolicy", policy => policy.RequireRole(CommonNames.SellerRole))
-    .AddPolicy("ConsultantPolicy", policy => policy.RequireAssertion(context => context.User.IsInRole(CommonNames.AdminRole) || context.User.IsInRole(CommonNames.ConsultantRole) || context.User.IsInRole(CommonNames.StockManagerRole) || context.User.IsInRole(CommonNames.SellerRole)));
+    .AddPolicy(nameof(CommonNames.Admin), policy => policy.RequireRole(CommonNames.Admin))
+    .AddPolicy(nameof(CommonNames.StockManager), policy => policy.RequireRole(CommonNames.StockManager))
+    .AddPolicy(nameof(CommonNames.Seller), policy => policy.RequireRole(CommonNames.Seller))
+    .AddPolicy(nameof(CommonNames.Consultant), policy => policy.RequireAssertion(context => context.User.IsInRole(CommonNames.Admin) || context.User.IsInRole(CommonNames.Consultant) || context.User.IsInRole(CommonNames.StockManager) || context.User.IsInRole(CommonNames.Seller)));
 ;
 
 //(options =>

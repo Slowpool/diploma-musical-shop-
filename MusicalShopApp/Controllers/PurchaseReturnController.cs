@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MusicalShopApp.Controllers
+namespace MusicalShopApp.Controllers;
+
+[Authorize(Policy = nameof(CommonNames.Seller))]
+public class PurchaseReturnController : Controller
 {
-	[Authorize(Roles = CommonNames.SellerRole)]
-	public class PurchaseReturnController : Controller
-	{
-		public IActionResult Index()
-		{
-			return View();
-		}
-	}
+    public IActionResult Index()
+    {
+        return View();
+    }
 }

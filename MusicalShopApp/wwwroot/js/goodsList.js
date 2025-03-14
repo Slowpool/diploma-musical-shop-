@@ -3,9 +3,9 @@
         button = e.target;
         markSwitched(button);
         form = button.closest('form');
-        input = form.children[2];
-        input.dataset.value = input.dataset.value == 'true' ? 'false' : 'true';
-        //form.submit();
+        input = form.querySelector('[name="isInCart"]');
+        input.value = input.value == 'true' ? 'false' : 'true';
+        // TODO handle form submit instead of on button click
     });
 });
 

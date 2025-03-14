@@ -1,19 +1,29 @@
 ﻿@using DataLayer.Models
 @using Microsoft.AspNetCore.Identity
 @using MusicalShopApp.Views.Shared
+@using Microsoft.AspNetCore.Authorization
+
+@inject IAuthorizationService authorizationService
 
 @model PartialNavigationItemModel
 
-@inject UserManager<IdentityUser> userManager
+@* @inject UserManager<IdentityUser> userManager
 @inject SignInManager<IdentityUser> signInManager
 
 @if (signInManager.IsSignedIn(User))
 {
     var currentUser = await userManager.GetUserAsync(User);
-    if (currentUser != null && await userManager.IsInRoleAsync(currentUser, Model.Role))
+    if (currentUser != null && await userManager.IsInRoleAsync(currentUser, Model.RolePolicy))
     {
         <li class="nav-item">
             <a class="nav-link text-dark" id="@($"{Model.Controller}-{Model.Action}")" asp-area="" asp-controller="@Model.Controller" asp-action="@Model.Action">@Model.Title </a>
         </li>
     }
+} *@
+
+@if((await authorizationService.AuthorizeAsync(User, Model.RolePolicy)).Succeeded)
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="@($"{Model.Controller}-{Model.Action}")" asp-area="" asp-controller="@Model.Controller" asp-action="@Model.Action">@Model.Title </a>
+    </li>
 }

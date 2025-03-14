@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MusicalShopApp.Controllers
+namespace MusicalShopApp.Controllers;
+
+[Authorize(Policy = nameof(CommonNames.Admin))]
+public class ReportsController : Controller
 {
-	[Authorize(Roles = CommonNames.AdminRole)]
-	public class ReportsController : Controller
-	{
-		public IActionResult Index()
-		{
-			return View();
-		}
-	}
+    public IActionResult Index()
+    {
+        return View();
+    }
 }
