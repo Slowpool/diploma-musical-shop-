@@ -96,15 +96,17 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	[HttpPost]
 	[Authorize(Policy = nameof(CommonNames.Seller))]
 	[ValidateAntiForgeryToken]
-	public async Task<ContentResult> AddToOrRemoveFromCart(Guid goodsId, bool isInCart, [FromServices] ICartService cartService)
+	public async Task<bool> AddToOrRemoveFromCart(Guid goodsId, bool isInCart, [FromServices] ICartService cartService)
 	{
 		// DRN violation
 		string? newGoodsIdsAndTypes = await cartService.AddToOrRemoveFromCart(goodsId, isInCart, GoodsIdsAndKindsInCart);
 		if (newGoodsIdsAndTypes == null)
-			return Content("failed");
+			//return Content("failed");
+			//throw new HttpRequestException("Failed");
+			return false;
 		SetNewCartValue(newGoodsIdsAndTypes);
 		ViewBag.Session = GoodsIdsAndKindsInCart;
-		return isInCart ? Content("Removed from cart") : Content("Added to cart");
+		return true; // ? Content() : Content("Added to cart");
 	}
 
 	[HttpGet]

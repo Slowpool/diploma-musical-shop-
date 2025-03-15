@@ -1,11 +1,26 @@
 ﻿$(document).ready(function () {
-    $('.add-remove-cart-button').on('click', function (e) {
-        button = e.target;
-        markSwitched(button);
-        form = button.closest('form');
-        input = form.querySelector('[name="isInCart"]');
-        input.value = input.value == 'true' ? 'false' : 'true';
-        // TODO handle form submit instead of on button click
+    $('form.mini-card-add-remove').on('submit', function () {
+        var button = this.querySelector('.add-remove-cart-button');
+        var resultsDiv = this.querySelector('.adding-removing-results');
+        var isInCartInput = this.querySelector('[name="isInCart"]');
+        $.ajax(
+            {
+                url: '/Goods/AddToOrRemoveFromCart',
+                method: 'post',
+                dataType: 'text',
+                data: $(this).serialize(),
+                success: function (result) {
+                    markSwitched(button);
+                    var newIsInCart = isInCartInput.value == 'true' ? false : true; // js workaround
+                    isInCartInput.value = newIsInCart;
+                    resultsDiv.innerHTML = newIsInCart ? 'Added to cart' : 'Removed from cart';
+                },
+                error: function (result) {
+                    alert('fail: ' + result);
+                }
+            }
+        )
+        return false;
     });
 });
 

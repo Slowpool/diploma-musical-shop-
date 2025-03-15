@@ -1,0 +1,708 @@
+{
+  "MusicalInstrumentSpecificTypes": [
+    [
+      {
+        "SpecificTypeId": "9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a",
+        "Name": "Digital Piano"
+      },
+      {
+        "SpecificTypeId": "123e4567-e89b-12d3-a456-426614174000",
+        "Name": "Acoustic Guitar"
+      },
+      {
+        "SpecificTypeId": "7654c321-def0-0987-6543-210987654321",
+        "Name": "Drum Kit"
+      },
+      {
+        "SpecificTypeId": "ebe6f84a-2211-4882-91c4-5a621be32d9f",
+        "Name": "Flute"
+      },
+      {
+        "SpecificTypeId": "8f17a451-1223-4000-b245-876543211234",
+        "Name": "Electric Guitar"
+      },
+      {
+        "SpecificTypeId": "abc12345-6789-9012-3456-789012345678",
+        "Name": "Synthesizer"
+      },
+      {
+        "SpecificTypeId": "def45678-9012-3456-7890-123456789012",
+        "Name": "Xylophone"
+      },
+      {
+        "SpecificTypeId": "ghi78901-2345-6789-0123-456789012345",
+        "Name": "Digital Grand Piano"
+      },
+      {
+        "SpecificTypeId": "jkl01234-5678-9012-3456-789012345678",
+        "Name": "Bass Guitar"
+      },
+      {
+        "SpecificTypeId": "mno45678-9012-3456-7890-123456789012",
+        "Name": "Ukulele"
+      },
+      {
+        "SpecificTypeId": "pqr67890-1234-5678-9012-345678901234",
+        "Name": "Harmonica"
+      },
+      {
+        "SpecificTypeId": "stu45678-9012-3456-7890-123456789012",
+        "Name": "Alto Saxophone"
+      },
+      {
+        "SpecificTypeId": "vwx98765-4321-0987-6543-210987654321",
+        "Name": "Accordion"
+      },
+      {
+        "SpecificTypeId": "yzx12345-6789-0123-4567-890123456789",
+        "Name": "Electronic Drum Kit"
+      },
+      {
+        "SpecificTypeId": "abc98765-4321-0987-6543-210987654321",
+        "Name": "Violin"
+      },
+      {
+        "SpecificTypeId": "def45678-9012-3456-7890-123456789012",
+        "Name": "Double Bass"
+      },
+      {
+        "SpecificTypeId": "ghi78901-2345-6789-0123-456789012345",
+        "Name": "Advanced Accordion"
+      },
+      {
+        "SpecificTypeId": "jkl01234-5678-9012-3456-789012345678",
+        "Name": "Mandolin"
+      },
+      {
+        "SpecificTypeId": "mno45678-9012-3456-7890-123456789012",
+        "Name": "Studio Keyboard"
+      },
+      {
+        "SpecificTypeId": "pqr67890-1234-5678-9012-345678901234",
+        "Name": "Concert Harp"
+      },
+      {
+        "SpecificTypeId": "stu45678-9012-3456-7890-123456789012",
+        "Name": "Electronic Drum Set"
+      },
+      {
+        "SpecificTypeId": "vwx98765-4321-0987-6543-210987654321",
+        "Name": "MIDI Keyboard"
+      },
+      {
+        "SpecificTypeId": "yzx12345-6789-0123-4567-890123456789",
+        "Name": "Classic Guitar"
+      },
+      {
+        "SpecificTypeId": "abc12345-6789-9012-3456-789012345678",
+        "Name": "Electro Organ"
+      },
+      {
+        "SpecificTypeId": "def45678-9012-3456-7890-123456789012",
+        "Name": "Children's Drum Set"
+      }
+    ]
+  ],
+  "MusicalInstruments": [
+    {
+      "GoodsId": "3b71ce03-d0ae-4eb8-b23c-aeedebc8c64f",
+      "Description": "Цифровое пианино, оснащенное 88 клавишами, чувствительными к касанию, и возможностью подключения к компьютеру через USB.",
+      "Name": "Yamaha P45",
+      "ReceiptDate": "2023-02-15T13:32:17Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 84999,
+      "ReleaseYear": 2018,
+      "Status": "InStock",
+      "SpecificTypeId": "9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a"
+    },
+    {
+      "GoodsId": "37eae73b-35d1-4e70-9780-1a67f19b85ff",
+      "Description": "Классическая флейта из никелированной латуни с закрытыми клапанами, подходит для студентов и профессионалов.",
+      "Name": "Yamaha YFL-222",
+      "ReceiptDate": "2023-04-11T07:41:22Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 19999,
+      "ReleaseYear": 2017,
+      "Status": "InStock",
+      "SpecificTypeId": "ebe6f84a-2211-4882-91c4-5a621be32d9f"
+    },
+    {
+      "GoodsId": "3b71ce03-d0ae-4eb8-b23c-aeedebc8c64f",
+      "Description": "Digital piano equipped with 88 touch-sensitive keys and computer connectivity via USB.",
+      "Name": "Yamaha P45",
+      "ReceiptDate": "2023-02-15T13:32:17Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 84999,
+      "ReleaseYear": 2018,
+      "Status": "InStock",
+      "SpecificTypeId": "9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a"
+    },
+    {
+      "GoodsId": "fea1fd34-ee48-44f3-b53d-05cc1acb76ed",
+      "Description": "Acoustic guitar with cutaway design and built-in tuner, ideal for beginners.",
+      "Name": "Fender FA-125CE",
+      "ReceiptDate": "2023-01-27T09:12:54Z",
+      "Manufacturer": "Fender Musical Instruments Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 29900,
+      "ReleaseYear": 2020,
+      "Status": "InStock",
+      "SpecificTypeId": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "GoodsId": "2e02f93a-3d26-46df-91a8-fdaee95a12c7",
+      "Description": "Professional drum kit with 5 drums and 2 cymbals, perfect for live performances.",
+      "Name": "Pearl Export EXX725S/C",
+      "ReceiptDate": "2023-03-08T16:25:31Z",
+      "Manufacturer": "Pearl Drums",
+      "ManufacturerType": "Factory",
+      "Price": 64999,
+      "ReleaseYear": 2019,
+      "Status": "AwaitingDelivery",
+      "SpecificTypeId": "7654c321-def0-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "37eae73b-35d1-4e70-9780-1a67f19b85ff",
+      "Description": "Classic flute made of nickel-plated brass with closed keys, suitable for students and professionals.",
+      "Name": "Yamaha YFL-222",
+      "ReceiptDate": "2023-04-11T07:41:22Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 19999,
+      "ReleaseYear": 2017,
+      "Status": "InStock",
+      "SpecificTypeId": "ebe6f84a-2211-4882-91c4-5a621be32d9f"
+    },
+    {
+      "GoodsId": "87dbebfc-9c60-49e3-831c-ef38c4b9c8e2",
+      "Description": "Electric guitar with humbuckers and tremolo bridge, offering rich sound and flexible settings.",
+      "Name": "Epiphone Les Paul Standard",
+      "ReceiptDate": "2023-05-18T14:58:06Z",
+      "Manufacturer": "Epiphone",
+      "ManufacturerType": "Factory",
+      "Price": 44999,
+      "ReleaseYear": 2021,
+      "Status": "Reserved",
+      "SpecificTypeId": "8f17a451-1223-4000-b245-876543211234"
+    },
+    {
+      "GoodsId": "ca7b9ec8-5a39-4b80-98bd-df72330b2cb4",
+      "Description": "Synthesizer with 61 keys and auto-accompaniment function, great choice for beginners and hobbyists.",
+      "Name": "Casio CTK-3500",
+      "ReceiptDate": "2023-06-24T21:33:59Z",
+      "Manufacturer": "Casio Computer Co., Ltd.",
+      "ManufacturerType": "Factory",
+      "Price": 12999,
+      "ReleaseYear": 2019,
+      "Status": "Sold",
+      "SpecificTypeId": "abc12345-6789-9012-3456-789012345678"
+    },
+    {
+      "GoodsId": "adcf5c28-571c-4254-aa66-e324fee16f89",
+      "Description": "Xylophone with wooden bars and metal tubes, designed for music school students.",
+      "Name": "Sonor Primary 25",
+      "ReceiptDate": "2023-07-29T11:47:42Z",
+      "Manufacturer": "Sonor GmbH & Co. KG",
+      "ManufacturerType": "Factory",
+      "Price": 5999,
+      "ReleaseYear": 2016,
+      "Status": "InCart",
+      "SpecificTypeId": "def45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "33d1c6ab-7bcd-4974-82d8-aa36b4a57597",
+      "Description": "Digital grand piano with hammer action mechanics and realistic sound mimicking an acoustic instrument.",
+      "Name": "Roland LX705",
+      "ReceiptDate": "2023-08-04T18:51:19Z",
+      "Manufacturer": "Roland Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 159999,
+      "ReleaseYear": 2020,
+      "Status": "AwaitingPayment",
+      "SpecificTypeId": "ghi78901-2345-6789-0123-456789012345"
+    },
+    {
+      "GoodsId": "51bbfc63-107e-4300-96e0-397bff9badd5",
+      "Description": "Bass guitar with alder body and maple neck, delivering deep and rich bass tones.",
+      "Name": "Squier Affinity Jazz Bass",
+      "ReceiptDate": "2023-09-12T03:38:57Z",
+      "Manufacturer": "Squier by Fender",
+      "ManufacturerType": "Factory",
+      "Price": 24999,
+      "ReleaseYear": 2018,
+      "Status": "InStock",
+      "SpecificTypeId": "jkl01234-5678-9012-3456-789012345678"
+    },
+    {
+      "GoodsId": "28485d52-9e86-485f-8288-35917627dd72",
+      "Description": "Soprano ukulele with 12 frets and nylon strings, perfect for travel and portable music practice.",
+      "Name": "Mahalo U-30S",
+      "ReceiptDate": "2023-10-20T22:22:11Z",
+      "Manufacturer": "Mahalo Ukuleles",
+      "ManufacturerType": "Factory",
+      "Price": 3999,
+      "ReleaseYear": 2015,
+      "Status": "InStock",
+      "SpecificTypeId": "mno45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "f7d17b43-6782-470a-936d-799960db3d69",
+      "Description": "Diatonic harmonica with 10 holes and 20 reeds, crafted from wood and metal.",
+      "Name": "Hohner Special 20",
+      "ReceiptDate": "2023-11-26T15:16:38Z",
+      "Manufacturer": "Hohner Musikinstrumente GmbH & Co. KG",
+      "ManufacturerType": "Factory",
+      "Price": 4999,
+      "ReleaseYear": 2012,
+      "Status": "InStock",
+      "SpecificTypeId": "pqr67890-1234-5678-9012-345678901234"
+    },
+    {
+      "GoodsId": "569e9004-763e-468e-94f3-1fa7b6fadf79",
+      "Description": "Student-level alto saxophone with lacquered finish and case included.",
+      "Name": "Yamaha YAS-280",
+      "ReceiptDate": "2023-12-03T08:40:55Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 45999,
+      "ReleaseYear": 2014,
+      "Status": "InStock",
+      "SpecificTypeId": "stu45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "5dc76fb1-345a-4b78-bff3-23f5508a2261",
+      "Description": "High-end accordion with advanced tuning capabilities and sound adjustment features.",
+      "Name": "Weltmeister Polaris IV",
+      "ReceiptDate": "2023-01-10T01:20:35Z",
+      "Manufacturer": "Weltmeister GmbH",
+      "ManufacturerType": "Factory",
+      "Price": 89999,
+      "ReleaseYear": 2011,
+      "Status": "InStock",
+      "SpecificTypeId": "vwx98765-4321-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "c7b4b384-f531-47e2-92b5-7c2a396a2361",
+      "Description": "Hybrid electronic drum kit with pads and trigger modules for maximum expressiveness.",
+      "Name": "Roland TD-27KV",
+      "ReceiptDate": "2023-02-17T12:34:56Z",
+      "Manufacturer": "Roland Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 149999,
+      "ReleaseYear": 2020,
+      "Status": "InStock",
+      "SpecificTypeId": "yzx12345-6789-0123-4567-890123456789"
+    },
+    {
+      "GoodsId": "8f5c49f4-9f3c-4753-8358-9f2d05d317a3",
+      "Description": "Classical violin with spruce top and ebony fingerboard, suitable for professional players.",
+      "Name": "Antonio Stradivarius SV-150",
+      "ReceiptDate": "2023-03-24T16:47:29Z",
+      "Manufacturer": "Antonio Stradivarius Violins",
+      "ManufacturerType": "Master",
+      "Price": 259999,
+      "ReleaseYear": 2008,
+      "Status": "InStock",
+      "SpecificTypeId": "abc98765-4321-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "1e9b33c7-0517-4a83-ba62-6fba61bcdc2f",
+      "Description": "Double bass with resonant spruce body and maple neck, suitable for orchestra playing.",
+      "Name": "Christopher DB-100",
+      "ReceiptDate": "2023-04-30T19:59:51Z",
+      "Manufacturer": "Christopher Double Basses",
+      "ManufacturerType": "Master",
+      "Price": 119999,
+      "ReleaseYear": 2013,
+      "Status": "InStock",
+      "SpecificTypeId": "def45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "2b1d5a6e-bb65-4214-bf77-750fc444a13f",
+      "Description": "Top-tier accordion with extensive sound customization options and recording functionality.",
+      "Name": "Bugari Armonia Super III",
+      "ReceiptDate": "2023-05-07T23:11:38Z",
+      "Manufacturer": "Bugari Accordions",
+      "ManufacturerType": "Master",
+      "Price": 139999,
+      "ReleaseYear": 2016,
+      "Status": "InStock",
+      "SpecificTypeId": "ghi78901-2345-6789-0123-456789012345"
+    },
+    {
+      "GoodsId": "769e4e8a-2e74-4022-8511-615c7d16d49c",
+      "Description": "Mandolin with rosewood body and mahogany neck, providing bright and full sound.",
+      "Name": "Kentucky KM-1500",
+      "ReceiptDate": "2023-06-14T10:22:45Z",
+      "Manufacturer": "Kentucky Mandolins",
+      "ManufacturerType": "Factory",
+      "Price": 69999,
+      "ReleaseYear": 2010,
+      "Status": "InStock",
+      "SpecificTypeId": "jkl01234-5678-9012-3456-789012345678"
+    },
+    {
+      "GoodsId": "1a05e315-07f4-46a8-8128-df44a7b5324a",
+      "Description": "Electronic keyboard with 88 weighted keys and built-in effects, suitable for studio work.",
+      "Name": "Korg SV-1",
+      "ReceiptDate": "2023-07-21T05:33:18Z",
+      "Manufacturer": "Korg Inc.",
+      "ManufacturerType": "Factory",
+      "Price": 89999,
+      "ReleaseYear": 2017,
+      "Status": "InStock",
+      "SpecificTypeId": "mno45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "7384dadc-2190-4e75-82c4-248bad7713c4",
+      "Description": "Concert harp with 47 strings and pedal mechanism for adjusting pitch.",
+      "Name": "Lyon & Healy Style 23",
+      "ReceiptDate": "2023-08-28T13:44:59Z",
+      "Manufacturer": "Lyon & Healy Harps",
+      "ManufacturerType": "Master",
+      "Price": 179999,
+      "ReleaseYear": 2005,
+      "Status": "InStock",
+      "SpecificTypeId": "pqr67890-1234-5678-9012-345678901234"
+    },
+    {
+      "GoodsId": "452a0c69-55e0-4d18-9624-16d4f188a81c",
+      "Description": "Electronic drum kit with sensor pads and programmable rhythms.",
+      "Name": "Alesis Strike Pro SE",
+      "ReceiptDate": "2023-09-05T20:57:12Z",
+      "Manufacturer": "Alesis LLC",
+      "ManufacturerType": "Factory",
+      "Price": 109999,
+      "ReleaseYear": 2019,
+      "Status": "InStock",
+      "SpecificTypeId": "stu45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "8c116fe4-56d0-4fd0-b2c8-348eb7543388",
+      "Description": "Portable MIDI keyboard with 25 keys and computer connectivity via USB.",
+      "Name": "M-Audio Keystation Mini 32",
+      "ReceiptDate": "2023-10-12T02:18:36Z",
+      "Manufacturer": "M-Audio",
+      "ManufacturerType": "Factory",
+      "Price": 5999,
+      "ReleaseYear": 2018,
+      "Status": "InStock",
+      "SpecificTypeId": "vwx98765-4321-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "af3b78c4-79f7-49f4-836e-1f3601d6a4d1",
+      "Description": "Classic guitar with nylon strings and cedar top, intended for novice guitarists.",
+      "Name": "Cort AC120-OP",
+      "ReceiptDate": "2023-11-19T09:27:43Z",
+      "Manufacturer": "Cort Guitars",
+      "ManufacturerType": "Factory",
+      "Price": 11999,
+      "ReleaseYear": 2016,
+      "Status": "InStock",
+      "SpecificTypeId": "yzx12345-6789-0123-4567-890123456789"
+    },
+    {
+      "GoodsId": "a08c0fdc-9a1a-4a7a-bf01-342b37d5347c",
+      "Description": "Electro organ with virtual pipes and auto-accompaniment feature.",
+      "Name": "Hamond XK-5",
+      "ReceiptDate": "2023-10-20T22:22:11Z",
+      "Manufacturer": "Hamond Organ Company",
+      "ManufacturerType": "Factory",
+      "Price": 149999,
+      "ReleaseYear": 2022,
+      "Status": "InStock",
+      "SpecificTypeId": "abc12345-6789-9012-3456-789012345678"
+    },
+    {
+      "GoodsId": "3b71ce03-d0ae-4eb8-b23c-aeedebc8c64f",
+      "Description": "Digital piano equipped with 88 touch-sensitive keys and computer connectivity via USB.",
+      "Name": "Yamaha P45",
+      "ReceiptDate": "2023-02-15T13:32:17Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 84999,
+      "ReleaseYear": 2018,
+      "Status": "InStock",
+      "SpecificTypeId": "9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a"
+    },
+    {
+      "GoodsId": "fea1fd34-ee48-44f3-b53d-05cc1acb76ed",
+      "Description": "Acoustic guitar with cutaway design and built-in tuner, ideal for beginners.",
+      "Name": "Fender FA-125CE",
+      "ReceiptDate": "2023-01-27T09:12:54Z",
+      "Manufacturer": "Fender Musical Instruments Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 29900,
+      "ReleaseYear": 2020,
+      "Status": "InStock",
+      "SpecificTypeId": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "GoodsId": "2e02f93a-3d26-46df-91a8-fdaee95a12c7",
+      "Description": "Professional drum kit with 5 drums and 2 cymbals, perfect for live performances.",
+      "Name": "Pearl Export EXX725S/C",
+      "ReceiptDate": "2023-03-08T16:25:31Z",
+      "Manufacturer": "Pearl Drums",
+      "ManufacturerType": "Factory",
+      "Price": 64999,
+      "ReleaseYear": 2019,
+      "Status": "AwaitingDelivery",
+      "SpecificTypeId": "7654c321-def0-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "37eae73b-35d1-4e70-9780-1a67f19b85ff",
+      "Description": "Classic flute made of nickel-plated brass with closed keys, suitable for students and professionals.",
+      "Name": "Yamaha YFL-222",
+      "ReceiptDate": "2023-04-11T07:41:22Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 19999,
+      "ReleaseYear": 2017,
+      "Status": "InStock",
+      "SpecificTypeId": "ebe6f84a-2211-4882-91c4-5a621be32d9f"
+    },
+    {
+      "GoodsId": "87dbebfc-9c60-49e3-831c-ef38c4b9c8e2",
+      "Description": "Electric guitar with humbuckers and tremolo bridge, offering rich sound and flexible settings.",
+      "Name": "Epiphone Les Paul Standard",
+      "ReceiptDate": "2023-05-18T14:58:06Z",
+      "Manufacturer": "Epiphone",
+      "ManufacturerType": "Factory",
+      "Price": 44999,
+      "ReleaseYear": 2021,
+      "Status": "Reserved",
+      "SpecificTypeId": "8f17a451-1223-4000-b245-876543211234"
+    },
+    {
+      "GoodsId": "ca7b9ec8-5a39-4b80-98bd-df72330b2cb4",
+      "Description": "Synthesizer with 61 keys and auto-accompaniment function, great choice for beginners and hobbyists.",
+      "Name": "Casio CTK-3500",
+      "ReceiptDate": "2023-06-24T21:33:59Z",
+      "Manufacturer": "Casio Computer Co., Ltd.",
+      "ManufacturerType": "Factory",
+      "Price": 12999,
+      "ReleaseYear": 2019,
+      "Status": "Sold",
+      "SpecificTypeId": "abc12345-6789-9012-3456-789012345678"
+    },
+    {
+      "GoodsId": "adcf5c28-571c-4254-aa66-e324fee16f89",
+      "Description": "Xylophone with wooden bars and metal tubes, designed for music school students.",
+      "Name": "Sonor Primary 25",
+      "ReceiptDate": "2023-07-29T11:47:42Z",
+      "Manufacturer": "Sonor GmbH & Co. KG",
+      "ManufacturerType": "Factory",
+      "Price": 5999,
+      "ReleaseYear": 2016,
+      "Status": "InCart",
+      "SpecificTypeId": "def45678-9123-4567-8901-234567891011"
+    },
+    {
+      "GoodsId": "33d1c6ab-7bcd-4974-82d8-aa36b4a57597",
+      "Description": "Digital grand piano with hammer action mechanics and realistic sound mimicking an acoustic instrument.",
+      "Name": "Roland LX705",
+      "ReceiptDate": "2023-08-04T18:51:19Z",
+      "Manufacturer": "Roland Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 159999,
+      "ReleaseYear": 2020,
+      "Status": "AwaitingPayment",
+      "SpecificTypeId": "ghi78901-2345-6789-0123-456789012345"
+    },
+    {
+      "GoodsId": "51bbfc63-107e-4300-96e0-397bff9badd5",
+      "Description": "Bass guitar with alder body and maple neck, delivering deep and rich bass tones.",
+      "Name": "Squier Affinity Jazz Bass",
+      "ReceiptDate": "2023-09-12T03:38:57Z",
+      "Manufacturer": "Squier by Fender",
+      "ManufacturerType": "Factory",
+      "Price": 24999,
+      "ReleaseYear": 2018,
+      "Status": "InStock",
+      "SpecificTypeId": "jkl01234-5678-9012-3456-789012345678"
+    },
+    {
+      "GoodsId": "28485d52-9e86-485f-8288-35917627dd72",
+      "Description": "Soprano ukulele with 12 frets and nylon strings, perfect for travel and portable music practice.",
+      "Name": "Mahalo U-30S",
+      "ReceiptDate": "2023-10-20T22:22:11Z",
+      "Manufacturer": "Mahalo Ukuleles",
+      "ManufacturerType": "Factory",
+      "Price": 3999,
+      "ReleaseYear": 2015,
+      "Status": "InStock",
+      "SpecificTypeId": "mno45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "f7d17b43-6782-470a-936d-799960db3d69",
+      "Description": "Diatonic harmonica with 10 holes and 20 reeds, crafted from wood and metal.",
+      "Name": "Hohner Special 20",
+      "ReceiptDate": "2023-11-26T15:16:38Z",
+      "Manufacturer": "Hohner Musikinstrumente GmbH & Co. KG",
+      "ManufacturerType": "Factory",
+      "Price": 4999,
+      "ReleaseYear": 2012,
+      "Status": "InStock",
+      "SpecificTypeId": "pqr67890-1234-5678-9012-345678901234"
+    },
+    {
+      "GoodsId": "569e9004-763e-468e-94f3-1fa7b6fadf79",
+      "Description": "Student-level alto saxophone with lacquered finish and case included.",
+      "Name": "Yamaha YAS-280",
+      "ReceiptDate": "2023-12-03T08:40:55Z",
+      "Manufacturer": "Yamaha Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 45999,
+      "ReleaseYear": 2014,
+      "Status": "InStock",
+      "SpecificTypeId": "stu45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "5dc76fb1-345a-4b78-bff3-23f5508a2261",
+      "Description": "High-end accordion with advanced tuning capabilities and sound adjustment features.",
+      "Name": "Weltmeister Polaris IV",
+      "ReceiptDate": "2023-01-10T01:20:35Z",
+      "Manufacturer": "Weltmeister GmbH",
+      "ManufacturerType": "Factory",
+      "Price": 89999,
+      "ReleaseYear": 2011,
+      "Status": "InStock",
+      "SpecificTypeId": "vwx98765-4321-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "c7b4b384-f531-47e2-92b5-7c2a396a2361",
+      "Description": "Hybrid electronic drum kit with pads and trigger modules for maximum expressiveness.",
+      "Name": "Roland TD-27KV",
+      "ReceiptDate": "2023-02-17T12:34:56Z",
+      "Manufacturer": "Roland Corporation",
+      "ManufacturerType": "Factory",
+      "Price": 149999,
+      "ReleaseYear": 2020,
+      "Status": "InStock",
+      "SpecificTypeId": "yzx12345-6789-0123-4567-890123456789"
+    },
+    {
+      "GoodsId": "8f5c49f4-9f3c-4753-8358-9f2d05d317a3",
+      "Description": "Classical violin with spruce top and ebony fingerboard, suitable for professional players.",
+      "Name": "Antonio Stradivarius SV-150",
+      "ReceiptDate": "2023-03-24T16:47:29Z",
+      "Manufacturer": "Antonio Stradivarius Violins",
+      "ManufacturerType": "Master",
+      "Price": 259999,
+      "ReleaseYear": 2008,
+      "Status": "InStock",
+      "SpecificTypeId": "abc98765-4321-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "1e9b33c7-0517-4a83-ba62-6fba61bcdc2f",
+      "Description": "Double bass with resonant spruce body and maple neck, suitable for orchestra playing.",
+      "Name": "Christopher DB-100",
+      "ReceiptDate": "2023-04-30T19:59:51Z",
+      "Manufacturer": "Christopher Double Basses",
+      "ManufacturerType": "Master",
+      "Price": 119999,
+      "ReleaseYear": 2013,
+      "Status": "InStock",
+      "SpecificTypeId": "def45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "2b1d5a6e-bb65-4214-bf77-750fc444a13f",
+      "Description": "Top-tier accordion with extensive sound customization options and recording functionality.",
+      "Name": "Bugari Armonia Super III",
+      "ReceiptDate": "2023-05-07T23:11:38Z",
+      "Manufacturer": "Bugari Accordions",
+      "ManufacturerType": "Master",
+      "Price": 139999,
+      "ReleaseYear": 2016,
+      "Status": "InStock",
+      "SpecificTypeId": "ghi78901-2345-6789-0123-456789012345"
+    },
+    {
+      "GoodsId": "769e4e8a-2e74-4022-8511-615c7d16d49c",
+      "Description": "Mandolin with rosewood body and mahogany neck, providing bright and full sound.",
+      "Name": "Kentucky KM-1500",
+      "ReceiptDate": "2023-06-14T10:22:45Z",
+      "Manufacturer": "Kentucky Mandolins",
+      "ManufacturerType": "Factory",
+      "Price": 69999,
+      "ReleaseYear": 2010,
+      "Status": "InStock",
+      "SpecificTypeId": "jkl01234-5678-9012-3456-789012345678"
+    },
+    {
+      "GoodsId": "1a05e315-07f4-46a8-8128-df44a7b5324a",
+      "Description": "Electronic keyboard with 88 weighted keys and built-in effects, suitable for studio work.",
+      "Name": "Korg SV-1",
+      "ReceiptDate": "2023-07-21T05:33:18Z",
+      "Manufacturer": "Korg Inc.",
+      "ManufacturerType": "Factory",
+      "Price": 89999,
+      "ReleaseYear": 2017,
+      "Status": "InStock",
+      "SpecificTypeId": "mno45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "7384dadc-2190-4e75-82c4-248bad7713c4",
+      "Description": "Concert harp with 47 strings and pedal mechanism for adjusting pitch.",
+      "Name": "Lyon & Healy Style 23",
+      "ReceiptDate": "2023-08-28T13:44:59Z",
+      "Manufacturer": "Lyon & Healy Harps",
+      "ManufacturerType": "Master",
+      "Price": 179999,
+      "ReleaseYear": 2005,
+      "Status": "InStock",
+      "SpecificTypeId": "pqr67890-1234-5678-9012-345678901234"
+    },
+    {
+      "GoodsId": "452a0c69-55e0-4d18-9624-16d4f188a81c",
+      "Description": "Electronic drum kit with sensor pads and programmable rhythms.",
+      "Name": "Alesis Strike Pro SE",
+      "ReceiptDate": "2023-09-05T20:57:12Z",
+      "Manufacturer": "Alesis LLC",
+      "ManufacturerType": "Factory",
+      "Price": 109999,
+      "ReleaseYear": 2019,
+      "Status": "InStock",
+      "SpecificTypeId": "stu45678-9012-3456-7890-123456789012"
+    },
+    {
+      "GoodsId": "8c116fe4-56d0-4fd0-b2c8-348eb7543388",
+      "Description": "Portable MIDI keyboard with 25 keys and computer connectivity via USB.",
+      "Name": "M-Audio Keystation Mini 32",
+      "ReceiptDate": "2023-10-12T02:18:36Z",
+      "Manufacturer": "M-Audio",
+      "ManufacturerType": "Factory",
+      "Price": 5999,
+      "ReleaseYear": 2018,
+      "Status": "InStock",
+      "SpecificTypeId": "vwx98765-4321-0987-6543-210987654321"
+    },
+    {
+      "GoodsId": "af3b78c4-79f7-49f4-836e-1f3601d6a4d1",
+      "Description": "Classic guitar with nylon strings and cedar top, intended for novice guitarists.",
+      "Name": "Cort AC120-OP",
+      "ReceiptDate": "2023-11-19T09:27:43Z",
+      "Manufacturer": "Cort Guitars",
+      "ManufacturerType": "Factory",
+      "Price": 11999,
+      "ReleaseYear": 2016,
+      "Status": "InStock",
+      "SpecificTypeId": "yzx12345-6789-0123-4567-890123456789"
+    },
+    {
+      "GoodsId": "a08c0fdc-9a1a-4a7a-bf01-342b37d5347c",
+      "Description": "Electro organ with virtual pipes and auto-accompaniment feature.",
+      "Name": "Hamond XK-5",
+      "ReceiptDate": "2023-10-20T22:22:11Z",
+      "Manufacturer": "Hamond Organ Company",
+      "ManufacturerType": "Factory",
+      "Price": 149999,
+      "ReleaseYear": 2022,
+      "Status": "InStock",
+      "SpecificTypeId": "abc12345-6789-9012-3456-789012345678"
+    }
+  ]
+}

@@ -25,6 +25,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<IdentityUser>
     public virtual DbSet<SheetMusicEdition> SheetMusicEditions { get; set; }
     public virtual DbSet<Sale> Sales { get; set; }
     public virtual DbSet<SaleView> SalesView { get; set; }
+    public virtual DbSet<ReservationExtraInfo> Reservations { get; set; }
     // linking tables
     public virtual DbSet<MusicalInstrumentSale> MusicalInstrumentSale { get; set; }
     public virtual DbSet<AccessorySale> AccessorySale { get; set; }
@@ -94,7 +95,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<IdentityUser>
         modelBuilder.Entity<SheetMusicEditionSpecificType>();
 
 
-
+        // copypast declaring. it could have been done in another way
         #region many-to-many sales and goods
 #warning well, i'm able to implement it, but i wanna something like single linking table like goods_sale
         modelBuilder.Entity<MusicalInstrument>(entity =>

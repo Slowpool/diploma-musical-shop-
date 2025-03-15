@@ -40,7 +40,8 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
 // TODO specific type
             //Type = goods.SpecificType.Name,
             Price = goods.Price,
-            KindOfGoods = kindOfGoods
+            KindOfGoods = kindOfGoods,
+            Status = goods.Status,
         };
 
         switch (kindOfGoods)

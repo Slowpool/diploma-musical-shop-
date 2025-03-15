@@ -92,11 +92,11 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSa
 
     public async Task<List<Goods>> GetGoodsFromCart(string[] cartContent)
     {
-        List<Goods> goodsList = [];
+        List<Goods> goodsItems = [];
         foreach (var goodsIdAndType in cartContent)
         {
-            goodsList.Add(await getGoodsService.GetGoodsInfo(Guid.Parse(CutGoodsId(goodsIdAndType)), CutGoodsKind(goodsIdAndType)));
+            goodsItems.Add(await getGoodsService.GetGoodsInfo(Guid.Parse(CutGoodsId(goodsIdAndType)), CutGoodsKind(goodsIdAndType)));
         }
-        return goodsList;
+        return goodsItems;
     }
 }

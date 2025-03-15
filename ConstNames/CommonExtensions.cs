@@ -26,6 +26,7 @@ public static class CommonExtensions
         number.ToString() + " руб.";
 
     public static DateTimeOffset? LocalToUniversal(this DateTime? dateTime) => dateTime is null ? null : (DateTimeOffset?)new DateTimeOffset((DateTime)dateTime).ToUniversalTime();
+    public static DateTimeOffset LocalToUniversal(this DateTime dateTime) => (DateTimeOffset)((DateTime?)dateTime).LocalToUniversal()!;
 
     public static string NameToLowerMysql(this Type type)
     {

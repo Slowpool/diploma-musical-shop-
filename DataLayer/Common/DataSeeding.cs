@@ -115,160 +115,164 @@ public class DataSeeding
     {
         if (context.MusicalInstruments.SingleOrDefault(mi => mi.GoodsId == Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191")) == null)
         {
+            #region oldDummy
             var acousticGuitarType = new MusicalInstrumentSpecificType { Name = "Акустическая гитара" };
             var drumsType = new MusicalInstrumentSpecificType { Name = "Барабанная установка" };
             var fluteType = new MusicalInstrumentSpecificType { Name = "Флейта" };
             var xylophoneType = new MusicalInstrumentSpecificType { Name = "Ксилофон" };
             var synthesizerType = new MusicalInstrumentSpecificType { Name = "Синтезатор" };
             var instruments = new List<MusicalInstrument>
-        {
-            new()
+
             {
-                GoodsId = Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191"),
-                Description = "Акустическая гитара, с вырезом, санберст, Foix",
-                Name = "FFG-3860C-SB",
-                ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
-                Manufacturer = "John Spelberg",
-                ManufacturerType = ManufacturerType.Master,
-                Price = 9599,
-                ReleaseYear = 2023,
-                Status = GoodsStatus.InStock,
-                SpecificType = acousticGuitarType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("9384b7c1-6727-4dd0-88cc-7e1a1d9062cb"),
-                Description = " Акустическая гитара, без выреза, без санберста, Hoix",
-                Name = "Kolenval-SB-SUNBRESTLESS",
-                ReceiptDate = new DateTimeOffset(new DateTime(2024, 10, 12, 10, 20, 35)),
-                Manufacturer = "John Spelberg",
-                ManufacturerType = ManufacturerType.Master,
-                Price = 7499,
-                ReleaseYear = 2023,
-                Status = GoodsStatus.Reserved,
-                SpecificType = acousticGuitarType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("148b3083-f123-44df-8fce-af4c7014ac31"),
-                Description = "Акустическая гитара, без порожков, Nice",
-                Name = "L529-9X8823L-CCAS3-AR-2IC-3H-1SAEID50-BEZ-POROJKOF-OTVALILIS':(",
-                ReceiptDate = new DateTimeOffset(new DateTime(2022, 1, 10, 1, 20, 35)),
-#warning palindrome
-                Manufacturer = "Завод гитар имени Инемиратигдова З.",
-                ManufacturerType = ManufacturerType.Factory,
-                Price = 3499,
-                ReleaseYear = 2022,
-                Status = GoodsStatus.InStock,
-                SpecificType = acousticGuitarType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("0e05ca0d-7e34-4b65-a5fc-3e7b69194390"),
-                Description = "Акустическая гитара, без розетки, санберст отсутствует, полые порожки, струны из дерева, ж/б гриф, встроенная когтеточка, удобная лежанка и автокормушка с функцией будильника.",
-                Name = "APPOLON-19-SUNBURSTLESS",
-                ReceiptDate = null,
-                Manufacturer = "Завод гитар для котов",
-                ManufacturerType = ManufacturerType.Factory,
-                Price = 2399,
-                ReleaseYear = 2021,
-                Status = GoodsStatus.AwaitingDelivery,
-                SpecificType = acousticGuitarType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("32eb21b6-6d88-42aa-9326-114297689a59"),
-                Description = "Акустическая гитара, без выреза, артишок, Belucci",
-                Name = "LDPWD",
-                ReceiptDate = null,
-                Manufacturer = "Завод собачьих гитар",
-                ManufacturerType = ManufacturerType.Factory,
-                Price = 2399,
-                ReleaseYear = 2020,
-                Status = GoodsStatus.AwaitingDelivery,
-                SpecificType = acousticGuitarType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("6f5c6af2-6fb7-4cf2-8730-5e365d2c1032"),
-                Description = "Акустическая гитара, без выреза, но с вырезом, проивзедено в США",
-                Name = "MyFirstGuitar",
-                ReceiptDate = new DateTimeOffset(new DateTime(2022, 1, 10, 1, 20, 35)),
-                Manufacturer = "John Maloe",
-                ManufacturerType = ManufacturerType.Master,
-                Price = 88990,
-                ReleaseYear = 2024,
-                Status = GoodsStatus.InStock,
-                SpecificType = acousticGuitarType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("2b14e3ec-6af4-4094-ba4b-255933603cc9"),
-                Description = "*Барабанная дробь*... Барабанная установка \"Барабанная мечта\" - барабанный рай барабанного любителя.",
-                Name = "Стукач",
-                ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
-                Manufacturer = "Барабанный лидер",
-                ManufacturerType = ManufacturerType.Factory,
-                Price = 14900,
-                ReleaseYear = 2019,
-                Status = GoodsStatus.AwaitingDelivery,
-                SpecificType = drumsType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("a07319f6-4944-4f06-bb1c-b77c27e73b1d"),
-                Description = "Многослойные барабаны позволят слышать себя непревзойденно.",
-                Name = "Knocker-knocker",
-                ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
-                Manufacturer = "Барабань-ка",
-                ManufacturerType = ManufacturerType.Factory,
-                Price = 1900,
-                ReleaseYear = 2019,
-                Status = GoodsStatus.InStock,
-                SpecificType = drumsType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("ee1c5679-2018-4192-8e02-6efed0ef8c5a"),
-                Description = "Народный духовой инструмент",
-                Name = "[oOo]",
-                ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
-                Manufacturer = "Завод барабанных флейт имени Дыхалова",
-                ManufacturerType = ManufacturerType.Factory,
-                Price = 299,
-                ReleaseYear = 2023,
-                Status = GoodsStatus.Sold,
-                Sales = [Sales[0]],
-                SpecificType = fluteType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a"),
-                Description = "Компактное пианино, 3 режима, подсветка, присутствует нейросеть, позволяющая схватывать колебания головного мозга с целью воспроизведения желаемой мелодии. Сделано в СССР",
-                Name = "Sntzr-1937",
-                ReceiptDate = new DateTimeOffset(new DateTime(2023, 1, 10, 1, 20, 35)),
-                Manufacturer = "Steve Pianoe",
-                ManufacturerType = ManufacturerType.Master,
-                Price = 11590,
-                ReleaseYear = 1975,
-                Status = GoodsStatus.InStock,
-                SpecificType = synthesizerType
-            },
-            new()
-            {
-                GoodsId = Guid.Parse("d7b2ff21-cc80-41fa-bef5-3ca93c5ec4fa"),
-                Description = "Данный синтезатор изготовлен из нержавеющего пластика, слоновьего зуба и экранированного хлеба. Корпус выполнен в командной строке.",
-                Name = "Bearded?Bear?Beer?Breed?Bread?",
-                ReceiptDate = new DateTimeOffset(new DateTime(2023, 1, 10, 1, 20, 35)),
-                Manufacturer = "Синтезаторы? Производим.",
-                ManufacturerType = ManufacturerType.Factory,
-                Price = 2390,
-                ReleaseYear = 2022,
-                Status = GoodsStatus.Sold,
-                Sales = [Sales[3]],
-                SpecificType = synthesizerType
-            },
-        };
+                        new()
+                        {
+                            GoodsId = Guid.Parse("05812ce5-61c0-4eaf-8580-aeeb653b2191"),
+                            Description = "Акустическая гитара, с вырезом, санберст, Foix",
+                            Name = "FFG-3860C-SB",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
+                            Manufacturer = "John Spelberg",
+                            ManufacturerType = ManufacturerType.Master,
+                            Price = 9599,
+                            ReleaseYear = 2023,
+                            Status = GoodsStatus.InStock,
+                            SpecificType = acousticGuitarType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("9384b7c1-6727-4dd0-88cc-7e1a1d9062cb"),
+                            Description = " Акустическая гитара, без выреза, без санберста, Hoix",
+                            Name = "Kolenval-SB-SUNBRESTLESS",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2024, 10, 12, 10, 20, 35)),
+                            Manufacturer = "John Spelberg",
+                            ManufacturerType = ManufacturerType.Master,
+                            Price = 7499,
+                            ReleaseYear = 2023,
+                            Status = GoodsStatus.Reserved,
+                            SpecificType = acousticGuitarType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("148b3083-f123-44df-8fce-af4c7014ac31"),
+                            Description = "Акустическая гитара, без порожков, Nice",
+                            Name = "L529-9X8823L-CCAS3-AR-2IC-3H-1SAEID50-BEZ-POROJKOF-OTVALILIS':(",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2022, 1, 10, 1, 20, 35)),
+            #warning palindrome
+                            Manufacturer = "Завод гитар имени Инемиратигдова З.",
+                            ManufacturerType = ManufacturerType.Factory,
+                            Price = 3499,
+                            ReleaseYear = 2022,
+                            Status = GoodsStatus.InStock,
+                            SpecificType = acousticGuitarType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("0e05ca0d-7e34-4b65-a5fc-3e7b69194390"),
+                            Description = "Акустическая гитара, без розетки, санберст отсутствует, полые порожки, струны из дерева, ж/б гриф, встроенная когтеточка, удобная лежанка и автокормушка с функцией будильника.",
+                            Name = "APPOLON-19-SUNBURSTLESS",
+                            ReceiptDate = null,
+                            Manufacturer = "Завод гитар для котов",
+                            ManufacturerType = ManufacturerType.Factory,
+                            Price = 2399,
+                            ReleaseYear = 2021,
+                            Status = GoodsStatus.AwaitingDelivery,
+                            SpecificType = acousticGuitarType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("32eb21b6-6d88-42aa-9326-114297689a59"),
+                            Description = "Акустическая гитара, без выреза, артишок, Belucci",
+                            Name = "LDPWD",
+                            ReceiptDate = null,
+                            Manufacturer = "Завод собачьих гитар",
+                            ManufacturerType = ManufacturerType.Factory,
+                            Price = 2399,
+                            ReleaseYear = 2020,
+                            Status = GoodsStatus.AwaitingDelivery,
+                            SpecificType = acousticGuitarType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("6f5c6af2-6fb7-4cf2-8730-5e365d2c1032"),
+                            Description = "Акустическая гитара, без выреза, но с вырезом, проивзедено в США",
+                            Name = "MyFirstGuitar",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2022, 1, 10, 1, 20, 35)),
+                            Manufacturer = "John Maloe",
+                            ManufacturerType = ManufacturerType.Master,
+                            Price = 88990,
+                            ReleaseYear = 2024,
+                            Status = GoodsStatus.InStock,
+                            SpecificType = acousticGuitarType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("2b14e3ec-6af4-4094-ba4b-255933603cc9"),
+                            Description = "*Барабанная дробь*... Барабанная установка \"Барабанная мечта\" - барабанный рай барабанного любителя.",
+                            Name = "Стукач",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
+                            Manufacturer = "Барабанный лидер",
+                            ManufacturerType = ManufacturerType.Factory,
+                            Price = 14900,
+                            ReleaseYear = 2019,
+                            Status = GoodsStatus.AwaitingDelivery,
+                            SpecificType = drumsType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("a07319f6-4944-4f06-bb1c-b77c27e73b1d"),
+                            Description = "Многослойные барабаны позволят слышать себя непревзойденно.",
+                            Name = "Knocker-knocker",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
+                            Manufacturer = "Барабань-ка",
+                            ManufacturerType = ManufacturerType.Factory,
+                            Price = 1900,
+                            ReleaseYear = 2019,
+                            Status = GoodsStatus.InStock,
+                            SpecificType = drumsType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("ee1c5679-2018-4192-8e02-6efed0ef8c5a"),
+                            Description = "Народный духовой инструмент",
+                            Name = "[oOo]",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2024, 1, 10, 1, 20, 35)),
+                            Manufacturer = "Завод барабанных флейт имени Дыхалова",
+                            ManufacturerType = ManufacturerType.Factory,
+                            Price = 299,
+                            ReleaseYear = 2023,
+                            Status = GoodsStatus.Sold,
+                            Sales = [Sales[0]],
+                            SpecificType = fluteType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("9d7e4b3b-cbaa-4327-af1c-1ea3e232d68a"),
+                            Description = "Компактное пианино, 3 режима, подсветка, присутствует нейросеть, позволяющая схватывать колебания головного мозга с целью воспроизведения желаемой мелодии. Сделано в СССР",
+                            Name = "Sntzr-1937",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2023, 1, 10, 1, 20, 35)),
+                            Manufacturer = "Steve Pianoe",
+                            ManufacturerType = ManufacturerType.Master,
+                            Price = 11590,
+                            ReleaseYear = 1975,
+                            Status = GoodsStatus.InStock,
+                            SpecificType = synthesizerType
+                        },
+                        new()
+                        {
+                            GoodsId = Guid.Parse("d7b2ff21-cc80-41fa-bef5-3ca93c5ec4fa"),
+                            Description = "Данный синтезатор изготовлен из нержавеющего пластика, слоновьего зуба и экранированного хлеба. Корпус выполнен в командной строке.",
+                            Name = "Bearded?Bear?Beer?Breed?Bread?",
+                            ReceiptDate = new DateTimeOffset(new DateTime(2023, 1, 10, 1, 20, 35)),
+                            Manufacturer = "Синтезаторы? Производим.",
+                            ManufacturerType = ManufacturerType.Factory,
+                            Price = 2390,
+                            ReleaseYear = 2022,
+                            Status = GoodsStatus.Sold,
+                            Sales = [Sales[3]],
+                            SpecificType = synthesizerType
+                        },
+                    };
+            #endregion
+
             context.AddRange(instruments);
             context.SaveChanges();
         }

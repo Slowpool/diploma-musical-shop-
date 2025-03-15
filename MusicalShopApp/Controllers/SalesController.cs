@@ -23,24 +23,32 @@ public class SalesController : CartViewerBaseController
 
     [HttpPost("/sale/arrange")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateSaleAsNotSold([FromServices] ICreateSaleService createSaleService, [FromServices] ICartService cartService)
+    public async Task<IActionResult> CreateSaleAsNotSold([FromServices] ICartService cartService, [FromServices] ICreateSaleService createSaleService)
     {
         var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
         Guid? saleId = await createSaleService.CreateSaleAsNotPaid(goods);
         if (!createSaleService.HasErrors)
         {
-            ClearCart();
+            ClearSessionCart();
             return RedirectToAction("PayForSale", new { saleId });
         }
         else
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
-    [HttpPost("/sale/reserve")]
+    [HttpPost("/reservation/prepare")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Reserve([FromServices] ICartService cartService)
+    public async Task<IActionResult> PrepareReservation([FromServices] ICartService cartService, [FromServices] IReservationService createReservationService)
     {
-        return View();
+        var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
+        Guid? reservationId = await createReservationService.CreateReservationAsNotComplete(goods);
+        if (!createReservationService.HasErrors)
+        {
+            ClearSessionCart();
+            return RedirectToAction("Finish", new { reservationId });
+        }
+        else
+            return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
     [HttpGet]
