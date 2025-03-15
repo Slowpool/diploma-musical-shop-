@@ -24,7 +24,7 @@ public abstract class CreateSaleBaseAction(SalesDbAccess dbAccess) : ErrorAdder
 
         foreach (var goodsUnit in goodsItems)
         {
-            ValidateGoodsUnit(goodsUnit);
+            ValidateGoodsUnit(goodsUnit, typeOfSale);
             goodsUnit.Status = typeOfSale switch
             {
                 TypeOfNewSale.Sale => GoodsStatus.AwaitingPayment,
@@ -67,8 +67,13 @@ public abstract class CreateSaleBaseAction(SalesDbAccess dbAccess) : ErrorAdder
         return true;
     }
 
-    protected void ValidateGoodsUnit(Goods goodsUnit)
+    protected void ValidateGoodsUnit(Goods goodsUnit, TypeOfNewSale typeOfSale)
     {
+        // // TODO handle InCart && AwaitingDelivery as correct status for reservation
+        //if (goodsUnit.Status != typeOfSale switch
+        //{
+        //    TypeOfNewSale.Sale GoodsStatus.InCart
+        //})
         if (goodsUnit.Status != GoodsStatus.InCart)
             AddError("В корзине находится товар, статус которого не \"В корзине\"");
         if (goodsUnit.SoftDeleted)
@@ -82,6 +87,6 @@ public abstract class CreateSaleBaseAction(SalesDbAccess dbAccess) : ErrorAdder
         // if goods unit has a sale, it must be returned. otherwise this loop won't be executed
         foreach (var sale in goodsUnit.Sales)
             if (sale.Status != SaleStatus.Returned)
-                AddError("В корзину добавлен товар, который входит в другую продажу и не может быть продан");
+                AddError("В корзину добавлен товар, который входит в другую продажу и не может быть продан. Guid товара: " + goodsUnit.GoodsId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BizLogicBase.Common;
 using BizLogicBase.Validation;
 using BusinessLogicLayer.BaseActions;
+using BusinessLogicLayer.Misc;
 using BusinessLogicLayer.Sales.Dto;
 using DbAccessLayer;
 using System;
@@ -11,15 +12,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Sales;
 
-public class CreateReservationAsNotCompleteAction(SalesDbAccess dbAccess) : CreateSaleBaseAction, IBizAction<CreateReservationDto, Task<Guid?>>
+public class CreateReservationAsNotCompleteAction(SalesDbAccess dbAccess) : CreateSaleBaseAction(dbAccess), IBizAction<CreateReservationDto, Task<Guid?>>
 {
-    public async Task<Guid?> Action(CreateReservationDto dto)
-    {
-        if (!HasGoods(dto.GoodsForReservation))
-        {
-            return null;
-        }
-
-
-    }
+    public async Task<Guid?> Action(CreateReservationDto dto) => await base.Action(dto.GoodsForReservation, TypeOfNewSale.Reservation);
 }

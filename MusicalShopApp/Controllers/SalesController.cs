@@ -38,21 +38,28 @@ public class SalesController : CartViewerBaseController
 
     [HttpPost("/reservation/prepare")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PrepareReservation([FromServices] ICartService cartService, [FromServices] IReservationService createReservationService)
+    public async Task<IActionResult> CreateSaleAsReserved([FromServices] ICartService cartService, [FromServices] IReservationService createReservationService)
     {
         var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
         Guid? reservationId = await createReservationService.CreateReservationAsNotComplete(goods);
         if (!createReservationService.HasErrors)
         {
             ClearSessionCart();
-            return RedirectToAction("Finish", new { reservationId });
+            return RedirectToAction("FinishReserving", new { reservationId });
         }
         else
+            // TODO flash stuff
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
     [HttpGet]
     public async Task<IActionResult> PayForSale([FromQuery] Guid saleId)
+    {
+        return View(saleId);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> FinishReserving([FromQuery] Guid saleId)
     {
         return View(saleId);
     }

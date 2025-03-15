@@ -4,5 +4,5 @@ public enum SaleStatus
     Sold,
     Reserved,
     Returned,
-    YetNotPaid
+    YetNotPaid,
 }
