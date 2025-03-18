@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.BaseActions;
 
 public abstract class CreateSaleBaseAction(SalesDbAccess dbAccess) : ErrorAdder
 {
-    public async Task<Guid?> Action(List<Goods> goodsItems, TypeOfNewSale typeOfSale)
+    public async Task<Guid?> Action(List<Goods> goodsItems, TypeOfNewSale typeOfSale, string? secretWord = null)
     {
         if (!HasGoods(goodsItems))
             return null;
@@ -53,7 +53,21 @@ public abstract class CreateSaleBaseAction(SalesDbAccess dbAccess) : ErrorAdder
                 _ => throw new Exception("UnknownTypeOfSale"),
             }
         };
-        dbAccess.CreateSaleAndUpdateGoods(sale, goodsItems);
+        switch (typeOfSale)
+        {
+            case TypeOfNewSale.Sale:
+                dbAccess.CreateSaleAndUpdateGoods(sale, goodsItems);
+                break;
+            case TypeOfNewSale.Reservation:
+                if (secretWord is null)
+                {
+                    AddError("Reservation should contain a secret word. It allows to tell them apart");
+                    return null;
+                }
+
+                dbAccess.CreateReservationAndUpdateGoods(sale, goodsItems, secretWord);
+                break;
+        }
         return sale.SaleId;
     }
 

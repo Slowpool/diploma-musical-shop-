@@ -23,4 +23,20 @@ public class SalesDbAccess(MusicalShopDbContext context)
         }
         context.Add(sale);
     }
+
+    public void CreateReservationAndUpdateGoods(Sale sale, List<Goods> goods, string secretWord)
+    {
+        sale.ReservationExtraInfo = new()
+        {
+            Sale = sale,
+            SecretWord = secretWord,
+        };
+
+        foreach (var goodsUnit in goods)
+        {
+            goodsUnit.Sales.Add(sale);
+            context.Update(goodsUnit);
+        }
+        context.Add(sale);
+    }
 }

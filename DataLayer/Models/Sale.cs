@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 
 namespace DataLayer.Models;
@@ -55,4 +56,8 @@ public class Sale : ISoftDeletable
     public virtual ICollection<Accessory> Accessories { get; set; } = [];
     public virtual ICollection<AudioEquipmentUnit> AudioEquipmentUnits { get; set; } = [];
     public virtual ICollection<SheetMusicEdition> SheetMusicEditions { get; set; } = [];
+
+
+    [InverseProperty(nameof(ReservationExtraInfo.Sale))]
+    public virtual ReservationExtraInfo? ReservationExtraInfo { get; set; } = null;
 }

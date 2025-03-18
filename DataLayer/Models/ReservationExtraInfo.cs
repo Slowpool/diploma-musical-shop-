@@ -13,12 +13,16 @@ namespace DataLayer.Models;
 
 public class ReservationExtraInfo : ISoftDeletable
 {
-    [Key]
-    public Guid SaleId { get; set; }
-    [ForeignKey(nameof(ReservationExtraInfo.SaleId))]
-    public Sale Sale { get; set; }
-    public bool SoftDeleted { get; set; }
-
     [Required]
     public string SecretWord { get; set; }
+    public bool SoftDeleted { get; set; }
+    // relationships
+    [Key]
+    [Required]
+    public Guid SaleId { get; set; }
+    [Required]
+    [ForeignKey(nameof(ReservationExtraInfo.SaleId))]
+    public Sale Sale { get; set; }
+
+
 }

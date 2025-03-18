@@ -942,8 +942,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Models.ReservationExtraInfo", b =>
                 {
                     b.HasOne("DataLayer.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId")
+                        .WithOne("ReservationExtraInfo")
+                        .HasForeignKey("DataLayer.Models.ReservationExtraInfo", "SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_reservations_sales_sale_id");
@@ -1036,6 +1036,11 @@ namespace DataLayer.Migrations
                     b.Navigation("MusicalInstruments");
 
                     b.Navigation("SheetMusicEditions");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.Sale", b =>
+                {
+                    b.Navigation("ReservationExtraInfo");
                 });
 #pragma warning restore 612, 618
         }
