@@ -14,5 +14,5 @@ namespace BusinessLogicLayer.Sales;
 
 public class CreateReservationAsNotCompleteAction(SalesDbAccess dbAccess) : CreateSaleBaseAction(dbAccess), IBizAction<CreateReservationDto, Task<Guid?>>
 {
-    public async Task<Guid?> Action(CreateReservationDto dto) => await base.Action(dto.GoodsForReservation, TypeOfNewSale.Reservation);
+    public async Task<Guid?> Action(CreateReservationDto dto) => await base.Action(dto.GoodsForReservation, TypeOfNewSale.Reservation, dto.SecretWord);
 }

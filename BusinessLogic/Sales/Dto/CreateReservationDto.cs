@@ -7,4 +7,4 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Sales.Dto;
 
-public record CreateReservationDto(List<Goods> GoodsForReservation);
+public record CreateReservationDto(List<Goods> GoodsForReservation, string SecretWord);

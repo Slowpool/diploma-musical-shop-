@@ -312,9 +312,10 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.ReservationExtraInfo", b =>
                 {
-                    b.Property<Guid>("SaleId")
+                    b.Property<Guid>("ReservationExtraInfoId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
-                        .HasColumnName("sale_id");
+                        .HasColumnName("reservation_extra_info_id");
 
                     b.Property<string>("SecretWord")
                         .IsRequired()
@@ -325,7 +326,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("soft_deleted");
 
-                    b.HasKey("SaleId")
+                    b.HasKey("ReservationExtraInfoId")
                         .HasName("pk_reservations");
 
                     b.ToTable("reservations", (string)null);
@@ -350,6 +351,10 @@ namespace DataLayer.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("reservation_date");
 
+                    b.Property<Guid?>("ReservationExtraInfoId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("reservation_extra_info_id");
+
                     b.Property<DateTimeOffset?>("ReturningDate")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("returning_date");
@@ -369,6 +374,10 @@ namespace DataLayer.Migrations
 
                     b.HasKey("SaleId")
                         .HasName("pk_sales");
+
+                    b.HasIndex("ReservationExtraInfoId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_sales_reservation_extra_info_id");
 
                     b.ToTable("sales", (string)null);
                 });
@@ -939,16 +948,14 @@ namespace DataLayer.Migrations
                     b.Navigation("SpecificType");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ReservationExtraInfo", b =>
+            modelBuilder.Entity("DataLayer.Models.Sale", b =>
                 {
-                    b.HasOne("DataLayer.Models.Sale", "Sale")
-                        .WithOne("ReservationExtraInfo")
-                        .HasForeignKey("DataLayer.Models.ReservationExtraInfo", "SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_reservations_sales_sale_id");
+                    b.HasOne("DataLayer.Models.ReservationExtraInfo", "ReservationExtraInfo")
+                        .WithOne("Sale")
+                        .HasForeignKey("DataLayer.Models.Sale", "ReservationExtraInfoId")
+                        .HasConstraintName("fk_sales_reservations_reservation_extra_info_id");
 
-                    b.Navigation("Sale");
+                    b.Navigation("ReservationExtraInfo");
                 });
 
             modelBuilder.Entity("DataLayer.Models.SheetMusicEdition", b =>
@@ -1038,9 +1045,10 @@ namespace DataLayer.Migrations
                     b.Navigation("SheetMusicEditions");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Sale", b =>
+            modelBuilder.Entity("DataLayer.Models.ReservationExtraInfo", b =>
                 {
-                    b.Navigation("ReservationExtraInfo");
+                    b.Navigation("Sale")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

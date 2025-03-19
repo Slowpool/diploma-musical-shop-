@@ -11,7 +11,7 @@ namespace DbAccessLayer;
 
 public class SalesDbAccess(MusicalShopDbContext context)
 {
-    public void CreateSaleAndUpdateGoods(Sale sale, List<Goods> goods)
+    public async Task CreateSaleAndUpdateGoods(Sale sale, List<Goods> goods)
     {
         foreach(var goodsUnit in goods)
         {
@@ -21,10 +21,10 @@ public class SalesDbAccess(MusicalShopDbContext context)
 #warning do i need it at all? what if the latest line of this method may execute updating?
             //context.Update(goodsUnit);
         }
-        context.Add(sale);
+        await context.AddAsync(sale);
     }
 
-    public void CreateReservationAndUpdateGoods(Sale sale, List<Goods> goods, string secretWord)
+    public async Task CreateReservationAndUpdateGoods(Sale sale, List<Goods> goods, string secretWord)
     {
         sale.ReservationExtraInfo = new()
         {
@@ -37,6 +37,6 @@ public class SalesDbAccess(MusicalShopDbContext context)
             goodsUnit.Sales.Add(sale);
             context.Update(goodsUnit);
         }
-        context.Add(sale);
+        await context.AddAsync(sale);
     }
 }

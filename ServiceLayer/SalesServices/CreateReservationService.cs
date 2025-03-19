@@ -15,11 +15,11 @@ namespace ServiceLayer.SalesServices;
 
 public interface IReservationService : IErrorStorage
 {
-    Task<Guid?> CreateReservationAsNotComplete(List<Goods> goods);
+    Task<Guid?> CreateReservationAsNotComplete(List<Goods> goods, string secretWord);
 }
 
 public class CreateReservationService(MusicalShopDbContext context) : ErrorStorage, IReservationService
 {
     private readonly RunnerWriteDb<CreateReservationDto, Task<Guid?>> runner = new(context, new CreateReservationAsNotCompleteAction(new SalesDbAccess(context)));
-    public Task<Guid?> CreateReservationAsNotComplete(List<Goods> goods) => runner.Run(new CreateReservationDto(goods));
+    public Task<Guid?> CreateReservationAsNotComplete(List<Goods> goods, string secretWord) => runner.Run(new CreateReservationDto(goods, secretWord));
 }

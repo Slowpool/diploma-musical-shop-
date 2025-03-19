@@ -56,8 +56,8 @@ public class Sale : ISoftDeletable
     public virtual ICollection<Accessory> Accessories { get; set; } = [];
     public virtual ICollection<AudioEquipmentUnit> AudioEquipmentUnits { get; set; } = [];
     public virtual ICollection<SheetMusicEdition> SheetMusicEditions { get; set; } = [];
-
-
-    [InverseProperty(nameof(ReservationExtraInfo.Sale))]
+    // TODO configure via fluent api to add on_delete cascade
+    public Guid? ReservationExtraInfoId { get; set; }
+    [ForeignKey(nameof(Sale.ReservationExtraInfoId))]
     public virtual ReservationExtraInfo? ReservationExtraInfo { get; set; } = null;
 }

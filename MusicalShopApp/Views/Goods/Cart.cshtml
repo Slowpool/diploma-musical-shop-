@@ -3,6 +3,12 @@
 
 @model List<GoodsUnitSearchDto>
 
+@if (ViewBag.ReservationCreated ?? false)
+{
+    #error
+    <h3>@ViewBag.ReservationId</h3>
+}
+
 @if (Model.Count != 0)
 {
     <h3>
@@ -26,6 +32,7 @@
         </form>
         <form asp-controller="Sales" asp-action="CreateSaleAsReserved" method="post">
             <input type="submit" value="Зарезервировать" />
+            <input type="text" name="secretWord" maxlength="255" placeholder="Секретное слово" title="Покупатель должен назвать данное слово перед оплатой чтобы доказать, что резервация принадлежит ему"/>
         </form>
     }
 </div>

@@ -113,7 +113,7 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	[Authorize(Policy = nameof(CommonNames.Seller))]
 	public async Task<IActionResult> Cart([FromServices] IGetGoodsService getGoodsService, [FromServices] ICartService cartService)
 	{
-#warning i'm confused around the whole this cart stuff. i stopped understanding what's going on here
+#warning i'm confused around the whole this cart stuff. i stopped understand what's going on here
 		List<GoodsUnitSearchDto> GoodsUnitModels = new();
 		if (!string.IsNullOrEmpty(GoodsIdsAndKindsInCart))
 		{
@@ -136,7 +136,10 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 			}
 		}
 		ViewBag.Session = GoodsIdsAndKindsInCart;
-		return View(GoodsUnitModels);
+
+		ViewBag.ReservationCreated = TempData["ReservationCreated"];
+		ViewBag.ReservationId = TempData["ReservationId"];
+        return View(GoodsUnitModels);
 	}
 
 	[HttpGet("/goods/{kindOfGoods}/{goodsId}")]
