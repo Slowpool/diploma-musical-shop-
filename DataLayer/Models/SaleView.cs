@@ -28,17 +28,14 @@ public class SaleView
     public DateTime? LocalReservationDate => ReservationDate?.LocalDateTime;
     [NotMapped]
     public DateTime? LocalReturningDate => ReturningDate?.LocalDateTime;
-    [Required]
     public int Total { get; set; }
 #warning how to add refers to several tables like ICollection<Goods> Answer: view
     [Required]
     public SaleStatus Status { get; set; }
-    [Required]
     [Column("paid_by")]
-    public SalePaidBy PaidBy { get; set; }
-    [Required]
+    public SalePaidBy? PaidBy { get; set; }
     [Column("goods_units_count")]
-    public int GoodsUnitsCount { get; set; }
+    public int? GoodsUnitsCount { get; set; }
     [Required]
     [Column("is_paid")]
     public bool IsPaid { get; set; }

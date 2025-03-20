@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicalShopApp.Controllers.BaseControllers;
 using ServiceLayer.GoodsServices;
 using ServiceLayer.SalesServices;
+using ViewModelsLayer.Goods;
 using ViewModelsLayer.Sales;
 
 namespace MusicalShopApp.Controllers;
@@ -119,5 +120,14 @@ public class SalesController : CartViewerBaseController
             result = "Failed to cancel";
         }
         return Content(result);
+    }
+
+    [HttpGet("/goods/{saleId}")]
+    public async Task<IActionResult> SaleUnit([FromRoute] Guid saleId, [FromServices] IGetSaleService service)
+    {
+        var saleView = await service.GetSaleView(saleId);
+        // guitar here is a latch
+        var goodsModel = new SaleUnitModel(saleView.saleId, saleView.Name, saleView.Price, saleView.Status, saleView.Description, "Guitar", saleView.ReceiptDate);
+        return View(goodsModel);
     }
 }   

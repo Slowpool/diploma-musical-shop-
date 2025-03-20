@@ -1,4 +1,6 @@
-﻿@model ViewModelsLayer.Sales.SalesSearchModel
+﻿@using DataLayer.SupportClasses
+
+@model ViewModelsLayer.Sales.SalesSearchModel
 
 @{
     ViewBag.Title = "Продажи";
@@ -82,19 +84,20 @@
                 <div class="sale-status">
                     Статус: @(sale.Status switch
                     {
-                        DataLayer.SupportClasses.SaleStatus.Sold => "Продано",
-                        DataLayer.SupportClasses.SaleStatus.Reserved => "Зарезервировано",
-                        DataLayer.SupportClasses.SaleStatus.Returned => "Возвращено",
+                        SaleStatus.Sold => "Продано",
+                        SaleStatus.Reserved => "Зарезервировано",
+                        SaleStatus.Returned => "Возвращено",
                         // TODO display it on the top?
-                        DataLayer.SupportClasses.SaleStatus.YetNotPaid => "Ожидает оплаты",
+                        SaleStatus.YetNotPaid => "Ожидает оплаты",
                         _ => throw new ArgumentException()
                     })
                 </div>
                 <div class="sale-paid-by">
                     Оплачено: @(sale.PaidBy switch
                     {
-                        DataLayer.SupportClasses.SalePaidBy.Cash => "Наличными средствами",
-                        DataLayer.SupportClasses.SalePaidBy.BankCard => "Банковской картой",
+                        SalePaidBy.Cash => "Наличными средствами",
+                        SalePaidBy.BankCard => "Банковской картой",
+                        null => "-",
                         _ => throw new ArgumentException()
                     })
                 </div>
