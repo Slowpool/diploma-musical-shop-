@@ -6,7 +6,7 @@
 @if (ViewBag.ReservationCreated ?? false)
 {
     <h3>@ViewBag.ReservationId</h3>
-    <a href="@Url"
+    <a href="@Url.Action("", "Sales")"></a>
     Html.Raw(ViewBag.ReservationId);
 }
 

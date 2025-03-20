@@ -46,6 +46,7 @@ public class DataSeeding
             SaleId = Guid.Parse("286b3185-c983-4339-86c9-b12fc8fac5e2"),
             Status = SaleStatus.Returned,
             LocalSaleDate = new DateTime(2023, 3, 1, 13, 20, 35),
+            LocalReturningDate = new DateTime(2023, 4, 1, 13, 20, 35),
             PaidBy = SalePaidBy.Cash,
             IsPaid = true
         },
@@ -53,9 +54,9 @@ public class DataSeeding
         {
             SaleId = Guid.Parse("bf1cf858-f491-4234-9331-0b4abef9f0e8"),
             Status = SaleStatus.Reserved,
-            LocalSaleDate = new DateTime(2023, 7, 9, 10, 11, 35),
-            PaidBy = SalePaidBy.BankCard,
-            IsPaid = true
+            LocalReservationDate = new DateTime(2023, 7, 9, 10, 11, 35),
+            PaidBy = null,
+            IsPaid = false
         },
         ];
 
@@ -319,7 +320,7 @@ public class DataSeeding
                     Name = "Стартующий гитарист",
                     ReceiptDate = new DateTimeOffset(new DateTime(2023, 10, 12, 10, 20, 35)),
                     Price = 699,
-                    Status = GoodsStatus.Sold,
+                    Status = GoodsStatus.Reserved,
                     SpecificType = keychainType,
                     Sales = [Sales[4]],
                     Color = "Черно-рыжий",
