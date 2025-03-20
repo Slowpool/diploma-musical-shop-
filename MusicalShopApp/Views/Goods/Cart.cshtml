@@ -5,8 +5,9 @@
 
 @if (ViewBag.ReservationCreated ?? false)
 {
-    #error
     <h3>@ViewBag.ReservationId</h3>
+    <a href="@Url"
+    Html.Raw(ViewBag.ReservationId);
 }
 
 @if (Model.Count != 0)
