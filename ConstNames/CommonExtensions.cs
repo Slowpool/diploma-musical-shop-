@@ -19,7 +19,9 @@ public static class CommonExtensions
 
     public static string? HumanizeInDetail(this DateTime? date, Func<DateTime?, string?> humanizer)
     {
-        return String.Format("{0} ({1})", humanizer(date), date.ToString());
+        return date is null
+            ? null
+            : String.Format("{0} ({1})", humanizer(date), date.ToString());
     }
 
     public static string ToStringOrDefaultValue<T>(this T value)
@@ -38,7 +40,7 @@ public static class CommonExtensions
         string typeName = type.Name;
         var stringBuilder = new StringBuilder();
         stringBuilder.Append(char.ToLower(typeName[0]));
-        for(int i = 1; i < typeName.Length; i++)
+        for (int i = 1; i < typeName.Length; i++)
         {
             if (char.IsUpper(typeName[i]))
                 stringBuilder.Append("_");

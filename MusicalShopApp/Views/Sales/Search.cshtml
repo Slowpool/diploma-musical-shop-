@@ -1,4 +1,6 @@
 ﻿@using DataLayer.SupportClasses
+@using MusicalShopApp.Common
+@using Common;
 
 @model ViewModelsLayer.Sales.SalesSearchModel
 
@@ -103,11 +105,11 @@
                     })
                 </div>
                 <div class="sale-date">
-                    Дата оформления: @(sale.SaleDate?.ToString() ?? "-")
+                    Дата оформления: @(sale.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize))
                     <br />
-                    Дата возврата: @(sale.ReturningDate?.ToString() ?? "-")
+                    Дата возврата: @(sale.ReturningDate.HumanizeInDetail(HumanizerWrapper.Humanize))
                     <br />
-                    Дата резервирования: @(sale.ReservationDate?.ToString() ?? "-")
+                    Дата резервирования: @(sale.ReservationDate.HumanizeInDetail(HumanizerWrapper.Humanize))
                 </div>
                 <div class="goods-related-to-sale">
                     <section>Список товаров:</section>

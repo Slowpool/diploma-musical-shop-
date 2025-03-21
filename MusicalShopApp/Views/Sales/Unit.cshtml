@@ -1,6 +1,6 @@
 ﻿@using DataLayer.NotMapped
 @using ViewModelsLayer.Sales
-@using Humanizer
+@using MusicalShopApp.Common
 @using static Common.CommonExtensions
 @model SaleUnitModel
 
@@ -17,15 +17,15 @@
         </section>
         <section>
             <h5>Дата продажи</h5>
-            <p>@(Model.SaleDate?.HumanizeInDetail(Humanizer.Humanize) ?? "Не продано")</p>
+            <p>@(Model.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не продано")</p>
         </section>
         <section>
             <h5>Дата резервации</h5>
-            <p>@(Model.ReservationDate?.HumanizeInDetail(Humanizer.Humanize) ?? "Не было зарезервировано")</p>
+            <p>@(Model.ReservationDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не было зарезервировано")</p>
         </section>
         <section>
             <h5>Дата возврата</h5>
-            <p>@(Model.ReturningDate?.HumanizeInDetail(Humanizer.Humanize) ?? "Не возвращено")</p>
+            <p>@(Model.ReturningDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не возвращено")</p>
         </section>
         <section>
             <h5>Товар</h5>
@@ -33,7 +33,7 @@
                 @foreach (var (goodsId, goodsItemName) in Model.GoodsItems)
                 {
                     <li>
-                        <a href="@Url.Action("Unit", "Goods", new { goodsId })" >@goodsItemName</a>
+                        <a href="@Url.Action("Unit", "Goods", new { kindOfGoods = = goodsId })" >@goodsItemName</a>
                     </li>
                 }
             </ul>
