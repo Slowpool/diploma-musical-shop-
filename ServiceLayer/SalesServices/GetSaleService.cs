@@ -35,8 +35,7 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
     {
         var saleView = await context.SalesView.SingleAsync(sView => sView.SaleId == saleId);
         var sale = await GetOriginalSale(saleId);
-//#warning whaaat's going on here?
-// gotcha: saleView doesn't have relationships in database, so assign them manually
+// saleView doesn't have relationships in database, so assign them manually
         saleView.MusicalInstruments = [.. sale.MusicalInstruments];
         saleView.Accessories = [.. sale.Accessories];
         saleView.AudioEquipmentUnits = [.. sale.AudioEquipmentUnits];

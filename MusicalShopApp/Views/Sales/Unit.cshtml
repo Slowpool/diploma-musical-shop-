@@ -1,0 +1,50 @@
+﻿@using DataLayer.NotMapped
+@using ViewModelsLayer.Sales
+@using Humanizer
+@using static Common.CommonExtensions
+@model SaleUnitModel
+
+<article>
+    <h3>@Model.SaleId</h3>
+    <section>
+        <section>
+            <h5>Статус</h5>
+            <p>@Model.Status</p>
+        </section>
+        <section>
+            <h5>Оплачено</h5>
+            <p>@(Model.IsPaid.Humanize())</p>
+        </section>
+        <section>
+            <h5>Дата продажи</h5>
+            <p>@(Model.SaleDate?.HumanizeInDetail(Humanizer.Humanize) ?? "Не продано")</p>
+        </section>
+        <section>
+            <h5>Дата резервации</h5>
+            <p>@(Model.ReservationDate?.HumanizeInDetail(Humanizer.Humanize) ?? "Не было зарезервировано")</p>
+        </section>
+        <section>
+            <h5>Дата возврата</h5>
+            <p>@(Model.ReturningDate?.HumanizeInDetail(Humanizer.Humanize) ?? "Не возвращено")</p>
+        </section>
+        <section>
+            <h5>Товар</h5>
+            <ul>
+                @foreach (var (goodsId, goodsItemName) in Model.GoodsItems)
+                {
+                    <li>
+                        <a href="@Url.Action("Unit", "Goods", new { goodsId })" >@goodsItemName</a>
+                    </li>
+                }
+            </ul>
+        </section>
+        <section>
+            <h5>Количество единиц товара разных видов</h5>
+            <p>@Model.GoodsUnitsCount</p>
+        </section>
+        <section>
+            <h5>Итого:</h5>
+            <p>@Model.Total.ToMoney()</p>
+        </section>
+    </section>
+</article>

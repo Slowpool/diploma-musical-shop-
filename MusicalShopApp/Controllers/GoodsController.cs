@@ -143,7 +143,7 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	}
 
 	[HttpGet("/goods/{kindOfGoods}/{goodsId}")]
-	public async Task<IActionResult> GoodsUnit([FromRoute] KindOfGoods kindOfGoods, [FromRoute] Guid goodsId, [FromServices] IGetGoodsService service)
+	public async Task<IActionResult> Unit([FromRoute] KindOfGoods kindOfGoods, [FromRoute] Guid goodsId, [FromServices] IGetGoodsService service)
 	{
 		var goods = await service.GetGoodsInfo(goodsId, kindOfGoods);
 		// guitar here is a latch

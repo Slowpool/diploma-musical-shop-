@@ -17,6 +17,11 @@ public static class CommonExtensions
         return value ? "Да" : "Нет";
     }
 
+    public static string? HumanizeInDetail(this DateTime? date, Func<DateTime?, string?> humanizer)
+    {
+        return String.Format("{0} ({1})", humanizer(date), date.ToString());
+    }
+
     public static string ToStringOrDefaultValue<T>(this T value)
     {
         return value?.ToString() ?? "-";

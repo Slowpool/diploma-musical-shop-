@@ -81,6 +81,7 @@
     {
         <div class="mini-card">
             <div class="mini-card-left">
+                <div><a href="@Url.Action("Unit", "Sales", new { saleId = sale.SaleId })">Подробнее...</a></div>
                 <div class="sale-status">
                     Статус: @(sale.Status switch
                     {

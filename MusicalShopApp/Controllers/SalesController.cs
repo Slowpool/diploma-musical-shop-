@@ -13,7 +13,7 @@ namespace MusicalShopApp.Controllers;
 [Authorize(Policy = nameof(CommonNames.Seller))]
 public class SalesController : CartViewerBaseController
 {
-    [HttpGet]
+    [HttpGet("/sales/search")]
     public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minSaleDate, DateTime? maxSaleDate, DateTime? minReservationDate, DateTime? maxReservationDate, DateTime? minReturningDate, DateTime? maxReturningDate, SalePaidBy? paidBy, SaleStatus? status, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
     {
         var filterOptions = new SalesFilterOptions(minSaleDate, maxSaleDate, minReservationDate, maxReservationDate, minReturningDate, maxReturningDate, status, paidBy);
@@ -122,12 +122,18 @@ public class SalesController : CartViewerBaseController
         return Content(result);
     }
 
-    [HttpGet("/goods/{saleId}")]
-    public async Task<IActionResult> SaleUnit([FromRoute] Guid saleId, [FromServices] IGetSaleService service)
+    [HttpGet("/sales/{saleId}")]
+    public async Task<IActionResult> Unit([FromRoute] Guid saleId, [FromServices] IGetSaleService service)
     {
         var saleView = await service.GetSaleView(saleId);
         // guitar here is a latch
-        var goodsModel = new SaleUnitModel(saleView.saleId, saleView.Name, saleView.Price, saleView.Status, saleView.Description, "Guitar", saleView.ReceiptDate);
-        return View(goodsModel);
+        Dictionary<Guid, string> goodsItems = [];
+        List<Goods> goodsList = [..saleView.MusicalInstruments, ..saleView.Accessories, ..saleView.SheetMusicEditions, ..saleView.AudioEquipmentUnits];
+        foreach(var goodsItem in goodsList)
+        {
+            goodsItems[goodsItem.GoodsId] = goodsItem.Name;
+        }
+        var saleModel = new SaleUnitModel(saleView.SaleId, saleView.LocalSaleDate, saleView.LocalReservationDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, (int)saleView.GoodsUnitsCount!, saleView.IsPaid, goodsItems);
+        return View(saleModel);
     }
 }   
