@@ -39,19 +39,6 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             return null;
         }
 
-        DateTimeOffset? receiptDate = default;
-        switch (dto.Status)
-        {
-            case GoodsStatus.InStock:
-                receiptDate = DateTimeOffset.UtcNow;
-                break;
-            case GoodsStatus.AwaitingDelivery:
-                receiptDate = null;
-                break;
-            default:
-                AddError("Вы не можете выбрать данный статус");
-                break;
-        }
         if (HasErrors)
             return null;
 
@@ -59,6 +46,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
         Guid deliveryId;
 
         if (dto.ToPreviousDelivery)
+            // TODO get delivery anyway
             if (await deliveryService.Exists((Guid)dto.DeliveryId!))
                 deliveryId = (Guid)dto.DeliveryId;
             else
@@ -67,17 +55,31 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
                 return null;
             }
         else
+        {
+            var delivery = new GoodsDelivery
             {
-                var newDelivery = new GoodsDelivery
-                {
-                    GoodsDeliveryId = Guid.NewGuid(),
-                    LocalActualDeliveryDate = DateTime.Now
-                };
-                context.Add(newDelivery);
-                deliveryId = newDelivery.GoodsDeliveryId;
-            }
+                GoodsDeliveryId = Guid.NewGuid(),
+                LocalActualDeliveryDate = DateTime.Now
+            };
+            context.Add(delivery);
+            deliveryId = delivery.GoodsDeliveryId;
+        }
 
-            var result = new List<Goods>();
+        DateTimeOffset? receiptDate = default;
+        switch (dto.Status)
+        {
+            case GoodsStatus.InStock:
+                receiptDate = DateTimeOffset.Now;
+                break;
+            case GoodsStatus.AwaitingDelivery:
+                receiptDate = null;
+                break;
+            default:
+                AddError("Вы не можете выбрать данный статус");
+                break;
+        }
+
+        var result = new List<Goods>();
         for (int i = 0; i < dto.NumberOfUnits; i++)
         {
             Goods goods = dto.GoodsKindSpecificDataDto.KindOfGoods switch
@@ -106,7 +108,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             goods.DeliveryId = deliveryId;
             goods.Price = (int)dto.Price;
             goods.Description = dto.Description;
-            goods.LocalReceiptDate = receiptDate;
+            goods.ReceiptDate = receiptDate;
             goods.Status = dto.Status;
             goods.SoftDeleted = false;
             goods.SpecificTypeId = specificType.SpecificTypeId;
@@ -117,7 +119,7 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             await context.AddAsync(goods);
         }
 
-        if (!HasErrors) 
+        if (!HasErrors)
             await context.SaveChangesAsync();
         return deliveryId;
     }

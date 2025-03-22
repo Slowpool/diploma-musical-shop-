@@ -115,4 +115,8 @@ hr.narrow {
     padding-bottom: 50px;
 }
 
+.roles-list {
+    list-style: none;
+}
+
 /* TODO red validation errors */

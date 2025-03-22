@@ -6,7 +6,6 @@
 }
 @inject UserManager<IdentityUser> userManager
 @inject RoleManager<IdentityRole> roleManager
-@inject LinkGenerator linkGenerator
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -25,7 +24,7 @@
             {
                 <tr>
                     <td>
-                        <a href="@linkGenerator.GetPathByName("SpecificUser", values: new {userId = user.Id})">
+                        <a href="@Url.Action("SpecificUser", "Admin", values: new {userId = user.Id})">
                             @user.Id
                         </a>
                     </td>
@@ -40,23 +39,19 @@
                         else
                         {
                             <td>
-                                <div class="dropdown-check-list">
-                                    <span class="anchor">Select roles</span>
-                                    <ul class="items">
-                                        @foreach (IdentityRole role in roleManager.Roles.ToList())
-                                        {
-                                            <li>
-                                                <input value="@role.Id" type="checkbox"
-                                                @if (await userManager.IsInRoleAsync(user, role.Name!))
-                                                {
-                                                    @Html.Raw("checked")
-                                                    ;
-                                                }
-                                                />@role
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
+                                <ul class="roles-list">
+                                    @foreach (IdentityRole role in roleManager.Roles.ToList())
+                                    {
+                                        <li>
+                                            <input value="@role.Id" type="checkbox"
+                                            @if (await userManager.IsInRoleAsync(user, role.Name!))
+                                            {
+                                                @Html.Raw("checked")
+                                                ;
+                                            } />@role
+                                        </li>
+                                    }
+                                </ul>
                             </td>
                         }
                     }

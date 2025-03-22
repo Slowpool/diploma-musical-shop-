@@ -18,7 +18,7 @@ public class AdminController : Controller
 		return View();
 	}
 
-	[HttpGet(template: "/Admin/Users/{userId:Guid}", Name = "SpecificUser")]
+	[HttpGet(template: "/Admin/Users/{userId:Guid}")]
 	public async Task<IActionResult> SpecificUser(Guid userId, [FromServices] IGetUserService service, [FromQuery] string? errors)
 	{
 		var user = await service.GetUserInfo(userId);

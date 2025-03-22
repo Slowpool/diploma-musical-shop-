@@ -175,23 +175,24 @@ function observeNewSpecificTypeCheckboxChecked() {
 
 function observeAddingOfNewGoods() {
     $('#new-goods-adding-form').on('submit', function () {
+        var resultsField = $('#add-goods-result')[0];
+        resultsField.innerHTML = '';
         $.ajax({
             url: '/Stock/AddGoodsToWarehouse',
             method: 'post',
             dataType: 'json',
             data: $(this).serialize(),
             success: function (result) {
-                alert('success');
-
                 var prevDeliveryCheckbox = $('[name="AddGoodsToWarehouseDto.ToPreviousDelivery"]');
                 prevDeliveryCheckbox.prop('checked', true);
                 prevDeliveryCheckbox.removeAttr('disabled');
                 var deliveryIdInput = $('[name="AddGoodsToWarehouseDto.DeliveryId"]');
                 deliveryIdInput.prop('value', result.deliveryId);
                 deliveryIdInput.removeAttr('disabled');
+                resultsField.innerHTML = "Товар успешно добавлен";
             },
-            error: function (errors) {
-                alert('error');
+            error: function (jqXHR) {
+                resultsField.innerHTML = jqXHR.responseJSON.join('<br>');
             },
         });
         return false;
