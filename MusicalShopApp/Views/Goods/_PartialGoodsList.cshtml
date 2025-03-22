@@ -6,7 +6,7 @@
 
 @inject IAuthorizationService authorizationService
 
-@model List<GoodsUnitSearchDto>
+@model List<GoodsUnitSearchModel>
 
 <div class="cards-with-goods">
     <hr class="narrow" />
@@ -28,7 +28,7 @@
                         @Model[i].Price.ToMoney()
                     </span>
                     <span class="@Model[i]-mini-card-status">
-                        @Model[i].Status.ToFormattedText()
+                        @Model[i].Price.ToMoney()
                     </span>
                 </div>
             </div>

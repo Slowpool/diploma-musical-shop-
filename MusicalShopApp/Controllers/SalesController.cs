@@ -18,13 +18,13 @@ public class SalesController : CartViewerBaseController
     {
         var filterOptions = new SalesFilterOptions(minSaleDate, maxSaleDate, minReservationDate, maxReservationDate, minReturningDate, maxReturningDate, status, paidBy);
         var orderByOptions = new SalesOrderByOptions(orderBy, orderByAscending);
-        List<SaleSearchDto> list = await service.GetRelevantSales(q, filterOptions, orderByOptions);
+        List<SaleSearchModel> list = await service.GetRelevantSales(q, filterOptions, orderByOptions);
         return View(new SalesSearchModel(q, list, list.Count, filterOptions, orderByOptions));
     }
 
     [HttpPost("/sale/arrange")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateSaleAsNotSold([FromServices] ICartService cartService, [FromServices] ICreateSaleService createSaleService)
+    public async Task<IActionResult> CreateSaleAsNotPaid([FromServices] ICartService cartService, [FromServices] ICreateSaleService createSaleService)
     {
         var goods = await cartService.GetGoodsFromCart(GoodsIdsAndKinds);
         Guid? saleId = await createSaleService.CreateSaleAsNotPaid(goods);
@@ -34,6 +34,7 @@ public class SalesController : CartViewerBaseController
             return RedirectToAction("PayForSale", new { saleId });
         }
         else
+            // TODO pass errors
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
@@ -47,17 +48,15 @@ public class SalesController : CartViewerBaseController
         {
             ClearSessionCart();
 
-            ViewBag.ReservationCreated = TempData["ReservationCreated"] = true;
-            ViewBag.ReservationId = TempData["ReservationId"] = reservationId;
-            return Redirect(Url.Action("Cart", "Goods")!);
+            return RedirectToAction("Unit", "Sales", new { saleId = reservationId });
         }
         else
             // TODO flash stuff
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
-    [HttpGet]
-    public async Task<IActionResult> PayForSale([FromQuery] Guid saleId)
+    [HttpGet("pay-for/{saleId}")]
+    public async Task<IActionResult> PayForSale([FromRoute] Guid saleId)
     {
         return View(saleId);
     }
@@ -70,26 +69,25 @@ public class SalesController : CartViewerBaseController
     // TODO encapsulate the goods status updating
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> RegisterSaleAsSold(Guid saleId, SalePaidBy paidBy, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, [FromServices] IGetGoodsUnitsRelatedToSaleService goodsService, [FromServices]  IUpdateGoodsStatusService goodsStatusService, [FromServices] IMapKindOfGoodsService kindOfGoodsService)
+    public async Task<IActionResult> RegisterSaleAsSold(Guid saleId, SalePaidBy paidBy, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, [FromServices] IGetGoodsUnitsRelatedToSaleService goodsService, [FromServices]  IUpdateGoodsStatusService goodsStatusService, [FromServices] IMapKindOfGoodsService kindOfGoodsService)
     {
         string result;
         try
         {
             await saleService.RegisterSaleAsPaid(saleId, paidBy);
-            var goods = await goodsService.GetOrigGoodsUnitsRelatedToSale(saleId);
+            var goods = await goodsService.GetGoodsModelsRelatedToSale(saleId);
             foreach(var goodsUnit in goods)
             {
                 await goodsStatusService.UpdateGoodsStatus(goodsUnit.GoodsId, await kindOfGoodsService.GetGoodsKind(goodsUnit.GoodsId), GoodsStatus.Sold);
             }
-            result = "Successfully registered";
+            return RedirectToAction("Unit", "Sales", new { saleId });
         }
         catch
         {
             await RestoreCart(saleId, cartService);
             await saleService.CancelSale(saleId);
-            result = "Failed to register";
+            return RedirectToAction("Cart", "Sales");
         }
-        return Content(result);
     }
 
     private async Task RestoreCart(Guid saleId, ICartService cartService)
@@ -123,16 +121,11 @@ public class SalesController : CartViewerBaseController
     }
 
     [HttpGet("/sales/{saleId}")]
-    public async Task<IActionResult> Unit([FromRoute] Guid saleId, [FromServices] IGetSaleService service)
+    public async Task<IActionResult> Unit([FromRoute] Guid saleId, [FromServices] IGetSaleService service, [FromServices] IGetGoodsUnitsRelatedToSaleService goodsService)
     {
         var saleView = await service.GetSaleView(saleId);
-        // guitar here is a latch
-        Dictionary<Guid, string> goodsItems = [];
-        List<Goods> goodsList = [..saleView.MusicalInstruments, ..saleView.Accessories, ..saleView.SheetMusicEditions, ..saleView.AudioEquipmentUnits];
-        foreach(var goodsItem in goodsList)
-        {
-            goodsItems[goodsItem.GoodsId] = goodsItem.Name;
-        }
+        var goodsItems = await goodsService.GetGoodsModelsRelatedToSale(saleId);
+
         var saleModel = new SaleUnitModel(saleView.SaleId, saleView.LocalSaleDate, saleView.LocalReservationDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, (int)saleView.GoodsUnitsCount!, saleView.IsPaid, goodsItems);
         return View(saleModel);
     }

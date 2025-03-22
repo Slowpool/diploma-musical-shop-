@@ -62,11 +62,11 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	[HttpGet]
 	public async Task<IActionResult> Search([FromServices] IGetRelevantGoodsService getRelevantGoodsService, [FromServices] IGetGoodsService getGoodsService, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] DateTime? fromReceiptDate, [FromQuery] DateTime? toReceiptDate, [FromQuery] KindOfGoods kindOfGoods, [FromQuery] GoodsOrderBy orderBy, [FromQuery] GoodsStatus status, [FromQuery] bool ascendingOrder, [FromQuery] string q = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 15)
 	{
-		var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromReceiptDate.LocalToUniversal(), toReceiptDate.LocalToUniversal(), kindOfGoods, status);
+		var filterOptions = new GoodsFilterOptionsModel(minPrice, maxPrice, fromReceiptDate.LocalToUniversal(), toReceiptDate.LocalToUniversal(), kindOfGoods, status);
 		var orderByOptions = new GoodsOrderByOptions(orderBy, ascendingOrder);
 #warning what about query object pattern here?
 		var goodsIds = await getRelevantGoodsService.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);
-		List<GoodsUnitSearchDto> goodsUnitModels = new();
+		List<GoodsUnitSearchModel> goodsUnitModels = new();
 		foreach (var goodsId in goodsIds)
 		{
 			try
@@ -114,7 +114,7 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	public async Task<IActionResult> Cart([FromServices] IGetGoodsService getGoodsService, [FromServices] ICartService cartService)
 	{
 #warning i'm confused around the whole this cart stuff. i stopped understand what's going on here
-		List<GoodsUnitSearchDto> GoodsUnitModels = new();
+		List<GoodsUnitSearchModel> GoodsUnitModels = new();
 		if (!string.IsNullOrEmpty(GoodsIdsAndKindsInCart))
 		{
 			foreach (var goodsIdAndType in GoodsIdsAndKinds!)
@@ -137,8 +137,6 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 		}
 		ViewBag.Session = GoodsIdsAndKindsInCart;
 
-		ViewBag.ReservationCreated = TempData["ReservationCreated"];
-		ViewBag.ReservationId = TempData["ReservationId"];
         return View(GoodsUnitModels);
 	}
 

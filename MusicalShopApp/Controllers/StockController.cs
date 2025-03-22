@@ -16,29 +16,30 @@ public class StockController : Controller
     public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService)
     {
         var specificTypes = await specificTypesService.GetAllSpecificTypes();
+        // TODO it must not be so awkward
         GoodsKindSpecificDataDto defaultSpecificData = new(KindOfGoods.MusicalInstruments, default, default, default, default, default, default);
-        var defaultDto = new AddGoodsToWarehouseDto(default!, default!, false, default, default, GoodsStatus.InStock, default, default, defaultSpecificData);
+        var defaultDto = new AddGoodsToWarehouseDto(default!, default!, false, default, default, GoodsStatus.InStock, default, default, defaultSpecificData, default, false);
         return View(new AddGoodsToWarehouseModel(defaultDto, specificTypes, []));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ContentResult> AddGoodsToWarehouse([FromServices] IAddNewGoodsService addNewGoodsService, AddGoodsToWarehouseDto addGoodsToWarehouseDto)
+    public async Task<JsonResult> AddGoodsToWarehouse(AddGoodsToWarehouseDto addGoodsToWarehouseDto, [FromServices] IAddNewGoodsService addNewGoodsService)
     {
         if (!ModelState.IsValid)
         {
-            string errors = string.Empty;
-            foreach (var error in ModelState.Values.SelectMany(modelEntry => modelEntry.Errors.Select(e => e.ErrorMessage)))
-            {
-                errors += error + "<br>";
-            }
-            return Content(errors);
+            var errors = ModelState.Values.SelectMany(modelEntry => modelEntry.Errors.Select(e => e.ErrorMessage));
+            // Unprocessable entity
+            Response.StatusCode = 400;
+            return Json(errors);
         }
-        // TODO what data? how to get errors of model?
-        await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
-        string result = addNewGoodsService.HasErrors
-            ? string.Join("\r\n", addNewGoodsService.Errors)
-            : "Товар успешно добавлен";
-        return Content(result);
+        Guid? deliveryId = await addNewGoodsService.AddNewGoods(addGoodsToWarehouseDto);
+        if (addNewGoodsService.HasErrors)
+        {
+            Response.StatusCode = 409;
+            return Json(addNewGoodsService.Errors);
+        }
+        else
+            return Json(new { success = true, deliveryId });
     }
 }

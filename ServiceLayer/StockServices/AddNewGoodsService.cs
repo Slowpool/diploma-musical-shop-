@@ -3,6 +3,7 @@ using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
+using ServiceLayer.DeliveryServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -16,13 +17,14 @@ namespace ServiceLayer.StockServices;
 
 public interface IAddNewGoodsService : IErrorAdder
 {
-    Task<List<Goods>> AddNewGoods(AddGoodsToWarehouseDto dto);
+    Task<Guid?> AddNewGoods(AddGoodsToWarehouseDto dto);
 }
-public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeService specificTypesService) : ErrorAdder, IAddNewGoodsService
+
+public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeService specificTypesService, IGetDeliveryService deliveryService) : ErrorAdder, IAddNewGoodsService
 {
     public override IImmutableList<ValidationResult> Errors
         => base.Errors.Concat(specificTypesService.Errors).ToImmutableList();
-    public async Task<List<Goods>> AddNewGoods(AddGoodsToWarehouseDto dto)
+    public async Task<Guid?> AddNewGoods(AddGoodsToWarehouseDto dto)
     {
         SpecificType specificType;
         try
@@ -36,7 +38,6 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             AddError("Некорректное значение типа товара");
             return null;
         }
-
 
         DateTimeOffset? receiptDate = default;
         switch (dto.Status)
@@ -52,9 +53,31 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
                 break;
         }
         if (HasErrors)
-            return [];
+            return null;
+
         // Validated successfully
-        var result = new List<Goods>();
+        Guid deliveryId;
+
+        if (dto.ToPreviousDelivery)
+            if (await deliveryService.Exists((Guid)dto.DeliveryId!))
+                deliveryId = (Guid)dto.DeliveryId;
+            else
+            {
+                AddError("Delivery with such an id does not exist");
+                return null;
+            }
+        else
+            {
+                var newDelivery = new GoodsDelivery
+                {
+                    GoodsDeliveryId = Guid.NewGuid(),
+                    LocalActualDeliveryDate = DateTime.Now
+                };
+                context.Add(newDelivery);
+                deliveryId = newDelivery.GoodsDeliveryId;
+            }
+
+            var result = new List<Goods>();
         for (int i = 0; i < dto.NumberOfUnits; i++)
         {
             Goods goods = dto.GoodsKindSpecificDataDto.KindOfGoods switch
@@ -79,12 +102,13 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
                 },
                 _ => throw new Exception()
             };
-            goods.Description = dto.Description;
             goods.Name = dto.Name;
+            goods.DeliveryId = deliveryId;
             goods.Price = (int)dto.Price;
-            goods.ReceiptDate = receiptDate;
-            goods.SoftDeleted = false;
+            goods.Description = dto.Description;
+            goods.LocalReceiptDate = receiptDate;
             goods.Status = dto.Status;
+            goods.SoftDeleted = false;
             goods.SpecificTypeId = specificType.SpecificTypeId;
             // TODO specific type
             //goods.SpecificType = specificTypeEntity;
@@ -92,7 +116,9 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             result.Add(goods);
             await context.AddAsync(goods);
         }
-        await context.SaveChangesAsync();
-        return result;
+
+        if (!HasErrors) 
+            await context.SaveChangesAsync();
+        return deliveryId;
     }
 }

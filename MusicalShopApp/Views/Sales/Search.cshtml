@@ -96,7 +96,7 @@
                     })
                 </div>
                 <div class="sale-paid-by">
-                    Оплачено: @(sale.PaidBy switch
+                    Способ оплаты: @(sale.PaidBy switch
                     {
                         SalePaidBy.Cash => "Наличными средствами",
                         SalePaidBy.BankCard => "Банковской картой",
@@ -105,30 +105,32 @@
                     })
                 </div>
                 <div class="sale-date">
-                    Дата оформления: @(sale.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize))
+                    Дата оформления: @(sale.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не продано")
                     <br />
-                    Дата возврата: @(sale.ReturningDate.HumanizeInDetail(HumanizerWrapper.Humanize))
+                    Дата возврата: @(sale.ReturningDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не возвращено")
                     <br />
-                    Дата резервирования: @(sale.ReservationDate.HumanizeInDetail(HumanizerWrapper.Humanize))
+                    Дата резервирования: @(sale.ReservationDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не было зарезервировано")
                 </div>
                 <div class="goods-related-to-sale">
-                    <section>Список товаров:</section>
-                    @{
-                        int goodsDisplayed = 0;
-                        foreach (string briefGoodsUnitDescription in sale.BriefGoodsDescriptions)
-                        {
-                            <div class="goods-unit-related-to-sale">
-                                <a href="#">@briefGoodsUnitDescription</a>
-                            </div>
-                            if (++goodsDisplayed == 3)
+                    <h5>Список товаров:</h5>
+                    <ul>
+                        @{
+                            int goodsDisplayed = 0;
+                            foreach (var goodsItem in sale.GoodsItems)
                             {
-                                <div>
-                                    ...
-                                </div>
-                                break;
+                                <li class="goods-unit-related-to-sale">
+                                    <a href="@Url.Action("Unit", "Goods", new { goodsItem.KindOfGoods, goodsItem.GoodsId })">@goodsItem.Name</a>
+                                </li>
+                                if (++goodsDisplayed == 3)
+                                {
+                                    <div>
+                                        ...
+                                    </div>
+                                    break;
+                                }
                             }
                         }
-                    }
+                    </ul>
                 </div>
             </div>
             <div class="mini-card-right">

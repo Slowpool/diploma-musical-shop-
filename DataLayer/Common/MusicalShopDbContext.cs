@@ -26,6 +26,7 @@ public partial class MusicalShopDbContext : IdentityDbContext<IdentityUser>
     public virtual DbSet<Sale> Sales { get; set; }
     public virtual DbSet<SaleView> SalesView { get; set; }
     public virtual DbSet<ReservationExtraInfo> Reservations { get; set; }
+    public virtual DbSet<GoodsDelivery> GoodsDeliveries { get; set; }
     // linking tables
     public virtual DbSet<MusicalInstrumentSale> MusicalInstrumentSale { get; set; }
     public virtual DbSet<AccessorySale> AccessorySale { get; set; }

@@ -173,6 +173,30 @@ function observeNewSpecificTypeCheckboxChecked() {
     });
 }
 
+function observeAddingOfNewGoods() {
+    $('#new-goods-adding-form').on('submit', function () {
+        $.ajax({
+            url: '/Stock/AddGoodsToWarehouse',
+            method: 'post',
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function (result) {
+                alert('success');
+
+                var prevDeliveryCheckbox = $('[name="AddGoodsToWarehouseDto.ToPreviousDelivery"]');
+                prevDeliveryCheckbox.prop('checked', true);
+                prevDeliveryCheckbox.removeAttr('disabled');
+                var deliveryIdInput = $('[name="AddGoodsToWarehouseDto.DeliveryId"]');
+                deliveryIdInput.prop('value', result.deliveryId);
+                deliveryIdInput.removeAttr('disabled');
+            },
+            error: function (errors) {
+                alert('error');
+            },
+        });
+        return false;
+    });
+}
 
 // TODO does it work?
 //$(document).ready(displaySpecificData, replaceSpecificTypes);
@@ -180,6 +204,8 @@ $(document).ready(function () {
     observeKindOfGoodsChangeAndChangeSpecificData();
     observeKindOfGoodsChangeAndSwitchSpecificTypesGroup();
     observeNewSpecificTypeCheckboxChecked();
+
+    observeAddingOfNewGoods();
 });
 
 function removeChildren(element) {

@@ -31,7 +31,15 @@ public abstract class Goods : ISoftDeletable
     public Guid SpecificTypeId { get; set; }
     //public abstract SpecificType SpecificType { get; set; }
     public DateTimeOffset? ReceiptDate { get; set; }
-
+    [NotMapped]
+    public DateTime? LocalReceiptDate
+    {
+        get => ReceiptDate?.LocalDateTime;
+        set
+        {
+            ReceiptDate = value.LocalToUniversal();
+        }
+    }
     public Guid? DeliveryId { get; set; }
     [ForeignKey(nameof(Goods.DeliveryId))]
     public virtual GoodsDelivery? Delivery { get; set; }

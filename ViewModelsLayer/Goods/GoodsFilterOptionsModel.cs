@@ -8,4 +8,4 @@ namespace ViewModelsLayer.Goods;
 /// </summary>
 /// <param name="GoodsFilter"></param>
 /// <param name="FilterValue"></param>
-public record class GoodsFilterOptions(int? MinPrice, int? MaxPrice, DateTimeOffset? FromReceiptDate, DateTimeOffset? ToReceiptDate, KindOfGoods KindOfGoods, GoodsStatus Status);
+public record class GoodsFilterOptionsModel(int? MinPrice, int? MaxPrice, DateTimeOffset? FromReceiptDate, DateTimeOffset? ToReceiptDate, KindOfGoods KindOfGoods, GoodsStatus Status);

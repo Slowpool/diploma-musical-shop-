@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models;
 
+[Table("goods_delivery")]
 public class GoodsDelivery
 {
     public Guid GoodsDeliveryId { get;set; }

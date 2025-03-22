@@ -1,16 +1,12 @@
 ﻿@using DataLayer.SupportClasses
+@using Common
 @model ViewModelsLayer.Stock.AddGoodsToWarehouseModel?
 
 @{
 #pragma warning disable 8602
 }
 
-<form asp-action="AddGoodsToWarehouse" method="post"
-      data-ajax="true"
-      data-ajax-method="post"
-      data-ajax-url="@Url.Action(controller: "Stock", action: "AddGoodsToWarehouse")"
-      data-ajax-mode="replace"
-      data-ajax-update="#add-goods-result">
+<form id="new-goods-adding-form" asp-action="AddGoodsToWarehouse" method="post" >
     <div>
         <h4 for="specific-data">Основные данные</h4>
         <p>
@@ -82,7 +78,7 @@
                 <label asp-for="AddGoodsToWarehouseDto.NewSpecificTypeIsBeingAdded">Добавить новый тип</label>
                 <input asp-for="AddGoodsToWarehouseDto.NewSpecificTypeIsBeingAdded" type="checkbox" />
                 <label asp-for="AddGoodsToWarehouseDto.NewSpecificType">Название нового типа</label>
-                <input asp-for="AddGoodsToWarehouseDto.NewSpecificType" placeholder="Новый тип" disabled="disabled" />
+                <input asp-for="AddGoodsToWarehouseDto.NewSpecificType" placeholder="Новый тип" disabled />
             </p>
             <p>
                 <label asp-for="AddGoodsToWarehouseDto.Price">Цена</label>
@@ -104,6 +100,13 @@
             <p>
                 <label asp-for="AddGoodsToWarehouseDto.NumberOfUnits">Количество</label>
                 <input asp-for="AddGoodsToWarehouseDto.NumberOfUnits" type="number" />
+            </p>
+            <p>
+                <label asp-for="AddGoodsToWarehouseDto.ToPreviousDelivery">Добавить в предыдущую доставку</label>
+                <input asp-for="AddGoodsToWarehouseDto.ToPreviousDelivery" type="checkbox" disabled />
+            </p>
+            <p>
+                <input asp-for="AddGoodsToWarehouseDto.DeliveryId" type="hidden" disabled />
             </p>
         </div>
     </div>

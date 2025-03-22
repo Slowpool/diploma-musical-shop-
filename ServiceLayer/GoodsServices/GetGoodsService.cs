@@ -16,7 +16,7 @@ namespace ServiceLayer.GoodsServices;
 public interface IGetGoodsService
 {
     Task<Goods> GetGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
-    Task<GoodsUnitSearchDto> GetReadableGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
+    Task<GoodsUnitSearchModel> GetReadableGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
     //Task<Type> GetGoodsType(Guid goodsId);
 }
 public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsService kindOfGoodsMapper) : IGetGoodsService
@@ -30,11 +30,11 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
             .SingleAsync(e => e.GoodsId == id)!;
     }
 
-    public async Task<GoodsUnitSearchDto> GetReadableGoodsInfo(Guid id, KindOfGoods kindOfGoods)
+    public async Task<GoodsUnitSearchModel> GetReadableGoodsInfo(Guid id, KindOfGoods kindOfGoods)
     {
         Goods goods = await GetGoodsInfo(id, kindOfGoods);
 
-        GoodsUnitSearchDto dto = new()
+        GoodsUnitSearchModel dto = new()
         {
             Id = id.ToString(),
 // TODO specific type

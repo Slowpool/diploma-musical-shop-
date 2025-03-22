@@ -40,4 +40,11 @@ public record class AddGoodsToWarehouseDto(
     int? NumberOfUnits,
 
     [Required(ErrorMessage = "Отсутствуют специфичные данные")]
-    GoodsKindSpecificDataDto GoodsKindSpecificDataDto);
+    GoodsKindSpecificDataDto GoodsKindSpecificDataDto,
+
+    [RequiredWhenToPreviousDeliveryIsTrue("Идентификатор текущей доставки ")]
+    Guid? DeliveryId,
+    [RussianRequired("Дополнить предыдущую доставку")]
+    bool ToPreviousDelivery
+
+);
