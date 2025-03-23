@@ -43,12 +43,11 @@
                                     @foreach (IdentityRole role in roleManager.Roles.ToList())
                                     {
                                         <li>
-                                            <input value="@role.Id" type="checkbox"
-                                            @if (await userManager.IsInRoleAsync(user, role.Name!))
-                                            {
-                                                @Html.Raw("checked")
-                                                ;
-                                            } />@role
+                                            <form asp-action="UpdateUserRole" asp-controller="Admin" method="post" class="role-update-form">
+                                                <input class="role-update-checkbox" name="Add" type="checkbox" value="@((await userManager.IsInRoleAsync(user, role.Name!)).ToString())" />@role
+                                                <input name="roleName" type="hidden" value="@role.Name" />
+                                                <input name="userId" type="hidden" value="@user.Id" />
+                                            </form>
                                         </li>
                                     }
                                 </ul>

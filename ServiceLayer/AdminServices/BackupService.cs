@@ -18,29 +18,28 @@ public interface IBackupService : IErrorAdder
 
 public class BackupService : ErrorAdder, IBackupService
 {
-    private readonly IConfigurationSection _backupInfo;
-    private readonly string _backupsDirectoryName;
-    private readonly DirectoryInfo _backupsDirectoryInfo;
-    private IConfigurationSection UserCredentials => _backupInfo.GetRequiredSection("UserCredentials");
+    private readonly IConfigurationSection _backup;
+    private readonly string _dirName;
+    private readonly DirectoryInfo _dirInfo;
+    private IConfigurationSection UserCredentials => _backup.GetRequiredSection("UserCredentials");
     private string UserName => (string)UserCredentials.GetValue(typeof(string), "Name")!;
     private string UserPassword => (string)UserCredentials.GetValue(typeof(string), "Password")!;
-    private string DbName => (string)_backupInfo.GetValue(typeof(string), "Database")!;
+    private string DbName => (string)_backup.GetValue(typeof(string), "Database")!;
 
     public BackupService(IConfiguration configuration)
     {
-        _backupInfo = configuration.GetRequiredSection("BackupData");
-        _backupsDirectoryName = (string)_backupInfo.GetValue(typeof(string), "Directory")!;
-        _backupsDirectoryInfo = new DirectoryInfo(_backupsDirectoryName);
-
+        _backup = configuration.GetRequiredSection("BackupData");
+        _dirName = (string)_backup.GetValue(typeof(string), "Directory")!;
+        _dirInfo = new DirectoryInfo(_dirName);
     }
 
 #warning validate note length and its characters like :?*<>.,"
     public async Task<string> CreateBackup(string note)
     {
-        string hostName = (string)_backupInfo.GetValue(typeof(string), "Host")!;
+        string hostName = (string)_backup.GetValue(typeof(string), "Host")!;
         EnsureDirectory();
         string fileName = $"{DateTimeOffset.UtcNow.ToString(ConstValues.BackupDateTimeFormat)}{note}.sql";
-        string fullFileName = Path.Combine(_backupsDirectoryName, fileName);
+        string fullFileName = Path.Combine(_dirName, fileName);
         ProcessStartInfo processInfo = new("mysqldump", string.Format(Cmd.MysqldumpArguments, UserName, UserPassword, hostName, DbName, fullFileName))
         {
             UseShellExecute = false,
@@ -56,18 +55,18 @@ public class BackupService : ErrorAdder, IBackupService
 
     private void EnsureDirectory()
     {
-        if (!_backupsDirectoryInfo.Exists)
-            _backupsDirectoryInfo.Create();
+        if (!_dirInfo.Exists)
+            _dirInfo.Create();
     }
 
     public async Task<Dictionary<DateTime, string>> GetBackups()
     {
-        if (!_backupsDirectoryInfo.Exists)
+        if (!_dirInfo.Exists)
             return [];
         Dictionary<DateTime, string> result = [];
         DateTime dateTime;
         const string format = ConstValues.BackupDateTimeFormat;
-        foreach (var fileInfo in _backupsDirectoryInfo.GetFiles())
+        foreach (var fileInfo in _dirInfo.GetFiles())
         {
             dateTime = DateTime.ParseExact(fileInfo.Name.AsSpan(0, format.Length), format, null);
             result[dateTime] = fileInfo.Name.AsSpan(format.Length, fileInfo.Name.Length - ".sql".Length - format.Length).ToString();
@@ -78,13 +77,13 @@ public class BackupService : ErrorAdder, IBackupService
     public async Task ApplyRestoreFromBackup(DateTime backupDateTime)
     {
         // checking
-        if (!_backupsDirectoryInfo.Exists)
+        if (!_dirInfo.Exists)
         {
             AddError("Резервные копии не найдены.");
             return;
         }
         string formattedDateTime = backupDateTime.ToString(ConstValues.BackupDateTimeFormat);
-        var file = _backupsDirectoryInfo.GetFiles()
+        var file = _dirInfo.GetFiles()
                                         .Where(file => file.Name.StartsWith(formattedDateTime))
                                         .SingleOrDefault();
         if(file == null)
