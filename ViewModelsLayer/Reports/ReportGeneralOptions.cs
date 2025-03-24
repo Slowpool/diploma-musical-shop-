@@ -16,6 +16,6 @@ public record ReportGeneralOptions(
     KindOfGoods? KindOfGoodsForSpecific,
 
     [RequiredWhen(nameof(ReportGeneralOptions.Type), ReportType.SpecificGoods)]
-    Dictionary<KindOfGoods, List<SpecificType>>? SpecificTypes
+    Dictionary<KindOfGoods, Dictionary<Guid, string>>? SpecificTypes
 
     );

@@ -1,5 +1,23 @@
-﻿@{
-	ViewBag.Title = "Просмотр отчетов";
+﻿@using ViewModelsLayer.Reports
+@{
+    ViewBag.Title = "Просмотр отчетов";
 }
 
-@model 
+@model ReportGeneralOptions
+
+<form asp-controller="Reports" asp-action="Generate" method="post">
+    <h6>Временной промежуток</h6>
+    <div>
+        <label for="FromDate">от</label>
+        <input asp-for="FromDate" />
+        <label for="ToDate">до</label>
+        <input asp-for="ToDate" />
+    </div>
+    <h6><label for="Type">Тип отчета</label></h6>
+    <div>
+        <input asp-for="Type" />
+    </div>
+    <h6><label for=""></label></h6>
+    <select asp-for="KindsOfGoodsForGeneral" />
+
+</form>
