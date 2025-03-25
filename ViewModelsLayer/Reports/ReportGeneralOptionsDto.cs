@@ -2,20 +2,20 @@
 using ViewModelsLayer.CustomAttributes;
 
 namespace ViewModelsLayer.Reports;
-public record ReportGeneralOptions(
+public record ReportGeneralOptionsDto(
     DateTime? FromDate,
     
     DateTime? ToDate,
     
     ReportType Type,
     
-    [RequiredWhen(nameof(ReportGeneralOptions.Type), ReportType.General)]
+    [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.General)]
     List<KindOfGoods>? KindsOfGoodsForGeneral,
 
-    [RequiredWhen(nameof(ReportGeneralOptions.Type), ReportType.SpecificGoods)]
+    [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.SpecificGoods)]
     KindOfGoods? KindOfGoodsForSpecific,
 
-    [RequiredWhen(nameof(ReportGeneralOptions.Type), ReportType.SpecificGoods)]
+    [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.SpecificGoods)]
     Dictionary<KindOfGoods, Dictionary<Guid, string>>? SpecificTypes
 
     );

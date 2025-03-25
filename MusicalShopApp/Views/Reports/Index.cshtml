@@ -1,11 +1,24 @@
 ﻿@using ViewModelsLayer.Reports
+@using DataLayer.SupportClasses
+@using Common;
+
 @{
     ViewBag.Title = "Просмотр отчетов";
+
+    List<SelectListItem> reportTypeItems = [];
+    reportTypeItems.Add(new SelectListItem(CommonNames.GeneralReportType, ReportType.General.ToString()));
+    reportTypeItems.Add(new SelectListItem(CommonNames.SpecificGoodsReportType, ReportType.SpecificGoods.ToString()));
+
+    List<SelectListItem> kindOfGoodsItems = [];
+    kindOfGoodsItems.Add(new SelectListItem(CommonNames.AudioEquipmentUnits, KindOfGoods.AudioEquipmentUnits.ToString()));
+    kindOfGoodsItems.Add(new SelectListItem(CommonNames.Accessories, KindOfGoods.Accessories.ToString()));
+    kindOfGoodsItems.Add(new SelectListItem(CommonNames.MusicalInstruments, KindOfGoods.MusicalInstruments.ToString()));
+    kindOfGoodsItems.Add(new SelectListItem(CommonNames.SheetMusicEditions, KindOfGoods.SheetMusicEditions.ToString()));
 }
 
-@model ReportGeneralOptions
+@model ReportGeneralOptionsModel
 
-<form asp-controller="Reports" asp-action="Generate" method="post">
+<form asp-controller="Reports" asp-action="Generate">
     <h6>Временной промежуток</h6>
     <div>
         <label for="FromDate">от</label>
@@ -15,9 +28,16 @@
     </div>
     <h6><label for="Type">Тип отчета</label></h6>
     <div>
-        <input asp-for="Type" />
+        <select asp-for="Type" asp-items="reportTypeItems"></select>
     </div>
-    <h6><label for=""></label></h6>
-    <select asp-for="KindsOfGoodsForGeneral" />
+    <h6><label for="KindsOfGoodsForGeneral">Виды товара для ообщего отчета</label></h6>
+    <div>
+        <select asp-for="KindsOfGoodsForGeneral" asp-items="kindOfGoodsItems" multiple></select>
+    </div>
+    <h6><label for="KindOfGoodsForSpecific">Вид товара для конкретного отчета</label></h6>
+    <div>
+        <select asp-for="KindOfGoodsForSpecific" asp-items="kindOfGoodsItems" ></select>
+    </div>
 
+    <input type="submit" value="Сгенерировать" />
 </form>

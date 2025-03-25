@@ -26,4 +26,7 @@ public static class CommonNames
     public const string FieldIsRequiredMessageRu = "Значение поля \"{0}\" не может быть пустым";
     public const string MaxLengthViolationMessageRu = "Значение поля \"{0}\" не может быть длиннее {1} символов";
     public const string HtmlTagsViolationMessageRu = "Значение поля \"{0}\" не может содержать HTML-теги";
+
+    public const string GeneralReportType = "Общий";
+    public const string SpecificGoodsReportType = "Конкретный";
 }

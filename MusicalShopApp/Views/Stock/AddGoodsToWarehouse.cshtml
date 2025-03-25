@@ -6,7 +6,7 @@
 #pragma warning disable 8602
 }
 
-<form id="new-goods-adding-form" asp-action="AddGoodsToWarehouse" method="post" >
+<form id="new-goods-adding-form" asp-action="AddGoodsToWarehouse" method="post">
     <div>
         <h4 for="specific-data">Основные данные</h4>
         <p>
@@ -54,7 +54,6 @@
                 Name = CommonNames.AudioEquipmentUnits,
                 Disabled = Model.AddGoodsToWarehouseDto.GoodsKindSpecificDataDto.KindOfGoods != KindOfGoods.AudioEquipmentUnits
             };
-#warning default formatter went crazy
                     List<SelectListItem> items = [];
                     foreach (var (kindOfGoods, specificTypes) in Model.SpecificTypes)
                     {
