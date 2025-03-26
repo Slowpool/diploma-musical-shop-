@@ -27,7 +27,7 @@ public class GetRelevantSalesService(MusicalShopDbContext context, IGetSaleServi
                                             .AsNoTracking()
 #warning add researchTextFilter
                                             //.Where()
-                                            .FilterBy(filterOptions)
+                                            .FilterSalesBy(filterOptions)
                                             .OrderBy(orderByOptions)
                                             .Select(sale => sale.SaleId)];
         List<SaleSearchModel> result = [];

@@ -1,24 +1,41 @@
-﻿using DataLayer.Common;
+﻿using BizLogicBase.Validation;
+using DataLayer.Common;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
+using ServiceLayer.SalesServices.QueryObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.Common;
 using ViewModelsLayer.Stock.Delivery;
 
 namespace ServiceLayer.StockServices.Delivery;
 
-public interface IGetRelevantDeliveriesService
+public interface IGetRelevantDeliveriesService : IErrorAdder
 {
-    Task<GoodsDelivery[]> GetRelevantDeliveries(DeliveryFilterOptions filterOptions, DeliveryOrderByOptions orderByOptions);
+    Task<List<GoodsDelivery>?> GetRelevantDeliveries(DeliveryFilterOptions filterOptions, DeliveryOrderByOptions orderByOptions, PagingModel pagingModel);
 }
 
-public class GetRelevantDeliveriesService(MusicalShopDbContext context) : IGetRelevantDeliveriesService
+public class GetRelevantDeliveriesService(MusicalShopDbContext context) : ErrorAdder, IGetRelevantDeliveriesService
 {
-    public async Task<GoodsDelivery[]> GetRelevantDeliveries(DeliveryFilterOptions filterOptions, DeliveryOrderByOptions orderByOptions)
+    public async Task<List<GoodsDelivery>?> GetRelevantDeliveries(DeliveryFilterOptions filterOptions, DeliveryOrderByOptions orderByOptions, PagingModel pagingModel)
     {
+        if (filterOptions.FromActualDeliveryDate > filterOptions.ToActualDeliveryDate)
+        {
+            // TODO it needs refactoring a little
+            AddError("Минимальная дата доставки не может быть больше максимальной");
+            return null;
+        }
+
+        if (filterOptions.ToExpectedDeliveryDate < filterOptions.FromExpectedDeliveryDate)
+        {
+            AddError("Минимальная ожидаемая дата доставки не может быть больше максимальной");
+            return null;
+        }
+
         IQueryable<GoodsDelivery> query = context.GoodsDeliveries;
 
         if (filterOptions.IsDelivered)
@@ -40,22 +57,20 @@ public class GetRelevantDeliveriesService(MusicalShopDbContext context) : IGetRe
         if (filterOptions.ToExpectedDeliveryDate is not null)
             query = query.Where(gd => gd.ExpectedDeliveryDate <= filterOptions.ToExpectedDeliveryDate.LocalToUniversal());
 
-        Func<GoodsDelivery, DateTimeOffset?> orderByExpression;
-        switch (orderByOptions.OrderBy)
+        Expression<Func<GoodsDelivery, DateTimeOffset?>> orderByExpression = orderByOptions.OrderBy switch
         {
-            case DeliveryOrderBy.ActualDeliveryDate:
-                orderByExpression = gd => gd.ActualDeliveryDate;
-                break;
-            case DeliveryOrderBy.ExpectedDeliveryDate:
-                orderByExpression = gd => gd.ExpectedDeliveryDate;
-                break;
-        }
+            DeliveryOrderBy.ActualDeliveryDate => gd => gd.ActualDeliveryDate,
+            DeliveryOrderBy.ExpectedDeliveryDate => gd => gd.ExpectedDeliveryDate,
+            _ => throw new Exception()
+        };
 
-#error why
         if (orderByOptions.AscendingOrder)
             query = query.OrderBy(orderByExpression);
         else
             query = query.OrderByDescending(orderByExpression);
 
+        query = query.Page(pagingModel);
+
+        return await query.ToListAsync();
     }
 }

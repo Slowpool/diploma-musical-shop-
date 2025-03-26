@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.Common;
 using ViewModelsLayer.Sales;
 
 namespace ServiceLayer.SalesServices.QueryObjects;
@@ -23,7 +24,10 @@ public static class QueryObjectExtensions
         return query.Take(pageSize);
     }
 
-    public static IQueryable<SaleView> FilterBy(this IQueryable<SaleView> query, SalesFilterOptions filterOptions)
+    public static IQueryable<T> Page<T>(this IQueryable<T> query, PagingModel pagingModel)
+        => query.Page(pagingModel.PageNumber, pagingModel.PageSize);
+
+    public static IQueryable<SaleView> FilterSalesBy(this IQueryable<SaleView> query, SalesFilterOptions filterOptions)
     {
         string[] types = { "Sale", "Reservation", "Returning" };
         string[] ranges = { "Min", "Max" };

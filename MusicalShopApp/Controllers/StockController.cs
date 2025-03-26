@@ -8,6 +8,8 @@ using ViewModelsLayer.Stock;
 using Microsoft.AspNetCore.Authorization;
 using ViewModelsLayer.Stock.Delivery;
 using ServiceLayer.GoodsServices;
+using ServiceLayer.StockServices.Delivery;
+using ViewModelsLayer.Common;
 
 namespace MusicalShopApp.Controllers;
 
@@ -45,11 +47,18 @@ public class StockController : Controller
             return Json(new { success = true, deliveryId });
     }
 
-    public async Task<IActionResult> DeliverySearch([FromQuery] DeliveryFilterOptions filterOptions, [FromQuery] DeliveryOrderByOptions orderByOptions, [FromServices] IGetRelevantDeliveriesService service)
+    public async Task<IActionResult> DeliverySearch([FromQuery] DeliveryFilterOptions filterOptions, [FromQuery] DeliveryOrderByOptions orderByOptions, [FromQuery] PagingModel pagingModel, [FromServices] IGetRelevantDeliveriesService service)
     {
         List<DeliveryUnitSearchModel> deliveryUnitModels = [];
-
-
+        var deliveries = await service.GetRelevantDeliveries(filterOptions, orderByOptions, pagingModel);
+        if (service.HasErrors)
+        {
+            deliveryUnitModels = [];
+            ViewBag.Errors = service.Errors;
+        }
+        else
+            foreach (var delivery in deliveries!)
+                deliveryUnitModels.Add(new DeliveryUnitSearchModel(delivery.GoodsDeliveryId, delivery.LocalExpectedDeliveryDate, delivery.LocalActualDeliveryDate, delivery.ExpectedDeliveryDate is not null));
         return View(new DeliverySearchModel(filterOptions, orderByOptions, deliveryUnitModels));
     }
 }
