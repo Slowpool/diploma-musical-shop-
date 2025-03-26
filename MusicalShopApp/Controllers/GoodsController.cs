@@ -62,7 +62,7 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	[HttpGet]
 	public async Task<IActionResult> Search([FromServices] IGetRelevantGoodsService getRelevantGoodsService, [FromServices] IGetGoodsService getGoodsService, [FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] DateTime? fromReceiptDate, [FromQuery] DateTime? toReceiptDate, [FromQuery] KindOfGoods kindOfGoods, [FromQuery] GoodsOrderBy orderBy, [FromQuery] GoodsStatus status, [FromQuery] bool ascendingOrder, [FromQuery] string q = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 15)
 	{
-		var filterOptions = new GoodsFilterOptionsModel(minPrice, maxPrice, fromReceiptDate.LocalToUniversal(), toReceiptDate.LocalToUniversal(), kindOfGoods, status);
+		var filterOptions = new GoodsFilterOptions(minPrice, maxPrice, fromReceiptDate.LocalToUniversal(), toReceiptDate.LocalToUniversal(), kindOfGoods, status);
 		var orderByOptions = new GoodsOrderByOptions(orderBy, ascendingOrder);
 #warning what about query object pattern here?
 		var goodsIds = await getRelevantGoodsService.GetRelevantGoodsIds(q, filterOptions, orderByOptions, page, pageSize);

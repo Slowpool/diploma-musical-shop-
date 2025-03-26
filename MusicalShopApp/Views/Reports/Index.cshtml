@@ -9,6 +9,11 @@
     reportTypeItems.Add(new SelectListItem(CommonNames.GeneralReportType, ReportType.General.ToString()));
     reportTypeItems.Add(new SelectListItem(CommonNames.SpecificGoodsReportType, ReportType.SpecificGoods.ToString()));
 
+    List<SelectListItem> reportSubtypeItems = [];
+    reportSubtypeItems.Add(new SelectListItem(CommonNames.NumberOfSalesReportSubtype, ReportSubtype.NumberOfSales.ToString()));
+    reportSubtypeItems.Add(new SelectListItem(CommonNames.AverageSalesSpeedReportSubtype, ReportSubtype.AverageSalesSpeed.ToString()));
+    reportSubtypeItems.Add(new SelectListItem(CommonNames.SalesRevenueReportSubtype, ReportSubtype.SalesRevenue.ToString()));
+
     List<SelectListItem> kindOfGoodsItems = [];
     kindOfGoodsItems.Add(new SelectListItem(CommonNames.AudioEquipmentUnits, KindOfGoods.AudioEquipmentUnits.ToString()));
     kindOfGoodsItems.Add(new SelectListItem(CommonNames.Accessories, KindOfGoods.Accessories.ToString()));
@@ -18,26 +23,90 @@
 
 @model ReportGeneralOptionsModel
 
-<form asp-controller="Reports" asp-action="Generate">
-    <h6>Временной промежуток</h6>
-    <div>
-        <label for="FromDate">от</label>
-        <input asp-for="FromDate" />
-        <label for="ToDate">до</label>
-        <input asp-for="ToDate" />
-    </div>
-    <h6><label for="Type">Тип отчета</label></h6>
-    <div>
-        <select asp-for="Type" asp-items="reportTypeItems"></select>
-    </div>
-    <h6><label for="KindsOfGoodsForGeneral">Виды товара для ообщего отчета</label></h6>
-    <div>
-        <select asp-for="KindsOfGoodsForGeneral" asp-items="kindOfGoodsItems" multiple></select>
-    </div>
-    <h6><label for="KindOfGoodsForSpecific">Вид товара для конкретного отчета</label></h6>
-    <div>
-        <select asp-for="KindOfGoodsForSpecific" asp-items="kindOfGoodsItems" ></select>
-    </div>
-
-    <input type="submit" value="Сгенерировать" />
-</form>
+<search>
+    <form asp-controller="Reports" asp-action="Generate">
+        <div>
+            <h5>Временной промежуток</h5>
+            <div>
+                <label for="FromDate">от</label>
+                <input asp-for="FromDate" />
+                <label for="ToDate">до</label>
+                <input asp-for="ToDate" />
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="Type">Тип отчета</label>
+            </h5>
+            <div>
+                <select asp-for="Type" asp-items="reportTypeItems"></select>
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="Subtype">Подтип отчета</label>
+            </h5>
+            <div>
+                <select asp-for="Subtype" asp-items="reportSubtypeItems"></select>
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="KindsOfGoodsForGeneral">Виды товара для ообщего отчета</label>
+            </h5>
+            <div>
+                <select asp-for="KindsOfGoodsForGeneral" asp-items="kindOfGoodsItems" multiple></select>
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="KindOfGoodsForSpecific">Вид товара для конкретного отчета</label>
+            </h5>
+            <div>
+                <select asp-for="KindOfGoodsForSpecific" asp-items="kindOfGoodsItems"></select>
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label asp-for="SpecificTypes">Специфичные типы для конкретного отчета</label>
+            </h5>
+            @{
+                // TODO refactoring
+                SelectListGroup mi = new()
+            {
+                Name = CommonNames.MusicalInstruments,
+            };
+                SelectListGroup sme = new()
+            {
+                Name = CommonNames.SheetMusicEditions,
+            };
+                SelectListGroup a = new()
+            {
+                Name = CommonNames.Accessories,
+            };
+                SelectListGroup aeu = new()
+            {
+                Name = CommonNames.AudioEquipmentUnits,
+            };
+                List<SelectListItem> items = [];
+                foreach (var (kindOfGoods, specificTypesDict) in Model.SpecificTypes)
+                {
+                    SelectListGroup currentGroup = kindOfGoods == KindOfGoods.Accessories ? a :
+                    kindOfGoods == KindOfGoods.AudioEquipmentUnits ? aeu :
+                    kindOfGoods == KindOfGoods.MusicalInstruments ? mi :
+                    kindOfGoods == KindOfGoods.SheetMusicEditions ? sme :
+                    throw new ArgumentException();
+                    foreach (var (specificTypeId, specificTypeName) in specificTypesDict)
+                        items.Add(new SelectListItem
+                    {
+                        Text = specificTypeName,
+                        Value = specificTypeId.ToString(),
+                        Group = currentGroup
+                    });
+                }
+                <select asp-for="SpecificTypes" asp-items="items" multiple></select>
+            }
+        </div>
+        <input type="submit" value="Сгенерировать" />
+    </form>
+</search>

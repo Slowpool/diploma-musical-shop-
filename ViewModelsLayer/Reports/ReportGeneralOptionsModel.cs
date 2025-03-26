@@ -2,8 +2,9 @@
 
 namespace ViewModelsLayer.Reports;
 public record ReportGeneralOptionsModel(
-    DateTime FromDate,
-    DateTime ToDate,
+    DateTime? FromDate,
+    DateTime? ToDate,
+    ReportSubtype? Subtype,
     ReportType? Type,
     List<KindOfGoods> KindsOfGoodsForGeneral,
     KindOfGoods? KindOfGoodsForSpecific,

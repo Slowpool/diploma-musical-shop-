@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceLayer.StockServices;
 using ViewModelsLayer.Stock;
 using Microsoft.AspNetCore.Authorization;
+using ViewModelsLayer.Stock.Delivery;
+using ServiceLayer.GoodsServices;
 
 namespace MusicalShopApp.Controllers;
 
@@ -41,5 +43,13 @@ public class StockController : Controller
         }
         else
             return Json(new { success = true, deliveryId });
+    }
+
+    public async Task<IActionResult> DeliverySearch([FromQuery] DeliveryFilterOptions filterOptions, [FromQuery] DeliveryOrderByOptions orderByOptions, [FromServices] IGetRelevantDeliveriesService service)
+    {
+        List<DeliveryUnitSearchModel> deliveryUnitModels = [];
+
+
+        return View(new DeliverySearchModel(filterOptions, orderByOptions, deliveryUnitModels));
     }
 }

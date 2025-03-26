@@ -8,14 +8,15 @@ public record ReportGeneralOptionsDto(
     DateTime? ToDate,
     
     ReportType Type,
+    ReportSubtype Subtype,
     
     [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.General)]
-    List<KindOfGoods>? KindsOfGoodsForGeneral,
+    KindOfGoods[]? KindsOfGoodsForGeneral,
 
     [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.SpecificGoods)]
     KindOfGoods? KindOfGoodsForSpecific,
 
     [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.SpecificGoods)]
-    Dictionary<KindOfGoods, Dictionary<Guid, string>>? SpecificTypes
+    Guid[]? SpecificTypes
 
     );

@@ -29,4 +29,8 @@ public static class CommonNames
 
     public const string GeneralReportType = "Общий";
     public const string SpecificGoodsReportType = "Конкретный";
+
+    public const string NumberOfSalesReportSubtype = "Количество продаж";
+    public const string AverageSalesSpeedReportSubtype = "Средняя скорость продаж";
+    public const string SalesRevenueReportSubtype = "Доход с продаж";
 }
