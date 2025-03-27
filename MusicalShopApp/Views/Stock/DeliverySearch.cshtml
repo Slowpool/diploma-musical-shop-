@@ -1,1 +1,98 @@
-﻿@model DeliverySearchModel
+﻿@using ViewModelsLayer.Stock.Delivery
+@using Common
+@using MusicalShopApp.Common
+
+@model DeliverySearchModel
+
+<search>
+    <form asp-controller="Stock" asp-action="DeliverySearch" method="get">
+        <div>
+            <h5>
+                <label for="delivery-date-borders">Дата получения</label>
+            </h5>
+            <div id="delivery-date-borders">
+                <label for="Filter.FromActualDeliveryDate">от</label>
+                <input asp-for="Filter.FromActualDeliveryDate" />
+                <label for="Filter.ToActualDeliveryDate">до</label>
+                <input asp-for="Filter.ToActualDeliveryDate" />
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="expected-delivery-date-borders">Ожидаемая дата получения</label>
+            </h5>
+            <div id="expected-delivery-date-borders">
+                <label for="Filter.FromExpectedDeliveryDate">от</label>
+                <input asp-for="Filter.FromExpectedDeliveryDate" />
+                <label for="Filter.ToExpectedDeliveryDate">до</label>
+                <input asp-for="Filter.ToExpectedDeliveryDate" />
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="is-delivered">Статус доставки</label>
+            </h5>
+            <div id="is-delivered">
+                <input id="radio-is-delivered-true" asp-for="Filter.IsDelivered" type="radio" value="@TernaryChoice.True.ToString()" />
+                <label for="radio-is-delivered-true" Filter.IsDelivered">Доставлено</label>
+                <input id="radio-is-delivered-false" asp-for="Filter.IsDelivered" type="radio" value="@TernaryChoice.False.ToString()" />
+                <label for="radio-is-delivered-false" Filter.FromExpectedDeliveryDate">В ожидании (фильтры ожидаемой даты получения игнорируются)</label>
+                <input id="radio-is-delivered-any" asp-for="Filter.IsDelivered" type="radio" value="@TernaryChoice.Any.ToString()" />
+                <label for="radio-is-delivered-any" Filter.FromExpectedDeliveryDate">Любой (фильтры даты получения игнорируются)</label>
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="order-deliveries-by">Сортировать по</label>
+            </h5>
+            <div id="order-deliveries-by">
+                <div>
+                    <input id="order-deliveries-by-actual-date" type="radio" value="@DeliveryOrderBy.ActualDeliveryDate.ToString()" asp-for="OrderBy.OrderBy" />
+                    <label for="order-deliveries-by-actual-date">Дате доставки</label>
+                    <input id="order-deliveries-by-expected-date" type="radio" value="@DeliveryOrderBy.ExpectedDeliveryDate.ToString()" asp-for="OrderBy.OrderBy" />
+                    <label for="order-deliveries-by-expected-date">Ожидаемой дате доставки</label>
+                    <input id="order-deliveries-by-relevance" type="radio" value="@DeliveryOrderBy.Relevance.ToString()" asp-for="OrderBy.OrderBy" />
+                    <label for="order-deliveries-by-relevance">Релевантности</label>
+                </div>
+                <div>
+                    <input id="order-deliveries-ascending" type="radio" value="True" asp-for="OrderBy.AscendingOrder" />
+                    <label for="order-deliveries-ascending">Возрастанию</label>
+                    <input id="order-deliveries-descending" type="radio" value="False" asp-for="OrderBy.AscendingOrder" />
+                    <label for="order-deliveries-descending">Убыванию</label>
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Поиск" />
+        @if (ViewBag.Errors is not null)
+            foreach (var error in ViewBag.Errors)
+            {
+                <div class="error">@error</div>
+            }
+    </form>
+</search>
+<hr class="narrow" />
+<div class="search-results">
+    <h4 class="results-count">
+        Найдено: @Model.DeliveryUnitModels.Count
+    </h4>
+    <ul id="delivery-results" class="mini-cards">
+        @foreach (var delivery in Model.DeliveryUnitModels)
+        {
+            <li class="delivery mini-card">
+                <div class="mini-card-left">
+                    <h4>
+                        <a href="@Url.Action("DeliveryUnit", "Stock", new { delivery.GoodsDeliveryId }))">Подробнее...</a>
+                    </h4>
+                    <div>
+                        <b>Дата доставки:</b> @(delivery.ActualDeliveryDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не доставлено")
+                    </div>
+                    <div>
+                        <b>Ожидаемая дата доставки:</b> @(delivery.ExpectedDeliveryDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Отсутствует")
+                    </div>
+                </div>
+                <div class="mini-card-right">
+                </div>
+            </li>
+        }
+    </ul>
+</div>

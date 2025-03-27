@@ -13,26 +13,32 @@ using ViewModelsLayer.Sales;
 namespace ServiceLayer.SalesServices.QueryObjects;
 public static class QueryObjectExtensions
 {
-    public static IQueryable<T> Page<T>(this IQueryable<T> query, int pageNumber, int pageSize)
+    public static IQueryable<T> Page<T>(this IQueryable<T> query, int? pageNumber, int? pageSize)
     {
-        if (pageSize <= 0)
-            throw new ArgumentOutOfRangeException(nameof(pageSize), "pageSize cannot be zero or less than zero.");
-        if (pageNumber <= 0)
-            throw new ArgumentOutOfRangeException(nameof(pageSize), "pageNum cannot be zero or less than zero.");
-        if (pageNumber != 1)
-            query = query.Skip((pageNumber - 1) * pageSize);
-        return query.Take(pageSize);
+        int pageNumberInner = pageNumber is not null ? (int)pageNumber : Consts.DEFAULT_PAGING_NUMBER;
+        int pageSizeInner = pageSize is not null ? (int)pageSize : Consts.DEFAULT_PAGING_SIZE;
+
+        if (pageSizeInner <= 0)
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size cannot be zero or less than zero.");
+        if (pageNumberInner <= 0)
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page number cannot be zero or less than zero.");
+        if (pageNumberInner != 1)
+            query = query.Skip((pageNumberInner - 1) * pageSizeInner);
+        return query.Take(pageSizeInner);
     }
 
     public static IQueryable<T> Page<T>(this IQueryable<T> query, PagingModel pagingModel)
-        => query.Page(pagingModel.PageNumber, pagingModel.PageSize);
+    {
+        return query.Page(pagingModel.PageNumber, pagingModel.PageSize);
+    }
+
 
     public static IQueryable<SaleView> FilterSalesBy(this IQueryable<SaleView> query, SalesFilterOptions filterOptions)
     {
         string[] types = { "Sale", "Reservation", "Returning" };
         string[] ranges = { "Min", "Max" };
-        foreach(string type in types)
-            foreach(string range in ranges)
+        foreach (string type in types)
+            foreach (string range in ranges)
             {
                 PropertyInfo someDate = typeof(SalesFilterOptions).GetProperty($"{range}{type}Date")!;
                 var currentDate = (DateTime?)someDate.GetValue(filterOptions);
@@ -45,7 +51,7 @@ public static class QueryObjectExtensions
                     var equalityExpression = Expression.GreaterThanOrEqual(property, constantExpression);
                     var predicate = (Expression<Func<SaleView, bool>>)Expression.Lambda(equalityExpression, parameter);
                     query = query.Where(predicate);
-                    
+
                 }
             }
 

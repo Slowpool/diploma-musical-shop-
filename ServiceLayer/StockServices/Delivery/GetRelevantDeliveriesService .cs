@@ -21,50 +21,56 @@ public interface IGetRelevantDeliveriesService : IErrorAdder
 
 public class GetRelevantDeliveriesService(MusicalShopDbContext context) : ErrorAdder, IGetRelevantDeliveriesService
 {
-    public async Task<List<GoodsDelivery>?> GetRelevantDeliveries(DeliveryFilterOptions filterOptions, DeliveryOrderByOptions orderByOptions, PagingModel pagingModel)
+    public async Task<List<GoodsDelivery>?> GetRelevantDeliveries(DeliveryFilterOptions filter, DeliveryOrderByOptions orderBy, PagingModel pagingModel)
     {
-        if (filterOptions.FromActualDeliveryDate > filterOptions.ToActualDeliveryDate)
+        if (filter.FromActualDeliveryDate > filter.ToActualDeliveryDate)
         {
             // TODO it needs refactoring a little
-            AddError("Минимальная дата доставки не может быть больше максимальной");
+            AddError("Минимальная дата получения доставки не может быть больше максимальной");
             return null;
         }
 
-        if (filterOptions.ToExpectedDeliveryDate < filterOptions.FromExpectedDeliveryDate)
+        if (filter.ToExpectedDeliveryDate < filter.FromExpectedDeliveryDate)
         {
-            AddError("Минимальная ожидаемая дата доставки не может быть больше максимальной");
+            AddError("Минимальная ожидаемая дата получения доставки не может быть больше максимальной");
             return null;
         }
 
         IQueryable<GoodsDelivery> query = context.GoodsDeliveries;
 
-        if (filterOptions.IsDelivered)
+        switch (filter.IsDelivered)
         {
-            query = query.Where(gd => gd.ActualDeliveryDate != null);
+            case TernaryChoice.Any:
+                break;
 
-            if (filterOptions.FromActualDeliveryDate is not null)
-                query = query.Where(gd => gd.ActualDeliveryDate >= filterOptions.FromActualDeliveryDate.LocalToUniversal());
+            case TernaryChoice.True:
+                query = query.Where(gd => gd.ActualDeliveryDate != null);
+                if (filter.FromActualDeliveryDate is not null)
+                    query = query.Where(gd => gd.ActualDeliveryDate >= filter.FromActualDeliveryDate.LocalToUniversal());
+                if (filter.ToActualDeliveryDate is not null)
+                    query = query.Where(gd => gd.ActualDeliveryDate <= filter.ToActualDeliveryDate.LocalToUniversal());
+                break;
 
-            if (filterOptions.ToActualDeliveryDate is not null)
-                query = query.Where(gd => gd.ActualDeliveryDate <= filterOptions.ToActualDeliveryDate.LocalToUniversal());
+            case TernaryChoice.False:
+                query = query.Where(gd => gd.ActualDeliveryDate == null);
+                break;
         }
-        else
-            query = query.Where(gd => gd.ActualDeliveryDate == null);
 
-        if (filterOptions.FromExpectedDeliveryDate is not null)
-            query = query.Where(gd => gd.ExpectedDeliveryDate >= filterOptions.FromExpectedDeliveryDate.LocalToUniversal());
+        if (filter.FromExpectedDeliveryDate is not null)
+            query = query.Where(gd => gd.ExpectedDeliveryDate >= filter.FromExpectedDeliveryDate.LocalToUniversal());
 
-        if (filterOptions.ToExpectedDeliveryDate is not null)
-            query = query.Where(gd => gd.ExpectedDeliveryDate <= filterOptions.ToExpectedDeliveryDate.LocalToUniversal());
+        if (filter.ToExpectedDeliveryDate is not null)
+            query = query.Where(gd => gd.ExpectedDeliveryDate <= filter.ToExpectedDeliveryDate.LocalToUniversal());
 
-        Expression<Func<GoodsDelivery, DateTimeOffset?>> orderByExpression = orderByOptions.OrderBy switch
+        Expression<Func<GoodsDelivery, dynamic>> orderByExpression = orderBy.OrderBy switch
         {
             DeliveryOrderBy.ActualDeliveryDate => gd => gd.ActualDeliveryDate,
             DeliveryOrderBy.ExpectedDeliveryDate => gd => gd.ExpectedDeliveryDate,
+            DeliveryOrderBy.Relevance => gd => gd.GoodsDeliveryId,
             _ => throw new Exception()
         };
 
-        if (orderByOptions.AscendingOrder)
+        if (orderBy.AscendingOrder)
             query = query.OrderBy(orderByExpression);
         else
             query = query.OrderByDescending(orderByExpression);

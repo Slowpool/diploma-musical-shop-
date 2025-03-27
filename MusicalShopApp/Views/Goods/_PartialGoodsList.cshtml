@@ -9,50 +9,47 @@
 @model List<GoodsUnitSearchModel>
 
 <div class="cards-with-goods">
-    <hr class="narrow" />
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        <div class="mini-card">
-            <div class="mini-card-left">
-                <a href="/goods/@(System.IO.Path.Combine(Model[i].KindOfGoods.ToString(), Model[i].Id))">
-                    <h4 class="mini-card-name">@Model[i].Name</h4>
-                </a>
-                <div class="mini-card-type">
-                    @Model[i].Type
+    <ul class="mini-cards">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <li class="mini-card">
+                <div class="mini-card-left">
+                    <a href="/goods/@(System.IO.Path.Combine(Model[i].KindOfGoods.ToString(), Model[i].Id))">
+                        <h4 class="mini-card-name">@Model[i].Name</h4>
+                    </a>
+                    <div class="mini-card-type">
+                        @Model[i].Type
+                    </div>
+                    <div class="mini-card-description">
+                        @Model[i].Description
+                    </div>
+                    <div>
+                        <span class="@Model[i]-mini-card-price">
+                            @Model[i].Price.ToMoney()
+                        </span>
+                    </div>
                 </div>
-                <div class="mini-card-description">
-                    @Model[i].Description
-                </div>
-                <div>
-                    <span class="@Model[i]-mini-card-price">
-                        @Model[i].Price.ToMoney()
-                    </span>
-                    <span class="@Model[i]-mini-card-status">
-                        @Model[i].Price.ToMoney()
-                    </span>
-                </div>
-            </div>
-            <!-- TODO the goods item is in stock OR the goods item is awaiting delivery (this way it can only be reserved! it should be handled in cart so that when it contains the goods item which is awaiting delivery, then `Make sale` button must be disabled -->
-            @if ((Model[i].Status == GoodsStatus.InStock || Model[i].Status == GoodsStatus.InCart) && (await authorizationService.AuthorizeAsync(User, nameof(CommonNames.Seller))).Succeeded)
-            {
-                <div class="mini-card-right">
-                    <form class="mini-card-add-remove" method="post">
-                        @* data-ajax="true"
+                <!-- TODO the goods item is in stock OR the goods item is awaiting delivery (this way it can only be reserved! it should be handled in cart so that when it contains the goods item which is awaiting delivery, then `Make sale` button must be disabled -->
+                @if ((Model[i].Status == GoodsStatus.InStock || Model[i].Status == GoodsStatus.InCart) && (await authorizationService.AuthorizeAsync(User, nameof(CommonNames.Seller))).Succeeded)
+                {
+                    <div class="mini-card-right">
+                        <form class="mini-card-add-remove" method="post">
+                            @* data-ajax="true"
                               data-ajax-method="post"
                               data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"
                               data-ajax-mode="replace"
                               data-ajax-update="#adding-removing-results@(i)" *@
-                        <button class="add-remove-cart-button" type="submit">@(Model[i].IsInCart ? "-" : "+")</button>
-                        <input type="hidden" value="@Model[i].Id" name="goodsId" />
-                        <input type="hidden" value="@Model[i].IsInCart.ToString().ToLower()" name="isInCart" />
-                        <div class="adding-removing-results">
-                        </div>
-                    </form>
-                </div>
-            }
-        </div>
-        <hr class="narrow" />
-    }
+                            <button class="add-remove-cart-button" type="submit">@(Model[i].IsInCart ? "-" : "+")</button>
+                            <input type="hidden" value="@Model[i].Id" name="goodsId" />
+                            <input type="hidden" value="@Model[i].IsInCart.ToString().ToLower()" name="isInCart" />
+                            <div class="adding-removing-results">
+                            </div>
+                        </form>
+                    </div>
+                }
+            </li>
+        }
+    </ul>
 </div>
 
 @* quote: "A Razor section defined in a partial view is invisible to parent markup files. The section is only visible to the partial view in which it's defined." *@

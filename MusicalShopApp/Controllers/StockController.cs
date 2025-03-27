@@ -47,18 +47,19 @@ public class StockController : Controller
             return Json(new { success = true, deliveryId });
     }
 
-    public async Task<IActionResult> DeliverySearch([FromQuery] DeliveryFilterOptions filterOptions, [FromQuery] DeliveryOrderByOptions orderByOptions, [FromQuery] PagingModel pagingModel, [FromServices] IGetRelevantDeliveriesService service)
+    [HttpGet]
+    public async Task<IActionResult> DeliverySearch([FromQuery] DeliveryFilterOptions filter, [FromQuery] DeliveryOrderByOptions orderBy, [FromQuery] PagingModel pagingModel, [FromServices] IGetRelevantDeliveriesService service)
     {
         List<DeliveryUnitSearchModel> deliveryUnitModels = [];
-        var deliveries = await service.GetRelevantDeliveries(filterOptions, orderByOptions, pagingModel);
+        var deliveries = await service.GetRelevantDeliveries(filter, orderBy, pagingModel);
         if (service.HasErrors)
         {
             deliveryUnitModels = [];
-            ViewBag.Errors = service.Errors;
+            ViewBag.Errors = service.Errors.Select(e => e.ErrorMessage);
         }
         else
             foreach (var delivery in deliveries!)
                 deliveryUnitModels.Add(new DeliveryUnitSearchModel(delivery.GoodsDeliveryId, delivery.LocalExpectedDeliveryDate, delivery.LocalActualDeliveryDate, delivery.ExpectedDeliveryDate is not null));
-        return View(new DeliverySearchModel(filterOptions, orderByOptions, deliveryUnitModels));
+        return View(new DeliverySearchModel(filter, orderBy, deliveryUnitModels));
     }
 }

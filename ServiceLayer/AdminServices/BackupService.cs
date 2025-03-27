@@ -38,7 +38,7 @@ public class BackupService : ErrorAdder, IBackupService
     {
         string hostName = (string)_backup.GetValue(typeof(string), "Host")!;
         EnsureDirectory();
-        string fileName = $"{DateTimeOffset.UtcNow.ToString(ConstValues.BackupDateTimeFormat)}{note}.sql";
+        string fileName = $"{DateTimeOffset.UtcNow.ToString(Consts.BackupDateTimeFormat)}{note}.sql";
         string fullFileName = Path.Combine(_dirName, fileName);
         ProcessStartInfo processInfo = new("mysqldump", string.Format(Cmd.MysqldumpArguments, UserName, UserPassword, hostName, DbName, fullFileName))
         {
@@ -65,7 +65,7 @@ public class BackupService : ErrorAdder, IBackupService
             return [];
         Dictionary<DateTime, string> result = [];
         DateTime dateTime;
-        const string format = ConstValues.BackupDateTimeFormat;
+        const string format = Consts.BackupDateTimeFormat;
         foreach (var fileInfo in _dirInfo.GetFiles())
         {
             dateTime = DateTime.ParseExact(fileInfo.Name.AsSpan(0, format.Length), format, null);
@@ -82,7 +82,7 @@ public class BackupService : ErrorAdder, IBackupService
             AddError("Резервные копии не найдены.");
             return;
         }
-        string formattedDateTime = backupDateTime.ToString(ConstValues.BackupDateTimeFormat);
+        string formattedDateTime = backupDateTime.ToString(Consts.BackupDateTimeFormat);
         var file = _dirInfo.GetFiles()
                                         .Where(file => file.Name.StartsWith(formattedDateTime))
                                         .SingleOrDefault();

@@ -15,15 +15,15 @@ public record class GoodsKindSpecificDataDto
     [RussianRequired("Вид")]
     KindOfGoods KindOfGoods,
     // Accessory
-    [RussianStringLength(ConstValues.AccessoryColorMaxLength, "Цвет")]
+    [RussianStringLength(Consts.AccessoryColorMaxLength, "Цвет")]
     [RequiredWhenKindOfGoodsIs(KindOfGoods.Accessories, "Цвет")]
     // TODO to cyrillic
     string? Color,
-    [RussianStringLength(ConstValues.AccessorySizeMaxLength, "Размер")]
+    [RussianStringLength(Consts.AccessorySizeMaxLength, "Размер")]
     [RequiredWhenKindOfGoodsIs(KindOfGoods.Accessories, "Размер")]
     string? Size,
     // Sheet music edition
-    [RussianStringLength(ConstValues.SheetMusicEditionAuthorMaxLength, "Автор")]
+    [RussianStringLength(Consts.SheetMusicEditionAuthorMaxLength, "Автор")]
     string? Author,
     // Musical instrument
     [RequiredWhenKindOfGoodsIs(KindOfGoods.MusicalInstruments, "Год выпуска")]
@@ -32,6 +32,6 @@ public record class GoodsKindSpecificDataDto
     [RequiredWhenKindOfGoodsIs(KindOfGoods.MusicalInstruments, "Тип производителя")]
     ManufacturerType? ManufacturerType,
     [RequiredWhenKindOfGoodsIs(KindOfGoods.MusicalInstruments, "Производитель")]
-    [RussianStringLength(ConstValues.MusicalInstrumentManufacturerMaxLength, "Производитель")]
+    [RussianStringLength(Consts.MusicalInstrumentManufacturerMaxLength, "Производитель")]
     string? Manufacturer
     );

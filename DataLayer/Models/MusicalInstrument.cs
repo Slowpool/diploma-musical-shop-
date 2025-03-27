@@ -13,7 +13,7 @@ namespace DataLayer.Models;
 public class MusicalInstrument : Goods
 {
     public int ReleaseYear { get; set; }
-    [MaxLength(ConstValues.MusicalInstrumentManufacturerMaxLength)]
+    [MaxLength(Consts.MusicalInstrumentManufacturerMaxLength)]
     public string Manufacturer { get; set; }
     public ManufacturerType ManufacturerType { get; set; }
     public MusicalInstrumentSpecificType SpecificType { get; set; }

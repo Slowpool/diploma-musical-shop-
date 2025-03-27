@@ -13,7 +13,6 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/dropdown-check-list.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MusicalShopApp.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -52,6 +51,7 @@
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Admin", "Backups", "Резервное копирование"))
 
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.StockManager), "Stock", "AddGoodsToWarehouse", "Добавить товар"))
+                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.StockManager), "Stock", "DeliverySearch", "Доставки"))
 
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Privacy", "Политика конфиденциальности"))
                         @* @(string.IsNullOrWhiteSpace(ViewBag.Session) ? "null" : ViewBag.Session) *@

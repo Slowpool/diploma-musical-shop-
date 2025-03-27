@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace DataLayer.Models;
 public class SheetMusicEdition : Goods
 {
-    [MaxLength(ConstValues.SheetMusicEditionAuthorMaxLength)]
+    [MaxLength(Consts.SheetMusicEditionAuthorMaxLength)]
     public string? Author { get; set; }
     public int ReleaseYear { get; set; }
     public SheetMusicEditionSpecificType SpecificType { get; set; }

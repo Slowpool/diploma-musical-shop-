@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common;
 
-public class ConstValues
+public class Consts
 {
     public const string BackupDateTimeFormat = "yyyy_MM_dd HH_mm_ss";
 
@@ -22,4 +22,7 @@ public class ConstValues
     public const int SheetMusicEditionAuthorMaxLength = 100;
 
     public const int MusicalInstrumentManufacturerMaxLength = 100;
+
+    public const int DEFAULT_PAGING_SIZE = 15;
+    public const int DEFAULT_PAGING_NUMBER = 1;
 }

@@ -7,4 +7,4 @@ using ViewModelsLayer.Goods;
 
 namespace ViewModelsLayer.Stock.Delivery;
 
-public record DeliverySearchModel(DeliveryFilterOptions FilterOptions, DeliveryOrderByOptions OrderByOptions, List<DeliveryUnitSearchModel> DeliveryUnitModels);
+public record DeliverySearchModel(DeliveryFilterOptions Filter, DeliveryOrderByOptions OrderBy, List<DeliveryUnitSearchModel> DeliveryUnitModels);

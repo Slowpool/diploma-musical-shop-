@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModelsLayer.Goods;
-using static Common.ConstValues;
+using static Common.Consts;
 
 namespace ServiceLayer.GoodsServices;
 public interface IGetGoodsService
@@ -51,6 +51,7 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
                 dynamic specificGoods = goods;
                 string from = kindOfGoods == KindOfGoods.MusicalInstruments ? specificGoods.Manufacturer : specificGoods.Author;
                 dto.Name = $"{specificGoods.Name} от \"{from}\"";
+#warning violation. it must be in view
                 dto.Description = $"Год выпуска: {specificGoods.ReleaseYear} {goods.Description}";
                 break;
             case KindOfGoods.Accessories:

@@ -66,14 +66,16 @@
     </form>
 </search>
 
-<search class="search-results">
+<hr class="narrow" />
+
+<div class="search-results">
     <h4 class="results-count">
         Найдено: @Model.ResultsCount    
     </h4>
     @{
         await Html.RenderPartialAsync("_PartialGoodsList", Model.GoodsUnitModels);
     }
-</search>
+</div>
 
 @section Scripts {
     <script src="~/js/goodsList.js"></script>
