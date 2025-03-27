@@ -25,14 +25,14 @@ public interface ICartService
 #warning so where is services for adding to and removing from the cart
 #warning UPD: what did i mean?
 #warning UPD2: i meant that the cart is supposed to have methods like AddGoodsUnitInCart() and RemoveGoodsUnitFromCart()
-public class CartService(MusicalShopDbContext context, IGetGoodsUnitsRelatedToSaleService goodsRelatedToSaleService, IGetGoodsService getGoodsService, IUpdateGoodsStatusService updateGoodsStatusService, IMapKindOfGoodsService kindOfGoodsMapper) : ICartService
+public class CartService(MusicalShopDbContext context, IGetGoodsUnitsOfSaleService goodsRelatedToSaleService, IGetGoodsService getGoodsService, IUpdateGoodsStatusService updateGoodsStatusService, IMapKindOfGoodsService kindOfGoodsMapper) : ICartService
 {
     public string CutGoodsId(string goodsIdAndKind) => goodsIdAndKind.Split(CommonNames.GoodsIdAndKindSeparator)[0];
     public KindOfGoods CutGoodsKind(string goodsIdAndKind) => Enum.Parse<KindOfGoods>(goodsIdAndKind.Split(CommonNames.GoodsIdAndKindSeparator)[1])!;
 
     public async Task<string> MoveGoodsBackToCart(Guid saleId)
     {
-        var goods = await goodsRelatedToSaleService.GetOrigGoodsUnitsRelatedToSale(saleId);
+        var goods = await goodsRelatedToSaleService.GetOrigGoodsUnitsOfSale(saleId);
         foreach (var goodsUnit in goods)
         {
             goodsUnit.Status = GoodsStatus.InCart;

@@ -41,6 +41,10 @@ public class GetRelevantDeliveriesService(MusicalShopDbContext context) : ErrorA
         switch (filter.IsDelivered)
         {
             case TernaryChoice.Any:
+                if (filter.FromActualDeliveryDate is not null)
+                    query = query.Where(gd => gd.ActualDeliveryDate == null || gd.ActualDeliveryDate >= filter.FromActualDeliveryDate.LocalToUniversal());
+                if (filter.ToActualDeliveryDate is not null)
+                    query = query.Where(gd => gd.ActualDeliveryDate == null || gd.ActualDeliveryDate <= filter.ToActualDeliveryDate.LocalToUniversal());
                 break;
 
             case TernaryChoice.True:

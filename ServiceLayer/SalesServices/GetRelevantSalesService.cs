@@ -19,7 +19,7 @@ public interface IGetRelevantSalesService
 {
     Task<List<SaleSearchModel>> GetRelevantSales(string researchText, SalesFilterOptions filterOptions, SalesOrderByOptions orderByOptions);
 }
-public class GetRelevantSalesService(MusicalShopDbContext context, IGetSaleService getSaleService, IGetGoodsUnitsRelatedToSaleService goodsService) : IGetRelevantSalesService
+public class GetRelevantSalesService(MusicalShopDbContext context, IGetSaleService getSaleService, IGetGoodsUnitsOfSaleService goodsService) : IGetRelevantSalesService
 {
     public async Task<List<SaleSearchModel>> GetRelevantSales(string researchText, SalesFilterOptions filterOptions, SalesOrderByOptions orderByOptions)
     {
@@ -35,7 +35,7 @@ public class GetRelevantSalesService(MusicalShopDbContext context, IGetSaleServi
         foreach (Guid saleId in saleIds)
         {
             saleView = await getSaleService.GetSaleView(saleId);
-            var goodsItemModels = await goodsService.GetGoodsModelsRelatedToSale(saleId);
+            var goodsItemModels = await goodsService.GetGoodsModelsOfSale(saleId);
             SaleSearchModel dto = new(saleView.SaleId, saleView.LocalReservationDate, saleView.LocalSaleDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, saleView.PaidBy, goodsItemModels);
             result.Add(dto);
         }

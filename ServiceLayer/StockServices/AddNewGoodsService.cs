@@ -3,7 +3,7 @@ using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
-using ServiceLayer.DeliveryServices;
+using ServiceLayer.StockServices.Delivery;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;

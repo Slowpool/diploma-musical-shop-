@@ -69,13 +69,13 @@ public class SalesController : CartViewerBaseController
     // TODO encapsulate the goods status updating
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> RegisterSaleAsSold(Guid saleId, SalePaidBy paidBy, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, [FromServices] IGetGoodsUnitsRelatedToSaleService goodsService, [FromServices]  IUpdateGoodsStatusService goodsStatusService, [FromServices] IMapKindOfGoodsService kindOfGoodsService)
+    public async Task<IActionResult> RegisterSaleAsSold(Guid saleId, SalePaidBy paidBy, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, [FromServices] IGetGoodsUnitsOfSaleService goodsService, [FromServices]  IUpdateGoodsStatusService goodsStatusService, [FromServices] IMapKindOfGoodsService kindOfGoodsService)
     {
         string result;
         try
         {
             await saleService.RegisterSaleAsPaid(saleId, paidBy);
-            var goods = await goodsService.GetGoodsModelsRelatedToSale(saleId);
+            var goods = await goodsService.GetGoodsModelsOfSale(saleId);
             foreach(var goodsUnit in goods)
             {
                 await goodsStatusService.UpdateGoodsStatus(goodsUnit.GoodsId, await kindOfGoodsService.GetGoodsKind(goodsUnit.GoodsId), GoodsStatus.Sold);
@@ -121,10 +121,10 @@ public class SalesController : CartViewerBaseController
     }
 
     [HttpGet("/sales/{saleId}")]
-    public async Task<IActionResult> Unit([FromRoute] Guid saleId, [FromServices] IGetSaleService service, [FromServices] IGetGoodsUnitsRelatedToSaleService goodsService)
+    public async Task<IActionResult> Unit([FromRoute] Guid saleId, [FromServices] IGetSaleService service, [FromServices] IGetGoodsUnitsOfSaleService goodsService)
     {
         var saleView = await service.GetSaleView(saleId);
-        var goodsItems = await goodsService.GetGoodsModelsRelatedToSale(saleId);
+        var goodsItems = await goodsService.GetGoodsModelsOfSale(saleId);
 
         var saleModel = new SaleUnitModel(saleView.SaleId, saleView.LocalSaleDate, saleView.LocalReservationDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, (int)saleView.GoodsUnitsCount!, saleView.IsPaid, goodsItems);
         return View(saleModel);

@@ -11,14 +11,15 @@ using System.Threading.Tasks;
 using ViewModelsLayer.Sales;
 
 namespace ServiceLayer.GoodsServices;
-public interface IGetGoodsUnitsRelatedToSaleService
+public interface IGetGoodsUnitsOfSaleService
 {
-    Task<List<Goods>> GetOrigGoodsUnitsRelatedToSale(Guid saleId);
-    Task<List<SaleGoodsItemModel>> GetGoodsModelsRelatedToSale(Guid saleId);
+    Task<List<Goods>> GetOrigGoodsUnitsOfSale(Guid saleId);
+    Task<List<SaleGoodsItemModel>> GetGoodsModelsOfSale(Guid saleId);
 }
-public class GetGoodsUnitsRelatedToSaleService(IGetSaleService saleService, IMapKindOfGoodsService mapKindOfGoodsService) : IGetGoodsUnitsRelatedToSaleService
+
+public class GetGoodsUnitsOfSaleService(IGetSaleService saleService, IMapKindOfGoodsService mapKindOfGoodsService) : IGetGoodsUnitsOfSaleService
 {
-    public async Task<List<Goods>> GetOrigGoodsUnitsRelatedToSale(Guid saleId)
+    public async Task<List<Goods>> GetOrigGoodsUnitsOfSale(Guid saleId)
     {
         var sale = await saleService.GetOriginalSale(saleId);
         return [..sale.MusicalInstruments.Cast<Goods>(),
@@ -28,9 +29,9 @@ public class GetGoodsUnitsRelatedToSaleService(IGetSaleService saleService, IMap
                 ];
     }
 
-    public async Task<List<SaleGoodsItemModel>> GetGoodsModelsRelatedToSale(Guid saleId)
+    public async Task<List<SaleGoodsItemModel>> GetGoodsModelsOfSale(Guid saleId)
     {
-        List<Goods> relatedGoods = await GetOrigGoodsUnitsRelatedToSale(saleId);
+        List<Goods> relatedGoods = await GetOrigGoodsUnitsOfSale(saleId);
         List<SaleGoodsItemModel> goodsItemModels = [];
         foreach (Goods goodsUnit in relatedGoods)
         {

@@ -8,8 +8,8 @@ using ViewModelsLayer.Stock;
 using Microsoft.AspNetCore.Authorization;
 using ViewModelsLayer.Stock.Delivery;
 using ServiceLayer.GoodsServices;
-using ServiceLayer.StockServices.Delivery;
 using ViewModelsLayer.Common;
+using ServiceLayer.StockServices.Delivery;
 
 namespace MusicalShopApp.Controllers;
 
@@ -61,5 +61,23 @@ public class StockController : Controller
             foreach (var delivery in deliveries!)
                 deliveryUnitModels.Add(new DeliveryUnitSearchModel(delivery.GoodsDeliveryId, delivery.LocalExpectedDeliveryDate, delivery.LocalActualDeliveryDate, delivery.ExpectedDeliveryDate is not null));
         return View(new DeliverySearchModel(filter, orderBy, deliveryUnitModels));
+    }
+
+    [HttpGet("/stock/delivery/{deliveryId:Guid}")]
+    public async Task<IActionResult> DeliveryUnit([FromRoute] Guid deliveryId, [FromServices] IGetDeliveryService service, [FromServices] IGetGoodsUnitsOfDeliveryService goodsService)
+    {
+        try
+        {
+            var delivery = await service.GetDelivery(deliveryId);
+            var goodsItems = 
+            DeliveryUnitModel deliveryModel = new(delivery.GoodsDeliveryId, delivery.ExpectedDeliveryDate, delivery.ActualDeliveryDate, delivery.ActualDeliveryDate is not null, goodsItems);
+            return View(deliveryModel);
+        }
+        catch (InvalidOperationException e)
+        {
+            //Response.StatusCode = 404;
+            return NotFound();
+        }
+
     }
 }
