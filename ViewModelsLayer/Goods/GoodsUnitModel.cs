@@ -15,4 +15,4 @@ public record class GoodsUnitModel(
     string? Description,
     /*int ReleaseYear, string Manufacturer, ManufacturerType ManufacturerType,*/
     string SpecificTypeName,
-    DateTimeOffset? ReceiptDate);
+    DateTime? ReceiptDate);

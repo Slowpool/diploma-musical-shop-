@@ -6,11 +6,13 @@ public static class CommonNames
     public const string DefaultSellerEmail = "seller@koshka.prosrochka";
     public const string DefaultConsultantEmail = "consultant@koshka.prosrochka";
     public const string DefaultStockManagerEmail = "stockmanager@koshka.prosrochka";
+    public const string DefaultSuperuserEmail = "superuser@koshka.prosrochka";
 
     public const string Admin = "Администратор";
     public const string Seller = "Продавец";
     public const string Consultant = "Консультант";
     public const string StockManager = "Менеджер складского учета";
+    public const string Superuser = "Суперпользователь";
 
     public const string NotExistingGuid = "";
 

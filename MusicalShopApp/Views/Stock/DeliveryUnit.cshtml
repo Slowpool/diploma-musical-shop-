@@ -1,0 +1,33 @@
+﻿@using DataLayer.NotMapped
+@using MusicalShopApp.Common
+@using ViewModelsLayer.Goods
+@using ViewModelsLayer.Stock.Delivery
+@using static Common.CommonExtensions
+
+@model DeliveryUnitModel
+
+<article>
+    <h3>@Model.DeliveryId</h3>
+    <div>
+        <div>
+            <h5>Статус</h5>
+            <p>@(Model.IsDelivered ? "Доставлено" : "В ожидании доставки")</p>
+        </div>
+        <div>
+            <h5>Дата доставки</h5>
+            <p>@(Model.ActualDeliveryDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не доставлено")</p>
+        </div>
+        <div>
+            <h5>Ожидаемая дата доставки</h5>
+            <p>@(Model.ExpectedDeliveryDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не ожидается (Не ожидалось)")</p>
+        </div>
+        <div>
+            <h5>Количество единиц товара</h5>
+            <p>@Model.GoodsItems.Count</p>
+        </div>
+        <div>
+            <h5>Товар</h5>
+            @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+        </div>
+    </div>
+</article>

@@ -10,11 +10,16 @@ using ViewModelsLayer.Stock.Delivery;
 using ServiceLayer.GoodsServices;
 using ViewModelsLayer.Common;
 using ServiceLayer.StockServices.Delivery;
+using ViewModelsLayer.Goods;
+using DataLayer.Common;
+using ServiceLayer.SalesServices;
+using MusicalShopApp.Controllers.BaseControllers;
+using ServiceLayer;
 
 namespace MusicalShopApp.Controllers;
 
 [Authorize(Policy = nameof(CommonNames.StockManager))]
-public class StockController : Controller
+public class StockController : GoodsListBaseController
 {
     [HttpGet]
     public async Task<IActionResult> AddGoodsToWarehouse([FromServices] ISpecificTypeService specificTypesService)
@@ -64,18 +69,21 @@ public class StockController : Controller
     }
 
     [HttpGet("/stock/delivery/{deliveryId:Guid}")]
+    // TODO context should not be here. but bad architecture forces
     public async Task<IActionResult> DeliveryUnit([FromRoute] Guid deliveryId, [FromServices] IGetDeliveryService service, [FromServices] IGetGoodsUnitsOfDeliveryService goodsService)
     {
         try
         {
             var delivery = await service.GetDelivery(deliveryId);
-            var goodsItems = 
-            DeliveryUnitModel deliveryModel = new(delivery.GoodsDeliveryId, delivery.ExpectedDeliveryDate, delivery.ActualDeliveryDate, delivery.ActualDeliveryDate is not null, goodsItems);
+            var goodsItems = await goodsService.GetGoodsUnitsOfDelivery(deliveryId);
+
+            DeliveryUnitModel deliveryModel = new(delivery.GoodsDeliveryId, delivery.LocalExpectedDeliveryDate, delivery.LocalActualDeliveryDate, delivery.ActualDeliveryDate is not null, MapToGoodsList(goodsItems));
             return View(deliveryModel);
         }
         catch (InvalidOperationException e)
         {
             //Response.StatusCode = 404;
+#warning this page is weird
             return NotFound();
         }
 

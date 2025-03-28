@@ -97,6 +97,7 @@ public class DataSeeding
 #warning it could have been implemented more, more simply.
         string[] emails = [CommonNames.DefaultAdminEmail, CommonNames.DefaultSellerEmail, CommonNames.DefaultConsultantEmail, CommonNames.DefaultStockManagerEmail];
         string[] roleNames = [CommonNames.Admin, CommonNames.Seller, CommonNames.Consultant, CommonNames.StockManager];
+
         for (int i = 0; i < emails.Length; i++)
         {
             var defaultUser = await userManager.Users
@@ -104,11 +105,36 @@ public class DataSeeding
                 .SingleOrDefaultAsync();
             if (defaultUser == null)
             {
-                var user = new IdentityUser { UserName = emails[i], Email = emails[i], EmailConfirmed = true };
+                var user = new IdentityUser
+                {
+                    UserName = emails[i],
+                    Email = emails[i],
+                    EmailConfirmed = true
+                };
                 await userManager.CreateAsync(user, passwordsSection.GetValue<string>(roleNames[i])!);
                 await userManager.AddToRoleAsync(user, roleNames[i]);
             }
         }
+        // superuser ensuring
+        var superUser = await userManager.Users
+                .Where(x => x.UserName == CommonNames.DefaultSuperuserEmail)
+                .SingleOrDefaultAsync();
+        if (superUser is null)
+        {
+            var user = new IdentityUser
+            {
+                UserName = CommonNames.DefaultSuperuserEmail,
+                Email = CommonNames.DefaultSuperuserEmail,
+                EmailConfirmed = true
+            };
+            await userManager.CreateAsync(user, passwordsSection.GetValue<string>(CommonNames.Superuser)!);
+            for (int i = 0; i < roleNames.Length; i++)
+            {
+                await userManager.AddToRoleAsync(user, roleNames[i]);
+            }
+        }
+        
+
         return;
     }
 

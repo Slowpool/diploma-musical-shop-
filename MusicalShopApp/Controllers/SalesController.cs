@@ -3,6 +3,7 @@ using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicalShopApp.Controllers.BaseControllers;
+using ServiceLayer;
 using ServiceLayer.GoodsServices;
 using ServiceLayer.SalesServices;
 using ViewModelsLayer.Goods;
@@ -11,7 +12,7 @@ using ViewModelsLayer.Sales;
 namespace MusicalShopApp.Controllers;
 
 [Authorize(Policy = nameof(CommonNames.Seller))]
-public class SalesController : CartViewerBaseController
+public class SalesController : GoodsListBaseController
 {
     [HttpGet("/sales/search")]
     public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minSaleDate, DateTime? maxSaleDate, DateTime? minReservationDate, DateTime? maxReservationDate, DateTime? minReturningDate, DateTime? maxReturningDate, SalePaidBy? paidBy, SaleStatus? status, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
@@ -124,9 +125,10 @@ public class SalesController : CartViewerBaseController
     public async Task<IActionResult> Unit([FromRoute] Guid saleId, [FromServices] IGetSaleService service, [FromServices] IGetGoodsUnitsOfSaleService goodsService)
     {
         var saleView = await service.GetSaleView(saleId);
-        var goodsItems = await goodsService.GetGoodsModelsOfSale(saleId);
+        //var goodsItems = automapper.MapToGoodsSearchModels(await goodsService.GetOrigGoodsUnitsOfSale(saleId));
+        var goodsItems = await goodsService.GetGoodsUnitsOfSale(saleId);
 
-        var saleModel = new SaleUnitModel(saleView.SaleId, saleView.LocalSaleDate, saleView.LocalReservationDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, (int)saleView.GoodsUnitsCount!, saleView.IsPaid, goodsItems);
+        var saleModel = new SaleUnitModel(saleView.SaleId, saleView.LocalSaleDate, saleView.LocalReservationDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, (int)saleView.GoodsUnitsCount!, saleView.IsPaid, MapToGoodsList(goodsItems));
         return View(saleModel);
     }
 }   

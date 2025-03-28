@@ -13,7 +13,7 @@ namespace ServiceLayer.StockServices.Delivery;
 public interface IGetDeliveryService : IErrorAdder
 {
     public Task<bool> Exists(Guid deliveryId);
-    public Task<GoodsDelivery> GetDelivery(Guid deliveryId);
+    public Task<GoodsDelivery> GetDelivery(Guid deliveryId, bool loadRelations = false);
 }
 
 public class GetDeliveryService(MusicalShopDbContext context) : ErrorAdder, IGetDeliveryService
@@ -23,8 +23,15 @@ public class GetDeliveryService(MusicalShopDbContext context) : ErrorAdder, IGet
         return await context.GoodsDeliveries.AnyAsync(e => e.GoodsDeliveryId == deliveryId);
     }
 
-    public async Task<GoodsDelivery> GetDelivery(Guid deliveryId)
+    public async Task<GoodsDelivery> GetDelivery(Guid deliveryId, bool loadRelations = false)
     {
-        return await context.GoodsDeliveries.SingleAsync(e => e.GoodsDeliveryId == deliveryId);
+        IQueryable<GoodsDelivery> query = context.GoodsDeliveries;
+        if (loadRelations)
+            query = query.Include(d => d.MusicalInstruments)
+                         .Include(d => d.AudioEquipmentUnits)
+                         .Include(d => d.Accessories)
+                         .Include(d => d.SheetMusicEditions)
+                         ;
+        return await query.SingleAsync(e => e.GoodsDeliveryId == deliveryId);
     }
 }

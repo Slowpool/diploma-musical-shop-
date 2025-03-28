@@ -199,6 +199,22 @@ function observeAddingOfNewGoods() {
     });
 }
 
+function observeGoodsPropertiesClearing() {
+    $('#reset-goods-properties').on('click', function () {
+        $('#AddGoodsToWarehouseDto_Name').prop('value', null);
+        $('#AddGoodsToWarehouseDto_Price').prop('value', null);
+        $('#AddGoodsToWarehouseDto_Description').prop('value', null);
+        $('#AddGoodsToWarehouseDto_NumberOfUnits').prop('value', null);
+        $('#new-goods-release-year').prop('value', null);
+        $('#new-goods-manufacturer-name').prop('value', null);
+        $('#new-goods-color').prop('value', null);
+        $('#new-goods-size').prop('value', null);
+        $('#new-goods-author').prop('value', null);
+
+
+    });
+}
+
 // TODO does it work?
 //$(document).ready(displaySpecificData, replaceSpecificTypes);
 $(document).ready(function () {
@@ -207,6 +223,7 @@ $(document).ready(function () {
     observeNewSpecificTypeCheckboxChecked();
 
     observeAddingOfNewGoods();
+    observeGoodsPropertiesClearing();
 });
 
 function removeChildren(element) {

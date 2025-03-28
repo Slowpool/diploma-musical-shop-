@@ -145,7 +145,7 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	{
 		var goods = await service.GetGoodsInfo(goodsId, kindOfGoods);
 		// guitar here is a latch
-		var goodsModel = new GoodsUnitModel(goods.GoodsId, kindOfGoods, goods.Name, goods.Price, goods.Status, goods.Description, "Guitar", goods.ReceiptDate);
+		var goodsModel = new GoodsUnitModel(goods.GoodsId, kindOfGoods, goods.Name, goods.Price, goods.Status, goods.Description, "Guitar", goods.LocalReceiptDate);
 		return View(goodsModel);
 	}
 }

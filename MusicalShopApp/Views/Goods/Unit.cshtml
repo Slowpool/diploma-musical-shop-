@@ -1,5 +1,7 @@
 ﻿@using DataLayer.NotMapped
 @using ViewModelsLayer.Goods
+@using MusicalShopApp.Common
+
 @using static Common.CommonExtensions
 @model GoodsUnitModel
 
@@ -12,7 +14,13 @@
         </section>
         <section>
             <h5>Статус</h5>
-            <p>@Model.Status</p>
+            <p>@(
+                     Model.Status switch
+                     {
+                         GoodsStatus.AwaitingDelivery => "Ожидает доставки",
+
+                     }
+                     )</p>
         </section>
         @* <section>
             <h5>Год выпуска</h5>
@@ -20,7 +28,7 @@
         </section> *@
         <section>
             <h5>Дата поставки</h5>
-            <p>@(Model.ReceiptDate?.ToString() ?? "-")</p>
+            <p>@(Model.ReceiptDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Еще не доставлено")</p>
         </section>
         @* <section>
             <h5>Тип производителя</h5>

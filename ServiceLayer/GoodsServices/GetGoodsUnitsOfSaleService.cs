@@ -1,6 +1,7 @@
 ﻿using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.NotMapped;
+using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.SalesServices;
 using System;
@@ -15,6 +16,7 @@ public interface IGetGoodsUnitsOfSaleService
 {
     Task<List<Goods>> GetOrigGoodsUnitsOfSale(Guid saleId);
     Task<List<SaleGoodsItemModel>> GetGoodsModelsOfSale(Guid saleId);
+    Task<Dictionary<KindOfGoods, List<Goods>>> GetGoodsUnitsOfSale(Guid saleId);
 }
 
 public class GetGoodsUnitsOfSaleService(IGetSaleService saleService, IMapKindOfGoodsService mapKindOfGoodsService) : IGetGoodsUnitsOfSaleService
@@ -38,5 +40,25 @@ public class GetGoodsUnitsOfSaleService(IGetSaleService saleService, IMapKindOfG
             goodsItemModels.Add(new(goodsUnit.GoodsId, await mapKindOfGoodsService.GetGoodsKind(goodsUnit.GoodsId), goodsUnit.Name));
         }
         return goodsItemModels;
+    }
+
+    // TODO delivery service copypast
+    public async Task<Dictionary<KindOfGoods, List<Goods>>> GetGoodsUnitsOfSale(Guid saleId)
+    {
+        var sale = await saleService.GetOriginalSale(saleId);
+        Dictionary<KindOfGoods, List<Goods>> goodsItems = [];
+        foreach (var kindOfGoods in Enum.GetValues<KindOfGoods>())
+        {
+            IEnumerable<Goods> goodsList = kindOfGoods switch
+            {
+                KindOfGoods.Accessories => sale.Accessories,
+                KindOfGoods.MusicalInstruments => sale.MusicalInstruments,
+                KindOfGoods.SheetMusicEditions => sale.SheetMusicEditions,
+                KindOfGoods.AudioEquipmentUnits => sale.AudioEquipmentUnits,
+                _ => throw new Exception()
+            };
+            goodsItems[kindOfGoods] = [.. goodsList];
+        }
+        return goodsItems;
     }
 }

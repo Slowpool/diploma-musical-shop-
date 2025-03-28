@@ -73,7 +73,7 @@
         Найдено: @Model.ResultsCount    
     </h4>
     @{
-        await Html.RenderPartialAsync("_PartialGoodsList", Model.GoodsUnitModels);
+        await Html.RenderPartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsUnitModels, true));
     }
 </div>
 

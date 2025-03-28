@@ -36,7 +36,7 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
 
         GoodsUnitSearchModel dto = new()
         {
-            Id = id.ToString(),
+            Id = id,
 // TODO specific type
             //Type = goods.SpecificType.Name,
             Price = goods.Price,

@@ -1,50 +1,46 @@
 ﻿@using DataLayer.NotMapped
 @using ViewModelsLayer.Sales
 @using MusicalShopApp.Common
+@using ViewModelsLayer.Goods
 @using static Common.CommonExtensions
 @model SaleUnitModel
 
 <article>
-    <h3>@Model.SaleId</h3>
-    <section>
-        <section>
+    <h3>Продажа @Model.SaleId</h3>
+    <div>
+        <div>
             <h5>Статус</h5>
             <p>@Model.Status</p>
-        </section>
-        <section>
+        </div>
+        <div>
             <h5>Оплачено</h5>
             <p>@(Model.IsPaid.Humanize())</p>
-        </section>
-        <section>
+        </div>
+        <div>
             <h5>Дата оформления</h5>
             <p>@(Model.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не продано")</p>
-        </section>
-        <section>
+        </div>
+        <div>
             <h5>Дата возврата</h5>
             <p>@(Model.ReturningDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не возвращено")</p>
-        </section>
-        <section>
+        </div>
+        <div>
             <h5>Дата резервирования</h5>
             <p>@(Model.ReservationDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не было зарезервировано")</p>
-        </section>
-        <section>
-            <h5>Товар</h5>
-            <ul>
-                @foreach (var goodsItem in Model.GoodsItems)
-                {
-                    <li>
-                        <a href="@Url.Action("Unit", "Goods", new { goodsItem.KindOfGoods, goodsItem.GoodsId })">@goodsItem.Name</a>
-                    </li>
-                }
-            </ul>
-        </section>
-        <section>
+        </div>
+        <div>
             <h5>Количество единиц товара</h5>
             <p>@Model.GoodsUnitsCount</p>
-        </section>
-        <section>
+        </div>
+        <div>
             <h5>Итого:</h5>
             <p>@Model.Total.ToMoney()</p>
-        </section>
-    </section>
+        </div>
+        <div>
+            <h5>Товар</h5>
+            <ul>
+                @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+            </ul>
+        </div>
+    </div>
 </article>
