@@ -36,15 +36,11 @@
                             // await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Товары"));
                             @* <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Оформление продажи</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="PurchaseReturn" asp-action="Index">Возврат покупки</a>
-                        </li> *@
+                        </li>*@
                         }
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Index", "Товары"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Seller), "Goods", "Cart", "Корзина"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Seller), "Sales", "Search", "Продажи"))
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Seller), "PurchaseReturn", "Index", "Возврат покупки"))
 
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Reports", "Index", "Отчеты"))
                         @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Admin", "Users", "Пользователи"))

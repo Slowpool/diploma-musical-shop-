@@ -1,0 +1,12 @@
+﻿
+@model ViewModelsLayer.Sales.ReturnSaleModel
+
+@{
+	ViewBag.Title = "Оформление возврата";
+}
+
+
+Покупатель уверен, что хочет вернуть данный товар?
+<form></form>
+
+@await Html.PartialAsync("_PartialGoodsList", Model.GoodsItems)

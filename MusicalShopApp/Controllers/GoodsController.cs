@@ -143,9 +143,9 @@ public class GoodsController(ILogger<GoodsController> logger) : CartViewerBaseCo
 	[HttpGet("/goods/{kindOfGoods}/{goodsId}")]
 	public async Task<IActionResult> Unit([FromRoute] KindOfGoods kindOfGoods, [FromRoute] Guid goodsId, [FromServices] IGetGoodsService service)
 	{
-		var goods = await service.GetGoodsInfo(goodsId, kindOfGoods);
+		dynamic goods = await service.GetOrigGoodsItem(goodsId, kindOfGoods, true);
 		// guitar here is a latch
-		var goodsModel = new GoodsUnitModel(goods.GoodsId, kindOfGoods, goods.Name, goods.Price, goods.Status, goods.Description, "Guitar", goods.LocalReceiptDate);
+		var goodsModel = new GoodsUnitModel(goods.GoodsId, kindOfGoods, goods.Name, goods.Price, goods.Status, goods.Description, goods.SpecificType.Name, goods.LocalReceiptDate);
 		return View(goodsModel);
 	}
 }

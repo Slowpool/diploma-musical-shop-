@@ -18,11 +18,13 @@
         {
             <li class="mini-card">
                 <div class="mini-card-left">
-                    <a href="/goods/@(System.IO.Path.Combine(goodsItems[i].KindOfGoods.ToString(), goodsItems[i].Id.ToString()))">
-                        <h4 class="mini-card-name">@goodsItems[i].Name</h4>
-                    </a>
+                    <h4 class="mini-card-name">
+                        <a href="@Url.Action("Unit", "Goods", new { kindOfGoods = goodsItems[i].KindOfGoods, goodsId = goodsItems[i].Id})">
+                            @goodsItems[i].Name
+                        </a>
+                    </h4>
                     <div class="mini-card-type">
-                        @goodsItems[i].Type
+                        <i>@goodsItems[i].SpecificType</i>
                     </div>
                     <div class="mini-card-description">
                         @goodsItems[i].Description

@@ -10,17 +10,27 @@
     <section>
         <section>
             <h5>Тип</h5>
-            <p>@Model.SpecificTypeName</p>
+            <p>
+                <i>@Model.SpecificTypeName</i>
+            </p>
         </section>
         <section>
             <h5>Статус</h5>
-            <p>@(
-                     Model.Status switch
-                     {
-                         GoodsStatus.AwaitingDelivery => "Ожидает доставки",
-
-                     }
-                     )</p>
+            <p>
+                @(
+                    Model.Status switch
+                    {
+                        // TODO requires refactoring. the best option is to add several languages support
+                        GoodsStatus.InStock => "На складе",
+                        GoodsStatus.InCart => "В корзине",
+                        GoodsStatus.AwaitingDelivery => "Ожидает доставки",
+                        GoodsStatus.Sold => "Продано",
+                        GoodsStatus.Reserved => "Зарезервировано",
+                        GoodsStatus.AwaitingPayment => "Ожидает оплаты",
+                        _ => throw new Exception()
+                    }
+                    )
+            </p>
         </section>
         @* <section>
             <h5>Год выпуска</h5>

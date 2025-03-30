@@ -15,15 +15,21 @@ using static Common.Consts;
 namespace ServiceLayer.GoodsServices;
 public interface IGetGoodsService
 {
-    Task<Goods> GetGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
+    Task<Goods> GetOrigGoodsItem(Guid goodsId, KindOfGoods kindOfGoods, bool includeRelations = false);
     Task<GoodsUnitSearchModel> GetReadableGoodsInfo(Guid goodsId, KindOfGoods kindOfGoods);
     //Task<Type> GetGoodsType(Guid goodsId);
 }
-public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsService kindOfGoodsMapper) : IGetGoodsService
+public class GetGoodsService(IMapKindOfGoodsService kindOfGoodsMapper) : IGetGoodsService
 {
-    public async Task<Goods> GetGoodsInfo(Guid id, KindOfGoods kindOfGoods)
+    public async Task<Goods> GetOrigGoodsItem(Guid id, KindOfGoods kindOfGoods, bool includeRelations = false)
     {
         IQueryable<Goods> goods = kindOfGoodsMapper.MapToSpecificGoods(kindOfGoods);
+        if (includeRelations)
+            goods = goods.Include(g => g.Delivery)
+                         .Include(g => g.Sales)
+                         // duck typing :{
+                         .Include("SpecificType");
+
         return await goods
             // TODO refactoring
             //.Include(g => g.SpecificType)
@@ -32,43 +38,43 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
 
     public async Task<GoodsUnitSearchModel> GetReadableGoodsInfo(Guid id, KindOfGoods kindOfGoods)
     {
-        Goods goods = await GetGoodsInfo(id, kindOfGoods);
+        dynamic goodsItem = await GetOrigGoodsItem(id, kindOfGoods, true);
 
         GoodsUnitSearchModel dto = new()
         {
             Id = id,
-// TODO specific type
-            //Type = goods.SpecificType.Name,
-            Price = goods.Price,
+            SpecificType = goodsItem.SpecificType.Name,
+            Price = goodsItem.Price,
             KindOfGoods = kindOfGoods,
-            Status = goods.Status,
+            Status = goodsItem.Status,
         };
 
         switch (kindOfGoods)
         {
             case KindOfGoods.MusicalInstruments:
             case KindOfGoods.SheetMusicEditions:
-                dynamic specificGoods = goods;
+                dynamic specificGoods = goodsItem;
                 string from = kindOfGoods == KindOfGoods.MusicalInstruments ? specificGoods.Manufacturer : specificGoods.Author;
                 dto.Name = $"{specificGoods.Name} от \"{from}\"";
 #warning violation. it must be in view
-                dto.Description = $"Год выпуска: {specificGoods.ReleaseYear} {goods.Description}";
+                dto.Description = $"Год выпуска: {specificGoods.ReleaseYear}. {goodsItem.Description}";
                 break;
             case KindOfGoods.Accessories:
-                var accessory = (Accessory)goods;
+                var accessory = (Accessory)goodsItem;
                 string color = accessory.Color.ToLower();
                 string size = accessory.Size.ToLower();
                 dto.Name = $"{accessory.Name}, {color}, {size}";
                 dto.Description = accessory.Description;
                 break;
             case KindOfGoods.AudioEquipmentUnits:
-                var audioEquipmentUnit = (AudioEquipmentUnit)goods;
+                var audioEquipmentUnit = (AudioEquipmentUnit)goodsItem;
                 dto.Name = $"{audioEquipmentUnit.Name}";
                 dto.Description = audioEquipmentUnit.Description;
                 break;
             default:
                 throw new ArgumentException("unknown type");
-        };
+        }
+        ;
         return dto;
     }
 
@@ -77,5 +83,5 @@ public class GetGoodsService(MusicalShopDbContext context, IMapKindOfGoodsServic
     //    throw new NotImplementedException();
     //}
 
-    
+
 }

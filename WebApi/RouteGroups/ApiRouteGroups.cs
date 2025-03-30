@@ -30,7 +30,7 @@ public static class ApiRouteGroups
         {
             try
             {
-                var goods = service.GetGoodsInfo(goodsId, kindOfGoods);
+                var goods = service.GetOrigGoodsItem(goodsId, kindOfGoods);
                 return Results.Json(goods);
             }
             catch

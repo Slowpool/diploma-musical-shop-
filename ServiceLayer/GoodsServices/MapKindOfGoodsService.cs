@@ -2,11 +2,6 @@
 using DataLayer.Models.SpecificTypes;
 using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.GoodsServices;
 public interface IMapKindOfGoodsService
@@ -17,6 +12,7 @@ public interface IMapKindOfGoodsService
     IQueryable<SpecificType> MapToSpecificTypes(KindOfGoods kindOfGoods);
     Task<KindOfGoods> GetGoodsKind(Guid goodsId);
 }
+
 public class MapKindOfGoodsService(MusicalShopDbContext context) : IMapKindOfGoodsService
 {
     public IQueryable<Goods> MapToSpecificGoods(KindOfGoods kindOfGoods) => kindOfGoods switch

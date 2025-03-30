@@ -2,7 +2,9 @@
 @using ViewModelsLayer.Sales
 @using MusicalShopApp.Common
 @using ViewModelsLayer.Goods
+@using DataLayer.SupportClasses
 @using static Common.CommonExtensions
+
 @model SaleUnitModel
 
 <article>
@@ -10,12 +12,25 @@
     <div>
         <div>
             <h5>Статус</h5>
-            <p>@Model.Status</p>
+            <p>
+                @(
+                    Model.Status switch
+                    {
+                        SaleStatus.Reserved => "Зарезервировано",
+                        SaleStatus.Returned => "Возвращено",
+                        SaleStatus.Sold => "Продано",
+                        SaleStatus.YetNotPaid => "Еще не оплачено",
+                        _ => throw new Exception()
+                    }
+                    )
+            </p>
         </div>
         <div>
             <h5>Оплачено</h5>
             <p>@(Model.IsPaid.Humanize())</p>
         </div>
+        @if (Model.Status == SaleStatus.Sold)
+            @await Html.PartialAsync("_PartialSaleReturnButton", Model)
         <div>
             <h5>Дата оформления</h5>
             <p>@(Model.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не продано")</p>
@@ -26,6 +41,9 @@
         </div>
         <div>
             <h5>Дата резервирования</h5>
+            @if (Model.Status == SaleStatus.Reserved)
+                @await Html.PartialAsync("_PartialSaleAllocateButton", Model)
+
             <p>@(Model.ReservationDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не было зарезервировано")</p>
         </div>
         <div>
@@ -33,14 +51,14 @@
             <p>@Model.GoodsUnitsCount</p>
         </div>
         <div>
-            <h5>Итого:</h5>
-            <p>@Model.Total.ToMoney()</p>
-        </div>
-        <div>
             <h5>Товар</h5>
             <ul>
                 @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
             </ul>
+        </div>
+        <div>
+            <h5>Итого:</h5>
+            <p>@Model.Total.ToMoney()</p>
         </div>
     </div>
 </article>

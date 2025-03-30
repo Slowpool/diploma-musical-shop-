@@ -51,7 +51,7 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsOfSaleServi
                                                             ?.ToList() ?? [];
         var kindOfGoods = await kindOfGoodsMapper.GetGoodsKind(goodsId);
 #warning is it validation? did i try to validate whether goods unit exists in db?
-        var goods = await getGoodsService.GetGoodsInfo(goodsId, kindOfGoods);
+        var goods = await getGoodsService.GetOrigGoodsItem(goodsId, kindOfGoods);
         if (isInCart)
             RemoveFromCart(goodsId, goodsIdsAndKindsList);
         else
@@ -95,7 +95,7 @@ public class CartService(MusicalShopDbContext context, IGetGoodsUnitsOfSaleServi
         List<Goods> goodsItems = [];
         foreach (var goodsIdAndType in cartContent)
         {
-            goodsItems.Add(await getGoodsService.GetGoodsInfo(Guid.Parse(CutGoodsId(goodsIdAndType)), CutGoodsKind(goodsIdAndType)));
+            goodsItems.Add(await getGoodsService.GetOrigGoodsItem(Guid.Parse(CutGoodsId(goodsIdAndType)), CutGoodsKind(goodsIdAndType)));
         }
         return goodsItems;
     }

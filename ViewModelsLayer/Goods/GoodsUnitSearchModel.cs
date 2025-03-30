@@ -6,7 +6,7 @@ public class GoodsUnitSearchModel
 {
     public Guid Id { get; set; }
 	public KindOfGoods KindOfGoods { get; set; }
-	public string Type { get; set; }
+	public string SpecificType { get; set; }
 	public string Name { get; set; }
 	public string? Description { get; set; }
 	public int Price { get; set; }

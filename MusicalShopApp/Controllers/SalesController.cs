@@ -131,4 +131,20 @@ public class SalesController : GoodsListBaseController
         var saleModel = new SaleUnitModel(saleView.SaleId, saleView.LocalSaleDate, saleView.LocalReservationDate, saleView.LocalReturningDate, saleView.Status, saleView.Total, (int)saleView.GoodsUnitsCount!, saleView.IsPaid, MapToGoodsList(goodsItems));
         return View(saleModel);
     }
-}   
+
+    [HttpGet("/sale/allocate")]
+    public async Task<IActionResult> Allocate([FromQuery] Guid saleId)
+    {
+
+
+        return View(new AllocateSaleModel(saleId));
+    }
+
+    [HttpGet("/sale/return")]
+    public async Task<IActionResult> Return([FromQuery] Guid saleId, [FromServices] IGetGoodsUnitsOfSaleService goodsService)
+    {
+
+        return View(new ReturnSaleModel(saleId, await goodsService.GetGoodsUnitsOfSale(saleId)));
+    }
+
+}

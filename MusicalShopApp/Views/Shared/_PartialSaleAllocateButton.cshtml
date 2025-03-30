@@ -1,0 +1,7 @@
+﻿
+@model ViewModelsLayer.Sales.ISaleModel
+
+<form asp-action="Allocate" asp-controller="Sales" method="get">
+    <input type="hidden" name="saleId" value="@Model.SaleId" />
+    <input type="submit" value="Выдать" />
+</form>

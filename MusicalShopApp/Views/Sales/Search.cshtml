@@ -1,6 +1,6 @@
 ﻿@using DataLayer.SupportClasses
 @using MusicalShopApp.Common
-@using Common;
+@using Common
 
 @model ViewModelsLayer.Sales.SalesSearchModel
 
@@ -137,6 +137,16 @@
                     </div>
                 </div>
                 <div class="mini-card-right">
+                    @switch (sale.Status)
+                    {
+                        case SaleStatus.Sold:
+                            await Html.RenderPartialAsync("_PartialSaleReturnButton", sale);
+                            break;
+                        case SaleStatus.Reserved:
+                            await Html.RenderPartialAsync("_PartialSaleAllocateButton", sale);
+                            break;
+                    }
+
                 </div>
             </li>
         }
