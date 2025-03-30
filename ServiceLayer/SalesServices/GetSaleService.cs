@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using ViewModelsLayer.Sales;
 
 namespace ServiceLayer.SalesServices;
+    // TODO it should implement IErrorAdder
 public interface IGetSaleService
 {
     Task<Sale> GetOriginalSale(Guid saleId);

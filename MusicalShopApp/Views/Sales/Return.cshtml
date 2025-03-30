@@ -1,12 +1,44 @@
-﻿
+﻿@using ViewModelsLayer.Goods
+@using Common
+
 @model ViewModelsLayer.Sales.ReturnSaleModel
 
 @{
-	ViewBag.Title = "Оформление возврата";
+    ViewBag.Title = "Оформление возврата";
 }
 
+<h5>@ViewBag.Title</h5>
 
-Покупатель уверен, что хочет вернуть данный товар?
-<form></form>
+<div>
+    Вы должны покупателю: @(Model.Refund.ToMoney())
+</div>
 
-@await Html.PartialAsync("_PartialGoodsList", Model.GoodsItems)
+@await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+
+<div>
+    <h5>Подтверждение возврата</h5>
+    <div>
+        Заполните форму, чтобы оформить возврат
+    </div>
+    <form action="" method="post">
+        <div>
+            <input id="refund-confirmation-checkbox" type="checkbox" name="refundConfirmation" value="true" />
+            <label for="refund-confirmation-checkbox">Деньги возвращены клиенту</label>
+        </div>
+        <div>
+            <input id="customers-confirmation-checkbox" type="checkbox" name="customerConfirmation" value="true" />
+            <label for="customers-confirmation-checkbox">Клиент согласен оформить возврат</label>
+        </div>
+        <input type="hidden" name="saleId" value="@Model.SaleId" />
+        <input type="submit" value="Оформить возврат" />
+    </form>
+    @if (ViewBag.Errors is not null)
+    {
+        <ul>
+            @foreach (var error in ViewBag.Errors)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    }
+</div>

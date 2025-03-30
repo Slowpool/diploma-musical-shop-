@@ -1,4 +1,5 @@
-﻿using DataLayer.NotMapped;
+﻿using DataLayer.Models;
+using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace MusicalShopApp.Controllers;
 public class SalesController : GoodsListBaseController
 {
     [HttpGet("/sales/search")]
-    public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minSaleDate, DateTime? maxSaleDate, DateTime? minReservationDate, DateTime? maxReservationDate, DateTime? minReturningDate, DateTime? maxReturningDate, SalePaidBy? paidBy, SaleStatus? status, SalesOrderBy orderBy=SalesOrderBy.Relevance, bool orderByAscending=true)
+    public async Task<IActionResult> Search(string q, [FromServices] IGetRelevantSalesService service, DateTime? minSaleDate, DateTime? maxSaleDate, DateTime? minReservationDate, DateTime? maxReservationDate, DateTime? minReturningDate, DateTime? maxReturningDate, SalePaidBy? paidBy, SaleStatus? status, SalesOrderBy orderBy = SalesOrderBy.Relevance, bool orderByAscending = true)
     {
         var filterOptions = new SalesFilterOptions(minSaleDate, maxSaleDate, minReservationDate, maxReservationDate, minReturningDate, maxReturningDate, status, paidBy);
         var orderByOptions = new SalesOrderByOptions(orderBy, orderByAscending);
@@ -70,14 +71,14 @@ public class SalesController : GoodsListBaseController
     // TODO encapsulate the goods status updating
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> RegisterSaleAsSold(Guid saleId, SalePaidBy paidBy, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, [FromServices] IGetGoodsUnitsOfSaleService goodsService, [FromServices]  IUpdateGoodsStatusService goodsStatusService, [FromServices] IMapKindOfGoodsService kindOfGoodsService)
+    public async Task<IActionResult> RegisterSaleAsSold(Guid saleId, SalePaidBy paidBy, [FromServices] IExistingSaleManagementService saleService, [FromServices] ICartService cartService, [FromServices] IGetGoodsUnitsOfSaleService goodsService, [FromServices] IUpdateGoodsStatusService goodsStatusService, [FromServices] IMapKindOfGoodsService kindOfGoodsService)
     {
         string result;
         try
         {
             await saleService.RegisterSaleAsPaid(saleId, paidBy);
             var goods = await goodsService.GetGoodsModelsOfSale(saleId);
-            foreach(var goodsUnit in goods)
+            foreach (var goodsUnit in goods)
             {
                 await goodsStatusService.UpdateGoodsStatus(goodsUnit.GoodsId, await kindOfGoodsService.GetGoodsKind(goodsUnit.GoodsId), GoodsStatus.Sold);
             }
@@ -121,7 +122,7 @@ public class SalesController : GoodsListBaseController
         return Content(result);
     }
 
-    [HttpGet("/sales/{saleId}")]
+    [HttpGet("/sales/{saleId:Guid}")]
     public async Task<IActionResult> Unit([FromRoute] Guid saleId, [FromServices] IGetSaleService service, [FromServices] IGetGoodsUnitsOfSaleService goodsService)
     {
         var saleView = await service.GetSaleView(saleId);
@@ -132,19 +133,35 @@ public class SalesController : GoodsListBaseController
         return View(saleModel);
     }
 
-    [HttpGet("/sale/allocate")]
-    public async Task<IActionResult> Allocate([FromQuery] Guid saleId)
+    [HttpGet("/sale/allocate/{saleId:Guid}")]
+    public async Task<IActionResult> Allocate([FromRoute] Guid saleId)
     {
 
 
         return View(new AllocateSaleModel(saleId));
     }
 
-    [HttpGet("/sale/return")]
-    public async Task<IActionResult> Return([FromQuery] Guid saleId, [FromServices] IGetGoodsUnitsOfSaleService goodsService)
+    [HttpGet("/sale/return/{saleId:Guid}")]
+    public async Task<IActionResult> Return([FromRoute] Guid saleId, [FromServices] IGetGoodsUnitsOfSaleService goodsService, [FromServices] IGetSaleService saleService)
     {
+        var goodsItems = await goodsService.GetGoodsUnitsOfSale(saleId);
+        var sale = await saleService.GetSaleView(saleId);
 
-        return View(new ReturnSaleModel(saleId, await goodsService.GetGoodsUnitsOfSale(saleId)));
+        ViewBag.Errors = TempData["Errors"];
+        return View(new ReturnSaleModel(saleId, sale.Total, MapToGoodsList(goodsItems)));
+    }
+
+    [HttpPost("/sale/return")]
+    public async Task<IActionResult> Return([FromForm] SaleReturnModel saleReturnModel, [FromServices] IExistingSaleManagementService saleService)
+    {
+        await saleService.Return(saleReturnModel);
+        if (saleService.HasErrors)
+        {
+            TempData["Errors"] = saleService.Errors.Select(e => e.ErrorMessage).ToArray();
+            return RedirectToAction("Return", new { saleId = saleReturnModel.SaleId });
+        }
+
+        return RedirectToAction("Sale", new { saleId = saleReturnModel.SaleId });
     }
 
 }

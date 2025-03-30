@@ -14,5 +14,6 @@ public class AudioEquipmentUnit : Goods
 {
     //[Column("audio_equipment_unit_id")]
     //public Guid AudioEquipmentUnitId { get; set; }
-    public AudioEquipmentUnitSpecificType SpecificType { get; set; }
+    public AudioEquipmentUnitSpecificType 
+        SpecificType { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using DataLayer.Common;
+﻿using BizLogicBase.Validation;
+using DataLayer.Common;
 using DataLayer.Models;
 using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
@@ -8,16 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.Sales;
 
 namespace ServiceLayer.SalesServices;
 
-public interface IExistingSaleManagementService
+public interface IExistingSaleManagementService : IErrorAdder
 {
     Task RegisterSaleAsPaid(Guid saleId, SalePaidBy paidBy);
     Task CancelSale(Guid saleId);
+    Task Return(SaleReturnModel model);
 }
 
-public class ExistingSaleManagementService(MusicalShopDbContext context) : IExistingSaleManagementService
+public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSaleService getSaleService) : ErrorAdder, IExistingSaleManagementService
 {
     public async Task CancelSale(Guid saleId)
     {
@@ -38,5 +41,24 @@ public class ExistingSaleManagementService(MusicalShopDbContext context) : IExis
         sale.Status = SaleStatus.Sold;
         context.Update(sale);
         await context.SaveChangesAsync();
+    }
+
+    public async Task Return(SaleReturnModel model)
+    {
+        if (model.CustomerConfirmation && model.RefundConfirmation)
+        {
+            var sale = await getSaleService.GetOriginalSale(model.SaleId);
+            sale.Status = SaleStatus.Returned;
+            sale.LocalReturningDate = DateTime.Now;
+            context.Update(sale);
+            await context.SaveChangesAsync();
+        }
+        else
+        {
+            if (!model.CustomerConfirmation)
+                AddError("Требуется подтверждение покупателя для оформления возврата");
+            if (!model.RefundConfirmation)
+                AddError("Требуется подтверждение выдачи покупателю денег");
+        }
     }
 }

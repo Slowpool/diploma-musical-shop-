@@ -1,7 +1,6 @@
 ﻿
 @model ViewModelsLayer.Sales.ISaleModel
 
-<form asp-action="Allocate" asp-controller="Sales" method="get">
-    <input type="hidden" name="saleId" value="@Model.SaleId" />
+<form action="@Url.Action("Allocate", "Sales", new { saleId = Model.SaleId }) method="get">
     <input type="submit" value="Выдать" />
 </form>

@@ -7,4 +7,4 @@ using ViewModelsLayer.Goods;
 
 namespace ViewModelsLayer.Sales;
 
-public record ReturnSaleModel(Guid SaleId, List<GoodsUnitSearchModel> GoodsItems) : ISaleModel;
+public record ReturnSaleModel(Guid SaleId, int Refund, List<GoodsUnitSearchModel> GoodsItems) : ISaleModel;
