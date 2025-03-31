@@ -1,4 +1,37 @@
-﻿@{
+﻿@using ViewModelsLayer.Goods
+@using Common
+
+@{
     ViewBag.Title = "Выдача зарезервированного товара";
 }
 
+@model ViewModelsLayer.Sales.AllocateSaleModel
+
+<h5>@ViewBag.Title</h5>
+
+<div>
+    <h5>Покупатель зарезервировал следующие товары:</h5>
+    @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+</div>
+
+<div>
+    <h5>Оформление выдачи товара</h5>
+    <div>
+        <div>
+            Секретное слово: <input value="@Model.SecretWord" readonly="readonly" />
+        </div>
+        <form action="/sale/allocate" method="post">
+            <input type="hidden" name="saleId" value="@Model.SaleId" />
+            <input type="submit" value="Продолжить" />
+        </form>
+    </div>
+    @if (ViewBag.Errors is not null)
+    {
+        <ul>
+            @foreach (var error in ViewBag.Errors)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    }
+</div>

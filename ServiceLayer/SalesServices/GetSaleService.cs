@@ -1,5 +1,7 @@
-﻿using DataLayer.Common;
+﻿using BizLogicBase.Validation;
+using DataLayer.Common;
 using DataLayer.Models;
+using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,15 +13,16 @@ using System.Threading.Tasks;
 using ViewModelsLayer.Sales;
 
 namespace ServiceLayer.SalesServices;
-    // TODO it should implement IErrorAdder
-public interface IGetSaleService
+// TODO it should implement IErrorAdder
+public interface IGetSaleService : IErrorAdder
 {
     Task<Sale> GetOriginalSale(Guid saleId);
     Task<SaleView> GetSaleView(Guid saleId);
 #warning under question
     //Task<SaleSearchDto> GetReadableSale(Guid saleId);
+    Task<Sale> GetReservation(Guid saleId);
 }
-public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
+public class GetSaleService(MusicalShopDbContext context) : ErrorAdder, IGetSaleService
 {
     public async Task<Sale> GetOriginalSale(Guid saleId)
     {
@@ -29,14 +32,16 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
                                .Include(s => s.Accessories)
                                .Include(s => s.SheetMusicEditions)
                                .Include(s => s.AudioEquipmentUnits)
-                               .SingleAsync(s => s.SaleId == saleId);
+                               .Include(s => s.ReservationExtraInfo)
+                               .SingleAsync(s => s.SaleId == saleId)
+                               ;
     }
 
     public async Task<SaleView> GetSaleView(Guid saleId)
     {
         var saleView = await context.SalesView.SingleAsync(sView => sView.SaleId == saleId);
         var sale = await GetOriginalSale(saleId);
-// saleView doesn't have relationships in database, so assign them manually
+        // saleView doesn't have relationships in database, so assign them manually
         saleView.MusicalInstruments = [.. sale.MusicalInstruments];
         saleView.Accessories = [.. sale.Accessories];
         saleView.AudioEquipmentUnits = [.. sale.AudioEquipmentUnits];
@@ -50,4 +55,16 @@ public class GetSaleService(MusicalShopDbContext context) : IGetSaleService
     //    var sale = await GetViewSale(saleId);
     //    return new SaleSearchDto(sale.SaleId, sale.LocalDate, sale.Status, sale.Total, sale.PaidBy);
     //}
+
+    public async Task<Sale?> GetReservation(Guid saleId)
+    {
+        var sale = await GetOriginalSale(saleId);
+        if (sale.Status != SaleStatus.Reserved)
+        {
+            AddError("Продажа не является зарезервированной");
+            return null;
+        }
+
+        return sale;
+    }
 }

@@ -32,7 +32,7 @@
         @if (Model.Status == SaleStatus.Sold)
             @await Html.PartialAsync("_PartialSaleReturnButton", Model)
         <div>
-            <h5>Дата оформления</h5>
+            <h5>Дата продажи</h5>
             <p>@(Model.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не продано")</p>
         </div>
         <div>

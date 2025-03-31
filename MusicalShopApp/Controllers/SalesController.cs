@@ -134,11 +134,28 @@ public class SalesController : GoodsListBaseController
     }
 
     [HttpGet("/sale/allocate/{saleId:Guid}")]
-    public async Task<IActionResult> Allocate([FromRoute] Guid saleId)
+    public async Task<IActionResult> Allocate([FromRoute] Guid saleId, [FromServices] IGetGoodsUnitsOfSaleService goodsService, [FromServices] IGetSaleService saleService)
     {
+        var goodsItems = await goodsService.GetGoodsUnitsOfSale(saleId);
+        var sale = await saleService.GetReservation(saleId);
+        if (saleService.HasErrors)
+        {
+            TempData["Errors"] = saleService.Errors.Select(e => e.ErrorMessage).ToArray();
+            return RedirectToAction("Unit", new { saleId });
+        }
+        return View(new AllocateSaleModel(saleId, MapToGoodsList(goodsItems), sale.ReservationExtraInfo!.SecretWord));
+    }
 
-
-        return View(new AllocateSaleModel(saleId));
+    [HttpPost("/sale/allocate")]
+    public async Task<IActionResult> Allocate([FromForm] Guid saleId, [FromServices] IExistingSaleManagementService saleService)
+    {
+        saleService.UpdateAsNotPaid(saleId);
+        if (saleService.HasErrors)
+        {
+            TempData["Errors"] = saleService.Errors.Select(e => e.ErrorMessage).ToArray();
+            return RedirectToAction("Allocate", new { saleId });
+        }
+        return RedirectToAction("PayForSale", new { saleId });
     }
 
     [HttpGet("/sale/return/{saleId:Guid}")]
@@ -152,6 +169,7 @@ public class SalesController : GoodsListBaseController
     }
 
     [HttpPost("/sale/return")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Return([FromForm] SaleReturnModel saleReturnModel, [FromServices] IExistingSaleManagementService saleService)
     {
         await saleService.Return(saleReturnModel);
@@ -161,7 +179,7 @@ public class SalesController : GoodsListBaseController
             return RedirectToAction("Return", new { saleId = saleReturnModel.SaleId });
         }
 
-        return RedirectToAction("Sale", new { saleId = saleReturnModel.SaleId });
+        return RedirectToAction("Unit", new { saleId = saleReturnModel.SaleId });
     }
 
 }

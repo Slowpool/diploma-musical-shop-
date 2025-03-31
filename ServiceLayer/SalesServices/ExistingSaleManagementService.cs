@@ -18,6 +18,7 @@ public interface IExistingSaleManagementService : IErrorAdder
     Task RegisterSaleAsPaid(Guid saleId, SalePaidBy paidBy);
     Task CancelSale(Guid saleId);
     Task Return(SaleReturnModel model);
+    Task UpdateAsNotPaid(Guid saleId);
 }
 
 public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSaleService getSaleService) : ErrorAdder, IExistingSaleManagementService
@@ -48,6 +49,11 @@ public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSal
         if (model.CustomerConfirmation && model.RefundConfirmation)
         {
             var sale = await getSaleService.GetOriginalSale(model.SaleId);
+            if (sale.Status != SaleStatus.Sold)
+            {
+                AddError("Эта продажа не может быть возвращена т.к. она не имеет статуса \"Продано\"");
+                return;
+            }
             sale.Status = SaleStatus.Returned;
             sale.LocalReturningDate = DateTime.Now;
             context.Update(sale);
@@ -60,5 +66,15 @@ public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSal
             if (!model.RefundConfirmation)
                 AddError("Требуется подтверждение выдачи покупателю денег");
         }
+    }
+
+    public async Task UpdateAsNotPaid(Guid saleId)
+    {
+        var sale = await getSaleService.GetOriginalSale(saleId);
+        // TODO validation
+
+        sale.Status = SaleStatus.YetNotPaid;
+        context.Update(sale);
+        await context.SaveChangesAsync();
     }
 }
