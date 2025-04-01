@@ -43,7 +43,21 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             return null;
 
         // Validated successfully
+
         Guid deliveryId;
+
+        DateTime? receiptDate = null;
+        switch (dto.Status)
+        {
+            case GoodsStatus.InStock:
+                receiptDate = DateTime.Now;
+                break;
+            case GoodsStatus.AwaitingDelivery:
+                break;
+            default:
+                AddError("Вы не можете выбрать данный статус");
+                return null;
+        }
 
         if (dto.ToPreviousDelivery)
             // TODO get delivery anyway
@@ -59,24 +73,11 @@ public class AddNewGoodsService(MusicalShopDbContext context, ISpecificTypeServi
             var delivery = new GoodsDelivery
             {
                 GoodsDeliveryId = Guid.NewGuid(),
-                LocalActualDeliveryDate = DateTime.Now
+                LocalActualDeliveryDate = receiptDate,
+                LocalExpectedDeliveryDate = dto.Status == GoodsStatus.AwaitingDelivery ? dto.ExpectedDeliveryDate : null,
             };
             context.Add(delivery);
             deliveryId = delivery.GoodsDeliveryId;
-        }
-
-        DateTimeOffset? receiptDate = default;
-        switch (dto.Status)
-        {
-            case GoodsStatus.InStock:
-                receiptDate = DateTimeOffset.Now;
-                break;
-            case GoodsStatus.AwaitingDelivery:
-                receiptDate = null;
-                break;
-            default:
-                AddError("Вы не можете выбрать данный статус");
-                break;
         }
 
         var result = new List<Goods>();

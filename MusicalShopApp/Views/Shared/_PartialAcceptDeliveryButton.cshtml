@@ -1,0 +1,5 @@
+﻿@model ViewModelsLayer.Stock.Delivery.IDeliveryModel
+
+<form asp-controller="Stock" asp-action="AcceptDelivery" asp-route-deliveryId="@Model.GoodsDeliveryId" method="get">
+    <input type="submit" value="Принять поставку" />
+</form>

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModelsLayer.CustomAttributes;
 using ViewModelsLayer.Stock.CustomAttributes;
 
 namespace ViewModelsLayer.Stock;
@@ -45,6 +46,8 @@ public record class AddGoodsToWarehouseDto(
     [RequiredWhenToPreviousDeliveryIsTrue("Идентификатор текущей доставки ")]
     Guid? DeliveryId,
     [RussianRequired("Дополнить предыдущую доставку")]
-    bool ToPreviousDelivery
+    bool ToPreviousDelivery,
 
+    [RequiredWhen(nameof(AddGoodsToWarehouseDto.Status), GoodsStatus.AwaitingDelivery)]
+    DateTime? ExpectedDeliveryDate
 );

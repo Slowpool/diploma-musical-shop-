@@ -70,11 +70,11 @@ public class DataSeeding
         await EnsureUsersAsync(userManager, services);
         // Unneccesary stuff for app, but it provides visibility for test-review
         // TODO remove everything below from production
-        var context = services.GetRequiredService<MusicalShopDbContext>();
-        await EnsureMusicalInstrumentsAndTheirTypes(context);
-        await EnsureAccessoriesAndTheirTypes(context);
-        await EnsureAudioEquipmentUnitsAndTheirTypes(context);
-        await EnsureSheetMusicEditionsAndTheirTypes(context);
+        //var context = services.GetRequiredService<MusicalShopDbContext>();
+        //await EnsureMusicalInstrumentsAndTheirTypes(context);
+        //await EnsureAccessoriesAndTheirTypes(context);
+        //await EnsureAudioEquipmentUnitsAndTheirTypes(context);
+        //await EnsureSheetMusicEditionsAndTheirTypes(context);
     }
 
     private async static Task EnsureRolesAsync(RoleManager<IdentityRole> roleManager)

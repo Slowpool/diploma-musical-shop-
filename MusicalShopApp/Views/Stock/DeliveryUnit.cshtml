@@ -7,11 +7,14 @@
 @model DeliveryUnitModel
 
 <article>
-    <h3>@Model.DeliveryId</h3>
+    <h3>@Model.GoodsDeliveryId</h3>
     <div>
         <div>
             <h5>Статус</h5>
             <p>@(Model.IsDelivered ? "Доставлено" : "В ожидании доставки")</p>
+            @if (!Model.IsDelivered)
+                @await Html.PartialAsync("_PartialAcceptDeliveryButton", Model)
+
         </div>
         <div>
             <h5>Дата доставки</h5>

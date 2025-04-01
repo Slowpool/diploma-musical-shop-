@@ -29,7 +29,9 @@ public class BackupService : ErrorAdder, IBackupService
     public BackupService(IConfiguration configuration)
     {
         _backup = configuration.GetRequiredSection("BackupData");
-        _dirName = (string)_backup.GetValue(typeof(string), "Directory")!;
+        var appRootDir = new DirectoryInfo(Directory.GetCurrentDirectory())!.Parent!;
+        var relatedPath = (string)_backup.GetValue(typeof(string), "RelatedPath")!;
+        _dirName = Path.Combine(appRootDir.FullName, relatedPath);
         _dirInfo = new DirectoryInfo(_dirName);
     }
 

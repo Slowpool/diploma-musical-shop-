@@ -1,0 +1,20 @@
+﻿@using ViewModelsLayer.Goods
+
+@model ViewModelsLayer.Stock.Delivery.AcceptDeliveryDto
+
+<div>
+    <h5>Товары из доставки:</h5>
+    @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+</div>
+
+<form action="/delivery/accept" method="post">
+    @Html.AntiForgeryToken()
+    <h5>Подтверждение доставки</h5>
+    <div>
+        <input id="confirmation-checkbox" name="confirmation" type="checkbox" value="true" />
+        <label for="confirmation-checkbox">Все товары из списка приняты на склад</label>
+    </div>
+    <input type="hidden" name="deliveryId" value="@Model.GoodsDeliveryId" />
+    <input type="submit" value="Принять" />
+</form>
+

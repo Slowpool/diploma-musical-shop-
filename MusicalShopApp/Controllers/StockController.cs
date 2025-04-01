@@ -27,7 +27,7 @@ public class StockController : GoodsListBaseController
         var specificTypes = await specificTypesService.GetAllSpecificTypes();
         // TODO it must not be so awkward
         GoodsKindSpecificDataDto defaultSpecificData = new(KindOfGoods.MusicalInstruments, default, default, default, default, default, default);
-        var defaultDto = new AddGoodsToWarehouseDto(default!, default!, false, default, default, GoodsStatus.InStock, default, default, defaultSpecificData, default, false);
+        var defaultDto = new AddGoodsToWarehouseDto(default!, default!, false, default, default, GoodsStatus.InStock, default, default, defaultSpecificData, default, false, default);
         return View(new AddGoodsToWarehouseModel(defaultDto, specificTypes, []));
     }
 
@@ -64,7 +64,7 @@ public class StockController : GoodsListBaseController
         }
         else
             foreach (var delivery in deliveries!)
-                deliveryUnitModels.Add(new DeliveryUnitSearchModel(delivery.GoodsDeliveryId, delivery.LocalExpectedDeliveryDate, delivery.LocalActualDeliveryDate, delivery.ExpectedDeliveryDate is not null));
+                deliveryUnitModels.Add(new DeliveryUnitSearchModel(delivery.GoodsDeliveryId, delivery.LocalExpectedDeliveryDate, delivery.LocalActualDeliveryDate, delivery.ActualDeliveryDate is not null));
         return View(new DeliverySearchModel(filter, orderBy, deliveryUnitModels));
     }
 
@@ -87,5 +87,22 @@ public class StockController : GoodsListBaseController
             return NotFound();
         }
 
+    }
+
+    [HttpGet("/delivery/accept/{deliveryId:Guid}")]
+    public async Task<IActionResult> AcceptDelivery([FromRoute] Guid deliveryId, [FromServices] IGetGoodsUnitsOfDeliveryService goodsService)
+    {
+        var goodsItems = await goodsService.GetGoodsUnitsOfDelivery(deliveryId);
+
+        return View(new AcceptDeliveryDto(deliveryId, MapToGoodsList(goodsItems)));
+    }
+
+    [HttpPost("/delivery/accept")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AcceptDelivery([FromForm] AcceptDeliveryModel model, [FromServices] IAcceptDeliveryService service)
+    {
+        service.AcceptDelivery(model);
+
+        return View();
     }
 }

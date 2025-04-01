@@ -91,6 +91,8 @@
                     </div>
                 </div>
                 <div class="mini-card-right">
+                    @if (!delivery.IsDelivered)
+                        @await Html.PartialAsync("_PartialAcceptDeliveryButton", delivery)
                 </div>
             </li>
         }

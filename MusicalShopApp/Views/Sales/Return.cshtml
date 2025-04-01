@@ -1,7 +1,7 @@
 ﻿@using ViewModelsLayer.Goods
 @using Common
 
-@model ViewModelsLayer.Sales.ReturnSaleModel
+@model ViewModelsLayer.Sales.SaleReturnDto
 
 @{
     ViewBag.Title = "Оформление возврата";
@@ -21,6 +21,7 @@
         Заполните форму, чтобы оформить возврат
     </div>
     <form action="/sale/return" method="post">
+        @Html.AntiForgeryToken()
         <div>
             <input id="refund-confirmation-checkbox" type="checkbox" name="refundConfirmation" value="true" />
             <label for="refund-confirmation-checkbox">Деньги возвращены клиенту</label>

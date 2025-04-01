@@ -5,5 +5,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ViewModelsLayer.Stock.Delivery;
-
-public record DeliveryUnitSearchModel(Guid GoodsDeliveryId, DateTime? ExpectedDeliveryDate, DateTime? ActualDeliveryDate, bool IsDelivered) : IDeliveryModel;
+public record AcceptDeliveryModel(Guid DeliveryId, bool Confirmation);

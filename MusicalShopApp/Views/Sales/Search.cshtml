@@ -145,6 +145,9 @@
                         case SaleStatus.Reserved:
                             await Html.RenderPartialAsync("_PartialSaleAllocateButton", sale);
                             break;
+                        case SaleStatus.YetNotPaid:
+                            await Html.RenderPartialAsync("_PartialSalePayButton", sale);
+                            break;
                     }
                 </div>
             </li>

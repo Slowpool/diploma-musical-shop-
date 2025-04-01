@@ -57,7 +57,7 @@ public class SalesController : GoodsListBaseController
             return RedirectToAction("Cart", "Goods");//, new SaleErrorModel(service.Errors));
     }
 
-    [HttpGet("pay-for/{saleId}")]
+    [HttpGet("pay-for/{saleId:Guid}")]
     public async Task<IActionResult> PayForSale([FromRoute] Guid saleId)
     {
         return View(saleId);
@@ -165,7 +165,7 @@ public class SalesController : GoodsListBaseController
         var sale = await saleService.GetSaleView(saleId);
 
         ViewBag.Errors = TempData["Errors"];
-        return View(new ReturnSaleModel(saleId, sale.Total, MapToGoodsList(goodsItems)));
+        return View(new SaleReturnDto(saleId, sale.Total, MapToGoodsList(goodsItems)));
     }
 
     [HttpPost("/sale/return")]

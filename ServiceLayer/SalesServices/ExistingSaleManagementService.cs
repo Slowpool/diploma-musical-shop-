@@ -40,6 +40,8 @@ public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSal
         sale.IsPaid = true;
         sale.PaidBy = paidBy;
         sale.Status = SaleStatus.Sold;
+        sale.LocalSaleDate = DateTime.Now;
+
         context.Update(sale);
         await context.SaveChangesAsync();
     }

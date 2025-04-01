@@ -1,0 +1,5 @@
+﻿@model ViewModelsLayer.Sales.ISaleModel
+
+<form asp-controller="Sales" asp-action="PayForSale" asp-route-saleId="@Model.SaleId" method="get">
+    <input type="submit" value="Оплатить" />
+</form>
