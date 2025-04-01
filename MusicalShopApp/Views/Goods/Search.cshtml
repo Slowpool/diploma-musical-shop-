@@ -46,7 +46,7 @@
                 <input id="order-goods-by-price" type="radio" value="Price" asp-for="OrderBy.OrderBy" name="orderBy" />
                 <label for="order-goods-by-price">Цена</label>
                 <input id="order-goods-by-receipt-date" type="radio" value="ReceiptDate" asp-for="OrderBy.OrderBy" name="orderBy" />
-                <label for="order-goods-by-receipt-date">Дата поставки на склад</label>
+                <label for="order-goods-by-receipt-date">Дата доставки на склад</label>
             </span>
         </div>
         <div>
@@ -55,7 +55,7 @@
                 <input id="radio-in-stock" type="radio" value="InStock" asp-for="Filter.Status" name="status" />
                 <label for="radio-in-stock">На складе</label>
                 <input id="radio-awaiting-delivery" type="radio" value="AwaitingDelivery" asp-for="Filter.Status" name="status" />
-                <label for="radio-awaiting-delivery">Ожидает поставки</label>
+                <label for="radio-awaiting-delivery">Ожидает доставки</label>
                 <input id="radio-reserved" type="radio" value="Reserved" asp-for="Filter.Status" name="status" />
                 <label for="radio-reserved">Зарезервировано</label>
                 <input id="radio-sold" type="radio" value="Sold" asp-for="Filter.Status" name="status" />
@@ -73,7 +73,7 @@
         Найдено: @Model.ResultsCount    
     </h4>
     @{
-        await Html.RenderPartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsUnitModels, true));
+        await Html.RenderPartialAsync("_GoodsList", new PartialGoodsListModel(Model.GoodsUnitModels, true));
     }
 </div>
 

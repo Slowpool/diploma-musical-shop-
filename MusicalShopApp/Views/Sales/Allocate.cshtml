@@ -11,7 +11,7 @@
 
 <div>
     <h5>Покупатель зарезервировал следующие товары:</h5>
-    @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+    @await Html.PartialAsync("_GoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
 </div>
 
 <div>
@@ -24,14 +24,6 @@
             <input type="hidden" name="saleId" value="@Model.SaleId" />
             <input type="submit" value="Продолжить" />
         </form>
+        @await Html.PartialAsync("_ErrorsList", (IEnumerable<string>)ViewBag.Errors)
     </div>
-    @if (ViewBag.Errors is not null)
-    {
-        <ul>
-            @foreach (var error in ViewBag.Errors)
-            {
-                <li>@error</li>
-            }
-        </ul>
-    }
 </div>

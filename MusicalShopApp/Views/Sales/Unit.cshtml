@@ -29,11 +29,11 @@
             <h5>Оплачено</h5>
             <p>@(Model.IsPaid.Humanize())</p>
             @if (Model.Status == SaleStatus.YetNotPaid)
-                @await Html.PartialAsync("_PartialSalePayButton", Model)
+                @await Html.PartialAsync("_SalePayButton", Model)
 
         </div>
         @if (Model.Status == SaleStatus.Sold)
-            @await Html.PartialAsync("_PartialSaleReturnButton", Model)
+            @await Html.PartialAsync("_SaleReturnButton", Model)
 
 
         <div>
@@ -47,7 +47,7 @@
         <div>
             <h5>Дата резервирования</h5>
             @if (Model.Status == SaleStatus.Reserved)
-                @await Html.PartialAsync("_PartialSaleAllocateButton", Model)
+                @await Html.PartialAsync("_SaleAllocateButton", Model)
 
 
 
@@ -60,7 +60,7 @@
         <div>
             <h5>Товар</h5>
             <ul>
-                @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+                @await Html.PartialAsync("_GoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
             </ul>
         </div>
         <div>

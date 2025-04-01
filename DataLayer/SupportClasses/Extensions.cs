@@ -5,7 +5,7 @@ public static class Extensions
         goodsStatus switch
         {
             GoodsStatus.InStock => "На складе",
-            GoodsStatus.AwaitingDelivery => "Ожидает поставки",
+            GoodsStatus.AwaitingDelivery => "Ожидает доставки",
             GoodsStatus.Sold => "Продано",
             GoodsStatus.Reserved => "Зарезервировано",
             GoodsStatus.InCart => "В корзине",

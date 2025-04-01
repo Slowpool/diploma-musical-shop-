@@ -87,13 +87,13 @@
                 <label for="new-goods-status">Статус</label>
                 <span id="new-goods-status">
                     <input id="new-goods-status-ad" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="AwaitingDelivery" />
-                    <label for="new-goods-status-ad">Ожидает поставки</label>
+                    <label for="new-goods-status-ad">Ожидает доставки</label>
                     <input id="new-goods-status-is" type="radio" asp-for="AddGoodsToWarehouseDto.Status" value="InStock" />
                     <label for="new-goods-status-is">На складе</label>
                 </span>
             </p>
             <p>
-                <label asp-for="AddGoodsToWarehouseDto.ExpectedDeliveryDate">Ожидаемая дата доставки (Только для статуса "Ожидает поставки")</label>
+                <label asp-for="AddGoodsToWarehouseDto.ExpectedDeliveryDate">Ожидаемая дата доставки (Только для статуса "Ожидает доставки")</label>
                 <input asp-for="AddGoodsToWarehouseDto.ExpectedDeliveryDate" />
             </p>
             <p>

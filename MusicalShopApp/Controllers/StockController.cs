@@ -93,6 +93,7 @@ public class StockController : GoodsListBaseController
     public async Task<IActionResult> AcceptDelivery([FromRoute] Guid deliveryId, [FromServices] IGetGoodsUnitsOfDeliveryService goodsService)
     {
         var goodsItems = await goodsService.GetGoodsUnitsOfDelivery(deliveryId);
+        ViewBag.Errors = TempData["Errors"];
 
         return View(new AcceptDeliveryDto(deliveryId, MapToGoodsList(goodsItems)));
     }
@@ -101,8 +102,13 @@ public class StockController : GoodsListBaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AcceptDelivery([FromForm] AcceptDeliveryModel model, [FromServices] IAcceptDeliveryService service)
     {
-        service.AcceptDelivery(model);
+        await service.AcceptDelivery(model);
+        if (service.HasErrors)
+        {
+            TempData["Errors"] = service.Errors.Select(e => e.ErrorMessage).ToArray();
+            return RedirectToAction("AcceptDelivery", new { deliveryId = model.DeliveryId });
+        }
 
-        return View();
+        return RedirectToAction("DeliveryUnit", new { deliveryId = model.DeliveryId });
     }
 }

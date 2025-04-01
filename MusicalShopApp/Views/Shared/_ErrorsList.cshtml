@@ -1,0 +1,11 @@
+﻿@model IEnumerable<string>
+
+@if (Model is not null)
+{
+    <ul>
+        @foreach (var error in Model)
+        {
+            <li>@error</li>
+        }
+    </ul>
+}

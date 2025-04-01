@@ -33,23 +33,23 @@
                             // <li class="nav-item">
                             //     <a class="nav-link text-dark" asp-area="" asp-controller="Goods" asp-action="Index">Товары</a>
                             // </li>
-                            // await Html.RenderPartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Товары"));
+                            // await Html.RenderPartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Товары"));
                             @* <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Оформление продажи</a>
                         </li>*@
                         }
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Index", "Товары"))
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Seller), "Goods", "Cart", "Корзина"))
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Seller), "Sales", "Search", "Продажи"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Index", "Товары"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Seller), "Goods", "Cart", "Корзина"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Seller), "Sales", "Search", "Продажи"))
 
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Reports", "Index", "Отчеты"))
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Admin", "Users", "Пользователи"))
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Admin", "Backups", "Резервное копирование"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Reports", "Index", "Отчеты"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Admin", "Users", "Пользователи"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Admin), "Admin", "Backups", "Резервное копирование"))
 
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.StockManager), "Stock", "AddGoodsToWarehouse", "Добавить товар"))
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.StockManager), "Stock", "DeliverySearch", "Доставки"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.StockManager), "Stock", "AddGoodsToWarehouse", "Добавить товар"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.StockManager), "Stock", "DeliverySearch", "Доставки"))
 
-                        @await Html.PartialAsync("_PartialNavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Privacy", "Политика конфиденциальности"))
+                        @await Html.PartialAsync("_NavigationItem", new PartialNavigationItemModel(nameof(CommonNames.Consultant), "Goods", "Privacy", "Политика конфиденциальности"))
                         @* @(string.IsNullOrWhiteSpace(ViewBag.Session) ? "null" : ViewBag.Session) *@
                         @* @Html.RenderPartialAsync("_AdminActionsPartial") *@
                         @* <li class="nav-item">

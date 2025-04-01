@@ -13,7 +13,7 @@
     Вы должны покупателю: @(Model.Refund.ToMoney())
 </div>
 
-@await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+@await Html.PartialAsync("_GoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
 
 <div>
     <h5>Подтверждение возврата</h5>
@@ -33,13 +33,5 @@
         <input type="hidden" name="saleId" value="@Model.SaleId" />
         <input type="submit" value="Оформить возврат" />
     </form>
-    @if (ViewBag.Errors is not null)
-    {
-        <ul>
-            @foreach (var error in ViewBag.Errors)
-            {
-                <li>@error</li>
-            }
-        </ul>
-    }
+    @await Html.PartialAsync("_ErrorsList", (IEnumerable<string>)ViewBag.Errors)
 </div>

@@ -8,7 +8,7 @@
     <h3>
         Добавлено товаров: @Model.Count
     </h3>
-    await Html.RenderPartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model, true));
+    await Html.RenderPartialAsync("_GoodsList", new PartialGoodsListModel(Model, true));
 }
 <div class="total-cart-price">
     @if (Model.Count == 0)

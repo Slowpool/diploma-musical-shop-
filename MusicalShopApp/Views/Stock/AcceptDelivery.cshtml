@@ -4,7 +4,7 @@
 
 <div>
     <h5>Товары из доставки:</h5>
-    @await Html.PartialAsync("_PartialGoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
+    @await Html.PartialAsync("_GoodsList", new PartialGoodsListModel(Model.GoodsItems, false))
 </div>
 
 <form action="/delivery/accept" method="post">
@@ -17,4 +17,7 @@
     <input type="hidden" name="deliveryId" value="@Model.GoodsDeliveryId" />
     <input type="submit" value="Принять" />
 </form>
+
+@await Html.PartialAsync("_ErrorsList", (IEnumerable<string>)ViewBag.Errors)
+
 
