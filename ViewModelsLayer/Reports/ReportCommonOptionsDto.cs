@@ -1,7 +1,7 @@
 ﻿using DataLayer.SupportClasses;
 
 namespace ViewModelsLayer.Reports;
-public record ReportGeneralOptionsModel(
+public record ReportCommonOptionsDto(
     DateTime? FromDate,
     DateTime? ToDate,
     ReportSubtype? Subtype,

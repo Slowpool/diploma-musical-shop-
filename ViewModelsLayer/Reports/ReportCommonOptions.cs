@@ -2,7 +2,7 @@
 using ViewModelsLayer.CustomAttributes;
 
 namespace ViewModelsLayer.Reports;
-public record ReportGeneralOptionsDto(
+public record ReportCommonOptions(
     DateTime? FromDate,
     
     DateTime? ToDate,
@@ -10,13 +10,13 @@ public record ReportGeneralOptionsDto(
     ReportType Type,
     ReportSubtype Subtype,
     
-    [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.General)]
+    [RequiredWhen(nameof(ReportCommonOptions.Type), ReportType.General)]
     KindOfGoods[]? KindsOfGoodsForGeneral,
 
-    [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.SpecificGoods)]
+    [RequiredWhen(nameof(ReportCommonOptions.Type), ReportType.SpecificGoods)]
     KindOfGoods? KindOfGoodsForSpecific,
 
-    [RequiredWhen(nameof(ReportGeneralOptionsDto.Type), ReportType.SpecificGoods)]
+    [RequiredWhen(nameof(ReportCommonOptions.Type), ReportType.SpecificGoods)]
     Guid[]? SpecificTypes
 
     );

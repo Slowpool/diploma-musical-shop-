@@ -20,13 +20,14 @@ public class ReportsController : Controller
                 .Select(st => new { st.SpecificTypeId, st.Name })
                 .ToDictionaryAsync(st => st.SpecificTypeId, st => st.Name);
         }
-        return View(new ReportGeneralOptionsModel(null, null, null, null, [.. Enum.GetValues<KindOfGoods>()], null, dict));
+        return View(new ReportCommonOptionsDto(null, null, null, null, [.. Enum.GetValues<KindOfGoods>()], null, dict));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Generate([FromForm] ReportGeneralOptionsDto options)
+    public async Task<IActionResult> Generate([FromForm] ReportCommonOptions options)
     {
+
 
 
         return View(options);
