@@ -21,7 +21,7 @@ public interface IExistingSaleManagementService : IErrorAdder
     Task UpdateAsNotPaid(Guid saleId);
 }
 
-public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSaleService getSaleService) : ErrorAdder, IExistingSaleManagementService
+public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSaleService getSaleService, IGetGoodsUnitsOfSaleService goodsService) : ErrorAdder, IExistingSaleManagementService
 {
     public async Task CancelSale(Guid saleId)
     {
@@ -58,6 +58,11 @@ public class ExistingSaleManagementService(MusicalShopDbContext context, IGetSal
             }
             sale.Status = SaleStatus.Returned;
             sale.LocalReturningDate = DateTime.Now;
+            foreach (var goodsItem in await goodsService.GetOrigGoodsUnitsOfSale(sale.SaleId))
+            {
+                goodsItem.Status = GoodsStatus.InStock;
+                context.Update(goodsItem);
+            }
             context.Update(sale);
             await context.SaveChangesAsync();
         }

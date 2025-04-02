@@ -2,9 +2,9 @@
 
 namespace ViewModelsLayer.Goods;
 
-public class GoodsUnitSearchModel
+public class GoodsUnitSearchModel : IGoodsModelAddableInCart
 {
-    public Guid Id { get; set; }
+    public Guid GoodsId { get; set; }
 	public KindOfGoods KindOfGoods { get; set; }
 	public string SpecificType { get; set; }
 	public string Name { get; set; }

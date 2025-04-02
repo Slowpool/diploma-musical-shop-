@@ -1,6 +1,7 @@
 ﻿@using DataLayer.NotMapped
 @using ViewModelsLayer.Goods
 @using MusicalShopApp.Common
+@using Common
 
 @using static Common.CommonExtensions
 @model GoodsUnitModel
@@ -31,6 +32,15 @@
                     }
                     )
             </p>
+            @switch (Model.Status)
+            {
+                case GoodsStatus.InStock:
+                case GoodsStatus.InCart:
+                @await Html.PartialAsync("_AddToCartButton", Model)
+                    break;
+                default:
+                    break;
+            }
         </section>
         @* <section>
             <h5>Год выпуска</h5>
@@ -57,4 +67,20 @@
             <p>@Model.Description</p>
         </section>
     </section>
+    <div>
+        <h4>Доставка</h4>
+        <iframe id="delivery-iframe" src="@Url.Action("DeliveryUnit", "Stock", new { deliveryId = Model.DeliveryId } )"></iframe>
+    </div>
+    @if (Model.Sales.Count != 0)
+    {
+        <div>
+            <h4>Продажи</h4>
+            Продажи, в которых присутствует данная единица товара
+            @await Html.PartialAsync("_SalesList", Model.Sales)
+        </div>
+    }
 </article>
+
+@section Scripts {
+    <script src="~/js/goodsList.js"></script>
+}

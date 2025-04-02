@@ -31,8 +31,6 @@ public class GetGoodsService(IMapKindOfGoodsService kindOfGoodsMapper) : IGetGoo
                          .Include("SpecificType");
 
         return await goods
-            // TODO refactoring
-            //.Include(g => g.SpecificType)
             .SingleAsync(e => e.GoodsId == id)!;
     }
 
@@ -42,7 +40,7 @@ public class GetGoodsService(IMapKindOfGoodsService kindOfGoodsMapper) : IGetGoo
 
         GoodsUnitSearchModel dto = new()
         {
-            Id = id,
+            GoodsId = id,
             SpecificType = goodsItem.SpecificType.Name,
             Price = goodsItem.Price,
             KindOfGoods = kindOfGoods,

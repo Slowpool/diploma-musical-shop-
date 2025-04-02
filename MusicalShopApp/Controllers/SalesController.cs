@@ -149,7 +149,7 @@ public class SalesController : GoodsListBaseController
     [HttpPost("/sale/allocate")]
     public async Task<IActionResult> Allocate([FromForm] Guid saleId, [FromServices] IExistingSaleManagementService saleService)
     {
-        saleService.UpdateAsNotPaid(saleId);
+        await saleService.UpdateAsNotPaid(saleId);
         if (saleService.HasErrors)
         {
             TempData["Errors"] = saleService.Errors.Select(e => e.ErrorMessage).ToArray();

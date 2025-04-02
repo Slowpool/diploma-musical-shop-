@@ -19,7 +19,7 @@
             <li class="mini-card">
                 <div class="mini-card-left">
                     <h4 class="mini-card-name">
-                        <a href="@Url.Action("Unit", "Goods", new { kindOfGoods = goodsItems[i].KindOfGoods, goodsId = goodsItems[i].Id})">
+                        <a href="@Url.Action("Unit", "Goods", new { kindOfGoods = goodsItems[i].KindOfGoods, goodsId = goodsItems[i].GoodsId})">
                             @goodsItems[i].Name
                         </a>
                     </h4>
@@ -39,18 +39,7 @@
                 @if (Model.AddToCartButton && (goodsItems[i].Status == GoodsStatus.InStock || goodsItems[i].Status == GoodsStatus.InCart) && (await authorizationService.AuthorizeAsync(User, nameof(CommonNames.Seller))).Succeeded)
                 {
                     <div class="mini-card-right">
-                        <form class="mini-card-add-remove" method="post">
-                            @* data-ajax="true"
-                              data-ajax-method="post"
-                              data-ajax-url="@Url.Action("AddToOrRemoveFromCart", "Goods")"
-                              data-ajax-mode="replace"
-                              data-ajax-update="#adding-removing-results@(i)" *@
-                            <button class="add-remove-cart-button" type="submit">@(goodsItems[i].IsInCart ? "-" : "+")</button>
-                            <input type="hidden" value="@goodsItems[i].Id.ToString()" name="goodsId" />
-                            <input type="hidden" value="@goodsItems[i].IsInCart.ToString().ToLower()" name="isInCart" />
-                            <div class="adding-removing-results">
-                            </div>
-                        </form>
+                        @await Html.PartialAsync("_AddToCartButton", goodsItems[i])
                     </div>
                 }
             </li>

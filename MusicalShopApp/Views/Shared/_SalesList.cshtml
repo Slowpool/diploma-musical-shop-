@@ -1,0 +1,80 @@
+﻿@using DataLayer.SupportClasses
+@using MusicalShopApp.Common
+@using Common
+
+@model List<ViewModelsLayer.Sales.SaleSearchModel>
+
+<ul class="mini-cards">
+    @foreach (var sale in Model)
+    {
+        <li class="mini-card">
+            <div class="mini-card-left">
+                <h4>
+                    <a href="@Url.Action("Unit", "Sales", new { saleId = sale.SaleId })">Подробнее...</a>
+                </h4>
+                <div class="sale-status">
+                    <b>Статус:</b> @(sale.Status switch
+                    {
+                        SaleStatus.Sold => "Продано",
+                        SaleStatus.Reserved => "Зарезервировано",
+                        SaleStatus.Returned => "Возвращено",
+                        // TODO display it on the top of search list with red color?
+                        SaleStatus.YetNotPaid => "Ожидает оплаты",
+                        _ => throw new ArgumentException()
+                    })
+                </div>
+                <div class="sale-paid-by">
+                    <b>Способ оплаты:</b> @(sale.PaidBy switch
+                    {
+                        SalePaidBy.Cash => "Наличными средствами",
+                        SalePaidBy.BankCard => "Банковской картой",
+                        null => "-",
+                        _ => throw new ArgumentException()
+                    })
+                </div>
+                <div class="sale-date">
+                    <b>Дата продажи:</b> @(sale.SaleDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не продано")
+                    <br />
+                    <b>Дата возврата:</b> @(sale.ReturningDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не возвращено")
+                    <br />
+                    <b>Дата резервирования:</b> @(sale.ReservationDate.HumanizeInDetail(HumanizerWrapper.Humanize) ?? "Не было зарезервировано")
+                </div>
+                <div class="goods-related-to-sale">
+                    <h5>Список товаров:</h5>
+                    <ul>
+                        @{
+                            int goodsDisplayed = 0;
+                            foreach (var goodsItem in sale.GoodsItems)
+                            {
+                                <li class="goods-unit-related-to-sale">
+                                    <a href="@Url.Action("Unit", "Goods", new { goodsItem.KindOfGoods, goodsItem.GoodsId })">@goodsItem.Name</a>
+                                </li>
+                                if (++goodsDisplayed == 3)
+                                {
+                                    <li>
+                                        ...
+                                    </li>
+                                    break;
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="mini-card-right">
+                @switch (sale.Status)
+                {
+                    case SaleStatus.Sold:
+                        await Html.RenderPartialAsync("_SaleReturnButton", sale);
+                        break;
+                    case SaleStatus.Reserved:
+                        await Html.RenderPartialAsync("_SaleAllocateButton", sale);
+                        break;
+                    case SaleStatus.YetNotPaid:
+                        await Html.RenderPartialAsync("_SalePayButton", sale);
+                        break;
+                }
+            </div>
+        </li>
+    }
+</ul>

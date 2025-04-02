@@ -1,8 +1,9 @@
 ﻿using DataLayer.SupportClasses;
+using ViewModelsLayer.Sales;
 
 namespace ViewModelsLayer.Goods;
 public record class GoodsUnitModel(
-    Guid Guid,
+    Guid GoodsId,
     KindOfGoods KindOfGoods,
     string Name,
     int Price,
@@ -10,4 +11,6 @@ public record class GoodsUnitModel(
     string? Description,
     /*int ReleaseYear, string Manufacturer, ManufacturerType ManufacturerType,*/
     string SpecificTypeName,
-    DateTime? ReceiptDate);
+    DateTime? ReceiptDate,
+    Guid? DeliveryId,
+    List<SaleSearchModel> Sales) : IGoodsModelAddableInCart;

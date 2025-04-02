@@ -16,7 +16,7 @@ public class GoodsListBaseController : CartViewerBaseController
             foreach (var goodsItem in goodsItemsSpecific)
                 goodsItemModels.Add(new()
                 {
-                    Id = goodsItem.GoodsId,
+                    GoodsId = goodsItem.GoodsId,
                     // TODO
                     //Type =,
                     Name = goodsItem.Name,
