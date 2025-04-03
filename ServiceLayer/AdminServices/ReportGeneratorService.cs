@@ -38,10 +38,10 @@ public class ReportGeneratorService(IMapKindOfGoodsService kindOfGoodsMapper) : 
         List<ReportModelItem> models = [];
         foreach(var kindOfGoods in options.KindsOfGoods)
         {
-            int number = kindOfGoodsMapper.MapToSpecificGoods(kindOfGoods)
-                                          .Where(options.FromDate, options.ToDate)
-                                          .Select(options.Subtype, options.ChartType)
-                                          ;
+            int number = await kindOfGoodsMapper.MapToSpecificGoods(kindOfGoods)
+                                                .Where(options.FromDate, options.ToDate)
+                                                .Select(options.Subtype)
+                                                ;
             models.Add(new(kindOfGoodsMapper.MapToString(kindOfGoods), number));
         }
         return models;
