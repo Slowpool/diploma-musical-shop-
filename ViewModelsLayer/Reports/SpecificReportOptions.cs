@@ -5,7 +5,12 @@ public record SpecificReportOptions(
     DateTime? FromDate,
     DateTime? ToDate,
     ReportSubtype Subtype,
+    ReportChartType ChartType,
 
-    KindOfGoods KindOfGoodsForSpecific,
-    Guid[] SpecificTypes
-    ) : IReportOptions;
+    KindOfGoods KindOfGoods,
+    List<Guid> SpecificTypes
+    ) : IReportOptions
+{
+    public SpecificReportOptions(ReportCommonOptions commonOptions) : this(commonOptions.FromDate, commonOptions.ToDate, commonOptions.Subtype, commonOptions.ChartType, (KindOfGoods)commonOptions.KindOfGoodsForSpecific!, commonOptions.SpecificTypes!)
+    { }
+}

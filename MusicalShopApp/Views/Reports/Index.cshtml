@@ -19,9 +19,14 @@
     kindOfGoodsItems.Add(new SelectListItem(CommonNames.Accessories, KindOfGoods.Accessories.ToString()));
     kindOfGoodsItems.Add(new SelectListItem(CommonNames.MusicalInstruments, KindOfGoods.MusicalInstruments.ToString()));
     kindOfGoodsItems.Add(new SelectListItem(CommonNames.SheetMusicEditions, KindOfGoods.SheetMusicEditions.ToString()));
+
+    List<SelectListItem> chartTypeItems = [];
+    chartTypeItems.Add(new SelectListItem(CommonNames.ReportAbsoluteChart, ReportChartType.Absolute.ToString()));
+    chartTypeItems.Add(new SelectListItem(CommonNames.ReportRelativeChart, ReportChartType.Relative.ToString()));
+    chartTypeItems.Add(new SelectListItem(CommonNames.ReportAbsoluteAndRelativeChart, ReportChartType.AbsoluteAndRelative.ToString()));
 }
 
-@model ReportGeneralOptionsDto
+@model ReportCommonOptionsDto
 
 <search>
     <form asp-controller="Reports" asp-action="Generate">
@@ -40,6 +45,14 @@
             </h5>
             <div>
                 <select asp-for="Type" asp-items="reportTypeItems"></select>
+            </div>
+        </div>
+        <div>
+            <h5>
+                <label for="Type">Тип диаграммы</label>
+            </h5>
+            <div>
+                <select asp-for="ChartType" asp-items="chartTypeItems"></select>
             </div>
         </div>
         <div>

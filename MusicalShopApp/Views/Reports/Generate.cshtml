@@ -1,0 +1,24 @@
+﻿@using ViewModelsLayer.Reports
+
+@model GeneratedReportModel
+
+@{
+    ViewData["Title"] = "Отчет";
+}
+
+@await Html.PartialAsync("Index", Model.Options)
+
+@* There's no `switch case` because that way it would be harder to place "_BarChart" and "_PieChart" in `AbsoluteAndRelative` case. This way it is possible to place them using markup (e.g. the absolute one is on the left and the relative one is on the right in column structure. Switch case would restrict control till plain concatenation like `await Html.PartialAsync("_PieChart") + await Html.PartialAsync("_BarChart")`. It is possible that i know little about razor pages and switch case is possible here. *@
+
+@if(Model.Options.ChartType == ReportChartType.Absolute)
+    @await Html.PartialAsync("_BarChart", Model.ReportItems)
+
+@if(Model.Options.ChartType == ReportChartType.Relative)
+    @await Html.PartialAsync("_PieChart", Model.ReportItems)
+
+
+@if(Model.Options.ChartType == ReportChartType.AbsoluteAndRelative)
+{
+    @await Html.PartialAsync("_BarChart", Model.ReportItems)
+    @await Html.PartialAsync("_PieChart", Model.ReportItems)
+}

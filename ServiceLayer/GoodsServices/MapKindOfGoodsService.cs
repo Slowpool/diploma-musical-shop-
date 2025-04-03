@@ -11,6 +11,7 @@ public interface IMapKindOfGoodsService
     Type MapToType(KindOfGoods kindOfGoods);
     IQueryable<SpecificType> MapToSpecificTypes(KindOfGoods kindOfGoods);
     Task<KindOfGoods> GetGoodsKind(Guid goodsId);
+    string MapToString(KindOfGoods kindOfGoods);
 }
 
 public class MapKindOfGoodsService(MusicalShopDbContext context) : IMapKindOfGoodsService
@@ -39,6 +40,15 @@ public class MapKindOfGoodsService(MusicalShopDbContext context) : IMapKindOfGoo
         KindOfGoods.Accessories => typeof(AccessorySpecificType),
         KindOfGoods.AudioEquipmentUnits => typeof(AudioEquipmentUnitSpecificType),
         KindOfGoods.SheetMusicEditions => typeof(SheetMusicEditionSpecificType),
+        _ => throw new ArgumentException()
+    };
+
+    public string MapToString(KindOfGoods kindOfGoods) => kindOfGoods switch
+    {
+        KindOfGoods.MusicalInstruments => CommonNames.MusicalInstruments,
+        KindOfGoods.Accessories => CommonNames.Accessories,
+        KindOfGoods.AudioEquipmentUnits => CommonNames.AudioEquipmentUnits,
+        KindOfGoods.SheetMusicEditions => CommonNames.SheetMusicEditions,
         _ => throw new ArgumentException()
     };
 

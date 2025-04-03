@@ -1,7 +1,7 @@
 ﻿using DataLayer.SupportClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using ServiceLayer.AdminServices;
 using ServiceLayer.GoodsServices;
 using ViewModelsLayer.Reports;
 
@@ -11,25 +11,18 @@ namespace MusicalShopApp.Controllers;
 public class ReportsController : Controller
 {
     [HttpGet("/reports")]
-    public async Task<IActionResult> Index([FromServices] IMapKindOfGoodsService kindOfgoodsService)
+    public async Task<IActionResult> Index([FromServices] ISpecificTypesParserService specificTypesService)
     {
-        Dictionary<KindOfGoods, Dictionary<Guid, string>> dict = [];
-        foreach(var kindOfGoods in Enum.GetValues<KindOfGoods>())
-        {
-            dict[kindOfGoods] = await kindOfgoodsService.MapToSpecificTypes(kindOfGoods)
-                .Select(st => new { st.SpecificTypeId, st.Name })
-                .ToDictionaryAsync(st => st.SpecificTypeId, st => st.Name);
-        }
-        return View(new ReportCommonOptionsDto(null, null, null, null, [.. Enum.GetValues<KindOfGoods>()], null, dict));
+        return View(new ReportCommonOptionsDto(null, null, null, null, null, [.. Enum.GetValues<KindOfGoods>()], null, await specificTypesService.Parse()));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Generate([FromForm] ReportCommonOptions options)
+    public async Task<IActionResult> Generate([FromForm] ReportCommonOptions options, [FromServices] IReportGeneratorService generatorService, [FromServices] ISpecificTypesParserService specificTypesService)
     {
+        var reportItems = await generatorService.Generate(options);
+        var optionsDto = new ReportCommonOptionsDto(options.FromDate, options.ToDate, options.Subtype, options.Type, options.ChartType, options.KindsOfGoodsForGeneral, options.KindOfGoodsForSpecific, await specificTypesService.Parse());
 
-
-
-        return View(options);
+        return View(new GeneratedReportModel(reportItems, optionsDto));
     }
 }

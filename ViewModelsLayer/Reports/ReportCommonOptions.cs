@@ -9,14 +9,15 @@ public record ReportCommonOptions(
     
     ReportType Type,
     ReportSubtype Subtype,
+    ReportChartType ChartType,
     
     [RequiredWhen(nameof(ReportCommonOptions.Type), ReportType.General)]
-    KindOfGoods[]? KindsOfGoodsForGeneral,
+    List<KindOfGoods>? KindsOfGoodsForGeneral,
 
     [RequiredWhen(nameof(ReportCommonOptions.Type), ReportType.SpecificGoods)]
     KindOfGoods? KindOfGoodsForSpecific,
 
     [RequiredWhen(nameof(ReportCommonOptions.Type), ReportType.SpecificGoods)]
-    Guid[]? SpecificTypes
+    List<Guid>? SpecificTypes
 
     );
