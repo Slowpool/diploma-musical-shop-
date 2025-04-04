@@ -2,10 +2,11 @@
     ViewBag.Title = "Панель администратора";
 }
 
+@await Html.PartialAsync("_UsersListWithActions")
 
-@{
-    await Html.RenderPartialAsync("_UsersListWithActions");
-}
+@* <form asp-controller="Admin" asp-action="CreateUser" method="get">
+    <input type="submit" value="Создать пользователя" />
+</form> *@
 
 @section Scripts {
     <script src="~/js/users.js"></script>

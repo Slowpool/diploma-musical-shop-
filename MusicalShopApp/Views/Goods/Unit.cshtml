@@ -5,6 +5,10 @@
 @using static Common.CommonExtensions
 @using Microsoft.AspNetCore.Authorization
 
+@{
+    ViewBag.Title = Model.Name;
+}
+
 @inject IAuthorizationService authorizationService
 
 @model GoodsUnitModel

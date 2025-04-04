@@ -5,8 +5,9 @@
 @model ViewModelsLayer.Sales.SalesSearchModel
 
 @{
-    ViewBag.Title = "Продажи";
+    ViewBag.Title = "Поиск продаж";
 }
+
 <search>
     <form asp-action="Search" method="get">
         <input asp-for="ResearchText" name="q" placeholder="Поиск..." />

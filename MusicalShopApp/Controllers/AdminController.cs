@@ -101,4 +101,10 @@ public class AdminController : Controller
         else
             return Json(new { success = true });
     }
+
+    [HttpGet("/admin/create-user")]
+    public async Task<IActionResult> CreateUser()
+    {
+        return View();
+    }
 }

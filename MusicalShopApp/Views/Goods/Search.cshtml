@@ -1,6 +1,10 @@
 ﻿@using ViewModelsLayer.Goods
 @using DataLayer.SupportClasses
 
+@{
+    ViewBag.Title = "Поиск товара";
+}
+
 @model GoodsSearchModel
 <search>
     <form asp-controller="Goods" asp-action="Search" method="get">
