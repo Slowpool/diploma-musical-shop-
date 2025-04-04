@@ -2,8 +2,11 @@
 @using ViewModelsLayer.Goods
 @using MusicalShopApp.Common
 @using Common
-
 @using static Common.CommonExtensions
+@using Microsoft.AspNetCore.Authorization
+
+@inject IAuthorizationService authorizationService
+
 @model GoodsUnitModel
 
 <article>
@@ -32,14 +35,9 @@
                     }
                     )
             </p>
-            @switch (Model.Status)
+            @if ((Model.Status == GoodsStatus.InStock || Model.Status == GoodsStatus.InCart) && (await authorizationService.AuthorizeAsync(User, nameof(CommonNames.Seller))).Succeeded)
             {
-                case GoodsStatus.InStock:
-                case GoodsStatus.InCart:
                 @await Html.PartialAsync("_AddToCartButton", Model)
-                    break;
-                default:
-                    break;
             }
         </section>
         @* <section>
@@ -67,11 +65,14 @@
             <p>@Model.Description</p>
         </section>
     </section>
-    <div>
-        <h4>Доставка</h4>
-        <iframe id="delivery-iframe" src="@Url.Action("DeliveryUnit", "Stock", new { deliveryId = Model.DeliveryId } )"></iframe>
-    </div>
-    @if (Model.Sales.Count != 0)
+    @if ((await authorizationService.AuthorizeAsync(User, nameof(CommonNames.StockManager))).Succeeded)
+    {
+        <div>
+            <h4>Доставка</h4>
+            <iframe id="delivery-iframe" src="@Url.Action("DeliveryUnit", "Stock", new { deliveryId = Model.DeliveryId } )"></iframe>
+        </div>
+    }
+    @if (Model.Sales.Count != 0 && (await authorizationService.AuthorizeAsync(User, nameof(CommonNames.Seller))).Succeeded)
     {
         <div>
             <h4>Продажи</h4>

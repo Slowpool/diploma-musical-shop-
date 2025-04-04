@@ -1,10 +1,10 @@
-﻿
-@model ViewModelsLayer.Goods.IGoodsModelAddableInCart
+﻿@model ViewModelsLayer.Goods.IGoodsModelAddableInCart
 
 <form class="mini-card-add-remove" method="post">
     <button class="add-remove-cart-button" type="submit">@(Model.Status == GoodsStatus.InCart ? "-" : "+")</button>
     <input type="hidden" value="@Model.GoodsId.ToString()" name="goodsId" />
     <input type="hidden" value="@((Model.Status == GoodsStatus.InCart).ToString().ToLower())" name="isInCart" />
     <div class="adding-removing-results">
+        @(Model.Status == GoodsStatus.InCart ? "Удалить из корзины" : "В корзину")
     </div>
 </form>

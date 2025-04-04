@@ -8,7 +8,7 @@ public record SpecificReportOptions(
     ReportChartType ChartType,
 
     KindOfGoods KindOfGoods,
-    List<Guid> SpecificTypes
+    List<Guid> SpecificTypeIds
     ) : IReportOptions
 {
     public SpecificReportOptions(ReportCommonOptions commonOptions) : this(commonOptions.FromDate, commonOptions.ToDate, commonOptions.Subtype, commonOptions.ChartType, (KindOfGoods)commonOptions.KindOfGoodsForSpecific!, commonOptions.SpecificTypes!)

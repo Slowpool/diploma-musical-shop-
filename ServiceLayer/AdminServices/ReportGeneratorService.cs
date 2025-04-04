@@ -3,6 +3,7 @@ using DataLayer.NotMapped;
 using DataLayer.SupportClasses;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.GoodsServices;
+using ServiceLayer.StockServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ public interface IReportGeneratorService : IErrorAdder
     Task<List<ReportModelItem>> GenerateSpecificReport(SpecificReportOptions options);
 }
 
-public class ReportGeneratorService(IMapKindOfGoodsService kindOfGoodsMapper) : ErrorAdder, IReportGeneratorService
+public class ReportGeneratorService(IMapKindOfGoodsService kindOfGoodsMapper, ISpecificTypeService specificTypeService) : ErrorAdder, IReportGeneratorService
 {
     public async Task<List<ReportModelItem>> Generate(ReportCommonOptions options)
     {
@@ -49,7 +50,16 @@ public class ReportGeneratorService(IMapKindOfGoodsService kindOfGoodsMapper) : 
 
     public async Task<List<ReportModelItem>> GenerateSpecificReport(SpecificReportOptions options)
     {
-
-        return [];
+        List<ReportModelItem> models = [];
+        IQueryable<Goods> query = kindOfGoodsMapper.MapToSpecificGoods(options.KindOfGoods);
+        foreach (var specificTypeId in options.SpecificTypeIds ?? [])
+        {
+            int number = await query.Where(g => g.SpecificTypeId == specificTypeId)
+                                    .Where(options.FromDate, options.ToDate)
+                                    .Select(options.Subtype)
+                                    ;
+            models.Add(new((await specificTypeService.GetSpecificType(specificTypeId, options.KindOfGoods)).Name, number));
+        }
+        return models;
     }
 }

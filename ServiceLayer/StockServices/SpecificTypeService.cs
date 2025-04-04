@@ -14,6 +14,7 @@ namespace ServiceLayer.StockServices;
 public interface ISpecificTypeService : IErrorAdder
 {
     Task<SpecificType> GetSpecificType(string specificType, KindOfGoods kindOfGoods);
+    Task<SpecificType> GetSpecificType(Guid specificTypeId, KindOfGoods kindOfGoods);
     // TODO probably merge in one method because the first one is just specificTypes.Select(...)
     Task<List<string>> ListTheSpecificTypes(KindOfGoods kindOfGoods);
 
@@ -24,6 +25,9 @@ public class SpecificTypeService(MusicalShopDbContext context, IMapKindOfGoodsSe
 {
     public async Task<SpecificType> GetSpecificType(string specificType, KindOfGoods kindOfGoods)
         => kindOfGoodsMapper.MapToSpecificTypes(kindOfGoods).Single(st => st.Name.ToLower() == specificType.ToLower());
+
+    public async Task<SpecificType> GetSpecificType(Guid specificTypeId, KindOfGoods kindOfGoods)
+        => kindOfGoodsMapper.MapToSpecificTypes(kindOfGoods).Single(st => st.SpecificTypeId == specificTypeId);
 
     public async Task<List<string>> ListTheSpecificTypes(KindOfGoods kindOfGoods)
         => await kindOfGoodsMapper.MapToSpecificTypes(kindOfGoods)

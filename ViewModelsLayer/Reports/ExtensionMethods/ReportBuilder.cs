@@ -19,16 +19,18 @@ public static class ReportBuilder
             case ReportSubtype.AverageSalesSpeed:
                 query = query.Where(g => g.Status == GoodsStatus.Sold && g.ReceiptDate != null);
                 // TODO not trivial stuff. select the `saleDate - receiptDate` and then take an average
-                var items = query.Include(g => g.Sales)
+                var days = query.Include(g => g.Sales)
                                    .SelectMany(g => g.Sales, (g, s) => new { g.ReceiptDate, s.SaleDate })
-                                   .ToList();
-                var listOfDays = items
+                                   .ToList()
                                    .Where(ae => ae.SaleDate != null)
-#error what's wrong?
-                                   .Select(ae => (ae.ReceiptDate - ae.SaleDate)!.Value.Days)
+                                   .Select(ae => (ae.SaleDate - ae.ReceiptDate)!.Value.Days)
                                    ;
-                result = (int)listOfDays.Average();
+                result = days.Any() ? (int)days.Average() : 0;
                 break;
+            case ReportSubtype.SalesRevenue:
+                query = query.Where(g => g.Status == GoodsStatus.Sold);
+                return query.Select(g => g.Price)
+                            .Sum();
             default:
                 throw new Exception();
         }
